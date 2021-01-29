@@ -1,0 +1,88 @@
+
+
+    /* TABLA */
+        thead{
+            background: #587377;
+            color: #fff;
+        }
+
+    /* Botenes */
+        /* verde */
+        .bg-verde, .btn-verde{
+            background: #5cdb94;
+            color: #fff;
+        }
+        .btn-verde:hover{
+            background: #5cdb94;
+            border: 2px solid #587377;
+            color: #fff;
+        }
+
+        /* morado */
+        .bg-morado, .btn-morado{
+            color: #fff;
+            background: #461220 ;
+        }
+        .btn-morado:hover{
+            color: #fff;
+            background: #461220;
+            border: 2px solid #587377;
+        }
+
+        /* gris*/
+        .bg-gray, .btn-gray{
+            color: #fff;
+            background: #587377 ;
+        }
+        .btn-gray:hover{
+            color: #fff;
+            background: #587377;
+            border: 2px solid #461220;
+        }
+
+        /* Amarillo */
+        .bg-amarillo, .btn-amarillo{
+            color: #461220;
+            background: #f9c846 ;
+        }
+        .btn-amarillo:hover{
+            background: #f9c846;
+            color: #461220;
+            border: 2px solid #587377;
+        }
+
+        /* Anaranjado */
+        .bg-naranja, .btn-naranja{
+            color: #fff;
+            background: #F96E46 ;
+        }
+        .btn-naranja:hover{
+            background: #F96E46;
+            color: #fff;
+            border: 2px solid #587377;
+        }
+
+        /* grisclaro */
+        .bg-grisclaro, .btn-grisclaro{
+            color: #461220;
+            background: #cfd6ea ;
+        }
+        .btn-grisclaro:hover{
+            background: #cfd6ea;
+            color: #461220;
+            border: 2px solid #587377;
+        }
+
+        /* boton menu */
+        
+        .btn-menu:hover{
+            background: #587377;
+            color: #fff;
+        }
+
+        .navbar-nav {
+            float:none;
+            margin:0 auto;
+            /* display: block; */
+            text-align: center;
+        }
