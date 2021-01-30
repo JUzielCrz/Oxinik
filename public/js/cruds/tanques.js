@@ -162,6 +162,27 @@ $(document).ready(function () {
             $.each(data.tanques, function (key, value) {
                 var variable = "#" + key + "info";
                 $(variable).val(value);
+                if(key == 'fabricante'){
+                    if(value == 'Infra' || value == 'Plaxair'){
+                        $('#fabricanteoficialinfo').val(value);
+                        $("#otrofabricanteinfo").val('');
+                        $("#otrofabricanteinfo").prop("disabled", true);
+                    }else{
+                        $('#fabricanteoficialinfo').val('Otros');
+                        $("#otrofabricanteinfo").val(value);
+                        $("#otrofabricanteinfo").prop("disabled", false);
+                    }
+                }
+                if(key == 'capacidad'){
+                    if(value.includes('m3')){
+                        $('#unidadmedidainfo').val('m3');
+                        $('#capacidadnuminfo').val(value.replace(' m3',''));
+                    }else{
+                        $('#unidadmedidainfo').val('kilos');
+                        $('#capacidadnuminfo').val(value.replace(' kilos',''));
+
+                    }
+                }
             });
         }).done(function (msg) {
             if(msg.accesso){
@@ -169,8 +190,7 @@ $(document).ready(function () {
             }else{
                 $("#modalmostrar").modal("show");
             }
-        });;
-        
+        });
     }
     
     function metodo_detalle_edit() {
@@ -199,8 +219,6 @@ $(document).ready(function () {
                         $('#capacidadnumedit').val(value.replace(' kilos',''));
 
                     }
-                    // if(.includes(searchString[, position]))
-                    // $('#fabricanteoficialedit').val(value);
                 }
             });
         }).done(function (msg) {
