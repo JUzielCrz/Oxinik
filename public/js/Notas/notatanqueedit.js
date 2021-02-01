@@ -46,7 +46,7 @@ $(document).ready(function () {
         //envio al controlador
         $.ajax({
             method: "post",
-            url: "/createnota",
+            url: "/updatenota/"+ $('#ideditnota').val(),
             data: dataFormulario, 
         }).done(function(){
             window.location = "/nota/"+ $('#num_contrato').val();

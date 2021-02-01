@@ -2,6 +2,7 @@ $(document).ready(function () {
     
     // Data Tables
     var idcliente=$('#cliente_id').val();
+    console.log($('#cliente_id').val());
         var listtabla = $('#tablecruddata').DataTable({
             language: {
                 "decimal": "",
@@ -29,7 +30,7 @@ $(document).ready(function () {
             columns:[
                 {data: 'num_contrato'},
                 {data: 'tipo_contrato'},
-                {data: 'precio_definido'},
+                // {data: 'precio_definido'},
                 {data: 'precio_transporte'},
                 {data: 'btnNota'},
                 {data: 'btnEdit'},
@@ -65,12 +66,10 @@ $(document).ready(function () {
             url: "/newcontrato",
             data: {
                 '_token': $('input[name=_token]').val(),
-                'id': $('#idedit').val(),
                 'num_contrato': $('#num_contrato').val(),
                 'cliente_id': $('#cliente_id').val(),
-                'nombre': $('#nombre').val(),
                 'tipo_contrato': $('#tipo_contrato').val(),
-                'precio_definido': $('#precio_definido').val(),
+                // 'precio_definido': $('#precio_definido').val(),
                 'precio_transporte': $('#precio_transporte').val(),
                 },
         })
@@ -98,7 +97,7 @@ $(document).ready(function () {
     function metodo_limpiar_span(nombreerror) {
         $("#num_contrato"+ nombreerror).empty();
         $("#tipo_contrato"+ nombreerror).empty();
-        $("#precio_definido"+ nombreerror).empty();
+        // $("#precio_definido"+ nombreerror).empty();
         $("#precio_transporte"+ nombreerror).empty();
     }
     
@@ -106,7 +105,7 @@ $(document).ready(function () {
         $("#num_contrato").val("");
         $("#nombre").val("");
         $("#tipo_contrato").val("");
-        $("#precio_definido").val("");
+        // $("#precio_definido").val("");
         $("#precio_transporte").val("");
     }
     
@@ -165,10 +164,10 @@ $(document).ready(function () {
                 '_token': $('input[name=_token]').val(),
                 'id': $('#idedit').val(),
                 'num_contrato': $('#num_contratoedit').val(),
-                'cliente_id': $('#cliente_idedit').val(),
+                'cliente_id': $('#cliente_id').val(),
                 'nombre': $('#nombreedit').val(),
                 'tipo_contrato': $('#tipo_contratoedit').val(),
-                'precio_definido': $('#precio_definidoedit').val(),
+                // 'precio_definido': $('#precio_definidoedit').val(),
                 'precio_transporte': $('#precio_transporteedit').val(),
                 },
         })
@@ -211,9 +210,28 @@ $(document).ready(function () {
 
     //Para Validar Campos
 
-        $('.solo-text').keypress(function (event) {
-            // console.log(event.charCode);
-            if (event.charCode >= 65 && event.charCode <= 90 || e0\r§mûü   Õ   7h†#    _keyhttps://static.xx.fbcdn.net/rsrc.php/v3iVN84/yH/l/es_LA/4dCKj_5Fhu4.js?_nc_x=JmX7FwoB24g&_nc_eui2=AeHsKaTmMC-NaUrSFOWvmX5tTdg91IZDLXlN2D3UhkMteeBOPHyXT-b31TbPFZnzl3qp1qYAI373yRDSNR2ztRfS 
-https://facebook.com/    OÍÒWÒÞÀù{$  ­O,Ñ   Ð  
-„¢       €Ø  Ô   €   €   €   €    (Sµ¨`"   L`L   Qbž"iü   selfQ`æA‰«   CavalryLogger   Qc®Tñ¼   start_jsù`   M`   QcÊÀÎË   5K0BE   QbþD@ý   __d <Qm*cK¾-   CometEntityActorSelectorButton_viewer.graphql   (S0`   L`   D¤a       Qf¢Èƒ   argumentDefinitions ‘`   L`   ’a
-      Qbº|y÷   kindQd†˜“>   RootArgument‰Qcîüš   scale   	 ÑQcZ™   FragmentQcP™|
+    
+    //Para Validar Campos
+
+    $('.solo-text').keypress(function (event) {
+        // console.log(event.charCode);
+        if (event.charCode >= 65 && event.charCode <= 90 || event.charCode >= 97 && event.charCode <= 122 || 
+            event.charCode ==  32 ||
+            event.charCode == 193 || 
+            event.charCode == 201 ||
+            event.charCode == 205 || 
+            event.charCode == 211 || 
+            event.charCode == 218 || 
+            event.charCode == 225 || 
+            event.charCode == 233 ||
+            event.charCode == 237 || 
+            event.charCode == 243 ||
+            event.charCode == 250 ||
+            event.charCode == 241 ||
+            event.charCode == 209  ){
+            return true;
+        } 
+        return false;
+    });
+
+});

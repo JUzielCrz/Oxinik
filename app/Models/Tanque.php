@@ -12,7 +12,7 @@ class Tanque extends Model
     public $incrementing = true;
 
     public function notas(){
-        return $this->belongsToMany('App\Models\Notas')->withTimestamps();
+        return $this->belongsToMany('App\Models\Nota')->withTimestamps();
     }
 
 }

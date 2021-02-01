@@ -30,7 +30,7 @@ $(document).ready(function () {
                 {data: 'num_contrato'},
                 {data: 'nombrecliente'},
                 {data: 'tipo_contrato'},
-                {data: 'precio_definido'},
+                // {data: 'precio_definido'},
                 {data: 'precio_transporte'},
                 {data: 'btnNota'},
                 {data: 'btnEdit'},

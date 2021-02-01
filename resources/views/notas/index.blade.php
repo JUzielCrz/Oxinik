@@ -1,38 +1,99 @@
 @extends('layouts.navbar')
 @section('contentnavbar')
     
+<style>
+    body {
+        background-color: #e8ebf7;
+    }
+</style>
 
-    <div class="container-fluid" >
+    <div class="container" >
+
+        <div class="card">
+            <div class="card-body">
+                
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <h5>Cliente: {{$cliente->apPaterno}} {{$cliente->apMaterno}} {{$cliente->nombre}}</h5>
+                    <hr>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <p>Número de Contrato:</p>
+                        <h6>{{$contrato->num_contrato}}</h6>
+                        {!! Form::hidden('num_contrato', $contrato->num_contrato, ['id'=>'num_contrato']) !!}
+
+                    </div>
+                    <div class="form-group col-md-4">
+                        <p>Tipo Contrato:</p>
+                        <h6>{{$contrato->tipo_contrato}}</h6>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <p>Precio Transporte:</p>
+
+                        <h6> $ 
+                            @php
+                                $precioformato= number_format($contrato->precio_transporte,2);
+                            @endphp
+                            {{$precioformato}}</h6>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
         <center>
             <div id="divmsgindex" style="display:none" class="alert" role="alert">
             </div>
         </center>
 
-        <div class="row ">
-            <div class="col-md-5 text-center">
-                <h3>Contratos</h3> 
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="row ">
+                    <div class="col-md-5 text-center">
+                        <p><strong>NOTAS</strong></p>
+                    </div>
+                    <div class="col-md-5 text-right">
+                        <a href="{{ url("/newnota/{$contrato->num_contrato}") }}" class="btn btn-sm btn-gray">
+                            <span class="fas fa-plus"></span>
+                            Agregar
+                        </a>
+                    </div>
+        
+                </div>
+                
+                <div class="row d-flex justify-content-center table-responsive"> 
+                    <table id="tablecruddata" class="table table-sm table-striped table-hover">
+                        <thead>
+                            <tr>
+                            <th scope="col" style="font-size: 15px">Folio</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Pago Realizado</th>
+                            <th scope="col">Metodo Pago</th>
+                            <th scope="col">Núm. Contrato</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th> 
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
 
+
+
+            </div>
         </div>
+
         
-        <div class="row d-flex justify-content-center table-responsive mt-2"> 
-            <table id="tablecruddata" class="table table-sm">
-                <thead>
-                    <tr>
-                    <th scope="col">Num. Contrato</th>
-                    <th scope="col">Cliente</th>
-                    <th scope="col">Tipo Contrato</th>
-                    {{-- <th scope="col">Precio</th> --}}
-                    <th scope="col">Transporte</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th> 
-                    </tr>
-                </thead>
-            </table>
-        </div>
-    </div>
     
+
+
     
     <!-- Modal mostrar datos-->
     <div class="modal fade bd-example-modal-md" id="modalmostrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -69,7 +130,7 @@
             </button>
             </div>
             <div class="modal-body">
-            {{-- @include('contratos.edit') --}}
+            @include('contratos.edit')
             <!-- botones Aceptar y cancelar-->
             <div class="row justify-content-center" >
                 <div class="btn-group col-auto " style="margin:10px" >
@@ -123,5 +184,5 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/cruds/contratosgeneral.js') }}"></script>
+<script src="{{ asset('js/notas/notas.js') }}"></script>
 <!--Fin Scripts-->

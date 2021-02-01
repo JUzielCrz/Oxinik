@@ -22,7 +22,7 @@ Auth::routes();
 Route::get('/', 'Auth\LoginController@showLoginForm');
 Route::get('/home', 'HomeController@index')->name('home');
 
-    /* Usuarios */
+  /* Usuarios */
     Route::get('/user', 'UserController@index');
     Route::post('/newuser', 'UserController@create');
     Route::get('/showuser/{id}', 'UserController@show');
@@ -30,6 +30,15 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/deleteuser/{id}', 'UserController@destroy');
     // DataTables 
     Route::get('/dt_usuarios', 'UserController@datatablesindex')->name('dt_usuarios');
+
+  /* Roles */
+    Route::get('/role', 'RoleController@index');
+    Route::get('/showrole/{id}', 'RoleController@show');
+    Route::post('/insertrole', 'RoleController@store');
+    Route::post('/updaterol/{id}', 'RoleController@update');
+    Route::post('/deleterol/{id}', 'RoleController@destroy');
+    // DataTables 
+    Route::get('/dt_role', 'RoleController@datatablesindex')->name('dt_role');
 
   /* Clientes */
     Route::get('/cliente', 'clienteController@index');
@@ -40,14 +49,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     // DataTables 
     Route::get('/dt_cliente', 'clienteController@datatablesindex')->name('dt_cliente');
 
-  /* Roles */
-    Route::get('/role', 'RoleController@index');
-    Route::get('/showrole/{id}', 'RoleController@show');
-    Route::post('/insertrole', 'RoleController@store');
-    Route::post('/updaterol/{id}', 'RoleController@update');
-    Route::post('/deleterol/{id}', 'RoleController@destroy');
-    // DataTables 
-    Route::get('/dt_role', 'RoleController@datatablesindex')->name('dt_role');
+  
 
   /* Tanques */
     Route::get('/tanque', 'TanqueController@index');
@@ -82,7 +84,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/createnota', 'NotaController@create');
     Route::get('/shownota/{id}', 'NotaController@show');
     Route::post('/nota/deletenota/{id}', 'NotaController@destroy');
-    Route::post('/updatenota/{folio_nota}', 'NotaController@update');
+    Route::post('/updatenota/{idNota}', 'NotaController@update');
     Route::get('/editnota/{folionota}', 'NotaController@editnota');
 
     // DataTables 

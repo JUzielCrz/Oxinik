@@ -2,25 +2,32 @@
 @section('contentnavbar')
     
 
-    <div class="container-fluid" >
+    <div class="container" >
         <center>
             <div id="divmsgindex" style="display:none" class="alert" role="alert">
             </div>
         </center>
 
+        <input type="hidden" name="cliente_id" id="cliente_id" value={{$cliente->id}}>
         <div class="row ">
             <div class="col-md-5 text-center">
-                <h3>Contratos</h3> 
+                <h4>CONTRATROS </h4> 
+                <p>Cliente: <strong>{{$cliente->nombre}}  {{$cliente->apPaterno}}  {{$cliente->apMaterno}}</strong></p>
             </div>
-
+            <div class="col-md-5 text-right">
+                <button type="button" class="btn btn-gray" data-toggle="modal" data-target="#modalinsertar">
+                    <span class="fas fa-plus"></span>
+                    Agregar
+                </button>
+            </div>
         </div>
         
-        <div class="row d-flex justify-content-center table-responsive mt-2"> 
+        <div class="row table-responsive mt-2"> 
             <table id="tablecruddata" class="table table-sm">
                 <thead>
                     <tr>
                     <th scope="col">Num. Contrato</th>
-                    <th scope="col">Cliente</th>
+                    {{-- <th scope="col">Cliente</th> --}}
                     <th scope="col">Tipo Contrato</th>
                     {{-- <th scope="col">Precio</th> --}}
                     <th scope="col">Transporte</th>
@@ -33,7 +40,34 @@
         </div>
     </div>
     
-    
+    <!-- Modal insertar-->
+    <div class="modal fade bd-example-modal-md" id="modalinsertar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-onix">
+            <h1 class="modal-title" id="modalinsertarTitle">Nuevo</h1>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff">
+                <span aria-hidden="true" class="fas fa-times"></span>
+            </button>
+            </div>
+            <div class="modal-body">
+            @include('contratos.create')
+            <!-- botones Aceptar y cancelar-->
+            <div class="row justify-content-center" >
+                <div class="btn-group col-auto" style="margin:10px" >
+                <button type="submit" class="btn btn-gray" id="btnaccept">Aceptar</button>
+                </div>
+                <div class="btn-group col-auto" style="margin:10px">
+                <button  class="btn btn-gray" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+            </div>
+            
+        </div>
+        </div>
+    </div>
+
+
     <!-- Modal mostrar datos-->
     <div class="modal fade bd-example-modal-md" id="modalmostrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-md" role="document">
@@ -69,7 +103,7 @@
             </button>
             </div>
             <div class="modal-body">
-            {{-- @include('contratos.edit') --}}
+            @include('contratos.edit')
             <!-- botones Aceptar y cancelar-->
             <div class="row justify-content-center" >
                 <div class="btn-group col-auto " style="margin:10px" >
@@ -83,7 +117,7 @@
             
         </div>
         </div>
-  </div>
+    </div>
 
 
         <!-- Modal Eliminar datos-->
@@ -123,5 +157,5 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/cruds/contratosgeneral.js') }}"></script>
+<script src="{{ asset('js/cruds/contratos.js') }}"></script>
 <!--Fin Scripts-->

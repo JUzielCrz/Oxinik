@@ -8,6 +8,6 @@ class NotaTanque extends Model
 {
     protected $table = 'nota_tanque';
     public $timestamps =  true;
-    protected $fillable = ['nota_id','tanque_id', 'tapa_tanque'];
+    protected $fillable = ['folio_nota','num_serie', 'precio', 'regulador', 'tapa_tanque'];
     // public $incrementing = true;
 }
