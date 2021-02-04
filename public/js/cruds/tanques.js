@@ -28,12 +28,11 @@ $(document).ready(function () {
             columns:[
                 {data: 'num_serie'},
                 {data: 'ph'},
-                {data: 'capacidad'},
-                {data: 'material'},
                 {data: 'fabricante'},
-                {data: 'tipo_gas'},
+                {data: 'capacidad'}, //aqui va estatus
                 {data: 'btnShow'},
                 {data: 'btnEdit'},
+                {data: 'btnHistory'},
                 {data: 'btnDelete'},
             ]
         });

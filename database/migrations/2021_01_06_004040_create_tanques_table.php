@@ -21,6 +21,7 @@ class CreateTanquesTable extends Migration
             $table->string('material');
             $table->string('fabricante');
             $table->string('tipo_gas');
+            $table->string('estatus');
             $table->timestamps();
         });
     }

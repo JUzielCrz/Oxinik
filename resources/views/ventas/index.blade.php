@@ -1,75 +1,68 @@
 @extends('layouts.navbar')
 @section('contentnavbar')
     
+<style>
+    body {
+        background-color: #e8ebf7;
+    }
+</style>
 
     <div class="container" >
+
+
 
         <center>
             <div id="divmsgindex" style="display:none" class="alert" role="alert">
             </div>
         </center>
 
-        <div class="row ">
-            <div class="col-md-5 text-center">
-                <h3>TANQUES</h3>
+        <div class="card mt-3">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h1 class="display-1" style="font-size: 35px">VENTAS</h1>
+                    </div>
+                    <div class=" col-md-4 text-right">
+                        <a href="{{ url("/newventa") }}" class="btn btn-gray ">
+                            <span class="fas fa-money-check-alt"></span>
+                            Nueva Venta
+                        </a>
+                    </div>
+                </div>
+                
+
             </div>
-            <div class="col-md-5 text-right">
-                <button type="button" class="btn btn-gray" data-toggle="modal" data-target="#modalinsertar">
-                    <span class="fas fa-plus"></span>
-                    Agregar
-                </button>
+            <div class="card-body ">
+
+                
+                <div class="row table-responsive m-auto"> 
+                    <table id="tablecruddata" class="table table-sm table-striped table-hover">
+                        <thead>
+                            <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">CLIENTE</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th> 
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+
+
             </div>
         </div>
+
         
-        <div class="row table-responsive mt-2"> 
-            <table id="tablecruddata" class="table table-sm">
-                <thead>
-                    <tr>
-                    <th scope="col">N. Serie</th>
-                    <th scope="col">Prueba Hidrostática</th>
-                    <th scope="col">Fabricante</th>
-                    <th scope="col">Estatus</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th> 
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-    </div>
+    
 
 
-    <!-- Modal insertar-->
-    <div class="modal fade bd-example-modal-xl" id="modalinsertar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-onix">
-            <h1 class="modal-title" id="modalinsertarTitle">Nuevo</h1>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff">
-                <span aria-hidden="true" class="fas fa-times"></span>
-            </button>
-            </div>
-            <div class="modal-body">
-            @include('tanques.create')
-            <!-- botones Aceptar y cancelar-->
-            <div class="row justify-content-center" >
-                <div class="btn-group col-auto" style="margin:10px" >
-                <button type="submit" class="btn btn-gray" id="btnaccept">Aceptar</button>
-                </div>
-                <div class="btn-group col-auto" style="margin:10px">
-                <button  class="btn btn-gray" data-dismiss="modal">Cancelar</button>
-                </div>
-            </div>
-            </div>
-            
-        </div>
-        </div>
-    </div>
     
     <!-- Modal mostrar datos-->
-    <div class="modal fade bd-example-modal-lg" id="modalmostrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal fade bd-example-modal-md" id="modalmostrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header bg-onix">
             <h1 class="modal-title" id="modalmostrarTitle">Informacion</h1>
@@ -78,7 +71,7 @@
             </button>
             </div>
             <div class="modal-body">
-            @include('tanques.info')
+            {{-- @include('contratos.info') --}}
             <!-- botones Aceptar y cancelar-->
             <div class="row justify-content-center" >
                 <div class="btn-group col-auto" style="margin:10px">
@@ -92,8 +85,8 @@
     </div>
 
     <!-- Modal actualizar datos-->
-    <div class="modal fade bd-example-modal-lg" id="modalactualizar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal fade bd-example-modal-xl" id="modalactualizar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-onix">
             <h1 class="modal-title" id="modalactualizarTitle">Actualizar</h1>
@@ -102,7 +95,7 @@
             </button>
             </div>
             <div class="modal-body">
-            @include('tanques.edit')
+            @include('contratos.edit')
             <!-- botones Aceptar y cancelar-->
             <div class="row justify-content-center" >
                 <div class="btn-group col-auto " style="margin:10px" >
@@ -156,5 +149,5 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/cruds/tanques.js') }}"></script>
+<script src="{{ asset('js/ventas/ventas.js') }}"></script>
 <!--Fin Scripts-->

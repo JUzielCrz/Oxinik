@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tanque;
+use App\Models\TanqueHistorial;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -48,12 +49,12 @@ class TanqueController extends Controller
             select('tanques.*');
             return DataTables::of(
                 $tanques
-            )
-            ->addColumn( 'btnContrato', '<a class="btn btn-grisclaro btn-xs" href="{{route(\'contrato.index\', $id)}}"><span class="fas fa-clipboard"></span></a>')
+            )                                                               
+            ->addColumn( 'btnHistory', '<a class="btn btn-grisclaro btn-xs" href="{{route(\'tanques.history\', $id)}}"><span class="fas fa-history"></span></a>')
             ->addColumn( 'btnShow', '<button class="btn btn-morado btn-show-modal btn-xs" data-id="{{$id}}"><span class="far fa-eye"></span></button>')
             ->addColumn( 'btnEdit', '<button class="btn btn-naranja btn-edit-modal btn-xs" data-id="{{$id}}"><span class="far fa-edit"></span></button>')
             ->addColumn( 'btnDelete', '<button class="btn btn-amarillo btn-delete-modal btn-xs" data-id="{{$id}}"><span class="fas fa-trash"></span></button>')
-            ->rawColumns(['btnContrato','btnShow','btnEdit','btnDelete'])
+            ->rawColumns(['btnHistory','btnShow','btnEdit','btnDelete'])
             ->toJson();
         }
         return view('home');
@@ -130,5 +131,32 @@ class TanqueController extends Controller
             }
         }
         return response()->json(['mensaje'=>'Sin permisos','accesso'=>'true']);
+    }
+
+
+
+    //////// Historial de tanques 
+
+    public function historyindex(Tanque $id)
+    {
+        if($this->slugpermision()){
+            $data=['tanque'=>$id];
+            return view('tanques.history', $data);
+        }
+        return view('home');
+    }
+
+    public function datatableshistoryindex($serietanque){
+        if($this->slugpermision()){
+            $tanques=TanqueHistorial::
+            select('tanque_historial.*')->where('num_serie',$serietanque);
+            return DataTables::of(
+                $tanques
+            )
+            // ->addColumn( 'btnDelete', '<button class="btn btn-amarillo btn-delete-modal btn-xs" data-id="{{$id}}"><span class="fas fa-trash"></span></button>')
+            // ->rawColumns(['btnDelete'])
+            ->toJson();
+        }
+        return view('home');
     }
 }

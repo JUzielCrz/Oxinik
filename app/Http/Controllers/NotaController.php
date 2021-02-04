@@ -8,6 +8,7 @@ use App\Models\Nota;
 use App\Models\Notas;
 use App\Models\NotaTanque;
 use App\Models\Tanque;
+use App\Models\TanqueHistorial;
 use App\User;
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\Rule;
@@ -105,6 +106,12 @@ class NotaController extends Controller
                         $notaTanque->regulador = $request->inputRegulador[$series];
                         $notaTanque->tapa_tanque = $request->inputTapa[$series];
                         $notaTanque->save();
+
+                        $historytanques=new TanqueHistorial;
+                        $historytanques->num_serie = $request->inputNumSerie[$series];
+                        $historytanques->estatus = 'ENTREGADO-CLIENTE';
+                        $historytanques->folio_nota = $request->input('folio_nota');
+                        $historytanques->save();
                     }
                     
                 }
@@ -144,7 +151,11 @@ class NotaController extends Controller
             if(count($request->inputNumSerie) > 0){
 
                 $notas=Nota::find($idNota);
+                
                 $notaTanque=NotaTanque::where('folio_nota',$notas->folio_nota);
+                $notaTanque->delete();
+
+                $notaTanque=TanqueHistorial::where('folio_nota',$notas->folio_nota);
                 $notaTanque->delete();
 
                 $notas->folio_nota = $request->input('folio_nota');
@@ -162,6 +173,12 @@ class NotaController extends Controller
                         $notaTanque->regulador = $request->inputRegulador[$series];
                         $notaTanque->tapa_tanque = $request->inputTapa[$series];
                         $notaTanque->save();
+
+                        $historytanques=new TanqueHistorial;
+                        $historytanques->num_serie = $request->inputNumSerie[$series];
+                        $historytanques->estatus = 'ENTREGADO-CLIENTE';
+                        $historytanques->folio_nota = $request->input('folio_nota');
+                        $historytanques->save();
                     }
                     
                 }

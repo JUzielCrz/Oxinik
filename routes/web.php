@@ -60,6 +60,9 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/deletetanque/{id}', 'TanqueController@destroy');
     // DataTables 
     Route::get('/dt_tanque', 'TanqueController@datatablesindex')->name('dt_tanque');
+    // DataTables 
+    Route::get('/historytanque/{id}', 'TanqueController@historyindex')->name('tanques.history');
+    Route::get('/dt_tanque_history/{serietanque}', 'TanqueController@datatableshistoryindex')->name('tanque.dt.history');
 
   /* Contratos */
     Route::get('/contrato/{id}', 'ContratoController@index')->name('contrato.index');
@@ -91,3 +94,26 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/dt_nota/{numContrato}', 'NotaController@datatablesindex')->name('dt_nota');
 
     Route::post('/insertfila/{numserietanque}', 'NotaController@insertfila');
+
+  /* Reportes */
+    Route::get('/reportes', 'ReportesController@index');
+    // Route::get('/showreportes/{id}', 'ReportesController@show');
+    // Route::post('/insertreportes', 'ReportesController@store');
+    // Route::post('/updaterol/{id}', 'ReportesController@update');
+    // Route::post('/deleterol/{id}', 'ReportesController@destroy');
+    // DataTables 
+    // Route::get('/dt_reportes', 'ReportesController@datatablesindex')->name('dt_reportes');
+
+
+  /* ventas */
+    Route::get('/ventas', 'VentaController@index');
+    Route::get('/newventa', 'VentaController@newventa');
+    Route::post('/insertventas', 'VentaController@create');
+    // Route::get('/showventas/{id}', 'VentaController@show');
+    // Route::post('/updaterol/{id}', 'VentaController@update');
+    // Route::post('/deleterol/{id}', 'VentaController@destroy');
+
+    // DataTables 
+    Route::get('/dt_ventas', 'VentaController@datatablesindex')->name('dt_ventas');
+    //Validar estatus tanque
+    Route::post('/validventasalida/{numserie}', 'VentaController@validventasalida');

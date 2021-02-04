@@ -27,7 +27,7 @@
             <ul class="navbar-nav text-center">
                 @if($user->havePermission('clientes'))
                     <li class="nav-item active mr-4 ml-4">
-                        <a class="nav-link btn-menu" href="{{ url('/cliente') }}"><img  src="{{asset('img/contrato.png')}}"   width="60" alt=""><br>Clientes</a>
+                        <a class="nav-link btn-menu" href="{{ url('/cliente') }}"><img  src="{{asset('img/cliente.svg')}}"   width="60" alt=""><br>Clientes</a>
                     </li>
                 @endif
                 @if($user->havePermission('contratos'))
@@ -37,7 +37,7 @@
                 @endif
                 @if($user->havePermission('tanques'))
                     <li class="nav-item active mr-4 ml-4">
-                        <a class="nav-link btn-menu" href="{{ url('/tanque') }}"><img  src="{{asset('img/usuario.svg')}}"   width="60" alt=""><br>Tanques</a>
+                        <a class="nav-link btn-menu" href="{{ url('/tanque') }}"><img  src="{{asset('img/tanque.svg')}}"   width="60" alt=""><br>Tanques</a>
                     </li>
                 @endif
                 
@@ -46,6 +46,25 @@
                         <a class="nav-link btn-menu" href="{{ url('/user') }}"><img  src="{{asset('img/usuario.svg')}}"   width="60" alt=""><br>Usuarios</a>
                     </li>
                 @endif
+
+                @if($user->havePermission('reportes'))
+                    <li class="nav-item active mr-4 ml-4">
+                        <a class="nav-link btn-menu" href="{{ url('/reportes') }}"><img  src="{{asset('img/reportes.svg')}}"   width="60" alt=""><br>Reportes</a>
+                    </li>
+                @endif
+
+                @if($user->havePermission('infra'))
+                    <li class="nav-item active mr-4 ml-4">
+                        <a class="nav-link btn-menu" href="{{ url('/infra') }}"><img  src="{{asset('img/infra.svg')}}"   width="60" alt=""><br>INFRA</a>
+                    </li>
+                @endif
+
+                @if($user->havePermission('ventas'))
+                    <li class="nav-item active mr-4 ml-4">
+                        <a class="nav-link btn-menu" href="{{ url('/ventas') }}"><img  src="{{asset('img/ventas.svg')}}"   width="60" alt=""><br>Ventas</a>
+                    </li>
+                @endif
+
                     <li class="nav-item active mr-4 ml-4">
                         <a class="nav-link btn-menu" href="{{ route('logout') }}" 
                         onclick="event.preventDefault();

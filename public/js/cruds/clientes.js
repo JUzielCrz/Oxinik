@@ -225,12 +225,6 @@ $(document).ready(function () {
             }
         });
 
-        // $('.telefonoedit').keypress(function (event) {
-        //     if (this.value.length === 10) {
-        //         return false;
-        //     }
-        // });
-
         $('.solo-text').keypress(function (event) {
             // console.log(event.charCode);
             if (event.charCode >= 65 && event.charCode <= 90 || event.charCode >= 97 && event.charCode <= 122 || 

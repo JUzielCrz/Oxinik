@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAlmacenTable extends Migration
+class CreateVentaTanqueTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,20 @@ class CreateAlmacenTable extends Migration
      */
     public function up()
     {
-        Schema::create('almacen', function (Blueprint $table) {
+        Schema::create('venta_tanque', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('venta_id');
+            $table->foreign('venta_id')->references('id')
+                ->on('ventas')
+                ->onDelete('restrict');
             $table->string('num_serie');
             $table->foreign('num_serie')->references('num_serie')
                 ->on('tanques')
                 ->onDelete('restrict');
-            $table->string('estatus');
-            $table->date('fecha_entrada');
+            $table->double('precio')->nullable();
+            $table->enum('tapa_tanque', ['SI', 'NO'])->nullable();
+            $table->enum('regulador', ['SI', 'NO'])->nullable();
+            $table->enum('insidencia', ['ENTRADA', 'SALIDA']);
             $table->timestamps();
         });
     }
@@ -32,6 +38,6 @@ class CreateAlmacenTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('almacen');
+        Schema::dropIfExists('venta_tanque');
     }
 }
