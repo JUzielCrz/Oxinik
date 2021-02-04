@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TanqueHistorial;
+use App\Models\Tanque;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -24,11 +24,11 @@ class ReportesController extends Controller
     public function index()
     {
         if($this->slugpermision()){
-            $entregadocliente= TanqueHistorial::where('estatus','VACIO-ALMACEN')->groupBy(''); //analizar
-            $llenoalmacen= TanqueHistorial::where('estatus','LLENO-ALMACEN');
-            $vacioalmacen= TanqueHistorial::where('estatus','ENTREGADO-CLIENTE');
-            $infra= TanqueHistorial::where('estatus','INFRA');
-            $mantenimiento= TanqueHistorial::where('estatus','MANTENIMIENTO');
+            $vacioalmacen= Tanque::where('estatus','VACIO-ALMACEN'); //analizar
+            $llenoalmacen= Tanque::where('estatus','LLENO-ALMACEN');
+            $entregadocliente= Tanque::where('estatus','ENTREGADO-CLIENTE');
+            $infra= Tanque::where('estatus','INFRA');
+            $mantenimiento= Tanque::where('estatus','MANTENIMIENTO');
 
             $cantEntregadoCliente= $entregadocliente->count();
             $cantllenoalmacen= $llenoalmacen->count();

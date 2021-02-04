@@ -29,7 +29,7 @@ $(document).ready(function () {
             columns:[
                 {data: 'num_serie'},
                 {data: 'estatus'},
-                {data: 'folio_nota'},
+                {data: 'folios'},
                 {data: 'created_at'},
                 // {data: 'btnShow'},
                 

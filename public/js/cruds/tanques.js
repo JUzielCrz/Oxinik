@@ -29,7 +29,7 @@ $(document).ready(function () {
                 {data: 'num_serie'},
                 {data: 'ph'},
                 {data: 'fabricante'},
-                {data: 'capacidad'}, //aqui va estatus
+                {data: 'estatus'}, //aqui va estatus
                 {data: 'btnShow'},
                 {data: 'btnEdit'},
                 {data: 'btnHistory'},
