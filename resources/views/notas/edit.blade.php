@@ -20,7 +20,8 @@
 
                 {!! Form::hidden('num_contrato', $notas->num_contrato, ['id'=>'num_contrato']) !!}
                 {!! Form::hidden('ideditnota', $notas->id, ['id'=>'ideditnota']) !!}
-                
+                {!! Form::hidden('idcliente', $idcliente, ['id'=>'idcliente']) !!}
+
                 <!-- Nombre Completo-->
                 <div class="row">
                     <div class="form-group col-md-6">
@@ -140,7 +141,18 @@
     
                     </table>
                 </div>
-
+                <hr>
+                <div class="row ">
+                    <div class="col-md-9 text-right">
+                        <label for="">TOTAL:</label>
+                    </div>
+                    <div class="col-md-1 text-right">
+                        <div id="preciototal">
+                            <label id='total'>{{$notas->total}}</label>
+                        </div>
+                        <input type="hidden" id="inputTotal" name="inputTotal">
+                    </div>
+                </div>
                 <center>
                     <div id="divmsgtanque" style="display:none" class="alert" role="alert">
                     </div>

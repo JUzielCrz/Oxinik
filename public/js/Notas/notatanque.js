@@ -48,8 +48,8 @@ $(document).ready(function () {
             method: "post",
             url: "/createnota",
             data: dataFormulario, 
-        }).done(function(){
-            window.location = "/nota/"+ $('#num_contrato').val();
+        }).done(function(msg){
+            window.location = "/contrato/"+  $('#idcliente').val();
         })
         .fail(function (jqXHR, textStatus) {
             //Si existe algun error entra aqui
@@ -66,7 +66,7 @@ $(document).ready(function () {
 
     }
 
-    
+    var preciototal = 0;
     function insertfila() {
         metodo_limpiar_span("Error");
 
@@ -111,45 +111,71 @@ $(document).ready(function () {
         }
 
 
+        //validar que tanque no ha sido registrado en almacene o no ha sido registrado como lleno.
         $.ajax({
             method: "post",
-            url: "/insertfila/"+$('#serie_tanque').val()+'',
+            url: "/validventasalida/"+$('#serie_tanque').val()+'',
             data: {
                 '_token': $('input[name=_token]').val(),
                 },
-        })
-            .done(function (msg) {
+        }).done(function(msg){
+            
+            if(msg.mensaje){
+                //Insertar fila
+                $.ajax({
+                    method: "post",
+                    url: "/insertfila/"+$('#serie_tanque').val()+'',
+                    data: {
+                        '_token': $('input[name=_token]').val(),
+                        },
+                })
+                    .done(function (msg) {
+        
+                        if(msg.alert){
+                            $('#tablelistaTanques').append(
+                                "<tr class='classfilatanque'>"+
+                                "<td>"+msg.tanque.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.tanque.num_serie +"'></input>"+
+                                "<td>"+msg.tanque.capacidad+' '+msg.tanque.material+' '+msg.tanque.fabricante +
+                                "<td>"+$('#precio').val() +"</td>"+ "<input type='hidden' name='inputPrecio[]' value='"+$('#precio').val() +"'></input>"+
+                                "<td>"+$('#regulador').val() +"</td>"+ "<input type='hidden' name='inputRegulador[]' value='"+$('#regulador').val() +"'></input>"+
+                                "<td>"+$('#tapa_tanque').val() +"</td>"+ "<input type='hidden' name='inputTapa[]' value='"+$('#tapa_tanque').val() +"'></input>"+
+                                "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
+                                "</tr>");
 
-                if(msg.alert){
-                    $('#tablelistaTanques').append(
-                        "<tr class='classfilatanque'>"+
-                        "<td>"+msg.tanque.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.tanque.num_serie +"'></input>"+
-                        "<td>"+msg.tanque.capacidad+' '+msg.tanque.material+' '+msg.tanque.fabricante +
-                        "<td>"+$('#precio').val() +"</td>"+ "<input type='hidden' name='inputPrecio[]' value='"+$('#precio').val() +"'></input>"+
-                        "<td>"+$('#regulador').val() +"</td>"+ "<input type='hidden' name='inputRegulador[]' value='"+$('#regulador').val() +"'></input>"+
-                        "<td>"+$('#tapa_tanque').val() +"</td>"+ "<input type='hidden' name='inputTapa[]' value='"+$('#tapa_tanque').val() +"'></input>"+
-                        "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
-                        "</tr>");
-                        limpiar_input_numserie();
-                }else{
-                    $("#serie_tanqueError").text('Número de serie no existe');
-                }
+                                preciototal=preciototal+Number($('#precio').val());
+                                $('#total').remove();
+                                $('#preciototal').append( 
+                                    "<label id='total'>"+Intl.NumberFormat('es-MX').format(preciototal) +"</label>"
+                                );
+                                $('#inputTotal').val(preciototal);
 
-                return false;
-                
-            })
-                
-            .fail(function (jqXHR, textStatus) {
-                mostrar_mensaje("#divmsg",'Error al insertar', "alert-danger",null);
-                var status = jqXHR.status;
-                if (status === 422) {
-                    $.each(jqXHR.responseJSON.errors, function (key, value) {
-                        var idError = "#" + key + "Error";
-                        //$(idError).removeClass("d-none");
-                        $(idError).text(value);
+                                limpiar_input_numserie();
+                        }else{
+                            $("#serie_tanqueError").text('Número de serie no existe');
+                        }
+        
+                        return false;
+                        
+                    })
+                        
+                    .fail(function (jqXHR, textStatus) {
+                        mostrar_mensaje("#divmsg",'Error al insertar', "alert-danger",null);
+                        var status = jqXHR.status;
+                        if (status === 422) {
+                            $.each(jqXHR.responseJSON.errors, function (key, value) {
+                                var idError = "#" + key + "Error";
+                                //$(idError).removeClass("d-none");
+                                $(idError).text(value);
+                            });
+                        }
                     });
-                }
-            });
+            }else{
+                $("#serie_tanqueError").text('Tanque no registrado en almacén o tanque vacio');
+            }
+        });
+        
+
+        
         return false;
     }
 
@@ -174,8 +200,6 @@ $(document).ready(function () {
         $("#metodo_pago"+ nombreerror).empty();
     }
 
-
-
     function mostrar_mensaje(divmsg,mensaje,clasecss,modal) {
         if(modal !== null){
             $(modal).modal("hide");
@@ -189,7 +213,6 @@ $(document).ready(function () {
         });
     }
 
-
     $("#pago_realizado1").change( function() {
         if ($(this).val() == "SI") {
             $("#pago_realizado2").prop("disabled", false);
@@ -199,16 +222,23 @@ $(document).ready(function () {
         }
     });
 
-
-
-    function eliminarFila( index, val){
+    function eliminarFila(){
         $(this).closest('tr').remove();
+        preciototal = 0;
+        $(".classfilatanque").each(function(){
+            preciototal=preciototal+parseFloat($(this).find("td")[2].innerHTML);
+        })
+
+        $('#total').remove();
+        $('#preciototal').append( 
+            "<label id='total'>"+Intl.NumberFormat('es-MX').format(preciototal) +"</label>"
+            
+        );
+        $('#inputTotal').val(preciototal);
     }
 
-
-
     function cancelarnota(){
-        window.location = "/nota/"+ $('#num_contrato').val();
+        window.location = "/contrato/"+ $('#idcliente').val();
     }
 });
 

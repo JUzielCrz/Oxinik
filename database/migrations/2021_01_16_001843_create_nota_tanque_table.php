@@ -22,9 +22,11 @@ class CreateNotaTanqueTable extends Migration
             $table->foreign('num_serie')->references('num_serie')
                 ->on('tanques')
                 ->onDelete('restrict');
-            $table->double('precio');
+            $table->double('precio')->nullable();
             $table->enum('tapa_tanque', ['SI', 'NO']);
             $table->enum('regulador', ['SI', 'NO']);
+            $table->double('multa')->default(0)->nullable();
+            $table->boolean('devolucion')->default(false)->nullable();
             
             $table->timestamps();
         });

@@ -23,6 +23,7 @@ class CreateNotasTable extends Migration
             $table->foreign('num_contrato')->references('num_contrato')
                 ->on('contratos')
                 ->onDelete('restrict');
+            $table->string('total');
             $table->timestamps();
         });
     }

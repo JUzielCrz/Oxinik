@@ -71,24 +71,30 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/insertcontrato', 'ContratoController@store');
     Route::post('/contrato/updatecontrato/{id}', 'ContratoController@update');
     Route::get('/contrato/deletecontrato/{id}', 'ContratoController@destroy');
+
+    // Route::get('/inserttablacontrato/{numcontrato}', 'ContratoController@inserttabla');
+    
     // General
     Route::get('/contratogeneral', 'ContratoController@indexgeneral')->name('contrato.general');
     Route::post('/updatecontrato/{id}', 'ContratoController@update');
     Route::get('/deletecontrato/{id}', 'ContratoController@destroy');
+    
     // DataTables 
-    Route::get('/dt_contrato/{id}', 'ContratoController@datatablesindex')->name('dt_contrato');
     Route::get('/dt_contratogeneral/{id}', 'ContratoController@datatablesindexgeneral')->name('dt_contratogeneral');
+    // Route::get('/dt_inserttablacontrato/{numcontrato}', 'ContratoController@datatablesinserttabla');
     
     
 
   /* Notas */
-    Route::get('/nota/{id}', 'NotaController@index')->name('nota.index');
-    Route::get('/newnota/{idContrato}', 'NotaController@newnota');
+    // Route::get('/nota/{id}', 'NotaController@index')->name('nota.index');
+    Route::get('contrato/newnota/{idContrato}', 'NotaController@newnota')->name('nueva.nota');
     Route::post('/createnota', 'NotaController@create');
     Route::get('/shownota/{id}', 'NotaController@show');
     Route::post('/nota/deletenota/{id}', 'NotaController@destroy');
     Route::post('/updatenota/{idNota}', 'NotaController@update');
     Route::get('/editnota/{folionota}', 'NotaController@editnota');
+    Route::get('/devolucionnota/{folionota}', 'NotaController@devolucionnota');
+    Route::post('/savedevolucionnota/{idNota}', 'NotaController@savedevolucionnota');
 
     // DataTables 
     Route::get('/dt_nota/{numContrato}', 'NotaController@datatablesindex')->name('dt_nota');

@@ -19,7 +19,7 @@ class TanqueSeeder extends Seeder
             'material'=>'Aluminio',
             'fabricante'=>'Plaxair',
             'tipo_gas'=>'Oxigeno',
-            'estatus'=>'prueba',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
@@ -29,7 +29,7 @@ class TanqueSeeder extends Seeder
             'material'=>'Acero',
             'fabricante'=>'Infra',
             'tipo_gas'=>'Oxigeno',
-            'estatus'=>'prueba',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
@@ -39,7 +39,7 @@ class TanqueSeeder extends Seeder
             'material'=>'Aluminio',
             'fabricante'=>'Plaxair',
             'tipo_gas'=>'Oxigeno',
-            'estatus'=>'prueba',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
@@ -49,7 +49,7 @@ class TanqueSeeder extends Seeder
             'material'=>'Acero',
             'fabricante'=>'TanQuir',
             'tipo_gas'=>'Oxigeno',
-            'estatus'=>'prueba',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
@@ -59,7 +59,7 @@ class TanqueSeeder extends Seeder
             'material'=>'Aluminio',
             'fabricante'=>'Oxinair',
             'tipo_gas'=>'Oxigeno',
-            'estatus'=>'prueba',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
     }
 }

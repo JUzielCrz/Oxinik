@@ -1,45 +1,6 @@
 $(document).ready(function () {
-    
-    // Data Tables
-    var idcliente=$('#cliente_id').val();
-    console.log($('#cliente_id').val());
-        var listtabla = $('#tablecruddata').DataTable({
-            language: {
-                "decimal": "",
-                "emptyTable": "No hay información",
-                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-                "infoPostFix": "",
-                "thousands": ",",
-                "lengthMenu": "Mostrar _MENU_ Entradas",
-                "loadingRecords": "Cargando...",
-                "processing": "Procesando...",
-                "search": "Buscar:", 
-                "zeroRecords": "Sin resultados encontrados",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Ultimo",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                }
-            },
-            processing: true,
-            serverSider: true,
-            ajax: '/dt_contrato/'+idcliente,
-            columns:[
-                {data: 'num_contrato'},
-                {data: 'tipo_contrato'},
-                // {data: 'precio_definido'},
-                {data: 'precio_transporte'},
-                {data: 'btnNota'},
-                {data: 'btnEdit'},
-                {data: 'btnDelete'},
-            ]
-        });
-    
-    // CRUD
 
+    // CRUD
     metodo_limpiar_span("Error");
 
     $("input").focusout(function () {
@@ -52,11 +13,17 @@ $(document).ready(function () {
     });
 
     $(document).on("click","#btnaccept",metodo_insertar);
-    $(document).on("click",".btn-show-modal",metodo_detalle);
     $(document).on("click",".btn-edit-modal",metodo_detalle_edit);
     $(document).on("click",".btn-delete-modal", metodo_detalle_delete);
     $(document).on("click","#btneliminar",metodo_eliminar);
     $(document).on("click","#btnactualizar",metodo_actualizar);
+
+    $(document).on("click","#btncontrato", insertartabla);
+    $(document).on("click",".btnnota-edit",nota_edit);
+    $(document).on("click",".btnnota-delete-modal", nota_detalle_delete);
+    $(document).on("click","#btnnotaeliminar", nota_eliminar);
+    $(document).on("click",".btnnota-devolucion", nota_devolucion);
+
     
     function metodo_insertar() {
         metodo_limpiar_span("Error");
@@ -76,7 +43,19 @@ $(document).ready(function () {
             .done(function (msg) {
                 mostrar_mensaje("#divmsg",msg.mensaje, "alert-warning",null);
                 metodo_limpiar_campos();
-                listtabla.ajax.reload(null,false);      
+                $('#tableinsertfila').append(
+                    "<tr class='fila"+ msg.contratos.id+"'>"+
+                    "<td>"+msg.contratos.num_contrato +"</td>"+
+                    "<td>"+msg.contratos.tipo_contrato +"</td>"+
+                    "<td>"+msg.contratos.precio_transporte +"</td>"+
+                    "<td><a class='btn btn-grisclaro btn-xs ' href=''><span class='fas fa-clipboard'></span></a>"+
+                    "<td><a class='btn btn-naranja btn-edit-modal btn-xs text-white' data-id='"+msg.contratos.id+"'>"+
+                    "<span class='fas fa-edit'></span>"+
+                    "</a></td>"+
+                    "<td><a class='btn btn-amarillo btn-delete-modal btn-xs ' data-id='"+msg.contratos.id+"'>"+
+                    "<i class='fas fa-trash'></i>"+
+                    "</a></td>"+
+                    "</tr>"); 
                 mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modalinsertar");
             })
                 
@@ -121,24 +100,7 @@ $(document).ready(function () {
             $(divmsg).removeClass(clasecss);
         });
     }
-    
-    
-    function metodo_detalle() {
-        $.get('/showcontrato/' + $(this).data('id') + '', function(data) {
-            $.each(data.contratos, function (key, value) {
-                var variable = "#" + key + "info";
-                $(variable).val(value);
-            });
-        }).done(function (msg) {
-            if(msg.accesso){
-                mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-warning",null);
-            }else{
-                $("#modalmostrar").modal("show");
-            }
-        });;
-        
-    }
-    
+
     function metodo_detalle_edit() {
         metodo_limpiar_span("editError");
         $.get('/showcontrato/' + $(this).data('id') + '', function(data) {
@@ -172,9 +134,20 @@ $(document).ready(function () {
                 },
         })
             .done(function (msg) {
-                listtabla.ajax.reload(null,false); 
-                    mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modalactualizar");        
-
+                $('.fila'+ msg.contratos.id).replaceWith(" "+
+                    "<tr class='fila"+ msg.contratos.id+"'>"+
+                    "<td>"+msg.contratos.num_contrato +"</td>"+
+                    "<td>"+msg.contratos.tipo_contrato +"</td>"+
+                    "<td>"+msg.contratos.precio_transporte +"</td>"+
+                    "<td><a class='btn btn-grisclaro btn-xs ' href=''><span class='fas fa-clipboard'></span></a>"+
+                    "<td><a class='btn btn-naranja btn-edit-modal btn-xs text-white' data-id='"+msg.contratos.id+"'>"+
+                    "<span class='fas fa-edit'></span>"+
+                    "</a></td>"+
+                    "<td><a class='btn btn-amarillo btn-delete-modal btn-xs ' data-id='"+msg.contratos.id+"'>"+
+                    "<i class='fas fa-trash'></i>"+
+                    "</a></td>"+
+                    "</tr>");
+                mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modalactualizar");        
             }).fail(function (jqXHR, textStatus) {
                 mostrar_mensaje("#divmsgedit",'Error al actualizar, verifique sus datos.', "alert-danger",null);
                 var status = jqXHR.status;
@@ -200,7 +173,8 @@ $(document).ready(function () {
             url: "deletecontrato/"+$('#ideliminar').text()+'',
             
         }).done(function (msg) {
-            listtabla.ajax.reload(null,false); 
+            
+            $('.fila' + $('#ideliminar').text()).remove();
             mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modaleliminar");
         }).fail(function (jqXHR, textStatus){
             mostrar_mensaje("#divmsgindex",'Error al eliminar.', "alert-danger",null);
@@ -208,9 +182,95 @@ $(document).ready(function () {
     }
 
 
-    //Para Validar Campos
+    //METODOS DE NOTAS 
 
-    
+    function insertartabla(){
+        var numContrato=$(this).data('id');
+        // '{{ url('/newnota/{"+numContrato+"}') }}'
+        $('#filatabla').remove();
+        $('#cardtablas').append(
+            "<div id='filatabla'>"+
+            "<div class='row'>"+
+                    "<div class='col-md-5 text-center'>"+
+                        "<p><strong>NOTAS -> Contrato: "+numContrato+"</strong></p>"+
+                    "</div>"+
+                    "<div class='col-md-5 text-right'>"+
+                        "<a href='newnota/"+numContrato+"' class='btn btn-sm btn-gray'>"+
+                            "<span class='fas fa-plus'></span>"+
+                            "Nueva Nota"+
+                        "</a>"+
+                    "</div>"+
+            "</div>"+
+            "<div class='row table-responsive ml-1' >"+ 
+                "<table id='tablecruddata' class='table table-sm table-striped table-hover'>"+
+                    "<thead>"+
+                        "<tr>"+
+                            "<th scope='col'>"+'Folio'+"</th>"+
+                            "<th scope='col'>"+'Fecha'+"</th>"+
+                            "<th scope='col'>"+'Pago Realizado'+"</th>"+
+                            "<th scope='col'>"+'Metodo Pago'+"</th>"+
+                            "<th scope='col'>"+'Núm. Contrato'+"</th>"+
+                            "<th scope='col'>"+"</th>"+
+                            "<th scope='col'>"+"</th>"+
+                            "<th scope='col'>"+"</th>"+ 
+                            "<th scope='col'>"+"</th>"+ 
+                        "</tr>"+
+                    "</thead>"+
+                "</table>"+
+            "</div>"+
+            "</div>"
+        ); 
+
+        
+
+        var listtabla = $('#tablecruddata').DataTable({
+            language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            processing: true,
+            serverSider: true,
+            ajax: '/dt_nota/'+numContrato,
+            columns:[
+                {data: 'folio_nota'},
+                {data: 'fecha'},
+                {data: 'pago_realizado'},
+                {data: 'metodo_pago'},
+                {data: 'num_contrato'},
+                {data: 'btnShow'},
+                {data: 'btnDevolucion'},
+                {data: 'btnEdit'},
+                {data: 'btnDelete'},
+            ]
+        });
+    }
+
+    function nota_edit() {
+        window.location = '/editnota/'+ $(this).data('id') 
+    }
+
+    function nota_devolucion() {
+        window.location = '/devolucionnota/'+ $(this).data('id') 
+    }
+
+
+
     //Para Validar Campos
 
     $('.solo-text').keypress(function (event) {
@@ -233,5 +293,27 @@ $(document).ready(function () {
         } 
         return false;
     });
+
+    function nota_detalle_delete() {
+        $("#modaleliminarnota").modal("show");
+        $('#ideliminar').html($(this).data('id'));
+    }
+
+    function nota_eliminar() {
+    $.ajax({
+        method: "post",
+        url: "deletenota/"+$('#ideliminar').text()+'',
+        data: {
+            '_token': $('input[name=_token]').val(),
+            'id': $('#ideliminar').text()
+            }
+        
+    }).done(function (msg) {
+        listtabla.ajax.reload(null,false); 
+        mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modaleliminarnota");
+    }).fail(function (jqXHR, textStatus){
+        mostrar_mensaje("#divmsgindex",'Error al eliminar.', "alert-danger",null);
+    });       
+    }
 
 });

@@ -32,7 +32,6 @@ class ContratoController extends Controller
             'num_contrato' => ['required','max:50', Rule::unique('contratos')->ignore($id, 'id')],
             'cliente_id' => ['required'],
             'tipo_contrato' => ['required', 'string', 'max:255'],
-            'precio_definido' => ['required', 'string', 'max:255'],
             'precio_transporte' => ['required', 'string', 'max:255'],
         ]);
     }
@@ -42,24 +41,9 @@ class ContratoController extends Controller
     {
         if($this->slugpermision()){
             $cliente = Cliente::where('id',$id)->first();
-            $data = ['cliente'=> $cliente];
+            $contratos=Contrato::select('contratos.*')->where('contratos.cliente_id',$id)->get();
+            $data = ['cliente'=> $cliente, 'contratos'=>$contratos];
             return view('contratos.index', $data);
-        }
-        return view('home');
-    }
-
-    public function datatablesindex($id){
-        if($this->slugpermision()){
-            $contratos=Contrato::
-            select('contratos.*')->where('contratos.cliente_id',$id);
-            return DataTables::of(
-                $contratos
-            )
-            ->addColumn( 'btnNota', '<a class="btn btn-grisclaro btn-xs" href="{{route(\'nota.index\', $num_contrato)}}"><span class="fas fa-clipboard"></span></a>')
-            ->addColumn( 'btnEdit', '<button class="btn btn-naranja btn-edit-modal btn-xs" data-id="{{$id}}"><span class="far fa-edit"></span></button>')
-            ->addColumn( 'btnDelete', '<button class="btn btn-amarillo btn-delete-modal btn-xs" data-id="{{$id}}"><span class="fas fa-trash"></span></button>')
-            ->rawColumns(['btnNota','btnEdit','btnDelete'])
-            ->toJson();
         }
         return view('home');
     }
@@ -111,7 +95,7 @@ class ContratoController extends Controller
             $contratos->precio_transporte = $request->input('precio_transporte');
 
             if($contratos->save()){
-                return response()->json(['mensaje'=>'Registrado Correctamente']);
+                return response()->json(['mensaje'=>'Registrado Correctamente', 'contratos'=>$contratos]);
             }
             return response()->json(['mensaje'=>'No registrado']);
         }
@@ -138,11 +122,10 @@ class ContratoController extends Controller
             $contratos->num_contrato = $request->num_contrato;
             $contratos->cliente_id = $request->cliente_id;
             $contratos->tipo_contrato = $request->tipo_contrato;
-            // $contratos->precio_definido = $request->precio_definido;
             $contratos->precio_transporte = $request->precio_transporte;
 
             if($contratos->save()){
-                    return response()->json(['mensaje'=>'Editado Correctamente']);
+                    return response()->json(['mensaje'=>'Editado Correctamente', 'contratos'=>$contratos]);
             }
             return response()->json(['mensaje'=>'Error, Verifica tus datos']);
 
@@ -161,4 +144,5 @@ class ContratoController extends Controller
         return response()->json(['mensaje'=>'Sin permisos','accesso'=>'true']);
 
     }
+
 }

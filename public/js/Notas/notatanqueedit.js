@@ -11,8 +11,13 @@ $(document).ready(function () {
 
 
 
+    //arreglo temporal para guardar #series actuales en la nota
+    var arrseriesnota=[];
+    $(".classfilatanque").each(function(index, value){
+            var serie = $(this).find("td")[0].innerHTML;
+            arrseriesnota.push(serie);
+    })
 
-            
     function insertnota(){
 
         metodo_limpiar_span_nota("Error");
@@ -49,7 +54,7 @@ $(document).ready(function () {
             url: "/updatenota/"+ $('#ideditnota').val(),
             data: dataFormulario, 
         }).done(function(){
-            window.location = "/nota/"+ $('#num_contrato').val();
+            window.location = "/contrato/"+ $('#idcliente').val();
         })
         .fail(function (jqXHR, textStatus) {
             //Si existe algun error entra aqui
@@ -66,7 +71,8 @@ $(document).ready(function () {
 
     }
 
-    
+
+    var preciototal = 0;
     function insertfila() {
         metodo_limpiar_span("Error");
 
@@ -110,46 +116,64 @@ $(document).ready(function () {
                 return false;
         }
 
-
         $.ajax({
             method: "post",
-            url: "/insertfila/"+$('#serie_tanque').val()+'',
+            url: "/validventasalida/"+$('#serie_tanque').val()+'',
             data: {
                 '_token': $('input[name=_token]').val(),
                 },
-        })
-            .done(function (msg) {
+        }).done(function(msg){
+            if(msg.mensaje || arrseriesnota.includes($('#serie_tanque').val())){
+                $.ajax({
+                    method: "post",
+                    url: "/insertfila/"+$('#serie_tanque').val()+'',
+                    data: {
+                        '_token': $('input[name=_token]').val(),
+                        },
+                })
+                .done(function (msg) {
 
-                if(msg.alert){
-                    $('#tablelistaTanques').append(
-                        "<tr class='classfilatanque'>"+
-                        "<td>"+msg.tanque.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.tanque.num_serie +"'></input>"+
-                        "<td>"+msg.tanque.capacidad+' '+msg.tanque.material+' '+msg.tanque.fabricante +
-                        "<td>"+$('#precio').val() +"</td>"+ "<input type='hidden' name='inputPrecio[]' value='"+$('#precio').val() +"'></input>"+
-                        "<td>"+$('#regulador').val() +"</td>"+ "<input type='hidden' name='inputRegulador[]' value='"+$('#regulador').val() +"'></input>"+
-                        "<td>"+$('#tapa_tanque').val() +"</td>"+ "<input type='hidden' name='inputTapa[]' value='"+$('#tapa_tanque').val() +"'></input>"+
-                        "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
-                        "</tr>");
-                        limpiar_input_numserie();
-                }else{
-                    $("#serie_tanqueError").text('Número de serie no existe');
-                }
+                    if(msg.alert){
+                        $('#tablelistaTanques').append(
+                            "<tr class='classfilatanque'>"+
+                            "<td>"+msg.tanque.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.tanque.num_serie +"'></input>"+
+                            "<td>"+msg.tanque.capacidad+' '+msg.tanque.material+' '+msg.tanque.fabricante +
+                            "<td>"+$('#precio').val() +"</td>"+ "<input type='hidden' name='inputPrecio[]' value='"+$('#precio').val() +"'></input>"+
+                            "<td>"+$('#regulador').val() +"</td>"+ "<input type='hidden' name='inputRegulador[]' value='"+$('#regulador').val() +"'></input>"+
+                            "<td>"+$('#tapa_tanque').val() +"</td>"+ "<input type='hidden' name='inputTapa[]' value='"+$('#tapa_tanque').val() +"'></input>"+
+                            "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
+                            "</tr>");
 
-                return false;
-                
-            })
-                
-            .fail(function (jqXHR, textStatus) {
-                mostrar_mensaje("#divmsg",'Error al insertar', "alert-danger",null);
-                var status = jqXHR.status;
-                if (status === 422) {
-                    $.each(jqXHR.responseJSON.errors, function (key, value) {
-                        var idError = "#" + key + "Error";
-                        //$(idError).removeClass("d-none");
-                        $(idError).text(value);
-                    });
-                }
-            });
+                            preciototal=preciototal+Number($('#precio').val());
+                                $('#total').remove();
+                                $('#preciototal').append( 
+                                    "<label id='total'>"+Intl.NumberFormat('es-MX').format(preciototal) +"</label>"
+                                );
+                                $('#inputTotal').val(preciototal);
+
+                            limpiar_input_numserie();
+                    }else{
+                        $("#serie_tanqueError").text('Número de serie no existe');
+                    }
+
+                    return false;
+                    
+                })   
+                .fail(function (jqXHR, textStatus) {
+                    mostrar_mensaje("#divmsg",'Error al insertar', "alert-danger",null);
+                    var status = jqXHR.status;
+                    if (status === 422) {
+                        $.each(jqXHR.responseJSON.errors, function (key, value) {
+                            var idError = "#" + key + "Error";
+                            //$(idError).removeClass("d-none");
+                            $(idError).text(value);
+                        });
+                    }
+                });
+            }else{
+                $("#serie_tanqueError").text('Tanque no registrado en almacén o tanque vacio');
+            }
+        });
         return false;
     }
 
@@ -203,13 +227,38 @@ $(document).ready(function () {
 
     function eliminarFila( index, val){
         $(this).closest('tr').remove();
+        preciototal = 0;
+        $(".classfilatanque").each(function(){
+            preciototal=preciototal+parseFloat($(this).find("td")[2].innerHTML);
+        })
+
+        $('#total').remove();
+        $('#preciototal').append( 
+            "<label id='total'>"+Intl.NumberFormat('es-MX').format(preciototal) +"</label>"
+            
+        );
+        $('#inputTotal').val(preciototal);
     }
 
 
 
     function cancelarnota(){
-        window.location = "/nota/"+ $('#num_contrato').val();
+        window.location = "/contrato/"+ $('#idcliente').val();
     }
+
+    $('.precio').keypress(function (event) {
+        // console.log(event.charCode);
+        if (
+            event.charCode == 43 ||
+            event.charCode == 45 || 
+            event.charCode == 69 ||
+            event.charCode == 101   
+            ){
+            return false;
+        } 
+        return true;
+    });
+    
 });
 
 
