@@ -1,59 +1,98 @@
 @extends('layouts.navbar')
 @section('contentnavbar')
+
+<style>
+    body {
+        background-color: #e8ebf0;
+    }
+</style>
+
     <div class="container">
         <div class="row justify-content-center  ">
-            <div class="card col-md-3">
-                <div class="card-body text-center">
-                <h5 class="card-title">Vacío en Almacén</h5>
-                <h1 class="display-3"> {{$cantvacioalmacen}}</h1>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-                </div>
+            <div class="col-md-3">
+                <a class="btn btn-block" id="btn-vacio-almacen" style="padding: 0px">
+                    <div class="card" >
+                        <div class="card-header">
+                            <p class="card-title text-center">Vacío en Almacén</p>
+                        </div>
+                        <div class="card-body text-center">
+                        <h1 class="display-3" style="font-size: 28px; font-weight: normal"> {{$cantvacioalmacen}}</h1>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        
+            <div class="col-md-3">
+                <a class="btn btn-block" id="btn-lleno-almacen" style="padding: 0px">
+                    <div class="card">
+                        <div class="card-header">
+                            <p class="card-title text-center">LLeno en Almacén</p>
+                        </div>
+                        <div class="card-body text-center">
+                            <h1 class="display-3" style="font-size: 28px; font-weight: normal"> {{$cantllenoalmacen}}</h1>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a class="btn btn-block" id="btn-entregado-cliente" style="padding: 0px">
+                    <div class="card">
+                        <div class="card-header">
+                            <p class="card-title text-center">Entregado a cliente</p>
+                        </div>
+                        <div class="card-body text-center">
+                            <h1 class="display-3" style="font-size: 28px; font-weight: normal"> {{$cantEntregadoCliente}}</h1>
+                        </div>
+                    </div>
+                </a>
             </div>
 
-            <div class="card col-md-3 ml-3">
-                <div class="card-body text-center">
-                    <h5 class="card-title">LLeno en Almacén</h5>
-                    <h1 class="display-3"> {{$cantllenoalmacen}}</h1>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
-                </div>
-            </div>
+        </div>
 
-            <div class="card col-md-3 ml-3">
-                <div class="card-body text-center">
-                <h5 class="card-title">Entregadoa a clientes</h5>
-                <h1 class="display-3"> {{$cantEntregadoCliente}}</h1>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+        <div class="row justify-content-center mt-4">
+
+            <div class="col-md-3">
+                <a class="btn btn-block" id="btn-infra" style="padding: 0px">
+                    <div class="card">
+                        <div class="card-header">
+                            <p class="card-title text-center">Infra</p>
+                        </div>
+                        <div class="card-body text-center">
+                            <h1 class="display-3" style="font-size: 28px; font-weight: normal"> {{$cantinfra}}</h1>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a class="btn btn-block" id="btn-mantenimiento" style="padding: 0px">
+                    <div class="card">
+                        <div class="card-header">
+                            <p class="card-title text-center">Mantenimiento</p>
+                        </div>  
+                        <div class="card-body text-center">
+                            <h1 class="display-3" style="font-size: 28px; font-weight: normal"> {{$cantmantenimiento}}</h1>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    
+        @csrf
+        <div class="card mt-4">
+            <div class="card-body" id="cardtablas">
+                <div class="table-responsive" >
+                    
                 </div>
             </div>
         </div>
-        <div class="row justify-content-center  mt-4">
-            <div class="card col-md-3 ml-3">
-                <div class="card-body text-center">
-                <h5 class="card-title">Infra</h5>
-                <h1 class="display-3"> {{$cantinfra}}</h1>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-                </div>
-            </div>
-
-            <div class="card col-md-3 ml-3">
-                <div class="card-body text-center">
-                <h5 class="card-title">Mantenimiento</h5>
-                <h1 class="display-3"> {{$cantmantenimiento}}</h1>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-                </div>
-            </div>
-        </div>
+    
     </div>
+
 
 
 @endsection
 
 @include('layouts.scripts')
 <!--Scripts-->
-    {{-- <script src="{{ asset('js/cruds/tanques.js') }}"></script> --}}
+    <script src="{{ asset('js/cruds/reportes.js') }}"></script>
 <!--Fin Scripts-->

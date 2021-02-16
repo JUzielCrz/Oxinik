@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInfraLlenadoTable extends Migration
+class CreateMantenimientoLlenadoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateInfraLlenadoTable extends Migration
      */
     public function up()
     {
-        Schema::create('infra_llenado', function (Blueprint $table) {
+        Schema::create('mantenimiento_llenado', function (Blueprint $table) {
             $table->id();
             $table->date('fecha');
             $table->integer('cantidad');
@@ -29,6 +29,6 @@ class CreateInfraLlenadoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('infra_llenado');
+        Schema::dropIfExists('mantenimiento_llenado');
     }
 }

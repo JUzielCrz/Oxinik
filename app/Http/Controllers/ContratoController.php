@@ -48,32 +48,32 @@ class ContratoController extends Controller
         return view('home');
     }
 
-    public function indexgeneral()
-    {
-        if($this->slugpermision()){
-            return view('contratos.indexgeneral');
-        }
-        return view('home');
-    }
+    // public function indexgeneral()
+    // {
+    //     if($this->slugpermision()){
+    //         return view('contratos.indexgeneral');
+    //     }
+    //     return view('home');
+    // }
 
-    public function datatablesindexgeneral(){
-        if($this->slugpermision()){
-            $contratos=Contrato::
-            join('clientes', 'clientes.id','=','contratos.cliente_id')
-            ->select('contratos.*',
-                    DB::raw("CONCAT(apPaterno,' ',apMaterno,' ',nombre) AS nombrecliente"),
-                    );
-            return DataTables::of(
-                $contratos
-            )
-            ->addColumn( 'btnNota', '<a class="btn btn-grisclaro btn-xs" href="{{route(\'nota.index\', $num_contrato)}}"><span class="fas fa-clipboard"></span></a>')
-            ->addColumn( 'btnEdit', '<button class="btn btn-naranja btn-edit-modal btn-xs" data-id="{{$id}}"><span class="far fa-edit"></span></button>')
-            ->addColumn( 'btnDelete', '<button class="btn btn-amarillo btn-delete-modal btn-xs" data-id="{{$id}}"><span class="fas fa-trash"></span></button>')
-            ->rawColumns(['btnNota','btnEdit','btnDelete'])
-            ->toJson();
-        }
-        return view('home');
-    }
+    // public function datatablesindexgeneral(){
+    //     if($this->slugpermision()){
+    //         $contratos=Contrato::
+    //         join('clientes', 'clientes.id','=','contratos.cliente_id')
+    //         ->select('contratos.*',
+    //                 DB::raw("CONCAT(apPaterno,' ',apMaterno,' ',nombre) AS nombrecliente"),
+    //                 );
+    //         return DataTables::of(
+    //             $contratos
+    //         )
+    //         ->addColumn( 'btnNota', '<a class="btn btn-grisclaro btn-xs" href="{{route(\'nota.index\', $num_contrato)}}"><span class="fas fa-clipboard"></span></a>')
+    //         ->addColumn( 'btnEdit', '<button class="btn btn-naranja btn-edit-modal btn-xs" data-id="{{$id}}"><span class="far fa-edit"></span></button>')
+    //         ->addColumn( 'btnDelete', '<button class="btn btn-amarillo btn-delete-modal btn-xs" data-id="{{$id}}"><span class="fas fa-trash"></span></button>')
+    //         ->rawColumns(['btnNota','btnEdit','btnDelete'])
+    //         ->toJson();
+    //     }
+    //     return view('home');
+    // }
 
 
     public function create(Request $request)

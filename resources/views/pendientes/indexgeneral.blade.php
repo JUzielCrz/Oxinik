@@ -1,35 +1,36 @@
 @extends('layouts.navbar')
 @section('contentnavbar')
-    
+<style>
+    body {
+        background-color: #e8ebf0;
+    }
+</style>
 
-    <div class="container-fluid" >
+    <div class="container" >
         <center>
             <div id="divmsgindex" style="display:none" class="alert" role="alert">
             </div>
         </center>
 
-        <div class="row ">
-            <div class="col-md-5 text-center">
-                <h3>Contratos</h3> 
+        <div class="card">
+            <div class="card-header">
+                <div class=row>
+                    <div class="col-md-8">
+                        <h3 class="display-1" style="font-size: 2rem">Pendientes</h3>
+                    </div>
+                    <div class="col-md-4">
+                        {{ Form::select('pendienteselect',['pendiente-pagos' => 'PAGOS PENDIENTES', 'pendiente-tanques' => 'TANQUES SIN ENTREGAR'],null,['id' => 'pendienteselect','class'=>'form-control ml-2', 'placeholder'=>'Selecciona', 'required'])}}
+                    </div>
+                </div>
             </div>
 
-        </div>
-        
-        <div class="row d-flex justify-content-center table-responsive mt-2"> 
-            <table id="tablecruddata" class="table table-sm">
-                <thead>
-                    <tr>
-                    <th scope="col">Num. Contrato</th>
-                    <th scope="col">Cliente</th>
-                    <th scope="col">Tipo Contrato</th>
-                    {{-- <th scope="col">Precio</th> --}}
-                    <th scope="col">Transporte</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th> 
-                    </tr>
-                </thead>
-            </table>
+            
+            <div class="card-body" id="cardtablas">
+                <div class="table-responsive" >
+                        
+                </div>
+            </div>
+                
         </div>
     </div>
     
@@ -123,5 +124,5 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/cruds/contratosgeneral.js') }}"></script>
+<script src="{{ asset('js/cruds/pendientes.js') }}"></script>
 <!--Fin Scripts-->

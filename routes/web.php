@@ -1,5 +1,6 @@
 <?php
 
+use GuzzleHttp\Promise\Create;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -75,13 +76,16 @@ Route::get('/home', 'HomeController@index')->name('home');
     // Route::get('/inserttablacontrato/{numcontrato}', 'ContratoController@inserttabla');
     
     // General
-    Route::get('/contratogeneral', 'ContratoController@indexgeneral')->name('contrato.general');
+    
     Route::post('/updatecontrato/{id}', 'ContratoController@update');
     Route::get('/deletecontrato/{id}', 'ContratoController@destroy');
     
-    // DataTables 
-    Route::get('/dt_contratogeneral/{id}', 'ContratoController@datatablesindexgeneral')->name('dt_contratogeneral');
-    // Route::get('/dt_inserttablacontrato/{numcontrato}', 'ContratoController@datatablesinserttabla');
+
+
+  /* PENDIENTES */
+    Route::get('/pendientes', 'PendienteController@indexgeneral')->name('pendientes');
+    Route::get('/pendientepago', 'PendienteController@pendientepago');
+    Route::get('/pendientetanques', 'PendienteController@pendientetanques');
     
     
 
@@ -98,28 +102,43 @@ Route::get('/home', 'HomeController@index')->name('home');
 
     // DataTables 
     Route::get('/dt_nota/{numContrato}', 'NotaController@datatablesindex')->name('dt_nota');
-
     Route::post('/insertfila/{numserietanque}', 'NotaController@insertfila');
 
   /* Reportes */
     Route::get('/reportes', 'ReportesController@index');
-    // Route::get('/showreportes/{id}', 'ReportesController@show');
-    // Route::post('/insertreportes', 'ReportesController@store');
-    // Route::post('/updaterol/{id}', 'ReportesController@update');
-    // Route::post('/deleterol/{id}', 'ReportesController@destroy');
-    // DataTables 
-    // Route::get('/dt_reportes', 'ReportesController@datatablesindex')->name('dt_reportes');
+    Route::get('/dt_reportelisttanques/{estatus}', 'ReportesController@dt_listtanques')->name('dt_reportelisttanques');
 
 
   /* ventas */
     Route::get('/ventas', 'VentaController@index');
     Route::get('/newventa', 'VentaController@newventa');
     Route::post('/insertventas', 'VentaController@create');
-    // Route::get('/showventas/{id}', 'VentaController@show');
-    // Route::post('/updaterol/{id}', 'VentaController@update');
-    // Route::post('/deleterol/{id}', 'VentaController@destroy');
 
     // DataTables 
     Route::get('/dt_ventas', 'VentaController@datatablesindex')->name('dt_ventas');
     //Validar estatus tanque
     Route::post('/validventasalida/{numserie}', 'VentaController@validventasalida');
+  
+  //INFRA
+  Route::get('infra', 'InfraController@index');
+  Route::get('dt_infra', 'InfraController@datatables')->name('dt_infra');
+  Route::get('createinfra', 'InfraController@create');
+  Route::post('buscartanqueinfra/{serie}', 'InfraController@buscartanque');
+  Route::post('savenoteinfra', 'InfraController@savenote');
+  Route::get('/deleteinfra/{id}', 'InfraController@delete');
+  
+  
+  Route::get('editinfra/{id}', 'InfraController@edit');
+  Route::get('actualizarnoteinfra', 'InfraController@update');
+
+    //Mantenimiento
+    Route::get('mantenimiento', 'MantenimientoController@index');
+    Route::get('dt_mantenimiento', 'MantenimientoController@datatables')->name('dt_mantenimiento');
+    Route::get('createmantenimiento', 'MantenimientoController@create');
+    Route::post('buscartanquemantenimiento/{serie}', 'MantenimientoController@buscartanque');
+    Route::post('savenotemantenimiento', 'MantenimientoController@savenote');
+    Route::get('/deletemantenimiento/{id}', 'MantenimientoController@delete');
+    
+    
+    Route::get('editmantenimiento/{id}', 'MantenimientoController@edit');
+    Route::get('actualizarnotemantenimiento', 'MantenimientoController@update');

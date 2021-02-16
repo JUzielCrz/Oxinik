@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Tanque;
 use App\User;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+
 
 class ReportesController extends Controller
 {
@@ -42,6 +44,21 @@ class ReportesController extends Controller
             'cantinfra'=>$cantinfra,
             'cantmantenimiento'=>$cantmantenimiento];
             return view('reportes.index', $data);
+        }
+        return view('home');
+    }
+
+
+    public function dt_listtanques( $estatus){
+
+        if($this->slugpermision()){
+            $tanques=Tanque::
+            select('tanques.*')->where('estatus', $estatus);
+
+            return DataTables::of(
+                $tanques
+            )
+            ->toJson();
         }
         return view('home');
     }

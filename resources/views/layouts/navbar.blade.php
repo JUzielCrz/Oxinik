@@ -30,22 +30,38 @@
                         <a class="nav-link btn-menu" href="{{ url('/cliente') }}"><img  src="{{asset('img/cliente.svg')}}"   width="60" alt=""><br>Clientes</a>
                     </li>
                 @endif
-                @if($user->havePermission('contratos'))
-                    <li class="nav-item active mr-4">
-                        <a class="nav-link btn-menu" href="{{ url('/contratogeneral') }}"><img  src="{{asset('img/contrato.png')}}"   width="60" alt=""><br>Contratos</a>
+
+                @if($user->havePermission('ventas'))
+                    <li class="nav-item active mr-4 ml-4">
+                        <a class="nav-link btn-menu" href="{{ url('/ventas') }}"><img  src="{{asset('img/ventas.svg')}}"   width="60" alt=""><br>Ventas</a>
                     </li>
                 @endif
-                @if($user->havePermission('tanques'))
+
+                @if($user->havePermission('pendientes'))
+                    <li class="nav-item active mr-4">
+                        <a class="nav-link btn-menu" href="{{ url('/pendientes') }}"><img  src="{{asset('img/pendientes.svg')}}"   width="60" alt=""><br>Pendientes</a>
+                    </li>
+                @endif
+
+                @if($user->havePermission('infra'))
                     <li class="nav-item active mr-4 ml-4">
+                        <a class="nav-link btn-menu" href="{{ url('/createinfra') }}"><img  src="{{asset('img/infra.svg')}}"   width="60" alt=""><br>INFRA</a>
+                    </li>
+                @endif
+
+                @if($user->havePermission('mantenimiento'))
+                    <li class="nav-item active mr-2 ml-2">
+                        <a class="nav-link btn-menu" href="{{ url('/createmantenimiento') }}"><img  src="{{asset('img/mantenimiento.svg')}}"   width="60" alt=""><br>Mantenimiento</a>
+                    </li>
+                @endif
+
+                @if($user->havePermission('tanques'))
+                    <li class="nav-item active mr-4">
                         <a class="nav-link btn-menu" href="{{ url('/tanque') }}"><img  src="{{asset('img/tanque.svg')}}"   width="60" alt=""><br>Tanques</a>
                     </li>
                 @endif
+
                 
-                @if($user->havePermission('usuarios'))
-                    <li class="nav-item active mr-4 ml-4">
-                        <a class="nav-link btn-menu" href="{{ url('/user') }}"><img  src="{{asset('img/usuario.svg')}}"   width="60" alt=""><br>Usuarios</a>
-                    </li>
-                @endif
 
                 @if($user->havePermission('reportes'))
                     <li class="nav-item active mr-4 ml-4">
@@ -53,17 +69,15 @@
                     </li>
                 @endif
 
-                @if($user->havePermission('infra'))
+                
+
+                @if($user->havePermission('usuarios'))
                     <li class="nav-item active mr-4 ml-4">
-                        <a class="nav-link btn-menu" href="{{ url('/infra') }}"><img  src="{{asset('img/infra.svg')}}"   width="60" alt=""><br>INFRA</a>
+                        <a class="nav-link btn-menu" href="{{ url('/user') }}"><img  src="{{asset('img/usuario.svg')}}"   width="60" alt=""><br>Usuarios</a>
                     </li>
                 @endif
 
-                @if($user->havePermission('ventas'))
-                    <li class="nav-item active mr-4 ml-4">
-                        <a class="nav-link btn-menu" href="{{ url('/ventas') }}"><img  src="{{asset('img/ventas.svg')}}"   width="60" alt=""><br>Ventas</a>
-                    </li>
-                @endif
+                
 
                     <li class="nav-item active mr-4 ml-4">
                         <a class="nav-link btn-menu" href="{{ route('logout') }}" 
