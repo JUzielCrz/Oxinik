@@ -68,7 +68,7 @@ Route::get('/home', 'HomeController@index')->name('home');
   /* Contratos */
     Route::get('/contrato/{id}', 'ContratoController@index')->name('contrato.index');
     Route::post('/newcontrato', 'ContratoController@create');
-    Route::get('/showcontrato/{id}', 'ContratoController@show');
+    Route::get('/showcontrato/{num_contrato}', 'ContratoController@show');
     Route::post('/insertcontrato', 'ContratoController@store');
     Route::post('/contrato/updatecontrato/{id}', 'ContratoController@update');
     Route::get('/contrato/deletecontrato/{id}', 'ContratoController@destroy');
@@ -90,10 +90,28 @@ Route::get('/home', 'HomeController@index')->name('home');
     
 
   /* Notas */
+
+    //CAMBIO NUEVOS LINKS
+    Route::get('/notasalida', 'NotaController@notasalida');
+    Route::post('/notasalida/searchcontrato', 'NotaController@searchcontrato');
+    Route::post('/notasalida/save_edit_envio/{num_contrato}', 'NotaController@saveeditenvio');
+    Route::post('/notasalida/save_edit_asignacion/{num_contrato}', 'NotaController@saveasignacion');
+
+    Route::get('/notaentrada', 'NotaController@notaentrada');
+    
+    Route::post('/datacontrato/{num_contrato}', 'NotaController@datacontrato');
+    Route::post('/createnota', 'NotaController@create');
+
+
+
+
+
+
+
+
     // Route::get('/nota/{id}', 'NotaController@index')->name('nota.index');
     Route::get('contrato/newnota/{idContrato}', 'NotaController@newnota')->name('nueva.nota');
-    Route::post('/createnota', 'NotaController@create');
-    Route::get('/shownota/{id}', 'NotaController@show');
+    Route::get('/shownota/{folioNota}', 'NotaController@show');
     Route::post('/nota/deletenota/{id}', 'NotaController@destroy');
     Route::post('/updatenota/{idNota}', 'NotaController@update');
     Route::get('/editnota/{folionota}', 'NotaController@editnota');
@@ -142,3 +160,9 @@ Route::get('/home', 'HomeController@index')->name('home');
     
     Route::get('editmantenimiento/{id}', 'MantenimientoController@edit');
     Route::get('actualizarnotemantenimiento', 'MantenimientoController@update');
+
+
+    //PDFs
+
+    Route::get('/pdf/nota/{idnota}', 'PDFController@pdf_nota'); 
+    Route::get('/pdf/asignacion_tanque/{idasignacion}', 'PDFController@asignacion_tanques'); 

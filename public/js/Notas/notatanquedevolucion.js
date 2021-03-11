@@ -342,6 +342,16 @@ $(document).ready(function () {
     });
 
 
+    $('.eliminar-espacio').keypress(function (event) {
+        if (
+            event.charCode == 32    
+            ){
+            return false;
+        } 
+        return true;
+    });
+
+
     //ejecutar al cargar la pagina
     var multa = 0;
         $(".classfilasdevolucion").each(function(){

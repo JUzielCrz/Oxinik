@@ -11,7 +11,9 @@ $(document).ready(function () {
     function insert_fila(){
         $('#serie_tanqueError').empty();
 
-        if($('#serie_tanque').val()==''){
+        var numserie= $('#serie_tanque').val().replace(/ /g,'');
+
+        if(numserie==''){
             $('#serie_tanqueError').text('Número de serie obligatorio');
             return false;
         }
@@ -24,7 +26,7 @@ $(document).ready(function () {
         var boolRepetido=false;
         $(".trFilaTanque").each(function(){
             var valores = $(this).find("td")[0].innerHTML;
-            if(valores == $('#serie_tanque').val()){
+            if(valores == numserie){
                 boolRepetido=true;
             }
         })
@@ -36,7 +38,7 @@ $(document).ready(function () {
 
         $.ajax({
             method: "post",
-            url: "/buscartanquemantenimiento/"+$('#serie_tanque').val(),
+            url: "/buscartanquemantenimiento/"+numserie,
             data: {
                 '_token': $('input[name=_token]').val(),
             }

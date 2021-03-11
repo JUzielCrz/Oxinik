@@ -158,10 +158,13 @@ $(document).ready(function () {
     //INSERTAR FILA EN SECCION SALIDA
     function insertRegSalida(){
         limpiar_span_salida("salidaError");
+
+        var numserie= $('#num_seriesalida').val().replace(/ /g,'');
+        
         var campo= [];
         var texterror = [];
 
-        if($('#num_seriesalida').val() == ''){campo.push('#num_seriesalida'); texterror.push('número de serie');}
+        if(numserie == ''){campo.push('#num_seriesalida'); texterror.push('número de serie');}
         if($('#preciosalida').val() == ''){ campo.push('#preciosalida');texterror.push('precio');}
         if($('#tapa_tanquesalida').val() == ''){campo.push('#tapa_tanquesalida'); texterror.push('tapa');}
         if($('#reguladorsalida').val() == ''){campo.push('#reguladorsalida');texterror.push('regulador');}
@@ -176,7 +179,7 @@ $(document).ready(function () {
         var boolRepetido=false;
         $(".trTanqueSalida").each(function(index, value){
             var valores = $(this).find("td")[0].innerHTML;
-            if(valores == $('#num_seriesalida').val()){
+            if(valores == numserie){
                 boolRepetido=true;
             }
         })
@@ -189,7 +192,7 @@ $(document).ready(function () {
         //validar que tanque no ha sido registrado en almacene o no ha sido registrado como lleno.
         $.ajax({
             method: "post",
-            url: "/validventasalida/"+$('#num_seriesalida').val()+'',
+            url: "/validventasalida/"+numserie+'',
             data: {
                 '_token': $('input[name=_token]').val(),
                 },
@@ -198,7 +201,7 @@ $(document).ready(function () {
                 //Insertar fila
                 $.ajax({
                     method: "post",
-                    url: "/insertfila/"+$('#num_seriesalida').val()+'',
+                    url: "/insertfila/"+numserie+'',
                     data: {
                         '_token': $('input[name=_token]').val(),
                         },

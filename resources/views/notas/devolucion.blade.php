@@ -1,6 +1,15 @@
 @extends('layouts.navbar')
 @section('contentnavbar')
 
+
+
+SE ELIMINARAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAA
+
+
 <style>
     body {
         background-color: #e8ebf7;
@@ -113,15 +122,6 @@
                                     <td>{{$tanqs->precio}} </td> 
                                     <td>{{$tanqs->regulador}} </td>
                                     <td>{{$tanqs->tapa_tanque}} </td>
-                                    {{-- <td id="checkDupla" class="text-center">
-                                        <div id="checkEntregado"> 
-                                            @if ($tanqs->devolucion)
-                                                <span class="fas fa-check"></span>
-                                            @else
-                                                <span class="fas fa-times"></span>
-                                            @endif 
-                                        </div>
-                                    </td> --}}
                                 </tr>
                             @endforeach
                             
@@ -158,7 +158,7 @@
                     </div>
                     @csrf
                     <div class="col-md-4">
-                        {!! Form::text('serie_tanque', null, ['id'=>'serie_tanque', 'class' => 'form-control', 'placeholder'=>'#Serie', 'required' ]) !!}
+                        {!! Form::text('serie_tanque', null, ['id'=>'serie_tanque', 'class' => 'form-control eliminar-espacio', 'placeholder'=>'#Serie', 'required' ]) !!}
                         <span  id="serie_tanqueError" class="text-danger"></span>
                     </div>
                     <div class="col-md-5 align-self-end text-right">

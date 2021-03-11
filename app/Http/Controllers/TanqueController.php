@@ -71,6 +71,7 @@ class TanqueController extends Controller
                 'material' => ['required', 'string', 'max:255'],
                 'fabricante' => ['required', 'string', 'max:255'],
                 'tipo_gas' =>  ['required', 'string', 'max:255'],
+                'estatus' =>  ['required', 'string', 'max:255'],
             ]);
 
             $tanques=new Tanque;
@@ -80,6 +81,7 @@ class TanqueController extends Controller
             $tanques->material = $request->input('material');
             $tanques->fabricante = $request->input('fabricante');
             $tanques->tipo_gas = $request->input('tipo_gas');
+            $tanques->estatus = $request->input('estatus');
 
             if($tanques->save()){
                 return response()->json(['mensaje'=>' Registrado Correctamente']);
@@ -110,6 +112,7 @@ class TanqueController extends Controller
             $tanques->material = $request->input('material');
             $tanques->fabricante = $request->input('fabricante');
             $tanques->tipo_gas = $request->input('tipo_gas');
+            $tanques->estatus = $request->input('estatus');
 
             if($tanques->save()){
                 return response()->json(['mensaje'=>' Editado Correctamente']);

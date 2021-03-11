@@ -20,7 +20,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-9">
-                            <h2>CONTROL DE TANQUES EN INFRA</h2>
+                            <h2 class="display-1" style="font-size: 30px">CONTROL DE TANQUES EN <strong>INFRA</strong></h2>
                         </div>
                         <div class="col-md-3 text-right" >
                             <button type="button" id="btn-SaveAll" class="btn btn-gray btn-md"> <span class="fas fa-save fa-2x mr-2"></span> GUARDAR</button>

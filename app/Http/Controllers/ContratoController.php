@@ -48,33 +48,6 @@ class ContratoController extends Controller
         return view('home');
     }
 
-    // public function indexgeneral()
-    // {
-    //     if($this->slugpermision()){
-    //         return view('contratos.indexgeneral');
-    //     }
-    //     return view('home');
-    // }
-
-    // public function datatablesindexgeneral(){
-    //     if($this->slugpermision()){
-    //         $contratos=Contrato::
-    //         join('clientes', 'clientes.id','=','contratos.cliente_id')
-    //         ->select('contratos.*',
-    //                 DB::raw("CONCAT(apPaterno,' ',apMaterno,' ',nombre) AS nombrecliente"),
-    //                 );
-    //         return DataTables::of(
-    //             $contratos
-    //         )
-    //         ->addColumn( 'btnNota', '<a class="btn btn-grisclaro btn-xs" href="{{route(\'nota.index\', $num_contrato)}}"><span class="fas fa-clipboard"></span></a>')
-    //         ->addColumn( 'btnEdit', '<button class="btn btn-naranja btn-edit-modal btn-xs" data-id="{{$id}}"><span class="far fa-edit"></span></button>')
-    //         ->addColumn( 'btnDelete', '<button class="btn btn-amarillo btn-delete-modal btn-xs" data-id="{{$id}}"><span class="fas fa-trash"></span></button>')
-    //         ->rawColumns(['btnNota','btnEdit','btnDelete'])
-    //         ->toJson();
-    //     }
-    //     return view('home');
-    // }
-
 
     public function create(Request $request)
     {
@@ -83,15 +56,15 @@ class ContratoController extends Controller
                 'num_contrato' => ['required', 'string', 'max:255', 'unique:contratos,num_contrato'],
                 'cliente_id' => ['required'],
                 'tipo_contrato' => ['required', 'string', 'max:255'],
-                // 'precio_definido' => ['required', 'string', 'max:255'],
                 'precio_transporte' => ['required', 'string', 'max:255'],
+                'asignacion_tanques' => ['required', 'string', 'max:255'],
             ]);
 
             $contratos=new Contrato;
             $contratos->num_contrato = $request->input('num_contrato');
             $contratos->cliente_id = $request->input('cliente_id');
             $contratos->tipo_contrato = $request->input('tipo_contrato');
-            // $contratos->precio_definido = $request->input('precio_definido');
+            $contratos->asignacion_tanques = $request->input('asignacion_tanques');
             $contratos->precio_transporte = $request->input('precio_transporte');
 
             if($contratos->save()){
@@ -102,10 +75,11 @@ class ContratoController extends Controller
         return response()->json(['mensaje'=>'Sin permisos']);
     }
 
-    public function show(Contrato $id)
+    public function show($num_contrato)
     {
         if($this->slugpermision()){
-            $data=['contratos'=>$id];
+            $contrato=Contrato::where('num_contrato',$num_contrato)->first();
+            $data=['contratos'=>$contrato];
             return $data;
         }
         return response()->json(['mensaje'=>'Sin permisos','accesso'=>'true']);
@@ -121,8 +95,10 @@ class ContratoController extends Controller
             $contratos = Contrato::find($id);
             $contratos->num_contrato = $request->num_contrato;
             $contratos->cliente_id = $request->cliente_id;
-            $contratos->tipo_contrato = $request->tipo_contrato;
+            $contratos->tipo_contrato = $request->tipo_contrato;;
             $contratos->precio_transporte = $request->precio_transporte;
+            $contratos->direccion = $request->direccion;
+            $contratos->referencia = $request->referencia;
 
             if($contratos->save()){
                     return response()->json(['mensaje'=>'Editado Correctamente', 'contratos'=>$contratos]);

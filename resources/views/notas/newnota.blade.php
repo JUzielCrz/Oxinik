@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="form-group col-md-3">
-                        {!! Form::label('*') !!}
+                        {!! Form::label('Fecha de pago') !!}
                         {!! Form::date('pago_realizado2', null, ['id'=>'pago_realizado2', 'class' => 'form-control', 'required', 'disabled' ]) !!}
                     </div>
                     <div class="form-group col-md-6">
@@ -54,7 +54,7 @@
                             'Tarjeta Credito' => 'Tarjeta Credito', 
                             'Tarjeta Debito' => 'Tarjeta Debito',  
                             'Cheque' => 'Cheque'
-                            ],null,['id' => 'metodo_pago','class'=>'form-control', 'placeholder'=>'Selecciona'])}}
+                            ],null,['id' => 'metodo_pago','class'=>'form-control', 'placeholder'=>'Selecciona', 'disabled'])}}
                         <span  id="metodo_pagoError" class="text-danger"></span>
                     </div>
                 </div>

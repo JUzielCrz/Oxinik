@@ -43,6 +43,7 @@ class PendienteController extends Controller
 
             $tanques= Tanque::
             select('tanques.num_serie',
+            'tanques.id as idtanque',
             'tanques.estatus',
             )
             ->addSelect(['folioNota' => NotaTanque::select('folio_nota')->whereColumn( 'nota_tanque.num_serie', 'tanques.num_serie')->orderBy('nota_tanque.created_at', 'desc')])

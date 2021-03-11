@@ -1,31 +1,53 @@
 <fieldset disabled>
-        <label class="text-danger">* OBLIGATORIO </label>
-        <hr>
-            @csrf
-            <!-- Nombre Completo-->
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    {!! Form::label('Número de Contrato*') !!}
-                    {!! Form::number('num_contratoinfo', null, ['id'=>'num_contratoinfo', 'class' => 'form-control', 'placeholder'=>'Número de Contrato', 'required' ]) !!}
-                    <span  id="num_contratoinfoError" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    {!! Form::label('Tipo Contrato*') !!}
-                    {{ Form::select('tipo_contratoinfo',['Eventual' => 'Eventual', 'Permanente Industrial' => 'Permanente Industrial', 'Permanente Medicinal' => 'Permanente Medicinal' ],null,['id' => 'tipo_contratoinfo','class'=>'form-control', 'placeholder'=>'Tipo Contrato'])}}
-                    <span  id="tipo_contratoinfoError" class="text-danger"></span>
-            </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    {!! Form::label('Precio Definido*') !!}
-                    {!! Form::number('precio_definidoinfo', null, ['id'=>'precio_definidoinfo', 'class' => 'form-control', 'placeholder'=>'Precio', 'required' ]) !!}
-                    <span  id="precio_definidoinfo" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    {!! Form::label('Precio Transporte*') !!}
-                    {!! Form::number('precio_transporteinfo', null, ['id'=>'precio_transporteinfo', 'class' => 'form-control', 'placeholder'=>'Precio', 'required' ]) !!}
-                    <span  id="precio_transporteinfo" class="text-danger"></span>
+
+                    <!-- Nombre Completo-->
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            {!! Form::label('Folio Nota*') !!}
+                            {!! Form::number('folio_nota', null, ['id'=>'folio_nota', 'class' => 'form-control', 'placeholder'=>'Folio', 'required' ]) !!}
+                            <span  id="folio_notaError" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            {!! Form::label('Fecha*') !!}
+                            {!! Form::date('fecha', null, ['id'=>'fecha', 'class' => 'form-control' ]) !!}
+                            <span  id="fechaError" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {!! Form::label('Pago Realizado*') !!}
+                            {!! Form::text('pago_realizado', null, ['id'=>'pago_realizado', 'class' => 'form-control', ]) !!}
+
+                            <span  id="pago_realizadoError" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            {!! Form::label('Metodo de Pago*') !!}
+                            {!! Form::text('metodo_pago', null, ['id'=>'metodo_pago', 'class' => 'form-control', ]) !!}
+                        </div>
+                    </div>
+
+
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col"># SERIE</th>
+                                    <th scope="col">DESCRIPCIÓN</th>
+                                    <th scope="col">PRECIO</th>
+                                    <th scope="col">REGULADOR</th>
+                                    <th scope="col">TAPA</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodylisttanqinfo">
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 </fieldset>

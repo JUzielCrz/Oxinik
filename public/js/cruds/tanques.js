@@ -102,6 +102,7 @@ $(document).ready(function () {
                 'material': $('#material').val(),
                 'fabricante': fabri,
                 'tipo_gas': $('#tipo_gas').val(),
+                'estatus': $('#estatus').val(),
                 },
         })
             .done(function (msg) {
@@ -131,15 +132,18 @@ $(document).ready(function () {
         $("#material"+ nombreerror).empty();
         $("#fabricante"+ nombreerror).empty();
         $("#tipo_gas"+ nombreerror).empty();
+        $("#estatus"+ nombreerror).empty();
     }
     
     function metodo_limpiar_campos() {
         $("#num_serie").val("");
         $("#ph").val("");
-        $("#capacidad").val("");
+        $("#capacidadnum").val("");
         $("#material").val("");
-        $("#fabricante").val("");
+        $("#fabricanteoficial").val("");
+        $("#otrofabricante").val("");
         $("#tipo_gas").val("");
+        $("#estatus").val("");
     }
     
     function mostrar_mensaje(divmsg,mensaje,clasecss,modal) {
@@ -258,6 +262,7 @@ $(document).ready(function () {
                 'material': $('#materialedit').val(),
                 'fabricante': fabri,
                 'tipo_gas': $('#tipo_gasedit').val(),
+                'estatus': $('#estatusedit').val(),
                 },
         })
             .done(function (msg) {

@@ -13,16 +13,102 @@ $(document).ready(function () {
     });
 
     $(document).on("click","#btnaccept",metodo_insertar);
-    $(document).on("click",".btn-edit-modal",metodo_detalle_edit);
+    $(document).on("click","#btn-edit-modal",metodo_detalle_edit);
     $(document).on("click",".btn-delete-modal", metodo_detalle_delete);
     $(document).on("click","#btneliminar",metodo_eliminar);
     $(document).on("click","#btnactualizar",metodo_actualizar);
 
-    $(document).on("click","#btncontrato", insertartabla);
+    // $(document).on("click","#btncontrato", insertartabla);
     $(document).on("click",".btnnota-edit",nota_edit);
     $(document).on("click",".btnnota-delete-modal", nota_detalle_delete);
     $(document).on("click","#btnnotaeliminar", nota_eliminar);
     $(document).on("click",".btnnota-devolucion", nota_devolucion);
+
+    
+
+
+
+    $('#table-contratos').on('click','tr', function(evt){
+
+        var numContrato=$(this).find("td")[0].innerHTML;
+
+        $.get('/showcontrato/' + numContrato + '', function(data) {
+            $.each(data.contratos, function (key, value) {
+                var variable = "#" + key + "Show";
+                $(variable).val(value);
+            });
+            $("#btn-edit-modal").val(data.contratos.num_contrato);
+        })
+
+        $('#filatabla').remove();
+        $('#cardtablas').append(
+        "<div id='filatabla'>"+
+            // "<h5 class='card-title'>NOTAS</h5>"+
+                    // "<div class='col-md-5 text-right'>"+
+                    //     "<a href='newnota/"+numContrato+"' class='btn btn-sm btn-gray'>"+
+                    //         "<span class='fas fa-plus'></span>"+
+                    //         "Nueva Nota"+
+                    //     "</a>"+
+                    // "</div>"+
+                
+                
+                "<div class='row table-responsive ml-1' >"+ 
+                    "<table id='tablecruddata' class='table table-sm table-striped table-hover'>"+
+                        "<thead>"+
+                            "<tr>"+
+                                "<th scope='col'>"+'Folio'+"</th>"+
+                                "<th scope='col'>"+'Fecha'+"</th>"+
+                                // "<th scope='col'>"+'Pago Realizado'+"</th>"+
+                                // "<th scope='col'>"+'Metodo Pago'+"</th>"+
+                                "<th scope='col'>"+'Núm. Contrato'+"</th>"+
+                                "<th scope='col'>"+"</th>"+
+                                "<th scope='col'>"+"</th>"+ 
+                                "<th scope='col'>"+"</th>"+ 
+                            "</tr>"+
+                        "</thead>"+
+                    "</table>"+
+                "</div>"+
+            "</div>"
+        ); 
+
+        $('#tablecruddata').DataTable({
+            language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            processing: true,
+            serverSider: true,
+            ajax: '/dt_nota/'+numContrato,
+            columns:[
+                {data: 'folio_nota'},
+                {data: 'fecha'},
+                // {data: 'pago_realizado'},
+                // {data: 'metodo_pago'},
+                {data: 'num_contrato'},
+                {data: 'btnDevolucion'},
+                {data: 'btnEdit'},
+                {data: 'btnDelete'},
+            ]
+        });
+    });
+
+
 
     
     function metodo_insertar() {
@@ -36,8 +122,10 @@ $(document).ready(function () {
                 'num_contrato': $('#num_contrato').val(),
                 'cliente_id': $('#cliente_id').val(),
                 'tipo_contrato': $('#tipo_contrato').val(),
-                // 'precio_definido': $('#precio_definido').val(),
+                'asignacion_tanques': $('#asignacion_tanques').val(),
                 'precio_transporte': $('#precio_transporte').val(),
+                'direccion': $('#direccion').val(),
+                'referencia': $('#referencia').val(),
                 },
         })
             .done(function (msg) {
@@ -45,16 +133,9 @@ $(document).ready(function () {
                 metodo_limpiar_campos();
                 $('#tableinsertfila').append(
                     "<tr class='fila"+ msg.contratos.id+"'>"+
-                    "<td>"+msg.contratos.num_contrato +"</td>"+
-                    "<td>"+msg.contratos.tipo_contrato +"</td>"+
-                    "<td>"+msg.contratos.precio_transporte +"</td>"+
-                    "<td><a class='btn btn-grisclaro btn-xs ' href=''><span class='fas fa-clipboard'></span></a>"+
-                    "<td><a class='btn btn-naranja btn-edit-modal btn-xs text-white' data-id='"+msg.contratos.id+"'>"+
-                    "<span class='fas fa-edit'></span>"+
-                    "</a></td>"+
-                    "<td><a class='btn btn-amarillo btn-delete-modal btn-xs ' data-id='"+msg.contratos.id+"'>"+
-                    "<i class='fas fa-trash'></i>"+
-                    "</a></td>"+
+                        "<td class='text-center'>"+msg.contratos.num_contrato +"</td>"+
+                        "<td class='text-center'>"+msg.contratos.tipo_contrato +"</td>"+
+                        "<td><button class='btn btn-amarillo btn-delete-modal btn-xs' data-id='"+msg.contratos.id+"'><span class='fas fa-trash'></span></button>"+
                     "</tr>"); 
                 mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modalinsertar");
             })
@@ -76,7 +157,7 @@ $(document).ready(function () {
     function metodo_limpiar_span(nombreerror) {
         $("#num_contrato"+ nombreerror).empty();
         $("#tipo_contrato"+ nombreerror).empty();
-        // $("#precio_definido"+ nombreerror).empty();
+        $("#asignacion_tanques"+ nombreerror).empty();
         $("#precio_transporte"+ nombreerror).empty();
     }
     
@@ -84,7 +165,7 @@ $(document).ready(function () {
         $("#num_contrato").val("");
         $("#nombre").val("");
         $("#tipo_contrato").val("");
-        // $("#precio_definido").val("");
+        $("#asignacion_tanques").val("");
         $("#precio_transporte").val("");
     }
     
@@ -103,7 +184,8 @@ $(document).ready(function () {
 
     function metodo_detalle_edit() {
         metodo_limpiar_span("editError");
-        $.get('/showcontrato/' + $(this).data('id') + '', function(data) {
+        var numcontrato= $("#btn-edit-modal").val();
+        $.get('/showcontrato/' + numcontrato, function(data) {
             $.each(data.contratos, function (key, value) {
                 var variable = "#" + key + "edit";
                 $(variable).val(value);
@@ -129,20 +211,16 @@ $(document).ready(function () {
                 'cliente_id': $('#cliente_id').val(),
                 'nombre': $('#nombreedit').val(),
                 'tipo_contrato': $('#tipo_contratoedit').val(),
-                // 'precio_definido': $('#precio_definidoedit').val(),
                 'precio_transporte': $('#precio_transporteedit').val(),
+                'direccion': $('#direccionedit').val(),
+                'referencia': $('#referenciaedit').val(),
                 },
         })
             .done(function (msg) {
                 $('.fila'+ msg.contratos.id).replaceWith(" "+
                     "<tr class='fila"+ msg.contratos.id+"'>"+
-                    "<td>"+msg.contratos.num_contrato +"</td>"+
-                    "<td>"+msg.contratos.tipo_contrato +"</td>"+
-                    "<td>"+msg.contratos.precio_transporte +"</td>"+
-                    "<td><a class='btn btn-grisclaro btn-xs ' href=''><span class='fas fa-clipboard'></span></a>"+
-                    "<td><a class='btn btn-naranja btn-edit-modal btn-xs text-white' data-id='"+msg.contratos.id+"'>"+
-                    "<span class='fas fa-edit'></span>"+
-                    "</a></td>"+
+                    "<td class='text-center'>"+msg.contratos.num_contrato +"</td>"+
+                    "<td class='text-center'>"+msg.contratos.tipo_contrato +"</td>"+
                     "<td><a class='btn btn-amarillo btn-delete-modal btn-xs ' data-id='"+msg.contratos.id+"'>"+
                     "<i class='fas fa-trash'></i>"+
                     "</a></td>"+
@@ -183,83 +261,6 @@ $(document).ready(function () {
 
 
     //METODOS DE NOTAS 
-
-    function insertartabla(){
-        var numContrato=$(this).data('id');
-        // '{{ url('/newnota/{"+numContrato+"}') }}'
-        $('#filatabla').remove();
-        $('#cardtablas').append(
-            "<div id='filatabla'>"+
-            "<div class='row'>"+
-                    "<div class='col-md-5 text-center'>"+
-                        "<p><strong>NOTAS -> Contrato: "+numContrato+"</strong></p>"+
-                    "</div>"+
-                    "<div class='col-md-5 text-right'>"+
-                        "<a href='newnota/"+numContrato+"' class='btn btn-sm btn-gray'>"+
-                            "<span class='fas fa-plus'></span>"+
-                            "Nueva Nota"+
-                        "</a>"+
-                    "</div>"+
-            "</div>"+
-            "<div class='row table-responsive ml-1' >"+ 
-                "<table id='tablecruddata' class='table table-sm table-striped table-hover'>"+
-                    "<thead>"+
-                        "<tr>"+
-                            "<th scope='col'>"+'Folio'+"</th>"+
-                            "<th scope='col'>"+'Fecha'+"</th>"+
-                            "<th scope='col'>"+'Pago Realizado'+"</th>"+
-                            "<th scope='col'>"+'Metodo Pago'+"</th>"+
-                            "<th scope='col'>"+'Núm. Contrato'+"</th>"+
-                            "<th scope='col'>"+"</th>"+
-                            "<th scope='col'>"+"</th>"+
-                            "<th scope='col'>"+"</th>"+ 
-                            "<th scope='col'>"+"</th>"+ 
-                        "</tr>"+
-                    "</thead>"+
-                "</table>"+
-            "</div>"+
-            "</div>"
-        ); 
-
-        
-
-        var listtabla = $('#tablecruddata').DataTable({
-            language: {
-                "decimal": "",
-                "emptyTable": "No hay información",
-                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-                "infoPostFix": "",
-                "thousands": ",",
-                "lengthMenu": "Mostrar _MENU_ Entradas",
-                "loadingRecords": "Cargando...",
-                "processing": "Procesando...",
-                "search": "Buscar:",
-                "zeroRecords": "Sin resultados encontrados",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Ultimo",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                }
-            },
-            processing: true,
-            serverSider: true,
-            ajax: '/dt_nota/'+numContrato,
-            columns:[
-                {data: 'folio_nota'},
-                {data: 'fecha'},
-                {data: 'pago_realizado'},
-                {data: 'metodo_pago'},
-                {data: 'num_contrato'},
-                {data: 'btnShow'},
-                {data: 'btnDevolucion'},
-                {data: 'btnEdit'},
-                {data: 'btnDelete'},
-            ]
-        });
-    }
 
     function nota_edit() {
         window.location = '/editnota/'+ $(this).data('id') 

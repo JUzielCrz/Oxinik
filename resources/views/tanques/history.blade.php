@@ -10,7 +10,10 @@
         </center>
 
         <div class="row ">
-            <div class="col-md-5 text-center">
+            <div class="col-md-1 m-auto">
+                <button class="btn btn-gray btn-block " onclick="return window.history.back();"><span class="fas fa-arrow-circle-left"></span></button>
+            </div>
+            <div class="col-md-5">
                 <h3>Historial Tanque</h3>
                 <h5>Serie:{{$tanque->num_serie}}</h5>
             </div>
@@ -21,7 +24,7 @@
                 </button>
             </div>
         </div>
-
+        <hr>
         <input type="hidden" id="serietanque" name="" value={{$tanque->num_serie}}>
         
         <div class="row table-responsive mt-2"> 

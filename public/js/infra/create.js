@@ -9,34 +9,39 @@ $(document).ready(function () {
     var contador=0;
 
     function insert_fila(){
-        $('#serie_tanqueError').empty();
 
-        if($('#serie_tanque').val()==''){
+        $('#serie_tanqueError').empty();
+        
+        var numserie= $('#serie_tanque').val().replace(/ /g,'');
+
+        
+
+        if(numserie ==''){
             $('#serie_tanqueError').text('Número de serie obligatorio');
             return false;
         }
 
         if(boolRepetido){
-            $("#serie_tanqueError").text('Número de serie ya agregado a devoluciones');
+            $("#serie_tanqueError").text('Número de serie ya agregado a lista');
                 return false;
         }
 
         var boolRepetido=false;
         $(".trFilaTanque").each(function(){
             var valores = $(this).find("td")[0].innerHTML;
-            if(valores == $('#serie_tanque').val()){
+            if(valores == numserie){
                 boolRepetido=true;
             }
         })
 
         if(boolRepetido){
-            $("#serie_tanqueError").text('Número de serie ya agregado a devoluciones');
+            $("#serie_tanqueError").text('Número de serie ya agregado a lista');
                 return false;
         }
 
         $.ajax({
             method: "post",
-            url: "/buscartanqueinfra/"+$('#serie_tanque').val(),
+            url: "/buscartanqueinfra/"+numserie,
             data: {
                 '_token': $('input[name=_token]').val(),
             }

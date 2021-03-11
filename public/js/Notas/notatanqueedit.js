@@ -217,11 +217,21 @@ $(document).ready(function () {
     $("#pago_realizado1").change( function() {
         if ($(this).val() == "SI") {
             $("#pago_realizado2").prop("disabled", false);
+
+            $("#metodo_pago").prop("disabled", false);
         } else {
             $("#pago_realizado2").prop("disabled", true);
             $("#pago_realizado2").val('');
+
+            $("#metodo_pago").prop("disabled", true);
+            $("#metodo_pago").val('');
         }
     });
+
+    if($("#pago_realizado1").val()== 'NO'){
+        $("#metodo_pago").prop("disabled", true);
+            $("#metodo_pago").val('');
+    }
 
 
 

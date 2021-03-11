@@ -60,6 +60,11 @@
                 {!! Form::text('tipo_gasedit', null, ['id'=>'tipo_gasedit', 'class' => 'form-control', 'placeholder'=>'Tipo de Gas', 'required' ]) !!}
                 <span  id="tipo_gaseditError" class="text-danger"></span>
             </div>
+            <div class="form-group col-md-6">
+                {!! Form::label('Estatus*') !!}
+                {{ Form::select('estatusedit',['VACIO-ALMACEN' => 'VACIO-ALMACEN', 'LLENO-ALMACEN' => 'LLENO-ALMACEN', 'INFRA' => 'INFRA', 'ENTREGADO-CLIENTE' => 'ENTREGADO-CLIENTE' ,'MANTENIMIENTO' => 'MANTENIMIENTO' ],null,['id' => 'estatusedit','class'=>'form-control', 'placeholder'=>'selecciona'])}}
+                <span  id="estatuseditError" class="text-danger"></span>
+            </div>
         </div>
 
 </form>

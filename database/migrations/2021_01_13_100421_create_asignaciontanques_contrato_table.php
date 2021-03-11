@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNotasTable extends Migration
+class CreateAsignaciontanquesContratoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,16 @@ class CreateNotasTable extends Migration
      */
     public function up()
     {
-        Schema::create('notas', function (Blueprint $table) {
+        Schema::create('asignaciontanques_contrato', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('folio_nota')->unique();
             $table->unsignedBigInteger('num_contrato');
             $table->foreign('num_contrato')->references('num_contrato')
                 ->on('contratos')
                 ->onDelete('restrict');
+            $table->integer('cantidad');
+            $table->date('tipo_envase');
+            $table->enum('incidencia',['AUMENTO', 'DISMINUCION']);
             $table->date('fecha');
-            $table->string('envio')->nullable();
-            $table->float('subtotal');
-            $table->float('iva_general');
-            $table->string('total');
             $table->timestamps();
         });
     }
@@ -36,6 +34,6 @@ class CreateNotasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notas');
+        Schema::dropIfExists('asignaciontanques_contrato');
     }
 }

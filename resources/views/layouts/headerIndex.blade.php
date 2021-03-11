@@ -30,12 +30,10 @@
         
     </head>
 
-        
+    <body>
+
         @yield('contenido')
-
         
-
-
     </body>
 
     </html>

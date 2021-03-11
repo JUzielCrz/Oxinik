@@ -2,7 +2,7 @@
 @section('contentnavbar')
     
 
-    <div class="container-fluid" >
+    <div class="container" >
 
         <center>
             <div id="divmsgindex" style="display:none" class="alert" role="alert">
@@ -21,10 +21,11 @@
             </div>
         </div>
         
-        <div class="row d-flex justify-content-center table-responsive mt-2"> 
+        <div class="row table-responsive mt-2"> 
             <table id="tablecruddata" class="table table-sm">
                 <thead>
                     <tr>
+                    <th scope="col">#Cliente</th>
                     <th scope="col">Ap. Paterno</th>
                     <th scope="col">Ap. Materno</th>
                     <th scope="col">Nombre</th>

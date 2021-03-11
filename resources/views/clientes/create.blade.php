@@ -43,12 +43,12 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 {!! Form::label('1° Teléfono*') !!}
-                {!! Form::number('telefono', null, [ 'id'=>'telefono', 'class' => 'form-control telefono', 'placeholder'=>'1° Teléfono']) !!}
+                {!! Form::number('telefono', null, [ 'id'=>'telefono', 'class' => 'form-control telefono solo-numero', 'placeholder'=>'1° Teléfono']) !!}
                 <span  id="telefonoError" class="text-danger"></span>
             </div>
             <div class="form-group col-md-6">
                 {!! Form::label('2° Teléfono*') !!}
-                {!! Form::number('telefonorespaldo', null, [ 'id'=>'telefonorespaldo', 'class' => 'form-control telefono', 'placeholder'=>'2° Teléfono']) !!}
+                {!! Form::number('telefonorespaldo', null, [ 'id'=>'telefonorespaldo', 'class' => 'form-control telefono solo-numero', 'placeholder'=>'2° Teléfono']) !!}
                 <span  id="telefonorespaldoError" class="text-danger"></span>
             </div>
         </div>

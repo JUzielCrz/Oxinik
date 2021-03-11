@@ -26,6 +26,7 @@ $(document).ready(function () {
             serverSider: true,
             ajax: '/dt_cliente',
             columns:[
+                {data: 'id'},
                 {data: 'apPaterno'},
                 {data: 'apMaterno'},
                 {data: 'nombre'},
@@ -59,6 +60,7 @@ $(document).ready(function () {
     $(document).on("click","#btnactualizar",metodo_actualizar);
     
     function metodo_insertar() {
+
         metodo_limpiar_span("Error");
         $.ajax({
             method: "POST",
@@ -223,6 +225,20 @@ $(document).ready(function () {
             if (this.value.length === 10) {
                 return false;
             }
+        });
+
+        $('.solo-numero').keypress(function (event) {
+            // console.log(event.charCode);
+            if (
+                event.charCode == 43 ||
+                event.charCode == 45 || 
+                event.charCode == 69 ||
+                event.charCode == 101||
+                event.charCode == 46    
+                ){
+                return false;
+            } 
+            return true;
         });
 
         $('.solo-text').keypress(function (event) {

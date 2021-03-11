@@ -120,6 +120,32 @@
     </div>
 
 
+
+    <!-- Modal mostrar datos-->
+    <div class="modal fade bd-example-modal-lg" id="modal-info-nota" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-onix">
+            <h1 class="modal-title" id="modal-info-notaTitle">Informacion</h1>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff">
+                <span aria-hidden="true" class="fas fa-times"></span>
+            </button>
+            </div>
+            <div class="modal-body">
+            @include('notas.info')
+            <!-- botones Aceptar y cancelar-->
+            <div class="row justify-content-center" >
+                <div class="btn-group col-auto" style="margin:10px">
+                <button type="reset" class="btn btn-gray" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+            </div>
+            
+        </div>
+        </div>
+    </div>
+
+
 @endsection
 
 @include('layouts.scripts')

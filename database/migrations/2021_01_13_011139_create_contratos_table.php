@@ -21,10 +21,12 @@ class CreateContratosTable extends Migration
                 ->on('clientes')
                 ->onDelete('restrict');
             $table->string('tipo_contrato');
-            $table->double('precio_transporte');
-
+            $table->string('direccion')->nullable();
+            $table->string('referencia');
+            $table->integer('asignacion_tanques')->nullable();
+            $table->double('precio_transporte')->default(0)->nullable();
+            $table->integer('reguladores')->default(0);
             $table->unique(['cliente_id', 'tipo_contrato']);
-
             $table->timestamps();
         });
     }

@@ -3,7 +3,6 @@
     </div>
   </center>
 
-  <form id="idFormContrato">
     @csrf
     <label class="text-danger">* OBLIGATORIO </label>
     <hr>
@@ -30,12 +29,24 @@
         
         </div>
         
+
         <div class="form-row">
-            <div class="form-group col-md-12">
+            
+            <div class="form-group col-md-6">
                 {!! Form::label('Precio Transporte*') !!}
                 {!! Form::number('precio_transporteedit', null, ['id'=>'precio_transporteedit', 'class' => 'form-control', 'placeholder'=>'$000.00']) !!}
                 <span  id="precio_transporteeditError" class="text-danger"></span>
             </div>
         </div>
-        
-</form>
+
+        <div class="form-row">
+            <div class="col-md-12">
+                <label for="">Dirección</label>
+                <textarea name="direccionedit" id="direccionedit" class="form-control" cols="30" rows="2"></textarea>
+            </div>
+            <div class="col-md-12">
+                <label for="">Referencia</label>
+                <textarea name="referenciaedit" id="referenciaedit" class="form-control" cols="30" rows="2"></textarea>
+            </div>
+        </div>
+

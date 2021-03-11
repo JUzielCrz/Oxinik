@@ -150,7 +150,7 @@
                         <div id="preciototal">
                             <label id='total'>{{$notas->total}}</label>
                         </div>
-                        <input type="hidden" id="inputTotal" name="inputTotal">
+                        <input type="hidden" id="inputTotal" name="inputTotal" value={{$notas->total}}>
                     </div>
                 </div>
                 <center>

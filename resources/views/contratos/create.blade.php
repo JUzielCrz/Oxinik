@@ -30,10 +30,26 @@
         </div>
         
         <div class="form-row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
+                {!! Form::label('Asignación tanques*') !!}
+                {!! Form::number('asignacion_tanques', null, ['id'=>'asignacion_tanques', 'class' => 'form-control', 'placeholder'=>'#']) !!}
+                <span  id="asignacion_tanquesError" class="text-danger"></span>
+            </div>  
+            <div class="form-group col-md-6">
                 {!! Form::label('Precio Transporte*') !!}
-                {!! Form::number('precio_transporte', null, ['id'=>'precio_transporte', 'class' => 'form-control', 'placeholder'=>'$000.00']) !!}
+                {!! Form::number('precio_transporte', null, ['id'=>'precio_transporte', 'class' => 'form-control', 'placeholder'=>'$0.0']) !!}
                 <span  id="precio_transporteError" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-12">
+                <label for="">Dirección</label>
+                <textarea name="direccion" id="direccion" class="form-control" cols="30" rows="2"></textarea>
+            </div>
+            <div class="col-md-12">
+                <label for="">Referencia</label>
+                <textarea name="referencia" id="referencia" class="form-control" cols="30" rows="2"></textarea>
             </div>
         </div>
         

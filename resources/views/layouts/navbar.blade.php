@@ -25,15 +25,29 @@
 
         <div class="collapse navbar-collapse " id="navbarNav">
             <ul class="navbar-nav text-center">
+                
                 @if($user->havePermission('clientes'))
-                    <li class="nav-item active mr-4 ml-4">
-                        <a class="nav-link btn-menu" href="{{ url('/cliente') }}"><img  src="{{asset('img/cliente.svg')}}"   width="60" alt=""><br>Clientes</a>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img  src="{{asset('img/cliente.svg')}}"   width="60" alt=""><br>Nota
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="{{ url('/notaentrada') }}">Entrada</a>
+                            <a class="dropdown-item" href="{{ url('/notasalida') }}">Salida</a>
+                        </div>
                     </li>
                 @endif
 
                 @if($user->havePermission('ventas'))
                     <li class="nav-item active mr-4 ml-4">
-                        <a class="nav-link btn-menu" href="{{ url('/ventas') }}"><img  src="{{asset('img/ventas.svg')}}"   width="60" alt=""><br>Ventas</a>
+                        <a class="nav-link btn-menu" href="{{ url('/ventas') }}"><img  src="{{asset('img/ventas.svg')}}"   width="60" alt=""><br>Exporadico</a>
+                    </li>
+                @endif
+
+                @if($user->havePermission('clientes'))
+                    <li class="nav-item active mr-4 ml-4">
+                        <a class="nav-link btn-menu" href="{{ url('/cliente') }}"><img  src="{{asset('img/cliente.svg')}}"   width="60" alt=""><br>Clientes</a>
                     </li>
                 @endif
 

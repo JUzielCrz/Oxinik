@@ -70,10 +70,12 @@ $(document).ready(function () {
     function insertfila() {
         metodo_limpiar_span("Error");
 
+        var numserie= $('#serie_tanque').val().replace(/ /g,'');
+
         var campo= [];
         var texterror = [];
 
-        if($('#serie_tanque').val() == ''){
+        if(numserie == ''){
             campo.push('#serie_tanque');
             texterror.push('Número de serie necesario');
         }
@@ -98,9 +100,11 @@ $(document).ready(function () {
         }
 
         var boolRepetido=false;
+        var deleteespacio=$.trim(numserie);
         $(".classfilatanque").each(function(index, value){
             var valores = $(this).find("td")[0].innerHTML;
-            if(valores == $('#serie_tanque').val()){
+
+            if(valores == deleteespacio){
                 boolRepetido=true;
             }
         })
@@ -110,11 +114,10 @@ $(document).ready(function () {
                 return false;
         }
 
-
         //validar que tanque no ha sido registrado en almacene o no ha sido registrado como lleno.
         $.ajax({
             method: "post",
-            url: "/validventasalida/"+$('#serie_tanque').val()+'',
+            url: "/validventasalida/"+numserie+'',
             data: {
                 '_token': $('input[name=_token]').val(),
                 },
@@ -124,7 +127,7 @@ $(document).ready(function () {
                 //Insertar fila
                 $.ajax({
                     method: "post",
-                    url: "/insertfila/"+$('#serie_tanque').val()+'',
+                    url: "/insertfila/"+numserie+'',
                     data: {
                         '_token': $('input[name=_token]').val(),
                         },
@@ -172,7 +175,11 @@ $(document).ready(function () {
             }else{
                 $("#serie_tanqueError").text('Tanque no registrado en almacén o tanque vacio');
             }
-        });
+        }).fail(function(){
+            $("#serie_tanqueError").text('tanque no registrado');
+            }
+            
+        );
         
 
         
@@ -216,9 +223,14 @@ $(document).ready(function () {
     $("#pago_realizado1").change( function() {
         if ($(this).val() == "SI") {
             $("#pago_realizado2").prop("disabled", false);
+
+            $("#metodo_pago").prop("disabled", false);
         } else {
             $("#pago_realizado2").prop("disabled", true);
             $("#pago_realizado2").val('');
+
+            $("#metodo_pago").prop("disabled", true);
+            $("#metodo_pago").val('');
         }
     });
 
