@@ -1,6 +1,9 @@
 @extends('layouts.navbar')
 @section('contentnavbar')
 
+<head>
+    <link href="{{asset('selects/select2.min.css')}}" rel="stylesheet">
+</head>
 <style>
     body {
         background-color: #e8ebf7;
@@ -13,7 +16,7 @@
 
         <div class="row">
             <div class="col-md-9">
-
+                <fieldset id="InputsFilaSalida" disabled="disabled">
                 <div class="card">
                     <div class="card-header">
                         <h5>Tanques Salida</h5>
@@ -25,17 +28,12 @@
                             <div class="col">
                                 {!! Form::label('# Serie') !!}
                                 {!! Form::text('serie_tanque', null, ['id'=>'serie_tanque', 'class' => 'form-control form-control-sm', 'placeholder'=>'#Serie',  'required' ]) !!}
-                                <span  id="serie_tanqueError" class="text-danger"></span>
+                                
                             </div>
                             <div class="col ">
                                 {!! Form::label('Tapa') !!}
                                 {{ Form::select('tapa_tanque',['SI' => 'SI', 'NO' => 'NO'],null,['id' => 'tapa_tanque','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
                                 <span  id="tapa_tanqueError" class="text-danger"></span>
-                            </div>
-                            <div class="col">
-                                {!! Form::label('cantidad') !!}
-                                {!! Form::number('cantidad', null, ['id'=>'cantidad', 'class' => 'form-control form-control-sm', 'placeholder'=>'0', 'required' ]) !!}
-                                <span  id="cantidadError" class="text-danger"></span>
                             </div>
                             <div class="col ">
                                 {!! Form::label('U. M.') !!}
@@ -43,23 +41,29 @@
                                 <span  id="unidad_medidaError" class="text-danger"></span>
                             </div>  
                             <div class="col">
+                                {!! Form::label('cantidad') !!}
+                                {!! Form::number('cantidad', null, ['id'=>'cantidad', 'class' => 'form-control form-control-sm numero-entero-positivo', 'placeholder'=>'0', 'required', 'readonly' ]) !!}
+                                <span  id="cantidadError" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="col">
                                 {!! Form::label('P.U.') !!}
-                                {!! Form::number('precio_unitario', null, ['id'=>'precio_unitario', 'class' => 'form-control form-control-sm', 'placeholder'=>'$0.0', 'required' ]) !!}
+                                {!! Form::number('precio_unitario', null, ['id'=>'precio_unitario', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'$0.0', 'required' ]) !!}
                                 <span  id="precio_unitarioError" class="text-danger"></span>
                             </div>
                             
                             <div class="col ">
                                 {!! Form::label('IVA') !!}
-                                {{ Form::select('iva',['SI' => 'SI', 'NO' => 'NO'],null,['id' => 'iva','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
+                                {{ Form::select('iva',['SI' => 'SI', 'NO' => 'NO'],null,['id' => 'iva_particular','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
                                 <span  id="ivaError" class="text-danger"></span>
                             </div> 
                             <div class="col align-self-end">
                                 <button type="button" class="btn btn-grisclaro" id="btnInsertFila"> <span class="fas fa-plus"></span>Add</button>
                             </div> 
                         </div>
-
+                        <span  id="serie_tanqueError" class="text-danger"></span>
                         <div class="table-responsive mt-3">
-                            <table class="table table-hover table-bordered">
+                            <table class="table table-sm table-hover table-bordered">
                                 <thead>
                                     <tr style="font-size: 13px">
                                         <th scope="col">#SERIE</th>
@@ -85,8 +89,9 @@
                         </center>
                     </div>
                 </div>
+                </fieldset>
             </div>
-
+            
             <div class="col-md-3">
                 <div class="card " >
                     <div class="card-body">
@@ -99,19 +104,7 @@
                         </center>
 
                         <div class="row">
-                            <div class="col">
-                                <select name="" id="selectprueba" class="form-control" data-live-search="true">
-                                    <option value=""></option>
-                                    <option value="">prueba 1</option>
-                                    <option value="">prueba 1</option>
-                                    <option value="">prueba 1</option>
-
-                                </select>
-                                
-                            </div>
-                        </div>
-
-                        <div class="row">
+                            <input type="hidden"  name="contrato_id" id="contrato_id">
                             <div class="input-group input-group-sm mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text fas fa-search" id="inputGroup-sizing-sm"></span>
@@ -152,23 +145,6 @@
                             </div>
                         </div>
 
-                        {{-- ASIGNACION DE TANQUES --}}
-                        <div class="form-row">
-                            <center>
-                                <div id="msg-asignacion-save" style="display:none" class="alert" role="alert" style="font-size: 13px">
-                                </div>
-                            </center>
-                            <div class="input-group input-group-sm mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">Asignación:</span>
-                                </div>
-                                <input id="asignacion_tanques" type="text" class="form-control text-center" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" readonly>
-                                <div class="input-group-append" id="button-addon4">
-                                    <button class="btn btn-amarillo" type="button" id="btn-modal-asignacion"> <span class="fas fa-edit"></span></button>
-                                </div>
-                            </div>    
-                        </div>
-
                         {{-- Folio Nota--}}
                         <div class="form-row">
                             <div class="input-group input-group-sm mb-3">
@@ -182,7 +158,32 @@
                     </div>
                 </div>
 
-                <div class="card mt-3">
+                <div class="card mt-2">
+                    <div class="card-header">
+                        <div class="row" >
+                            <div class="col-md-8 ">
+                                <p>ASIGNACIONES</p>
+                            </div>
+                            <div class="col-4-md">
+                                <div class="input-group input-group-sm mb-3">
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-amarillo" type="button" id="btn-modal-asignacion-minus"> <span class="fas fa-minus"></span></button>
+                                    </div>
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-amarillo" type="button" id="btn-modal-asignacion-plus"> <span class="fas fa-plus"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                            <div id="content-asignaciones">
+                                
+                            </div>
+                    </div>
+                </div>
+
+                <div class="card mt-2">
                     <div class="card-body">
 
 
@@ -191,10 +192,10 @@
                                 <label for="">Subtotal:</label>
                             </div>
                             <div class="col-md-5 text-right">
-                                <div id="subtotal">
-                                    <label id='labelsubtotal'>$0.0</label>
+                                <div id="div-subtotal">
+                                    <label id='label-subtotal'>$0.0</label>
                                 </div>
-                                <input type="hidden" id="inp-subtotal" value=0>
+                                <input type="hidden" id="input-subtotal" name="input-subtotal" value=0>
                             </div>
                         </div>
                         <div class="form-row ">
@@ -202,10 +203,10 @@
                                 <label for="">Iva 16%:</label>
                             </div>
                             <div class="col-md-5 text-right">
-                                <div id="iva_general">
-                                    <label id='labeliva_general'>$0.0</label>
+                                <div id="div-ivaGen">
+                                    <label id='label-ivaGen'>$0.0</label>
                                 </div>
-                                <input type="hidden" id="inp-iva_general" value=0>
+                                <input type="hidden" id="input-ivaGen" name="input-ivaGen" value=0>
                             </div>
                         </div>
 
@@ -226,10 +227,10 @@
                                 <label for="">TOTAL:</label>
                             </div>
                             <div class="col-md-6 text-right">
-                                <div id="divtotal">
-                                    <label id='labeltotal'>$0.0</label>
+                                <div id="div-total">
+                                    <label id='label-total'>$0.0</label>
                                 </div>
-                                <input type="hidden" id="inp_total" name="inp_total">
+                                <input type="hidden" id="input-total" name="input-total">
                             </div>
                         </div>
 
@@ -240,7 +241,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroup-sizing-sm">Monto a pagar:</span>
                                 </div>
-                                <input id="monto_pago" name="monto_pago" type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" >
+                                <input id="monto_pago" name="monto_pago" type="number" class="form-control numero-decimal-positivo" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" >
                                 {{ Form::select('metodo_pago',[
                                     'Efectivo' => 'Efectivo',
                                     'Transferencia' => 'Transferencia', 
@@ -249,7 +250,7 @@
                                     'Cheque' => 'Cheque'
                                     ],null,['id' => 'metodo_pago','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona'])}}
                             </div>
-                            <span id="metodo_pagoError" class="alert-danger"></span>
+                            <span id="metodo_pagoError" class="alert-danger  mb-3"></span>
                         </div> 
 
                         
@@ -282,7 +283,7 @@
             <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Resumén</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -295,8 +296,8 @@
                             <label for="">Cambio:</label>
                         </div>
                         <div class="col-md-4 text-right">
-                            <div id="divcambio">
-                                <label id='labelcambio'>$0.0</label>
+                            <div id="div-cambio">
+                                <label id='label-cambio'>$0.0</label>
                             </div>
                         </div>
                     </div>
@@ -306,8 +307,8 @@
                             <label for="">Adeudo:</label>
                         </div>
                         <div class="col-md-4 text-right">
-                            <div id="divadeudo">
-                                <label id='labeladeudo'>$0.0</label>
+                            <div id="div-adeudo">
+                                <label id='label-adeudo'>$0.0</label>
                             </div>
                         </div>
                     </div>
@@ -348,25 +349,25 @@
         </div>
 
         <!-- Modal Edit Asignacion de tanques en contrato-->
-        <div class="modal fade" id="modal-edit-asignacion" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Asignación tanques</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                <div class="modal-body">
-                    @include('contratos.asignaciontanques')
-                </div>
-                <div class="modal-footer">
-                {{-- <button type="button" class="btn btn-grisclaro" data-dismiss="modal">Cancelar</button> --}}
-                <button id="btn-save-asignacion" type="button" class="btn btn-verde">Guardar</button>
-                </div>
+    <div class="modal fade" id="modal-edit-asignacion" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="h5-title-modal"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
             </div>
+            <div class="modal-body">
+                @include('contratos.asignaciontanques')
+            </div>
+            <div class="modal-footer">
+            {{-- <button type="button" class="btn btn-grisclaro" data-dismiss="modal">Cancelar</button> --}}
+            <button id="btn-save-asignacion" type="button" class="btn btn-verde">Guardar</button>
             </div>
         </div>
+        </div>
+    </div>
 
     
 
@@ -375,4 +376,5 @@
 @include('layouts.scripts')
 <!--Scripts-->
 <script src="{{ asset('js/notas/notasalida.js') }}"></script>
+<script src="{{ asset('selects/select2.min.js') }}"></script>
 <!--Fin Scripts-->

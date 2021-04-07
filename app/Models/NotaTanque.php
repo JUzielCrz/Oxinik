@@ -8,6 +8,6 @@ class NotaTanque extends Model
 {
     protected $table = 'nota_tanque';
     public $timestamps =  true;
-    protected $fillable = ['folio_nota','num_serie', 'cantidad', 'unidad_medida', 'precio', 'regulador', 'tapa_tanque','iva', 'multa', 'devolucion'];
+    protected $fillable = ['nota_id','num_serie', 'cantidad', 'unidad_medida', 'precio_unitario', 'tapa_tanque','iva_particular', 'importe', 'multa', 'devolucion'];
     // public $incrementing = true;
 }

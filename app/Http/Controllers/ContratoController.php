@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asignacion;
+use App\Models\AsignacionHistorial;
+use App\Models\AsignacionNota;
+use App\Models\AsignacionNotaDetalle;
+use App\Models\AsignacionTanques;
+use App\Models\CatalogoGases;
 use App\Models\Cliente;
 use App\Models\Contrato;
 use Illuminate\Http\Request;
@@ -42,7 +48,8 @@ class ContratoController extends Controller
         if($this->slugpermision()){
             $cliente = Cliente::where('id',$id)->first();
             $contratos=Contrato::select('contratos.*')->where('contratos.cliente_id',$id)->get();
-            $data = ['cliente'=> $cliente, 'contratos'=>$contratos];
+            $catalogogas = CatalogoGases::all();
+            $data = ['cliente'=> $cliente, 'contratos'=>$contratos, 'catalogogas'=>$catalogogas];
             return view('contratos.index', $data);
         }
         return view('home');
@@ -57,28 +64,79 @@ class ContratoController extends Controller
                 'cliente_id' => ['required'],
                 'tipo_contrato' => ['required', 'string', 'max:255'],
                 'precio_transporte' => ['required', 'string', 'max:255'],
-                'asignacion_tanques' => ['required', 'string', 'max:255'],
             ]);
+
+            //valiodacion para que los campos no vengan vacios
+            foreach( $request->tipo_gascreate AS $inci => $g){
+                if($request->cantidadtanquescreate[$inci] == '' || $request->tipo_gascreate[$inci] == ''){
+                    return response()->json(['alert'=>'alert-danger', 'mensaje'=>'Faltan campos por rellenar']);
+                }
+            }
 
             $contratos=new Contrato;
             $contratos->num_contrato = $request->input('num_contrato');
             $contratos->cliente_id = $request->input('cliente_id');
             $contratos->tipo_contrato = $request->input('tipo_contrato');
-            $contratos->asignacion_tanques = $request->input('asignacion_tanques');
             $contratos->precio_transporte = $request->input('precio_transporte');
+            $contratos->direccion = $request->input('direccion');
+            $contratos->referencia = $request->input('referencia');
 
             if($contratos->save()){
-                return response()->json(['mensaje'=>'Registrado Correctamente', 'contratos'=>$contratos]);
+                
+
+                foreach( $request->tipo_gascreate AS $inci => $g){
+                    $asignaciontanque=Asignacion::where('contratos_id', $contratos->id)->where('tipo_gas', $request->tipo_gascreate[$inci])->first();
+                    if($asignaciontanque != null){
+                        $asignaciontanque->cantidad = $asignaciontanque->cantidad + $request->cantidadtanquescreate[$inci];
+                        $asignaciontanque->save();
+                    }else{
+                        $newAsignacionTanque= new Asignacion;
+                        $newAsignacionTanque->contratos_id=$contratos->id;
+                        $newAsignacionTanque->cantidad= $request->cantidadtanquescreate[$inci];
+                        $newAsignacionTanque->tipo_gas= $request->tipo_gascreate[$inci];
+                        $newAsignacionTanque->save();          
+                    }
+                }   
+
+                // Nota de asignaciones;
+                $notaAsig=new AsignacionNota;
+                $notaAsig->contrato_id=$contratos->id;
+                $notaAsig->fecha=date("Y")."-" . date("m")."-".date("d");
+                $notaAsig->incidencia= 'INICIO-CONTRATO';
+                $notaAsig->save();
+
+                foreach( $request->tipo_gascreate AS $typeG => $g){
+                    $detalleNota=AsignacionNotaDetalle::where('nota_asignacion_id', $notaAsig->id)->where('tipo_gas', $request->tipo_gascreate[$typeG])->first();
+                    if($detalleNota != null){
+                        $detalleNota->cantidad = $detalleNota->cantidad + $request->cantidadtanquescreate[$typeG];
+                        $detalleNota->save();
+                    }else{
+                        $newDetalle= new AsignacionNotaDetalle;
+                        $newDetalle->nota_asignacion_id = $notaAsig->id;
+                        $newDetalle->cantidad= $request->cantidadtanquescreate[$typeG];
+                        $newDetalle->tipo_gas= $request->tipo_gascreate[$typeG];
+                        
+                        $newDetalle->save(); 
+                    }         
+                }
+
+                return response()->json(['mensaje'=>'Registrado Correctamente', 'contratos'=>$contratos, 'notaAsig_id'=>$notaAsig->id]);
             }
             return response()->json(['mensaje'=>'No registrado']);
         }
         return response()->json(['mensaje'=>'Sin permisos']);
     }
 
-    public function show($num_contrato)
+    public function show($contrato_id)
     {
         if($this->slugpermision()){
-            $contrato=Contrato::where('num_contrato',$num_contrato)->first();
+            $contrato=Contrato::where('id',$contrato_id)->first();
+            // $asignacion=Asignacion::where('num_contrato', $num_contrato)->first();
+            
+            // $asigTanques=AsignacionTanques::
+            // join('catalogo_gases','catalogo_gases.id','=','asignacion_tanques.tipo_gas')
+            // ->where('asignacion_id',$asignacion->id)->get();
+
             $data=['contratos'=>$contrato];
             return $data;
         }
@@ -120,5 +178,7 @@ class ContratoController extends Controller
         return response()->json(['mensaje'=>'Sin permisos','accesso'=>'true']);
 
     }
+
+    
 
 }

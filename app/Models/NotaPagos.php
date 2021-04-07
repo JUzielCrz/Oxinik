@@ -9,6 +9,6 @@ class NotaPagos extends Model
 
     protected $table = 'nota_pagos';
     public $timestamps =  true;
-    protected $fillable = ['folio_nota','monto_pago', 'metodo_pago'];
+    protected $fillable = ['nota_id','monto_pago', 'metodo_pago'];
 
 }

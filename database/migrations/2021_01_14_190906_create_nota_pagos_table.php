@@ -15,8 +15,8 @@ class CreateNotaPagosTable extends Migration
     {
         Schema::create('nota_pagos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('folio_nota');
-            $table->foreign('folio_nota')->references('folio_nota')
+            $table->unsignedBigInteger('nota_id');
+            $table->foreign('nota_id')->references('id')
                 ->on('notas')
                 ->onDelete('restrict');
             $table->float('monto_pago');

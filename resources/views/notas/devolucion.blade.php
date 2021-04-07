@@ -1,13 +1,5 @@
-@extends('layouts.navbar')
+{{-- @extends('layouts.navbar')
 @section('contentnavbar')
-
-
-
-SE ELIMINARAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAA
 
 
 <style>
@@ -252,7 +244,7 @@ AAAAAAAAAAAAAAAAAAAAAAA
                     <h4 class="modal-title" id="modalinsertarTitle">Devolucion Tanque</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff">
                         <span aria-hidden="true" class="fas fa-times"></span>
-                    </button>
+                    </button> --}}
                 </div>
                 <div class="modal-body">
                         {{-- input --}}

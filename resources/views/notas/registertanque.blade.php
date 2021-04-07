@@ -1,4 +1,4 @@
-<center>
+{{-- <center>
     <div id="divmsg" style="display:none" class="alert" role="alert">
     </div>
   </center>
@@ -79,4 +79,4 @@
                 {!! Form::number('multamodal2', null, ['id'=>'multamodal2', 'class' => 'form-control precio', 'placeholder'=>'$0.0' ]) !!}
                 <span  id='multamodal2Error' class='text-danger'></span>
             </div>
-        </div>
+        </div> --}}

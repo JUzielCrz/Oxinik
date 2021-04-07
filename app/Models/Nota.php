@@ -8,7 +8,7 @@ class Nota extends Model
 {
     protected $table = 'notas';
     public $timestamps =  true;
-    protected $fillable = ['id','folio_nota','fecha', 'pago_realizado','metodo_pago', 'num_contrato'];
+    protected $fillable = ['id','contrato_id', 'folio_nota','fecha', 'envio', 'subtotal', 'iva_general', 'total', 'pago_cubierto'];
     public $incrementing = true;
 
     public function notas(){

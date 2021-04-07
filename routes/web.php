@@ -68,39 +68,47 @@ Route::get('/home', 'HomeController@index')->name('home');
   /* Contratos */
     Route::get('/contrato/{id}', 'ContratoController@index')->name('contrato.index');
     Route::post('/newcontrato', 'ContratoController@create');
-    Route::get('/showcontrato/{num_contrato}', 'ContratoController@show');
     Route::post('/insertcontrato', 'ContratoController@store');
     Route::post('/contrato/updatecontrato/{id}', 'ContratoController@update');
     Route::get('/contrato/deletecontrato/{id}', 'ContratoController@destroy');
 
+    Route::get('/showcontrato/{contrato_id}', 'ContratoController@show');
+
+    //Asignaciones
+    Route::get('/showasignaciones/{contrato_id}', 'AsignacionController@show');
+    Route::post('/asignacion/AUMENTO/{contrato_id}', 'AsignacionController@asignacion_plus');
+    Route::post('/asignacion/DISMINUCION/{contrato_id}', 'AsignacionController@asignacion_minus');
+
     // Route::get('/inserttablacontrato/{numcontrato}', 'ContratoController@inserttabla');
-    
+
     // General
-    
     Route::post('/updatecontrato/{id}', 'ContratoController@update');
     Route::get('/deletecontrato/{id}', 'ContratoController@destroy');
-    
-
 
   /* PENDIENTES */
     Route::get('/pendientes', 'PendienteController@indexgeneral')->name('pendientes');
     Route::get('/pendientepago', 'PendienteController@pendientepago');
     Route::get('/pendientetanques', 'PendienteController@pendientetanques');
-    
-    
 
   /* Notas */
 
     //CAMBIO NUEVOS LINKS
+    Route::post('/datacontrato/{num_contrato}', 'NotaController@datacontrato'); //url para buscar contrato en nota salida
     Route::get('/notasalida', 'NotaController@notasalida');
     Route::post('/notasalida/searchcontrato', 'NotaController@searchcontrato');
     Route::post('/notasalida/save_edit_envio/{num_contrato}', 'NotaController@saveeditenvio');
-    Route::post('/notasalida/save_edit_asignacion/{num_contrato}', 'NotaController@saveasignacion');
+    Route::post('/save_notasalida', 'NotaController@save_notasalida');
 
+    //nota entrada
     Route::get('/notaentrada', 'NotaController@notaentrada');
+    Route::post('/notasalida/searchcliente', 'NotaController@searchcliente');
+
     
-    Route::post('/datacontrato/{num_contrato}', 'NotaController@datacontrato');
-    Route::post('/createnota', 'NotaController@create');
+
+
+
+    
+    
 
 
 
@@ -119,7 +127,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/savedevolucionnota/{idNota}', 'NotaController@savedevolucionnota');
 
     // DataTables 
-    Route::get('/dt_nota/{numContrato}', 'NotaController@datatablesindex')->name('dt_nota');
+    Route::get('/dt_nota/{contrato_id}', 'NotaController@datatablesindex')->name('dt_nota');
     Route::post('/insertfila/{numserietanque}', 'NotaController@insertfila');
 
   /* Reportes */
@@ -166,3 +174,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
     Route::get('/pdf/nota/{idnota}', 'PDFController@pdf_nota'); 
     Route::get('/pdf/asignacion_tanque/{idasignacion}', 'PDFController@asignacion_tanques'); 
+
+    //CATALOGO GASES
+    Route::get('/catalogo_gases', 'UsoGeneralController@catalogo_gases');

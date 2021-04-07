@@ -19,47 +19,43 @@ $(document).ready(function () {
     $(document).on("click","#btnactualizar",metodo_actualizar);
 
     // $(document).on("click","#btncontrato", insertartabla);
-    $(document).on("click",".btnnota-edit",nota_edit);
+    $(document).on("click",".btnnota-edit", nota_edit);
     $(document).on("click",".btnnota-delete-modal", nota_detalle_delete);
     $(document).on("click","#btnnotaeliminar", nota_eliminar);
     $(document).on("click",".btnnota-devolucion", nota_devolucion);
-
     
 
 
 
     $('#table-contratos').on('click','tr', function(evt){
 
-        var numContrato=$(this).find("td")[0].innerHTML;
+        // var numContrato=$(this).find("td")[0].innerHTML;
+        var contrato_id=$(this).data('id');
+        
 
-        $.get('/showcontrato/' + numContrato + '', function(data) {
+        $.get('/showcontrato/' + contrato_id + '', function(data) {
             $.each(data.contratos, function (key, value) {
                 var variable = "#" + key + "Show";
                 $(variable).val(value);
             });
+            
             $("#btn-edit-modal").val(data.contratos.num_contrato);
+
+            show_table_asignaciones(contrato_id, 'tableasignaciones', 'content-asignaciones');
+
         })
+
+        
 
         $('#filatabla').remove();
         $('#cardtablas').append(
         "<div id='filatabla'>"+
-            // "<h5 class='card-title'>NOTAS</h5>"+
-                    // "<div class='col-md-5 text-right'>"+
-                    //     "<a href='newnota/"+numContrato+"' class='btn btn-sm btn-gray'>"+
-                    //         "<span class='fas fa-plus'></span>"+
-                    //         "Nueva Nota"+
-                    //     "</a>"+
-                    // "</div>"+
-                
-                
                 "<div class='row table-responsive ml-1' >"+ 
                     "<table id='tablecruddata' class='table table-sm table-striped table-hover'>"+
                         "<thead>"+
                             "<tr>"+
                                 "<th scope='col'>"+'Folio'+"</th>"+
                                 "<th scope='col'>"+'Fecha'+"</th>"+
-                                // "<th scope='col'>"+'Pago Realizado'+"</th>"+
-                                // "<th scope='col'>"+'Metodo Pago'+"</th>"+
                                 "<th scope='col'>"+'Núm. Contrato'+"</th>"+
                                 "<th scope='col'>"+"</th>"+
                                 "<th scope='col'>"+"</th>"+ 
@@ -94,7 +90,7 @@ $(document).ready(function () {
             },
             processing: true,
             serverSider: true,
-            ajax: '/dt_nota/'+numContrato,
+            ajax: '/dt_nota/'+contrato_id,
             columns:[
                 {data: 'folio_nota'},
                 {data: 'fecha'},
@@ -109,35 +105,30 @@ $(document).ready(function () {
     });
 
 
-
-    
     function metodo_insertar() {
         metodo_limpiar_span("Error");
 
+        var dataForm= $("#idFormContrato").serialize()+'&cliente_id=' +  $('#cliente_id').val();
         $.ajax({
             method: "POST",
             url: "/newcontrato",
-            data: {
-                '_token': $('input[name=_token]').val(),
-                'num_contrato': $('#num_contrato').val(),
-                'cliente_id': $('#cliente_id').val(),
-                'tipo_contrato': $('#tipo_contrato').val(),
-                'asignacion_tanques': $('#asignacion_tanques').val(),
-                'precio_transporte': $('#precio_transporte').val(),
-                'direccion': $('#direccion').val(),
-                'referencia': $('#referencia').val(),
-                },
+            data: dataForm,
         })
             .done(function (msg) {
-                mostrar_mensaje("#divmsg",msg.mensaje, "alert-warning",null);
-                metodo_limpiar_campos();
-                $('#tableinsertfila').append(
-                    "<tr class='fila"+ msg.contratos.id+"'>"+
-                        "<td class='text-center'>"+msg.contratos.num_contrato +"</td>"+
-                        "<td class='text-center'>"+msg.contratos.tipo_contrato +"</td>"+
-                        "<td><button class='btn btn-amarillo btn-delete-modal btn-xs' data-id='"+msg.contratos.id+"'><span class='fas fa-trash'></span></button>"+
-                    "</tr>"); 
-                mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modalinsertar");
+                if(msg.alert == 'alert-danger'){
+                    mostrar_mensaje("#divmsg",msg.mensaje, "alert-danger",null);
+                }else{
+                    metodo_limpiar_campos();
+                    $('#tableinsertfila').append(
+                        "<tr class='fila"+ msg.contratos.id+"' data-id='"+msg.contratos.id+"'>"+
+                            "<td class='text-center'>"+msg.contratos.num_contrato +"</td>"+
+                            "<td class='text-center'>"+msg.contratos.tipo_contrato +"</td>"+
+                            "<td><button class='btn btn-amarillo btn-delete-modal btn-sm' data-id='"+msg.contratos.id+"'><span class='fas fa-trash'></span></button>"+
+                        "</tr>"); 
+                    mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modalinsertar");
+                }
+                
+                
             })
                 
             .fail(function (jqXHR, textStatus) {
@@ -221,11 +212,18 @@ $(document).ready(function () {
                     "<tr class='fila"+ msg.contratos.id+"'>"+
                     "<td class='text-center'>"+msg.contratos.num_contrato +"</td>"+
                     "<td class='text-center'>"+msg.contratos.tipo_contrato +"</td>"+
-                    "<td><a class='btn btn-amarillo btn-delete-modal btn-xs ' data-id='"+msg.contratos.id+"'>"+
+                    "<td><a class='btn btn-amarillo btn-delete-modal btn-sm ' data-id='"+msg.contratos.id+"'>"+
                     "<i class='fas fa-trash'></i>"+
                     "</a></td>"+
                     "</tr>");
-                mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modalactualizar");        
+
+                    $('#num_contratoShow').val(msg.contratos.num_contrato),
+                    $('#tipo_contratoShow').val(msg.contratos.tipo_contrato),
+                    $('#precio_transporteShow').val(msg.contratos.precio_transporte),
+                    $('#direccionShow').val(msg.contratos.direccion),
+                    $('#referenciaShow').val(msg.contratos.referencia),
+                mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modalactualizar");     
+                
             }).fail(function (jqXHR, textStatus) {
                 mostrar_mensaje("#divmsgedit",'Error al actualizar, verifique sus datos.', "alert-danger",null);
                 var status = jqXHR.status;
@@ -316,5 +314,111 @@ $(document).ready(function () {
         mostrar_mensaje("#divmsgindex",'Error al eliminar.', "alert-danger",null);
     });       
     }
+
+
+    // FUNCION DE ASIGNACION DE TANQUES
+
+    $(document).on("click","#btn-save-asignacion", save_asignacion);
+    $(document).on("click","#btn-modal-asignacion-minus", modal_edit_asignacion_minus);
+    $(document).on("click","#btn-modal-asignacion-plus", modal_edit_asignacion_plus);
+    
+
+    function modal_edit_asignacion_plus(){
+        if($('#asignacion_tanques').val() == ''){
+            return false;
+        }
+        limpiarasignacion();
+        
+        $("#h5-title-modal").replaceWith('<h5 class="modal-title" id="h5-title-modal">Aumento</h5>');
+        $('#modal-edit-asignacion').modal("show");
+        $('#incidencia-asignacion').val("AUMENTO");
+    }
+
+    function modal_edit_asignacion_minus(){
+        if($('#asignacion_tanques').val() == ''){
+            return false;
+        }
+        limpiarasignacion();
+        var contrato_id= $("#idShow").val();
+        show_table_asignaciones(contrato_id, 'table-show-asignaciones', 'show-asignaciones')
+        $("#h5-title-modal").replaceWith('<h5 class="modal-title" id="h5-title-modal">Disminución</h5>');
+        $('#modal-edit-asignacion').modal("show");
+        $('#incidencia-asignacion').val("DISMINUCION");
+    }
+
+    function limpiarasignacion(){
+        $.ajax({
+            method: "get",
+            url: "/catalogo_gases",
+        }).done(function(msg){
+            $(".trasignacion").remove();
+            $('#table-show-asignaciones').remove();
+            var opciones;
+            opciones = '<option value="" selected>SELECCIONA</option>';
+            $(msg).each(function(index, value){
+                opciones += '<option value="'+value.id+'">'+ value.nombre +'</option>';
+            });
+            
+            $("#tbody-tr-asignacion1").append(
+                '<tr class="trasignacion">'+
+                '<td>'+
+                    '<input name="cantidadtanques[]" id="cantidadtanques" type="number" class="form-control form-control-sm"  placeholder="#">'+
+                '</td>'+
+                '<td>'+
+                    '<select name="tipo_gas[]" id="tipo_gas" class="form-control form-control-sm">'+opciones +'</select>'+
+                '</td>'+
+                '<td>'+
+                    '<button type="button" class="btn btn-amarillo btn-sm" id="btn-anadir-asignacion"><span class="fas fa-plus"></span></button>'+
+                '</td>'+
+            '</tr>'
+            );  
+        })
+        
+    }
+
+    function save_asignacion(){
+
+        // &&falta validar que los campos no esten vacios al enviarlo y cuando regresen limpiar los campos
+        $.ajax({
+            
+            method: "post",
+            url: "/asignacion/"+$('#incidencia-asignacion').val()+"/"+$('#idShow').val(),
+            // url: "/notasalida/save_edit_asignacion/"+$('#idShow').val(),
+            data: $('#form-edit-asignacion').serialize(),
+        }).done(function(msg){
+            
+            if(msg.alert == 'alert-danger'){
+                mostrar_mensaje('#msg-modal-asignacion', msg.mensaje,'alert-danger' , null);
+            }else{
+                
+                var contrato_id = $("#idShow").val();
+                show_table_asignaciones(contrato_id, 'tableasignaciones', 'content-asignaciones');
+                mostrar_mensaje('#msg-asignacion-save','editado correctamente','alert-primary' ,'#modal-edit-asignacion');
+                limpiarasignacion();
+                window.open("/pdf/asignacion_tanque/"+ msg.nota_id, '_blank');
+            }
+        })  
+    }
+    function show_table_asignaciones(contrato_id, idTabla, idDiv) {
+        
+        $.get('/showasignaciones/' + contrato_id, function(data) {
+            var columnas='';
+            $.each(data.asigTanques, function (key, value) {
+                columnas+='<tr><td>'+value.cantidad+'</td><td>'+value.nombre+'</td></tr>';
+            });
+
+            $('#'+idTabla).remove();
+            $('#'+idDiv).append(
+                '<div id="'+idTabla+'">'+
+                    '<table class="table table-sm">'+
+                        '<tbody>'+
+                            columnas+
+                        '</tbody>'+
+                    '</table>'+
+                '</div>'
+            );
+        })
+    }
+  // FIN FUNCION DE ASIGNACION DE TANQUES
 
 });

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asignacion;
 use App\Models\Cliente;
 use App\Models\Contrato;
-use App\Models\ContratoAsignacionTanques;
 use App\Models\Nota;
 use App\Models\NotaPagos;
-use App\Models\Notas;
 use App\Models\NotaTanque;
 use App\Models\Tanque;
 use App\Models\TanqueHistorial;
@@ -34,10 +33,10 @@ class NotaController extends Controller
     }
     
 
-    public function datatablesindex($numContrato){
+    public function datatablesindex($contrato_id){
         if($this->slugpermision()){
             $notas=Nota::
-            select('notas.*')->where('num_contrato',$numContrato);
+            select('notas.*')->where('contrato_id',$contrato_id);
             return DataTables::of(
                 $notas
             )
@@ -82,61 +81,70 @@ class NotaController extends Controller
 
     public function datacontrato($num_contrato)
     {
-        $contrato= 
-        Contrato::
+        $contrato=Contrato::
         join('clientes','clientes.id','=','contratos.cliente_id')
+        ->select('contratos.id as contrato_id', 'contratos.*','clientes.*')
         ->where('num_contrato', $num_contrato)->first();
         
-        return response()->json(['contrato' => $contrato]);
+        $num_asignacion= Asignacion::where('contratos_id', $contrato->id)->get() ;
+
+        
+        return response()->json(['contrato' => $contrato,'num_asignacion' => $num_asignacion->sum('cantidad')]);
     }
 
 
-    public function create(Request $request)
+    public function save_notasalida(Request $request)
     {        
         if($this->slugpermision()){
-            dump($request->all());
+
             $request->validate([
                 'folio_nota' => ['required', 'string', 'max:255', 'unique:notas,folio_nota'],
-                // 'fecha' => ['required'],
-                'num_contrato' => ['required', 'string', 'max:255'],
-                'inp_total' => ['required', 'numeric'],
+                'contrato_id' => ['required'],
+                'input-total' => ['required', 'numeric'],
                 'monto_pago' => ['required', 'numeric'],
             ]);
-            
-            $fechaactual=date("Y")."-" . date("m")."-".date("d");
-            
-            if(count($request->inputNumSerie) > 0){
 
+            $fechaactual=date("Y")."-" . date("m")."-".date("d");
+
+            if(count($request->inputNumSerie) > 0){ ///validar si hay tanques en la lista
+                $pagocubierto=false;
+                if($request->input('monto_pago') >= $request->input('input-total')){
+                    $pagocubierto=true;
+                }   
                 $notas = new Nota;
                 $notas->folio_nota = $request->input('folio_nota');
+                $notas->contrato_id = $request->input('contrato_id');
                 $notas->fecha = $fechaactual;
-                $notas->num_contrato = $request->input('num_contrato');
                 $notas->envio = $request->input('precio_envio');
-                $notas->total = $request->input('inp_total');
-
-                
+                $notas->subtotal = $request->input('input-subtotal');
+                $notas->iva_general = $request->input('input-ivaGen');
+                $notas->total = $request->input('input-total');
+                $notas->pago_cubierto =  $pagocubierto;
 
                 if($notas->save()){
                     
                     $pagos = new NotaPagos;
-                    $pagos->folio_nota = $notas->folio_nota;
+                    $pagos->nota_id = $notas->id;
                     $pagos->monto_pago = $request->input('monto_pago');
                     $pagos->metodo_pago = $request->input('metodo_pago');
                     $pagos->save();
 
                     foreach( $request->inputNumSerie AS $series => $g){
                         $notaTanque=new NotaTanque;
-                        $notaTanque->folio_nota = $request->input('folio_nota');
+                        $notaTanque->nota_id =  $notas->id;
                         $notaTanque->num_serie = $request->inputNumSerie[$series];
-                        $notaTanque->precio = $request->inputPrecio[$series];
-                        // $notaTanque->regulador = $request->inputRegulador[$series];
+                        $notaTanque->cantidad = $request->input_cantidad[$series];
+                        $notaTanque->unidad_medida = $request->input_cantidad[$series];
+                        $notaTanque->precio_unitario = $request->input_precio_unitario[$series];
                         $notaTanque->tapa_tanque = $request->inputTapa[$series];
+                        $notaTanque->iva_particular = $request->input_iva_particular[$series];
+                        $notaTanque->importe = $request->input_importe[$series];
                         $notaTanque->save();
 
                         $historytanques=new TanqueHistorial;
                         $historytanques->num_serie = $request->inputNumSerie[$series];
                         $historytanques->estatus = 'ENTREGADO-CLIENTE';
-                        $historytanques->folios ='#Nota: '. $request->input('folio_nota');
+                        $historytanques->folios ='NOTA:'. $notas->id;
                         $historytanques->save();
 
                         $tanque=Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
@@ -164,40 +172,34 @@ class NotaController extends Controller
         return response()->json(['mensaje'=>'Sin permisos']);
     }
 
-    public function saveasignacion(Request $request, $num_contrato){
-        if($this->slugpermision()){
+    
 
-            $contrato = Contrato::where('num_contrato',$num_contrato)->first();
-        
-            if($request->incidencia == 'AUMENTO'){
-                
-                $suma= $contrato->asignacion_tanques + $request->contidadtanques;
-            }else{
-                
-                $suma= $contrato->asignacion_tanques - $request->contidadtanques;
-            }
-
-            if($suma > 0){
-                $contrato->asignacion_tanques = $suma;
-                if($contrato->save()){
-                    $fechaactual=date("Y")."-" . date("m")."-".date("d");
-
-                    $asignacion= new ContratoAsignacionTanques;
-                    $asignacion->num_contrato=$num_contrato;
-                    $asignacion->cantidad=$request->contidadtanques;
-                    $asignacion->incidencia=$request->incidencia;
-                    $asignacion->fecha= $fechaactual;
-                    $asignacion->save();
-                    return response()->json(['alert'=>'alert-primary','num_asignacion'=>$contrato->asignacion_tanques, 'id_asignacion' => $asignacion->id]);
-                }
-            }
-            return response()->json(['alert'=>'alert-danger', 'mensaje'=>'Asignacion no puede ser menor igual a 0']);
-        }
-        return response()->json(['Sin permisos']);
+    //Metodos nota entrada
+    public function notaentrada(){
+        return view('notas.notaentrada');
     }
+    
+    public function searchcliente(Request $request){
+        
+
+        if($request->get('query')){
+            $query = $request->get('query');            
+            $data=Cliente::
+            // join('clientes','clientes.id','=','contratos.cliente_id')
+            where('clientes.id', 'LIKE', "%{$query}%")
+            ->orWhere(DB::raw("CONCAT(clientes.nombre,' ', clientes.apPaterno,' ', clientes.apMaterno )"),'LIKE', "%{$query}%")
+            ->get();
 
 
+            $output = '<ul class="dropdown-menu" style="display:block; position:relative">'; 
 
+            foreach($data as $row) {
+                $output .= '<li><a href="#">'.$row->id.', '.$row->nombre.' '.$row->apPaterno.' '.$row->apMaterno.', '.$row->tipo_contrato.'</a></li>'; 
+            }
+
+            $output .= '</ul>'; echo $output;
+        }
+    }
 
 
 
@@ -207,9 +209,7 @@ class NotaController extends Controller
     //rescatar
 
 
-    public function notaentrada(){
-        return view('notas.notaentrada');
-    }
+    
 
 
     public function newnota($numContrato){

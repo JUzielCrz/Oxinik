@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asignacion;
+use App\Models\AsignacionNota;
+use App\Models\AsignacionNotaDetalle;
 use App\Models\Cliente;
 use App\Models\Contrato;
-use App\Models\ContratoAsignacionTanques;
 use App\Models\Nota;
 use App\Models\NotaTanque;
-use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 
 class PDFController extends Controller
@@ -17,8 +18,8 @@ class PDFController extends Controller
         $nota=Nota::find($idnota);
         $tanques=NotaTanque::
         join('tanques', 'tanques.num_serie','=','nota_tanque.num_serie' )
-        ->where('folio_nota', $nota->folio_nota)->get();
-        $contrato=Contrato::where('num_contrato', $nota->num_contrato)->first();
+        ->where('nota_id', $nota->id)->get();
+        $contrato=Contrato::where('id', $nota->contrato_id)->first();
         $cliente=Cliente::where('id', $contrato->cliente_id)->first();
 
         
@@ -30,13 +31,20 @@ class PDFController extends Controller
         // return $pdf->dowload('name.pdf');
     }
 
-    public function asignacion_tanques($idasignacion){
-        $asignacion= ContratoAsignacionTanques::where('id', $idasignacion)->first();
+    public function asignacion_tanques($nota_id){
+        $nota= AsignacionNota::
+        join('contratos','contratos.id','=','nota_asignacion.contrato_id')
+        ->where('nota_asignacion.id',$nota_id)->first();
 
-        $data=['asignacion'=>$asignacion];
+        $detalleNota= AsignacionNotaDetalle::
+        join('catalogo_gases','catalogo_gases.id','=','detalle_nota_asignacion.tipo_gas')
+        ->where('detalle_nota_asignacion.nota_asignacion_id', $nota_id)->get();
+
+        
+        $data=['detalleNota'=>$detalleNota, 'nota'=>$nota];
 
         $pdf = PDF::loadView('pdf.asignaciontanque', $data);
-        return $pdf->stream('asignaciontanque_'.$idasignacion.'.pdf');
+        return $pdf->stream('asignaciontanque_'.$nota_id.'.pdf');
     }
 
 }

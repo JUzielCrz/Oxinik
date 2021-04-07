@@ -23,7 +23,6 @@ class CreateContratosTable extends Migration
             $table->string('tipo_contrato');
             $table->string('direccion')->nullable();
             $table->string('referencia');
-            $table->integer('asignacion_tanques')->nullable();
             $table->double('precio_transporte')->default(0)->nullable();
             $table->integer('reguladores')->default(0);
             $table->unique(['cliente_id', 'tipo_contrato']);
