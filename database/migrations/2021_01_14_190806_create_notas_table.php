@@ -15,17 +15,20 @@ class CreateNotasTable extends Migration
     {
         Schema::create('notas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('folio_nota')->unique();
+            $table->unsignedBigInteger('folio_nota')->unique()->nullable();
             $table->unsignedBigInteger('contrato_id');
             $table->foreign('contrato_id')->references('id')
                 ->on('contratos')
                 ->onDelete('restrict');
             $table->date('fecha');
             $table->string('envio')->nullable();
-            $table->float('subtotal');
-            $table->float('iva_general');
-            $table->string('total');
-            $table->boolean('pago_cubierto');
+            $table->float('subtotal')->nullable();
+            $table->float('iva_general')->nullable();
+            $table->string('total')->nullable();
+            $table->boolean('pago_cubierto')->nullable();
+
+            $table->double('recargos')->default(0)->nullable();
+            $table->enum('incidencia',['ENTRADA','SALIDA'])->default('ENTRADA')->nullable();
             $table->timestamps();
         });
     }

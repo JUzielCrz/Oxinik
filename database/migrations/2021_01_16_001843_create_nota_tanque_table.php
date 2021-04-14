@@ -14,6 +14,7 @@ class CreateNotaTanqueTable extends Migration
     public function up()
     {
         Schema::create('nota_tanque', function (Blueprint $table) {
+            //salida y devolucion
             $table->unsignedBigInteger('nota_id');
             $table->foreign('nota_id')->references('id')
                 ->on('notas')
@@ -22,16 +23,16 @@ class CreateNotaTanqueTable extends Migration
             $table->foreign('num_serie')->references('num_serie')
                 ->on('tanques')
                 ->onDelete('restrict');
-            //salida
-            $table->integer('cantidad');
-            $table->string('unidad_medida');
+            //solo  salida
+            $table->integer('cantidad')->nullable();
+            $table->string('unidad_medida')->nullable();
             $table->double('precio_unitario')->nullable();
             $table->enum('tapa_tanque', ['SI', 'NO']);
-            $table->float('iva_particular');
-            $table->float('importe');
+            $table->float('iva_particular')->nullable();
+            $table->float('importe')->nullable();
             //devolucion
-            $table->double('multa')->default(0)->nullable();
-            $table->boolean('devolucion')->default(false)->nullable();
+            // $table->double('multa')->default(0)->nullable();
+            // $table->boolean('devolucion')->default(false)->nullable();
             
             $table->timestamps();
         });

@@ -101,8 +101,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
     //nota entrada
     Route::get('/notaentrada', 'NotaController@notaentrada');
-    Route::post('/notasalida/searchcliente', 'NotaController@searchcliente');
-
+    Route::get('/notaentrada/nota_lista_tanques/{contrato_id}', 'NotaController@nota_lista_tanques');
+    Route::get('/notaentrada/validar_existencia/{num_serie}', 'NotaController@validar_existencia');
+    Route::post('/notaentrada/save', 'NotaController@save_nota_entrada');
     
 
 

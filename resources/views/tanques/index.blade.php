@@ -68,8 +68,8 @@
     </div>
     
     <!-- Modal mostrar datos-->
-    <div class="modal fade bd-example-modal-lg" id="modalmostrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal fade bd-example-modal-md" id="modalmostrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header bg-onix">
             <h1 class="modal-title" id="modalmostrarTitle">Informacion</h1>

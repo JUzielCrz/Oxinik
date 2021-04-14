@@ -12,12 +12,12 @@
 
 
 <div class="container-fluid" style="width: 90rem">
+    
     <form id="form-entrada-nota">
-
+    
         <div class="row">
-            
             <div class="col-md-9">
-                <fieldset id="InputsFilaSalida" disabled="disabled">
+                <fieldset class="InputsFilaEntrada" disabled="disabled">
                 <div class="card">
                     <div class="card-header">
                         <h5>Tanques Entrada</h5>
@@ -29,7 +29,7 @@
                             <div class="col">
                                 {!! Form::label('# Serie') !!}
                                 {!! Form::text('serie_tanque', null, ['id'=>'serie_tanque', 'class' => 'form-control form-control-sm', 'placeholder'=>'#Serie',  'required' ]) !!}
-                                
+                                <span  id="serie_tanqueError" class="text-danger"></span>
                             </div>
                             <div class="col ">
                                 {!! Form::label('Tapa') !!}
@@ -41,15 +41,17 @@
                                 <button type="button" class="btn btn-grisclaro" id="btnInsertFila"> <span class="fas fa-plus"></span>Add</button>
                             </div> 
                         </div>
+                        
                         <hr>
-                        <span  id="serie_tanqueError" class="text-danger"></span>
                         <div class="table-responsive mt-3">
                             <table class="table table-sm table-hover table-bordered">
                                 <thead>
                                     <tr style="font-size: 13px">
                                         <th scope="col">#SERIE</th>
-                                        <th scope="col">TAPA</th>
                                         <th scope="col">DESCRIPCIÓN</th>
+                                        <th scope="col">PH</th>
+                                        <th scope="col">TAPA</th>
+                                        
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
@@ -67,31 +69,26 @@
                 </div>
                 </fieldset>
 
-                <fieldset id="InputsFilaSalida" disabled="disabled">
+                
                     <div class="card mt-3">
                         <div class="card-header">
-                            <h5>Entrtegados a Cliente</h5>
+                            <h5>Pendientes</h5>
                         </div>
                         <div class="card-body">
                             <span  id="serie_tanqueError" class="text-danger"></span>
                             <div class="table-responsive">
-                                <table class="table table-sm table-hover table-bordered">
+                                <table id="table-tanques-nota" class="table table-sm table-hover table-bordered">
                                     <thead>
                                         <tr style="font-size: 13px">
                                             <th scope="col">#SERIE</th>
-                                            <th scope="col">DESCRIPCIÓN</th>
-                                            <th scope="col">PH</th>
                                             <th scope="col">TAPA</th>
-                                            <th scope="col">CONTRATO</th>
                                             <th scope="col">FOLIO NOTA</th>
-                                            <th scope="col">SALIDA</th>
-                                            <th scope="col"></th>
+                                            <th scope="col">FECHA</th>
                                         </tr>
                                     </thead>
                                     
-                                    <tbody id="tablelistaTanques">
+                                    <tbody id="tbody-tanques-nota">
                                     </tbody>
-                
                                 </table>
                             </div>
                             <center>
@@ -100,7 +97,6 @@
                             </center>
                         </div>
                     </div>
-                    </fieldset>
             </div>
             
             <div class="col-md-3">
@@ -115,22 +111,15 @@
                         </center>
 
                         <div class="row">
-                            <select class="selectpicker" data-live-search="true">
-                                <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
-                                <option data-tokens="mustard">Burger, Shake and a Smile</option>
-                                <option data-tokens="frosting">Sugar, Spice and all things nice</option>
-                            </select>
-
-                            
                             <input type="hidden"  name="contrato_id" id="contrato_id">
                             <div class="input-group input-group-sm mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text fas fa-search" id="inputGroup-sizing-sm"></span>
                                 </div>
-                                <input id="search-cliente-id" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" >
+                                <input id="search-contrato-id" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" >
                             </div>
                         </div>
-                        <div id="listar-clientes"></div>
+                        <div id="listar-contratos"></div>
                         
                         <hr>
                         {{-- Cliente--}}
@@ -142,16 +131,34 @@
                                 <input id="nombre_cliente" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled>
                             </div>
                         </div>
+                        {{-- Numero contrato--}}
+                        <div class="form-row">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm"># Contrato:</span>
+                                </div>
+                                <input id="num_contrato" name="num_contrato" type="text" class="form-control" readonly>
+                            </div>
+                        </div>
+                        {{-- tipo contrato--}}
+                        <div class="form-row">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Tipo:</span>
+                                </div>
+                                <input id="tipo_contrato" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="card mt-2">
                     <div class="card-header">
                         <div class="row" >
-                            <div class="col-md-8 ">
+                            <div class="col">
                                 <p>ASIGNACIONES</p>
                             </div>
-                            <div class="col-4-md">
+                            {{-- <div class="col-4-md">
                                 <div class="input-group input-group-sm mb-3">
                                     <div class="input-group-prepend">
                                         <button class="btn btn-amarillo" type="button" id="btn-modal-asignacion-minus"> <span class="fas fa-minus"></span></button>
@@ -160,7 +167,7 @@
                                         <button class="btn btn-amarillo" type="button" id="btn-modal-asignacion-plus"> <span class="fas fa-plus"></span></button>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div class="card-body">
@@ -169,12 +176,27 @@
                             </div>
                     </div>
                 </div>
-
+                <fieldset class="InputsFilaEntrada" disabled="disabled">
                 <div class="card mt-2">
                     <div class="card-body">
 
-
-                        <div class="form-row ">
+                        <div class="form-row">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Recargos:</span>
+                                </div>
+                                <input id="recargos" name="recargos" type="number" class="form-control numero-decimal-positivo" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" >
+                                {{ Form::select('metodo_pago',[
+                                    'Efectivo' => 'Efectivo',
+                                    'Transferencia' => 'Transferencia', 
+                                    'Tarjeta Credito' => 'Tarjeta Credito', 
+                                    'Tarjeta Debito' => 'Tarjeta Debito',  
+                                    'Cheque' => 'Cheque'
+                                    ],null,['id' => 'metodo_pago','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona'])}}
+                            </div>
+                            <span id="metodo_pagoError" class="alert-danger  mb-3"></span>
+                        </div> 
+                        {{-- <div class="form-row ">
                             <div class="col-md-6">
                                 <label for="">Subtotal:</label>
                             </div>
@@ -184,8 +206,8 @@
                                 </div>
                                 <input type="hidden" id="input-subtotal" name="input-subtotal" value=0>
                             </div>
-                        </div>
-                        <div class="form-row ">
+                        </div> --}}
+                        {{-- <div class="form-row ">
                             <div class="col-md-6">
                                 <label for="">Iva 16%:</label>
                             </div>
@@ -195,9 +217,9 @@
                                 </div>
                                 <input type="hidden" id="input-ivaGen" name="input-ivaGen" value=0>
                             </div>
-                        </div>
+                        </div> --}}
 
-                        <hr>
+                        {{-- <hr>
 
                         <div class="row">
                             <div class="col-md-5">
@@ -209,11 +231,11 @@
                                 </div>
                                 <input type="hidden" id="input-total" name="input-total">
                             </div>
-                        </div>
+                        </div> --}}
 
-                        <hr>
+                        {{-- <hr> --}}
 
-                        <div class="form-row">
+                        {{-- <div class="form-row">
                             <div class="input-group input-group-sm mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroup-sizing-sm">Monto a pagar:</span>
@@ -228,7 +250,7 @@
                                     ],null,['id' => 'metodo_pago','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona'])}}
                             </div>
                             <span id="metodo_pagoError" class="alert-danger  mb-3"></span>
-                        </div> 
+                        </div>  --}}
 
                         
                         <div class="form-row" id="row-ingreso-efectivo">
@@ -250,6 +272,7 @@
                         </div>
                     </div>
                 </div>
+                </fieldset>
             </div>
 
         </div> 
@@ -279,7 +302,7 @@
                         </div>
                     </div>
 
-                    <div class="row justify-content-center">
+                    {{-- <div class="row justify-content-center">
                         <div class="col-md-4">
                             <label for="">Adeudo:</label>
                         </div>
@@ -288,7 +311,7 @@
                                 <label id='label-adeudo'>$0.0</label>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     
                 </div>
                 <div class="modal-footer">
@@ -300,6 +323,7 @@
         </div>
 
     </form>
+    
 </div>
 
 
@@ -346,6 +370,60 @@
         </div>
     </div>
 
+    <!-- Modal Info tanque-->
+    <div class="modal fade bd-example-modal-md" id="modalmostrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-onix">
+            <h1 class="modal-title" id="modalmostrarTitle">Informacion</h1>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff">
+                <span aria-hidden="true" class="fas fa-times"></span>
+            </button>
+            </div>
+            <div class="modal-body">
+            @include('tanques.info')
+            <!-- botones Aceptar y cancelar-->
+            <div class="row justify-content-center" >
+                <div class="btn-group col-auto" style="margin:10px">
+                <button type="reset" class="btn btn-gray" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+            </div>
+            
+        </div>
+        </div>
+    </div>
+
+    <!-- Modal devolucion tanque NO encontrado-->
+    <div class="modal fade bd-example-modal-lg" id="modal-registrar-tanque" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-onix">
+                    <h4 class="modal-title" id="modalinsertarTitle">Registrar Tanque</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff">
+                        <span aria-hidden="true" class="fas fa-times"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                        {{-- input --}}
+                        
+                        @include('notas.registrar_tanque')
+                        
+                        {{-- endinputs --}}
+                    <!-- botones Aceptar y cancelar-->
+                    <div class="row justify-content-center" >
+                        <div class="btn-group col-auto" style="margin:10px" >
+                        <button type="button" class="btn btn-gray" id="btn-registrar-tanque">Aceptar</button>
+                        </div>
+                        <div class="btn-group col-auto" style="margin:10px">
+                        <button  class="btn btn-gray" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
     
 
 @endsection

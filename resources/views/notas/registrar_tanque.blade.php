@@ -1,10 +1,10 @@
-{{-- <center>
+<center>
     <div id="divmsg" style="display:none" class="alert" role="alert">
     </div>
   </center>
     @csrf
     <label class="text-danger">* OBLIGATORIO </label>
-    <p class="text-danger">Tanque no encontrado en esta nota</p>
+    <p class="text-danger">Tanque no registrado</p>
     <hr>
 
         <!-- Nombre Completo-->
@@ -63,7 +63,7 @@
 
         <hr>
 
-        <div class="row">
+        {{-- <div class="row">
             <div class='col-md-6'>
                 {!! Form::label('Regulador') !!}
                 {{ Form::select('reguladormodal2',['SI' => 'SI', 'NO' => 'NO'],null,['id' => 'reguladormodal2','class'=>'form-control', 'placeholder'=>'Selecciona', 'required'])}}

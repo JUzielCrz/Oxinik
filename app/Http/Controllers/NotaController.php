@@ -134,7 +134,7 @@ class NotaController extends Controller
                         $notaTanque->nota_id =  $notas->id;
                         $notaTanque->num_serie = $request->inputNumSerie[$series];
                         $notaTanque->cantidad = $request->input_cantidad[$series];
-                        $notaTanque->unidad_medida = $request->input_cantidad[$series];
+                        $notaTanque->unidad_medida = $request->input_unidad_medida[$series];
                         $notaTanque->precio_unitario = $request->input_precio_unitario[$series];
                         $notaTanque->tapa_tanque = $request->inputTapa[$series];
                         $notaTanque->iva_particular = $request->input_iva_particular[$series];
@@ -152,8 +152,9 @@ class NotaController extends Controller
                         $tanque->save();
                     }
                 }
+                return response()->json(['mensaje'=>'Registrado Correctamente', 'notaId'=>$notas->id]);
             }
-            return response()->json(['mensaje'=>'Registrado Correctamente', 'notaId'=>$notas->id]);
+            return response()->json(['mensaje'=>'Error, No hay tanques que registrar']);
         }
         return response()->json(['mensaje'=>'Sin permisos']);
     }
@@ -174,31 +175,96 @@ class NotaController extends Controller
 
     
 
-    //Metodos nota entrada
+//Metodos nota entrada
     public function notaentrada(){
         return view('notas.notaentrada');
     }
-    
-    public function searchcliente(Request $request){
-        
 
-        if($request->get('query')){
-            $query = $request->get('query');            
-            $data=Cliente::
-            // join('clientes','clientes.id','=','contratos.cliente_id')
-            where('clientes.id', 'LIKE', "%{$query}%")
-            ->orWhere(DB::raw("CONCAT(clientes.nombre,' ', clientes.apPaterno,' ', clientes.apMaterno )"),'LIKE', "%{$query}%")
-            ->get();
+    public function nota_lista_tanques($contrato_id){
+        $notatanque=Nota::
+        join('nota_tanque','nota_tanque.nota_id','=','notas.id')
+        ->select(
+            'nota_tanque.num_serie',
+            'notas.folio_nota',
+            'notas.fecha',
+            'nota_tanque.tapa_tanque',
+            )
+        ->addSelect(['tanque_id' => tanque::select('id')->whereColumn( 'nota_tanque.num_serie', 'tanques.num_serie')])
+        ->where('contrato_id', $contrato_id)
+        // ->where('nota_tanque.devolucion', false)
+        ->where( Tanque::select('estatus')->whereColumn( 'nota_tanque.num_serie', 'tanques.num_serie') , 'ENTREGADO-CLIENTE')
+        ->get();
+        return  $notatanque;
 
+    }
 
-            $output = '<ul class="dropdown-menu" style="display:block; position:relative">'; 
-
-            foreach($data as $row) {
-                $output .= '<li><a href="#">'.$row->id.', '.$row->nombre.' '.$row->apPaterno.' '.$row->apMaterno.', '.$row->tipo_contrato.'</a></li>'; 
-            }
-
-            $output .= '</ul>'; echo $output;
+    public function validar_existencia($num_serie){
+        $tanque=
+        Tanque::where('num_serie',$num_serie)
+        ->where('estatus',"ENTREGADO-CLIENTE")->first();
+        if($tanque){
+            return $tanque;
+        }else{
+            return 'alert-danger';
         }
+    }
+
+    public function save_nota_entrada(Request $request){
+        if($this->slugpermision()){
+
+            $request->validate([
+                'contrato_id' => ['required'],
+                'recargos' => ['required', 'numeric'],
+                // 'metodo_pago' => ['required', 'numeric'],
+            ]);
+            $fechaactual=date("Y")."-" . date("m")."-".date("d");
+
+            if(count($request->inputNumSerie) > 0){ ///validar si hay tanques en la lista
+                $notas = new Nota;
+                $notas->contrato_id = $request->input('contrato_id');
+                $notas->fecha = $fechaactual;
+                $notas->recargos = $request->input('recargos');
+                $notas->incidencia = 'ENTRADA';
+                if($notas->save()){
+                    foreach( $request->inputNumSerie AS $series => $g){
+                        //buscar tanque en inventario
+                        $searhTanque =Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
+                        if($searhTanque){
+                            //si existe cambiar estatus del tanque 
+                            $searhTanque->estatus='VACIO-ALMACEN';
+                            $searhTanque->save();
+                        }else{
+                            //Si no existe registrar
+                            $cadena=explode(', ', $request->inputDescripcion[$series]);
+                            $newTanque = new Tanque;
+                            $newTanque->ph =$request->inputPh[$series];
+                            $newTanque->capacidad = $cadena[1];
+                            $newTanque->material = $cadena[2];
+                            $newTanque->fabricante = $cadena[3];
+                            $newTanque->tipo_gas = $cadena[4];
+                            $newTanque->estatus = 'VACIO-ALMACEN';
+                            $newTanque->save();
+                        }
+
+                        $notaTanque=new NotaTanque;
+                        $notaTanque->nota_id =  $notas->id;
+                        $notaTanque->num_serie = $request->inputNumSerie[$series];
+                        $notaTanque->tapa_tanque = $request->inputTapa[$series];
+                        $notaTanque->save();
+
+                        $historytanques=new TanqueHistorial;
+                        $historytanques->num_serie = $request->inputNumSerie[$series];
+                        $historytanques->estatus = 'VACIO-ALMACEN';
+                        $historytanques->folios ='NOTA:'. $notas->id;
+                        $historytanques->save();
+
+                    }
+                    return response()->json(['mensaje'=>'Regsitro Correcto']);
+                }
+            }
+            return response()->json(['mensaje'=>'Error, No hay tanques que registrar']);
+        }
+        return response()->json(['mensaje'=>'Sin permisos']);
     }
 
 
@@ -206,6 +272,27 @@ class NotaController extends Controller
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
     //rescatar
 
 
@@ -271,66 +358,65 @@ class NotaController extends Controller
         }
     }
 
-    public function savedevolucionnota(Request $request, $idNota){
+    // public function savedevolucionnota(Request $request, $idNota){
         
-        $notas=Nota::find($idNota);
+    //     $notas=Nota::find($idNota);
 
-        if($request->inputNumSerie != 0){
-            NotaTanque::where('folio_nota',$notas->folio_nota)->where('devolucion', true)->delete();
+    //     if($request->inputNumSerie != 0){
+    //         NotaTanque::where('folio_nota',$notas->folio_nota)->where('devolucion', true)->delete();
 
 
-            foreach( $request->inputNumSerie AS $series => $g){
-                $notaTanque=new NotaTanque;
-                $notaTanque->folio_nota =  $notas->folio_nota;
-                $notaTanque->num_serie = $request->inputNumSerie[$series];
-                $notaTanque->multa = $request->inputMulta[$series];
-                // $notaTanque->regulador = $request->inputRegulador[$series];
-                $notaTanque->tapa_tanque = $request->inputTapa[$series];
-                $notaTanque->devolucion = true;
-                $notaTanque->save();  
+    //         foreach( $request->inputNumSerie AS $series => $g){
+    //             $notaTanque=new NotaTanque;
+    //             $notaTanque->folio_nota =  $notas->folio_nota;
+    //             $notaTanque->num_serie = $request->inputNumSerie[$series];
+    //             $notaTanque->multa = $request->inputMulta[$series];
+    //             // $notaTanque->regulador = $request->inputRegulador[$series];
+    //             $notaTanque->tapa_tanque = $request->inputTapa[$series];
+    //             $notaTanque->devolucion = true;
+    //             $notaTanque->save();  
 
-                $cadena=explode(', ', $request->inputDescripcion[$series]);
-                if($cadena[0] == 'intercambio'){
-                    if(Tanque::where('num_serie',$request->inputNumSerie[$series])->first()){
-                        $tanques=Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
-                        $tanques->ph =$cadena[1];
-                        $tanques->capacidad = $cadena[2];
-                        $tanques->material = $cadena[3];
-                        $tanques->fabricante = $cadena[4];
-                        $tanques->tipo_gas = $cadena[5];
-                        $tanques->estatus = 'VACIO-ALMACEN';
-                        $tanques->save();
+    //             $cadena=explode(', ', $request->inputDescripcion[$series]);
+    //             if($cadena[0] == 'intercambio'){
+    //                 if(Tanque::where('num_serie',$request->inputNumSerie[$series])->first()){
+    //                     $tanques=Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
+    //                     $tanques->ph =$cadena[1];
+    //                     $tanques->capacidad = $cadena[2];
+    //                     $tanques->material = $cadena[3];
+    //                     $tanques->fabricante = $cadena[4];
+    //                     $tanques->tipo_gas = $cadena[5];
+    //                     $tanques->estatus = 'VACIO-ALMACEN';
+    //                     $tanques->save();
+    //                 }else{
+    //                     $newtanque= new Tanque;
+    //                     $newtanque->num_serie = $request->inputNumSerie[$series];
+    //                     $newtanque->ph =$cadena[1];
+    //                     $newtanque->capacidad = $cadena[2];
+    //                     $newtanque->material = $cadena[3];
+    //                     $newtanque->fabricante = $cadena[4];
+    //                     $newtanque->tipo_gas = $cadena[5];
+    //                     $newtanque->estatus = 'VACIO-ALMACEN';
+    //                     $newtanque->save();
+    //                 }
+    //             }
 
-                    }else{
-                        $newtanque= new Tanque;
-                        $newtanque->num_serie = $request->inputNumSerie[$series];
-                        $newtanque->ph =$cadena[1];
-                        $newtanque->capacidad = $cadena[2];
-                        $newtanque->material = $cadena[3];
-                        $newtanque->fabricante = $cadena[4];
-                        $newtanque->tipo_gas = $cadena[5];
-                        $newtanque->estatus = 'VACIO-ALMACEN';
-                        $newtanque->save();
-                    }
-                }
+    //             $estatustanque=Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
+    //             $estatustanque->estatus = 'VACIO-ALMACEN';
+    //             $estatustanque->save();
 
-                $estatustanque=Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
-                $estatustanque->estatus = 'VACIO-ALMACEN';
-                $estatustanque->save();
-
-                $historytanques=new TanqueHistorial;
-                $historytanques->num_serie = $request->inputNumSerie[$series];
-                $historytanques->estatus = 'VACIO-ALMACEN';
-                $historytanques->folios = '#Nota: '. $notas->folio_nota;
-                $historytanques->save();
+    //             $historytanques=new TanqueHistorial;
+    //             $historytanques->num_serie = $request->inputNumSerie[$series];
+    //             $historytanques->estatus = 'VACIO-ALMACEN';
+    //             $historytanques->folios = '#Nota: '. $notas->folio_nota;
+    //             $historytanques->save();
 
                 
-            }
+    //         }
             
-            return response()->json(['mensaje'=>'Regsitro Correcto']);
-        }
-        return response()->json(['mensaje'=>'No hay registros']);
-    }
+    //         return response()->json(['mensaje'=>'Regsitro Correcto']);
+    //     }
+    //     return response()->json(['mensaje'=>'No hay registros']);
+    // }
 
     public function update(Request $request , $idNota)
     {        

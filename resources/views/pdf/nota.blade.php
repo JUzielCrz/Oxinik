@@ -81,34 +81,34 @@
             <table class="table table-bordered  table-sm">
                     <thead >
                         <tr >
+                            <th scope="col">#SERIE</th>
                             <th scope="col">CANTIDAD</th>
-                            <th scope="col">UNIDAD MEDIDA</th>
-                            <th scope="col">DESCRIPCIÓN</th>
+                            <th scope="col">U. M.</th>
+                            <th scope="col">GAS</th>
+                            <th scope="col">TAPA</th>
+                            {{-- <th scope="col">DESCRIPCIÓN</th> --}}
                             <th scope="col">PRECIO UNITARIO</th>
                             <th scope="col">IMPORTE</th>
                             <th scope="col">IVA</th>
-                            <th scope="col">TOTAL</th>
+                            {{-- <th scope="col">TOTAL</th> --}}
                         </tr>
                     </thead>
 
-
-
-                    @php
-                        $subtotal=0;
-                    @endphp
                     <tbody id="tablelistaTanques" >
                         @foreach ($tanques as $tanq)
-                            @php
+                            {{-- @php
                                 $subtotal=$subtotal+$tanq->precio;  
-                            @endphp
+                            @endphp --}}
                             <tr>
                                 <td>{{$tanq->num_serie}}</td>
-                                <td>{{$tanq->capacidad}}, {{$tanq->material}}, {{$tanq->fabricante}}, {{$tanq->tipo_gas}}</td>
-                                <td>{{$tanq->regulador}}</td>
+                                <td>{{$tanq->cantidad}}</td>
+                                <td>{{$tanq->unidad_medida}}</td>
+                                <td>{{$tanq->tipo_gas}}</td>
                                 <td>{{$tanq->tapa_tanque}}</td>
-                                <td>$ {{number_format($tanq->precio,2)}}</td>
-                                <td></td>
-                                <td></td>
+                                <td>$ {{number_format($tanq->precio_unitario,2)}}</td>
+                                <td>$ {{number_format($tanq->importe,2)}}</td>
+                                <td>$ {{number_format($tanq->iva_particular,2)}}</td>
+                                
                             </tr>
                         @endforeach
                     </tbody>
@@ -116,26 +116,25 @@
             </table>
 
             <hr>
-            <div class="row ml-3" >
+            {{-- <div class="row ml-3" >
                 <p>ENVASES ENTREGADOS AL CLIENTE: <br>
                     @foreach ($tanques as $item)
                         {{$tanq->num_serie}}, 
                     @endforeach
                 </p>
-            </div>
+            </div> --}}
             <hr>
 
             <table class="table table-bordered">
                 <tbody >
                     <tr>
-                        <td>SUBTOTAL: <br> {{number_format($subtotal,2)}}</td>
-                        <td>ENVÍO: <br> $00.0</td>
-                        <td>TASA 16% IVA: <br> $00.0</td>
+                        <td>SUBTOTAL: <br> {{number_format($nota->subtotal,2)}}</td>
+                        <td>ENVÍO: <br> {{number_format($nota->envio,2)}}</td>
+                        <td>TASA 16% IVA: <br> {{number_format($nota->iva_general,2)}}</td>
                         <td>TOTAL: <br> $ {{number_format($nota->total,2)}}</td>
                     </tr>
                     <tr>
                         <td colspan="4">
-                            
                             <p>
                                 <div class="text-center text-white" style="background: black"> CUENTAS BANCARIAS PARA TRANSFERENCIAS</div> <br>
                                 BANCO: <strong>HSBC</strong> <br>

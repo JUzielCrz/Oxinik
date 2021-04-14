@@ -52,7 +52,7 @@ $(document).ready(function () {
                 $('#num_contrato').val(msg.contrato.num_contrato)
                 $('#nombre_cliente').val(msg.contrato.nombre+' '+msg.contrato.apPaterno+' '+msg.contrato.apMaterno)
                 $('#tipo_contrato').val(msg.contrato.tipo_contrato)
-                $('#asignacion_tanques').val(msg.num_asignacion.num_asignacion)
+                // $('#asignacion_tanques').val(msg.num_asignacion.num_asignacion)
 
                 show_table_asignaciones(msg.contrato.contrato_id, 'tableasignaciones', 'content-asignaciones');
             })

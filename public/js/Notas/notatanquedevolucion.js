@@ -178,7 +178,7 @@
 //             "</tr>"
 //         );
 //             limpiar_campos_modal2("Error");
-//             $('#modaldevolucion2').modal("hide");
+//             $('#modaldevolucion2').modal("hide");ñññññññññññññññññññññññññññññ;;;;;;;;;;;;;;;;;;;{{{{{{{ññññññññññ}}}}}}}
         
 //             actualizarprecios();
     
