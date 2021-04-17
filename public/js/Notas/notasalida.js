@@ -92,7 +92,7 @@ $(document).ready(function () {
         var campovacio = [];
 
         $.each(campo, function(index){
-            $('#'+campo[index]+'Error').empty().removeClass('is-invalid');
+            $('#'+campo[index]+'Error').empty();
             $('#'+campo[index]).removeClass('is-invalid');
         });
 
@@ -128,7 +128,7 @@ $(document).ready(function () {
         //validar que tanque no ha sido registrado en almacene o no ha sido registrado como lleno.
         $.ajax({
             method: "post",
-            url: "/validventasalida/"+numserie+'',
+            url: "../venta_exporadica/validar_existencia_salida/"+numserie+'',
             data: {
                 '_token': $('input[name=_token]').val(),
                 },
@@ -137,11 +137,11 @@ $(document).ready(function () {
             if(msg.mensaje){
                 //Insertar fila
                 $.ajax({
-                    method: "post",
+                    method: "get",
                     url: "/insertfila/"+numserie+'',
-                    data: {
-                        '_token': $('input[name=_token]').val(),
-                        },
+                    // data: {
+                    //     '_token': $('input[name=_token]').val(),
+                    //     },
                 })
                     .done(function (msg) {
 
@@ -375,7 +375,7 @@ $(document).ready(function () {
                 $("#ingreso-efectivoError").text('Campo ingreso de efectivo obligatorio');
                 return false;
             }
-            if($("#ingreso-efectivo").val() < $("#monto_pago").val()){
+            if($("#ingreso-efectivo").val() < parseFloat($("#monto_pago").val())){
                 $("#ingreso-efectivoError").text('INGRESI EFECTIVO no puede ser menor a MONTO A PAGAR');
                 return false;
             }
@@ -407,20 +407,6 @@ $(document).ready(function () {
         }
 
     }
-
-    function mostrar_mensaje(divmsg,mensaje,clasecss,modal) {
-        if(modal !== null){
-            $(modal).modal("hide");
-        }
-        $(divmsg).empty();
-        $(divmsg).addClass(clasecss);
-        $(divmsg).append("<p>" + mensaje + "</p>");
-        $(divmsg).show(500);
-        $.when($(divmsg).hide(5000)).done(function () {
-            $(divmsg).removeClass(clasecss);
-        });
-    }
-
 
     $("#metodo_pago").change( function() {
         if ($(this).val() == "Efectivo") {
@@ -572,7 +558,7 @@ $(document).ready(function () {
     ///rescatar
 
     function cancelarnota(){
-        // window.location = "/contrato/"+ $('#idcliente').val();
+        window.location = "/contrato/"+ $('#idcliente').val();
     }
 
     // function metodo_limpiar_span_nota(nombreerror) {
@@ -587,7 +573,21 @@ $(document).ready(function () {
 
         
 
-    //para Validaciones
+    //Generales
+
+    function mostrar_mensaje(divmsg,mensaje,clasecss,modal) {
+        if(modal !== null){
+            $(modal).modal("hide");
+        }
+        $(divmsg).empty();
+        $(divmsg).addClass(clasecss);
+        $(divmsg).append("<p>" + mensaje + "</p>");
+        $(divmsg).show(500);
+        $.when($(divmsg).hide(5000)).done(function () {
+            $(divmsg).removeClass(clasecss);
+        });
+    }
+
 
     $('.numero-entero-positivo').keypress(function (event) {
         // console.log(event.charCode);

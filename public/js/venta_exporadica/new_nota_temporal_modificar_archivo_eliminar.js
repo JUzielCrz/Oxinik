@@ -35,8 +35,8 @@ $(document).ready(function () {
         //Insertar button
         $('#datosfacturacion').append(
             "<div class='form-row justify-content-end' id='filaFacturacion'>"+
-                "<button type='button' class='btn btn-gray' id='btnFacturacion'>"+
-                    "<span class='fas fa-plus'></span> Agregar Datos Facturacion"+
+                "<button type='button' class='btn btn-sm btn-gray' id='btnFacturacion'>"+
+                    "<span class='fas fa-plus'></span>Datos Facturacion"+
                 "</button>"+
             "</div>"
         );

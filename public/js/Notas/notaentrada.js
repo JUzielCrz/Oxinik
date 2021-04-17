@@ -166,42 +166,6 @@ $(document).ready(function () {
         })
 
         return false;
-
-        //validar que tanque no ha sido registrado en almacene o no ha sido registrado como lleno.
-        
-
-    //                             actualizar_subtotal()
-    //                             actualizar_ivageneral()
-
-    //                             limpiar_inputs_fila();
-    //                     }else{
-    //                         $("#serie_tanqueError").text('Número de serie no existe');
-    //                     }
-        
-    //                     return false;
-                        
-    //                 })
-                        
-    //                 .fail(function (jqXHR, textStatus) {
-    //                     mostrar_mensaje("#divmsg",'Error al insertar', "alert-danger",null);
-    //                     var status = jqXHR.status;
-    //                     if (status === 422) {
-    //                         $.each(jqXHR.responseJSON.errors, function (key, value) {
-    //                             var idError = "#" + key + "Error";
-    //                             //$(idError).removeClass("d-none");
-    //                             $(idError).text(value);
-    //                         });
-    //                     }
-    //                 });
-    //         }else{
-    //             $("#serie_tanqueError").text('Tanque no registrado en almacén o tanque vacio');
-    //         }
-    //     }).fail(function(){
-    //         $("#serie_tanqueError").text('tanque no registrado');
-    //         }
-            
-    //     );
-    //     return false;
     }
 
     function eliminarFila(){

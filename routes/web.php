@@ -107,7 +107,21 @@ Route::get('/home', 'HomeController@index')->name('home');
     
 
 
+  /* ventas */
+    Route::get('/venta_exporadica/list_table', 'VentaExporadicaController@list_table');
+    Route::get('/venta_exporadica/newventa', 'VentaExporadicaController@newventa');
+    Route::post('/venta_exporadica/create', 'VentaExporadicaController@create');
+    Route::post('/venta_exporadica/save', 'VentaExporadicaController@save_venta');
 
+    Route::get('venta_exporadica/validar_existencia/{numserie}', 'VentaExporadicaController@validar_existencia');
+    Route::post('venta_exporadica/validar_existencia_salida/{numserie}', 'VentaExporadicaController@validar_existencia_salida');
+
+    // DataTables 
+    Route::get('/dt_ventas', 'VentaExporadicaController@datatablesindex')->name('dt_ventas');
+    
+    
+    
+    
     
     
 
@@ -129,23 +143,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 
     // DataTables 
     Route::get('/dt_nota/{contrato_id}', 'NotaController@datatablesindex')->name('dt_nota');
-    Route::post('/insertfila/{numserietanque}', 'NotaController@insertfila');
+    Route::get('/insertfila/{numserietanque}', 'NotaController@insertfila');
 
   /* Reportes */
     Route::get('/reportes', 'ReportesController@index');
     Route::get('/dt_reportelisttanques/{estatus}', 'ReportesController@dt_listtanques')->name('dt_reportelisttanques');
 
 
-  /* ventas */
-    Route::get('/ventas', 'VentaController@index');
-    Route::get('/newventa', 'VentaController@newventa');
-    Route::post('/insertventas', 'VentaController@create');
-
-    // DataTables 
-    Route::get('/dt_ventas', 'VentaController@datatablesindex')->name('dt_ventas');
-    //Validar estatus tanque
-    Route::post('/validventasalida/{numserie}', 'VentaController@validventasalida');
-  
+ 
   //INFRA
   Route::get('infra', 'InfraController@index');
   Route::get('dt_infra', 'InfraController@datatables')->name('dt_infra');

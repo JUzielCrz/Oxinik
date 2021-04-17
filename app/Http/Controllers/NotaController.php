@@ -309,6 +309,7 @@ class NotaController extends Controller
     }
 
     public function insertfila($serietanque){
+    
         if($this->slugpermision()){
             if($tanques=Tanque::where('num_serie',$serietanque)->first() ){
                 return response()->json(['tanque' => $tanques, 'alert' => true]);

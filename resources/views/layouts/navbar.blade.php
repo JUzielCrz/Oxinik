@@ -41,7 +41,7 @@
 
                 @if($user->havePermission('ventas'))
                     <li class="nav-item active mr-4 ml-4">
-                        <a class="nav-link btn-menu" href="{{ url('/ventas') }}"><img  src="{{asset('img/ventas.svg')}}"   width="60" alt=""><br>Exporadico</a>
+                        <a class="nav-link btn-menu" href="{{ url('/venta_exporadica/newventa') }}"><img  src="{{asset('img/ventas.svg')}}"   width="60" alt=""><br>Exporadico</a>
                     </li>
                 @endif
 
