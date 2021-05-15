@@ -8,6 +8,7 @@ class AsignacionNotaDetalle extends Model
 {
     protected $table = 'detalle_nota_asignacion';
     public $timestamps =  true;
-    protected $fillable = ['id','nota_asignacion_id', 'cantidad','tipo_gas'];
+    protected $fillable = ['id','nota_asignacion_id', 'cilindros', 'tipo_gas', 'tipo_tanque', 'material', 'unidad_medida'];
+
     public $incrementing = true;
 }

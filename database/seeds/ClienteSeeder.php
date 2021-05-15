@@ -62,44 +62,17 @@ class ClienteSeeder extends Seeder
             'direccion' => 'Plaza Crystal, Eduardo Mata, San José La Noria, 68120 Oaxaca de Juárez, Oax.',
             'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
             'reguladores' => 1,
+            'deposito_garantia' => 10000,
         ]);
         Asignacion::create([
             'contratos_id'=>$contrato->id,
-            'cantidad'=>'3',
+            'cilindros'=>'3',
             'tipo_gas'=>1,
-        ]);
-
-        // $contrato=Contrato::create([
-        //     'num_contrato'=>'00784',
-        //     'cliente_id'=>$cliente1->id, 
-        //     'tipo_contrato'=>'PERMANENTE MEDICINAL',
-        //     'precio_transporte'=>'180.50',
-        //     'direccion' => 'Plaza Crystal, Eduardo Mata, San José La Noria, 68120 Oaxaca de Juárez, Oax.',
-        //     'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
-        //     'reguladores' => 1,
-        // ]);
-        // Asignacion::create([
-        //     'contratos_id'=>$contrato->id,
-        // 'cantidad'=>'3',
-        //     'tipo_gas'=>1, 
-        // ]);
-
-        // $contrato=Contrato::create([
-        //     'num_contrato'=>'00785',
-        //     'cliente_id'=>$cliente1->id, 
-        //     'tipo_contrato'=>'EVENTUAL',
-        //     'precio_transporte'=>'850',
-        //     'direccion' => 'Plaza Crystal, Eduardo Mata, San José La Noria, 68120 Oaxaca de Juárez, Oax.',
-        //     'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
-        //     'direccion' => 'Plaza Crystal, Eduardo Mata, San José La Noria, 68120 Oaxaca de Juárez, Oax.',
-        //     'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
-        //     'reguladores' => 1,
-        // ]);
-        // Asignacion::create([
-        //     'contratos_id'=>$contrato->id,
-        // 'cantidad'=>'3',
-        //     'tipo_gas'=>1, 
-        // ]);
+            'tipo_tanque' => 'Industrial',
+            'precio_unitario' => 200,
+            'unidad_medida'=> 'Carga',
+            'material' => 'Acero'
+            ]); 
 
         $contrato=Contrato::create([
             'num_contrato'=>'00786',
@@ -108,11 +81,16 @@ class ClienteSeeder extends Seeder
             'precio_transporte'=>'1245.78',
             'direccion' => 'Plaza Crystal, Eduardo Mata, San José La Noria, 68120 Oaxaca de Juárez, Oax.',
             'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
+            'deposito_garantia' => 10000,
         ]);
         Asignacion::create([
             'contratos_id'=>$contrato->id,
-            'cantidad'=>'3',
-            'tipo_gas'=>1, 
+            'cilindros'=>'3',
+            'tipo_gas'=>1,
+            'tipo_tanque' => 'Industrial',
+            'precio_unitario' => 200,
+            'unidad_medida' => 'Carga',
+            'material' => 'Acero'
         ]);
 
         $contrato=Contrato::create([
@@ -123,11 +101,16 @@ class ClienteSeeder extends Seeder
             'direccion' => 'Plaza Crystal, Eduardo Mata, San José La Noria, 68120 Oaxaca de Juárez, Oax.',
             'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
             'reguladores' => 1,
+            'deposito_garantia' => 10000,
         ]);
         Asignacion::create([
             'contratos_id'=>$contrato->id,
-            'cantidad'=>'3',
-            'tipo_gas'=>1, 
+            'cilindros'=>'3',
+            'tipo_gas'=>1,
+            'tipo_tanque' => 'Industrial',
+            'precio_unitario' => 200,
+            'unidad_medida' => 'Carga',
+            'material' => 'Acero'
         ]);
 
         $contrato=Contrato::create([
@@ -137,11 +120,16 @@ class ClienteSeeder extends Seeder
             'precio_transporte'=>'850',
             'direccion' => 'Plaza Crystal, Eduardo Mata, San José La Noria, 68120 Oaxaca de Juárez, Oax.',
             'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
+            'deposito_garantia' => 10000,
         ]);
         Asignacion::create([
             'contratos_id'=>$contrato->id,
-            'cantidad'=>'3',
-            'tipo_gas'=>1, 
+            'cilindros'=>'3',
+            'tipo_gas'=>1,
+            'tipo_tanque' => 'Industrial',
+            'precio_unitario' => 200,
+            'unidad_medida' => 'Carga',
+            'material' => 'Acero'
         ]);
 
         $contrato=Contrato::create([
@@ -151,11 +139,16 @@ class ClienteSeeder extends Seeder
             'precio_transporte'=>'1245.78',
             'direccion' => 'Plaza Crystal, Eduardo Mata, San José La Noria, 68120 Oaxaca de Juárez, Oax.',
             'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
+            'deposito_garantia' => 10000,
         ]);
         Asignacion::create([
             'contratos_id'=>$contrato->id,
-            'cantidad'=>'3',
-            'tipo_gas'=>1, 
+            'cilindros'=>'3',
+            'tipo_gas'=>1,
+            'tipo_tanque' => 'Industrial',
+            'precio_unitario' => 200,
+            'unidad_medida' => 'Carga',
+            'material' => 'Acero'
         ]);
 
         $contrato=Contrato::create([
@@ -165,11 +158,16 @@ class ClienteSeeder extends Seeder
             'precio_transporte'=>'180.50',
             'direccion' => 'Plaza Crystal, Eduardo Mata, San José La Noria, 68120 Oaxaca de Juárez, Oax.',
             'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
+            'deposito_garantia' => 10000,
         ]);
         Asignacion::create([
             'contratos_id'=>$contrato->id,
-            'cantidad'=>'3',
-            'tipo_gas'=>1, 
+            'cilindros'=>'3',
+            'tipo_gas'=>1,
+            'tipo_tanque' => 'Industrial',
+            'precio_unitario' => 200,
+            'unidad_medida' => 'Carga',
+            'material' => 'Acero'
         ]);
 
         $contrato=Contrato::create([
@@ -179,11 +177,16 @@ class ClienteSeeder extends Seeder
             'precio_transporte'=>'850',
             'direccion' => 'Plaza Crystal, Eduardo Mata, San José La Noria, 68120 Oaxaca de Juárez, Oax.',
             'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
+            'deposito_garantia' => 10000,
         ]);
         Asignacion::create([
             'contratos_id'=>$contrato->id,
-            'cantidad'=>'3',
-            'tipo_gas'=>1, 
+            'cilindros'=>'3',
+            'tipo_gas'=>1,
+            'tipo_tanque' => 'Industrial',
+            'precio_unitario' => 200,
+            'unidad_medida' => 'Carga',
+            'material' => 'Acero'
         ]);
         
     }

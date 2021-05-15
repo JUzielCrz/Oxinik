@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CatalogoGases;
 use App\Models\Tanque;
 use App\Models\TanqueHistorial;
 use App\User;
@@ -38,7 +39,9 @@ class TanqueController extends Controller
     public function index()
     {
         if($this->slugpermision()){
-            return view('tanques.index');
+            $catalogo = CatalogoGases::pluck('nombre','id');
+            $data= ['catalogo'=>$catalogo];
+            return view('tanques.index', $data);
         }
         return view('home');
     }

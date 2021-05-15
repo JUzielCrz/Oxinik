@@ -104,7 +104,6 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/notaentrada/nota_lista_tanques/{contrato_id}', 'NotaController@nota_lista_tanques');
     Route::get('/notaentrada/validar_existencia/{num_serie}', 'NotaController@validar_existencia');
     Route::post('/notaentrada/save', 'NotaController@save_nota_entrada');
-    
 
 
   /* ventas */
@@ -118,12 +117,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
     // DataTables 
     Route::get('/dt_ventas', 'VentaExporadicaController@datatablesindex')->name('dt_ventas');
-    
-    
-    
-    
-    
-    
 
 
 
@@ -180,6 +173,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
     Route::get('/pdf/nota/{idnota}', 'PDFController@pdf_nota'); 
     Route::get('/pdf/asignacion_tanque/{idasignacion}', 'PDFController@asignacion_tanques'); 
+
+
+    Route::get('/pdf/generar_contrato/{idcontrato}', 'PDFController@generar_contrato'); 
+
 
     //CATALOGO GASES
     Route::get('/catalogo_gases', 'UsoGeneralController@catalogo_gases');

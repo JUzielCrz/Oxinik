@@ -24,7 +24,7 @@ class CreateNotasTable extends Migration
             $table->string('envio')->nullable();
             $table->float('subtotal')->nullable();
             $table->float('iva_general')->nullable();
-            $table->string('total')->nullable();
+            $table->float('total')->nullable();
             $table->boolean('pago_cubierto')->nullable();
 
             $table->double('recargos')->default(0)->nullable();

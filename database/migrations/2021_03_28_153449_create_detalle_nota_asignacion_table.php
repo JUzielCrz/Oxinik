@@ -19,8 +19,11 @@ class CreateDetalleNotaAsignacionTable extends Migration
             $table->foreign('nota_asignacion_id')->references('id')
                     ->on('nota_asignacion')
                     ->onDelete('restrict');
-            $table->integer('cantidad');
+            $table->integer('cilindros');
             $table->string('tipo_gas');
+            $table->string('tipo_tanque');
+            $table->string('material');
+            $table->string('unidad_medida');
             $table->timestamps();
         });
     }

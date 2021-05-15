@@ -8,7 +8,7 @@ class Asignacion extends Model
 {
     protected $table = 'asignacion';
     public $timestamps =  true;
-    protected $fillable = ['id','contratos_id', 'cantidad', 'tipo_gas'];
+    protected $fillable = ['id','contratos_id', 'cilindros', 'tipo_gas', 'tipo_tanque', 'material', 'precio_unitario', 'unidad_medida'];
     public $incrementing = true;
 }
  

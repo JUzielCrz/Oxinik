@@ -30,7 +30,7 @@
             </div>
             <div class="form-group col-md-2">
                 {!! Form::label('*') !!}
-                {{ Form::select('unidadmedida',['m3' => 'm3', 'kilos' => 'kilos' ],null,['id' => 'unidadmedida','class'=>'form-control'])}}
+                {{ Form::select('unidadmedida',['Carga' => 'Carga','m3' => 'm3', 'kilos' => 'kilos' ],null,['id' => 'unidadmedida','class'=>'form-control'])}}
             </div>
 
             <div class="form-group col-md-6">
@@ -55,9 +55,10 @@
         </div>
 
         <div class="form-row">
+
             <div class="form-group col-md-6">
                 {!! Form::label('Tipo de Gas*') !!}
-                {!! Form::text('tipo_gas', null, ['id'=>'tipo_gas', 'class' => 'form-control', 'required' ]) !!}
+                {{ Form::select('tipo_gas', $catalogo, null, ['id'=>'tipo_gas', 'class' => 'form-control', 'required' ]) }}
                 <span  id="tipo_gasError" class="text-danger"></span>
             </div>
 

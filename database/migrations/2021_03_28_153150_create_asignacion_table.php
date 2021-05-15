@@ -19,8 +19,12 @@ class CreateAsignacionTable extends Migration
             $table->foreign('contratos_id')->references('id')
                     ->on('contratos')
                     ->onDelete('restrict');
-            $table->integer('cantidad');
+            $table->integer('cilindros');
             $table->string('tipo_gas');
+            $table->string('tipo_tanque');
+            $table->string('material');
+            $table->float('precio_unitario');
+            $table->string('unidad_medida');
             $table->timestamps();
         });
     }

@@ -6,7 +6,7 @@
     }
 </style>
 
-    <div class="container" >
+    <div class="container-fluid" style="width: 90rem">
         <center>
             <div id="divmsgindex" style="display:none" class="alert" role="alert">
             </div>
@@ -49,7 +49,6 @@
                                     <td class="text-center">{{$contrato->num_contrato}}</td>
                                     <td class="text-center">{{$contrato->tipo_contrato}}</td>
                                     <td><button class="btn btn-amarillo btn-delete-modal btn-sm" data-id="{{$contrato->id}}"><span class="fas fa-trash"></span></button>
-                                    
                                 </tr>
                             @endforeach
                             
@@ -96,6 +95,14 @@
                         <div class="form-row">
                             <div class="input-group input-group-sm mb-3">
                                 <div class="input-group-prepend">
+                                    <span class="input-group-text" >Reguladores:</span>
+                                </div>
+                                <input id="reguladoresShow" type="text" class="form-control form-control-sm" value="" readonly>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
                                     <span class="input-group-text" >Envío:</span>
                                 </div>
                                 <input id="precio_transporteShow" type="text" class="form-control form-control-sm" value="" readonly>
@@ -111,9 +118,15 @@
                                 <label for="">Referencia</label>
                                 <textarea id="referenciaShow" class="form-control form-control-sm" cols="30" rows="2" readonly></textarea>
                             </div>
+                            <div class="col-md-12">
+                                <label for="">Ubicacion:</label>
+                                <textarea id="link_ubicacionShow" class="form-control form-control-sm" cols="30" rows="2" readonly></textarea>
+                            </div>
                         </div>
                     </div>
+                </div>
 
+                <div class="card ">
                     <div class="card-header">
                         <div class="row" >
                             <div class="col-md-8 ">
@@ -131,15 +144,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" >
                         <div id="content-asignaciones">
                             
                         </div>
                     </div>
                 </div>
+
             </div>
             <div class="col-md-8">
-                <div class="card">
+                
+                <div class="card mt-3">
                     <div class="card-header bg-gray">NOTAS</div>
                     <div class="card-body"  id="cardtablas">
                     </div>
@@ -149,12 +164,12 @@
     </div>
     
     <!-- Modal insertar-->
-    <div class="modal fade bd-example-modal-md" id="modalinsertar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+    <div class="modal fade bd-example-modal-lg" id="modalinsertar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-onix">
             <h3 class="modal-title" id="modalinsertarTitle">Nuevo Contrato</h3>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
                 <span aria-hidden="true" class="fas fa-times"></span>
             </button>
             </div>
@@ -268,7 +283,7 @@
     {{--------------------------------- MODALES PARA ASIGNACION ------------------------------------------------------}}+
     <!-- Modal Edit Asignacion de tanques en contrato-->
     <div class="modal fade" id="modal-edit-asignacion" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
             <h5 class="modal-title" id="h5-title-modal"></h5>

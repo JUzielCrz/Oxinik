@@ -10,8 +10,7 @@ use Illuminate\Http\Request;
 
 class AsignacionController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('auth');
     }
 
@@ -26,35 +25,66 @@ class AsignacionController extends Controller
     public function show($contrato_id){
         $asigTanques=Asignacion::
         join('catalogo_gases','catalogo_gases.id','=','asignacion.tipo_gas')
+        ->select('asignacion.*', 'catalogo_gases.nombre as nombreGas', 'catalogo_gases.id as idGas')
         ->where('contratos_id', $contrato_id)->get();
 
         $data=['asigTanques'=>$asigTanques];
         return $data;
-}
+    }
 
     public function asignacion_plus(Request $request, $contrato_id){
         if($this->slugpermision()){
+
             //valiodacion para que los campos no vengan vacios
-            foreach( $request->tipo_gas AS $inci => $g){
-                if($request->cantidadtanques[$inci] == '' || $request->tipo_gas[$inci] == ''){
-                    return response()->json(['alert'=>'alert-danger', 'mensaje'=>'Faltan campos por rellenar']);
+            foreach( $request->asignacion_variante AS $valid => $g){
+                if($request->asignacion_variante[$valid] < 0 || 
+                    $request->asignacion_gas[$valid] == '' ||
+                    $request->asignacion_tipo_tanque[$valid] == '' || 
+                    $request->asignacion_material[$valid] == '' || 
+                    $request->asignacion_precio_unitario[$valid] < 0 || 
+                    $request->asignacion_unidad_medida[$valid] == ''
+                    ){
+                    return response()->json(['alert'=>'alert-danger', 'mensaje'=>'Faltan campos por rellenar o existen valores incorrectos']);
                 }
             }
+
+            foreach( $request->asignacion_gas AS $search => $g){
+                $buscarrepetido=$request->asignacion_gas[$search]. $request->asignacion_tipo_tanque[$search].$request->asignacion_material[$search];
+                foreach( $request->asignacion_gas AS $rep => $g){
+                    if($search != $rep){
+                        if($buscarrepetido == $request->asignacion_gas[$rep]. $request->asignacion_tipo_tanque[$rep].$request->asignacion_material[$rep]){
+                            return response()->json(['alert'=>'alert-danger', 'mensaje'=>'Asignación de tanques repetidos']);
+                        }
+                    }
+                    
+
+                }
+            }
+
             
             $fechaactual=date("Y")."-" . date("m")."-".date("d");
-            
-                
-                foreach( $request->tipo_gas AS $inci => $g){
-                    $asignaciontanque= Asignacion::where('contratos_id', $contrato_id)->where('tipo_gas', $request->tipo_gas[$inci])->first();
+
+                foreach( $request->asignacion_variante AS $inci => $g){
+                    $asignaciontanque = Asignacion::
+                    where('contratos_id', $contrato_id)
+                    ->where('tipo_gas', $request->asignacion_gas[$inci])
+                    ->where('tipo_tanque', $request->asignacion_tipo_tanque[$inci])
+                    ->where('material', $request->asignacion_material[$inci])
+                    ->first();
+
                     if($asignaciontanque != null){
-                        $asignaciontanque->cantidad = $asignaciontanque->cantidad + $request->cantidadtanques[$inci];
+                        $asignaciontanque->cilindros = $asignaciontanque->cilindros + $request->asignacion_variante[$inci];
                         $asignaciontanque->save();
                     }else{
                         $newAsignacionTanque= new Asignacion;
                         $newAsignacionTanque->contratos_id=$contrato_id;
-                        $newAsignacionTanque->cantidad= $request->cantidadtanques[$inci];
-                        $newAsignacionTanque->tipo_gas= $request->tipo_gas[$inci];
-                        $newAsignacionTanque->save();    
+                        $newAsignacionTanque->cilindros= $request->asignacion_variante[$inci];
+                        $newAsignacionTanque->tipo_gas= $request->asignacion_gas[$inci];
+                        $newAsignacionTanque->tipo_tanque= $request->asignacion_tipo_tanque[$inci];
+                        $newAsignacionTanque->material= $request->asignacion_material[$inci];
+                        $newAsignacionTanque->precio_unitario= $request->asignacion_precio_unitario[$inci];
+                        $newAsignacionTanque->unidad_medida= $request->asignacion_unidad_medida[$inci];
+                        $newAsignacionTanque->save();  
                     }
                 }   
 
@@ -64,18 +94,26 @@ class AsignacionController extends Controller
                 $newNota->incidencia= 'AUMENTO';
                 $newNota->save();
 
-                foreach( $request->tipo_gas AS $detalle => $g){
+                foreach( $request->asignacion_gas AS $detalle => $g){
 
-                    $detalleNota=AsignacionNotaDetalle::where('nota_asignacion_id', $newNota->id)->where('tipo_gas', $request->tipo_gas[$detalle])->first();
+                    $detalleNota=AsignacionNotaDetalle::
+                    where('nota_asignacion_id', $newNota->id)
+                    ->where('tipo_gas', $request->asignacion_gas[$detalle])
+                    ->where('tipo_tanque', $request->asignacion_tipo_tanque[$detalle])
+                    ->where('material', $request->asignacion_material[$detalle])
+                    ->first();
 
                     if($detalleNota != null){
-                        $detalleNota->cantidad = $detalleNota->cantidad + $request->cantidadtanques[$detalle];
+                        $detalleNota->cilindros = $detalleNota->cilindros + $request->asignacion_variante[$detalle];
                         $detalleNota->save();
                     }else{
                         $newDetalle= new AsignacionNotaDetalle;
                         $newDetalle->nota_asignacion_id = $newNota->id;
-                        $newDetalle->cantidad= $request->cantidadtanques[$detalle];
-                        $newDetalle->tipo_gas= $request->tipo_gas[$detalle];
+                        $newDetalle->cilindros= $request->asignacion_variante[$detalle];
+                        $newDetalle->tipo_gas= $request->asignacion_gas[$detalle];
+                        $newDetalle->tipo_tanque= $request->asignacion_tipo_tanque[$detalle];
+                        $newDetalle->material= $request->asignacion_material[$detalle];
+                        $newDetalle->unidad_medida= $request->asignacion_unidad_medida[$detalle];
                         $newDetalle->save();     
                     }
                 } 
@@ -90,77 +128,71 @@ class AsignacionController extends Controller
     public function asignacion_minus(Request $request, $contrato_id){
         if($this->slugpermision()){
             //valiodacion para que los campos no vengan vacios
-            foreach( $request->tipo_gas AS $validar => $g){
-                if($request->cantidadtanques[$validar] == '' || $request->tipo_gas[$validar] == ''){
-                    return response()->json(['alert'=>'alert-danger', 'mensaje'=>'Faltan campos por rellenar']);
+            foreach( $request->asignacion_variante AS $valid => $g){
+                if($request->asignacion_variante[$valid] < 0 || 
+                    $request->asignacion_gas[$valid] == '' ||
+                    $request->asignacion_tipo_tanque[$valid] == '' || 
+                    $request->asignacion_material[$valid] == '' || 
+                    $request->asignacion_unidad_medida[$valid] == ''
+                    ){
+                    return response()->json(['alert'=>'alert-danger', 'mensaje'=>'Faltan campos por rellenar o existen valores incorrectos']);
                 }
             }
 
             $fechaactual=date("Y")."-" . date("m")."-".date("d");
+
+            foreach( $request->asignacion_variante AS $dism => $g){
+                $asignaciontanque= Asignacion::
+                where('contratos_id', $contrato_id)
+                ->where('tipo_gas', $request->asignacion_gas[$dism])
+                ->where('tipo_tanque', $request->asignacion_tipo_tanque[$dism])
+                ->where('material', $request->asignacion_material[$dism])
+                ->first();
+                if($asignaciontanque != null){
+                    $resta = $asignaciontanque->cilindros - $request->asignacion_variante[$dism];
+                    if($resta<0){
+                        return response()->json(['alert'=>'alert-danger', 'mensaje'=>'El cliente no cuenta con cilindros suficientes para disminuir']);
+                    }
+                    if($resta == 0){
+                        $asignaciontanque->delete();
+                    }else{
+                        $asignaciontanque->cilindros=$resta;
+                        $asignaciontanque->save();
+                    }
+                }
+            }
+
+            $newNota=new AsignacionNota;
+            $newNota->contrato_id = $contrato_id;
+            $newNota->fecha=$fechaactual;
+            $newNota->incidencia= 'DISMINUCION';
+            $newNota->save();
+
+            foreach( $request->asignacion_gas AS $detalle => $g){
+
+                $detalleNota=AsignacionNotaDetalle::
+                where('nota_asignacion_id', $newNota->id)
+                ->where('tipo_gas', $request->asignacion_gas[$detalle])
+                ->where('tipo_tanque', $request->asignacion_tipo_tanque[$detalle])
+                ->where('material', $request->asignacion_material[$detalle])
+                ->first();
+
+                if($detalleNota != null){
+                    $detalleNota->cilindros = $detalleNota->cilindros + $request->asignacion_variante[$detalle];
+                    $detalleNota->save();
+                }else{
+                    $newDetalle= new AsignacionNotaDetalle;
+                    $newDetalle->nota_asignacion_id = $newNota->id;
+                    $newDetalle->cilindros= $request->asignacion_variante[$detalle];
+                    $newDetalle->tipo_gas= $request->asignacion_gas[$detalle];
+                    $newDetalle->tipo_tanque= $request->asignacion_tipo_tanque[$detalle];
+                    $newDetalle->material= $request->asignacion_material[$detalle];
+                    $newDetalle->unidad_medida= $request->asignacion_unidad_medida[$detalle];
+                    $newDetalle->save();     
+                }
+            }
             
-            $banderanota=true;
-            $groupGas=array();
-                //Agrupar elementos del request
-                foreach( $request->tipo_gas AS $agrupar => $g){
-                    $searchGas = array_key_exists($request->tipo_gas[$agrupar], $groupGas);
-                    
-                    if ($searchGas) {
-                        $cantidadaray=$groupGas[$request->tipo_gas[$agrupar]]; //11
-                        $cantidadaray=$cantidadaray+$request->cantidadtanques[$agrupar];
-                        $reemplazo = array($request->tipo_gas[$agrupar] => $cantidadaray);
-                        $groupGas=array_replace($groupGas, $reemplazo);
-                    }else{
-                        $groupGas += [ $request->tipo_gas[$agrupar] => intval($request->cantidadtanques[$agrupar])];
-                    }
-                }
-
-                //buscar un error antes de guardar en la base de datos
-                foreach( $request->tipo_gas AS $searchError => $g){
-                    $asignaciontanque=Asignacion::where('contratos_id', $contrato_id)->where('tipo_gas', $request->tipo_gas[$searchError])->first();
-                    if ($asignaciontanque != null) {
-                        $asignacionresta = $asignaciontanque->cantidad - $groupGas[$request->tipo_gas[$searchError]];
-                        if($asignacionresta<0){
-                            $banderanota=false;
-                            return response()->json(['alert'=>'alert-danger', 'mensaje'=>'El cliente no cuenta con esta cantidad de tanques para disminuir']);
-                        }
-                    }else{
-                        $banderanota=false;
-                        return response()->json(['alert'=>'alert-danger', 'mensaje'=>'No puedes disminuir un tanque que non has asignado previamente']);
-                    }
-                }
-
-                if($banderanota){
-
-                    foreach ($groupGas as $gastipo => $cant) {
-                        $asignaciontanque=Asignacion::where('contratos_id', $contrato_id)->where('tipo_gas', $gastipo)->first();
-                        $asignacionresta = $asignaciontanque->cantidad - $cant;
-                        
-                        if($asignacionresta == 0){
-                            $asignaciontanque->delete();
-                        }else{
-                            $asignaciontanque->cantidad = $asignacionresta;
-                            $asignaciontanque->save();
-                        }
-
-                    }
-
-                    $newNota=new AsignacionNota;
-                    $newNota->contrato_id = $contrato_id;
-                    $newNota->fecha=$fechaactual;
-                    $newNota->incidencia= 'DISMINUCION';
-                    $newNota->save();
-
-                    foreach ($groupGas as $claveGas => $valCant) {
-                        $newDetalle= new AsignacionNotaDetalle;
-                        $newDetalle->nota_asignacion_id = $newNota->id;
-                        $newDetalle->cantidad= $valCant;
-                        $newDetalle->tipo_gas= $claveGas;
-                        $newDetalle->save();  
-                    }
-                }
-
             return response()->json(['alert'=>'alert-primary', 'nota_id' => $newNota->id]);
-
         }
         return response()->json(['Sin permisos']);
     }
