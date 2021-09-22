@@ -92,12 +92,15 @@
                     </thead>
                     <tbody>
                         @foreach ($detalleNota as $tanques)
-                            <tr>
-                                <td>{{$tanques->cilindros}}</td>
-                                <td>{{$tanques->nombre}}</td>
-                                <td>{{$tanques->tipo_tanque}}</td>
-                                <td>{{$tanques->material}}</td>
-                            </tr>
+                            @if ($tanques->cilindros > 0)
+                                <tr>
+                                    <td>{{$tanques->cilindros}}</td>
+                                    <td>{{$tanques->nombre}}</td>
+                                    <td>{{$tanques->tipo_tanque}}</td>
+                                    <td>{{$tanques->material}}</td>
+                                </tr>
+                            @endif
+                            
                         @endforeach
                     </tbody>
                 </table>

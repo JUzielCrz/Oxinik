@@ -46,18 +46,18 @@ class ClienteController extends Controller
         return view('home');
     }
 
-    public function datatablesindex(){
+    public function data(){
+        // dump('pasas');
         if($this->slugpermision()){
             $clientes=Cliente::
             select('clientes.*');
             return DataTables::of(
                 $clientes
             )
-            ->addColumn( 'btnContrato', '<a class="btn btn-grisclaro btn-xs" href="{{route(\'contrato.index\', $id)}}"><span class="fas fa-clipboard"></span></a>')
-            // ->addColumn( 'btnContrato', '<button class="btn btn-morado btn-show-modal btn-xs" data-id="{{$id}}"><span class="far fa-eye"></span></button>')
-            ->addColumn( 'btnShow', '<button class="btn btn-morado btn-show-modal btn-xs" data-id="{{$id}}"><span class="far fa-eye"></span></button>')
-            ->addColumn( 'btnEdit', '<button class="btn btn-naranja btn-edit-modal btn-xs" data-id="{{$id}}"><span class="far fa-edit"></span></button>')
-            ->addColumn( 'btnDelete', '<button class="btn btn-amarillo btn-delete-modal btn-xs" data-id="{{$id}}"><span class="fas fa-trash"></span></button>')
+            ->addColumn( 'btnContrato', '<a class="btn btn-sm btn-grisclaro" href="{{route(\'contrato.index\', $id)}}" data-toggle="tooltip" data-placement="top" title="Contrato"><span class="fas fa-clipboard"></span></a>')
+            ->addColumn( 'btnShow',     '<button class="btn btn-sm btn-grisclaro btn-show-modal" data-id="{{$id}}" data-toggle="tooltip" data-placement="top" title="Ver"><span class="far fa-eye"></span></button>')
+            ->addColumn( 'btnEdit',     '<button class="btn btn-sm btn-grisclaro btn-edit-modal" data-id="{{$id}}" data-toggle="tooltip" data-placement="top" title="Editar"><span class="far fa-edit"></span></button>')
+            ->addColumn( 'btnDelete',   '<button class="btn btn-sm btn-grisclaro btn-delete-modal" data-id="{{$id}}" data-toggle="tooltip" data-placement="top" title="Eliminar"><span class="fas fa-trash"></span></button>')
             ->rawColumns(['btnContrato','btnShow','btnEdit','btnDelete'])
             ->toJson();
         }

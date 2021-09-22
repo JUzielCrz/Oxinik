@@ -1,21 +1,16 @@
-@extends('layouts.navbar')
-@section('contentnavbar')
+@extends('layouts.sidebar')
 
-<head>
-    <link href="{{asset('selects/select2.min.css')}}" rel="stylesheet">
-</head>
-<style>
-    body {
-        background-color: #e8ebf7;
-    }
-</style>
+@section('menu-navbar') 
+    @include('notas.submenu_navbar')
+@endsection
 
+@section('content-sidebar')
 
-<div class="container-fluid" style="width: 90rem">
-    <form id="form-entrada-nota">
+<div class="container" >
+    <form id="form-salida-nota">
 
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-8">
                 <fieldset id="InputsFilaSalida" disabled="disabled">
                 <div class="card">
                     <div class="card-header">
@@ -45,18 +40,11 @@
                                 {!! Form::number('cantidad', null, ['id'=>'cantidad', 'class' => 'form-control form-control-sm numero-entero-positivo', 'placeholder'=>'0', 'required', 'readonly' ]) !!}
                                 <span  id="cantidadError" class="text-danger"></span>
                             </div>
-                            
                             <div class="col">
                                 {!! Form::label('P.U.') !!}
                                 {!! Form::number('precio_unitario', null, ['id'=>'precio_unitario', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'$0.0', 'required' ]) !!}
                                 <span  id="precio_unitarioError" class="text-danger"></span>
                             </div>
-                            
-                            <div class="col ">
-                                {!! Form::label('IVA') !!}
-                                {{ Form::select('iva',['SI' => 'SI', 'NO' => 'NO'],null,['id' => 'iva_particular','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
-                                <span  id="ivaError" class="text-danger"></span>
-                            </div> 
                             <div class="col align-self-end">
                                 <button type="button" class="btn btn-grisclaro" id="btnInsertFila"> <span class="fas fa-plus"></span>Add</button>
                             </div> 
@@ -89,10 +77,20 @@
                         </center>
                     </div>
                 </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label for="">Observaciones Generales</label>
+                                <textarea name="observaciones" id="observaciones" cols="30" rows="1" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 </fieldset>
             </div>
             
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card " >
                     <div class="card-body">
                         
@@ -125,36 +123,26 @@
                             </div>
                         </div>
 
-                        {{-- Numero contrato--}}
+                        {{-- Numero contrato, tipo contrato--}}
                         <div class="form-row">
-                            <div class="input-group input-group-sm mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm"># Contrato:</span>
+                            <div class="col">
+                                <div class="input-group input-group-sm mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">#Contrato:</span>
+                                    </div>
+                                    <input id="num_contrato" name="num_contrato" type="text" class="form-control" readonly>
                                 </div>
-                                <input id="num_contrato" name="num_contrato" type="text" class="form-control" readonly>
                             </div>
-                        </div>
-                        
-                        {{-- tipo contrato--}}
-                        <div class="form-row">
-                            <div class="input-group input-group-sm mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">Tipo:</span>
+                            <div class="col">
+                                <div class="input-group input-group-sm mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">Tipo:</span>
+                                    </div>
+                                    <input id="tipo_contrato" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled>
                                 </div>
-                                <input id="tipo_contrato" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled>
                             </div>
                         </div>
 
-                        {{-- Folio Nota--}}
-                        <div class="form-row">
-                            <div class="input-group input-group-sm mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">Folio nota:</span>
-                                </div>
-                                <input id="folio_nota" name="folio_nota" type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" >
-                            </div>
-                            <span id="folio_notaError" class="alert-danger"></span>
-                        </div>
                     </div>
                 </div>
 
@@ -215,7 +203,6 @@
                             </div>
                         </center>
                         <div id="row-envio" >
-                            
                             <button id="btn-addEnvio" type="button" class="btn btn-sm btn-amarillo" > <span class="fas fa-plus"></span> Agregar Envio</button>
                         </div>
                         <input type="hidden" name="precio_envio" id="precio_envio" value= 0 >
@@ -268,7 +255,7 @@
 
                         <div class="row justify-content-center">
                             <button type="button" class="btn btn-grisclaro" id="btnCancelar">Cancelar</button>
-                            <button type="button" class="btn btn-grisclaro ml-2" id="btn-pagar-nota">Pagar</button>
+                            <button type="button" class="btn btn-grisclaro ml-2" id="btn-pagar-nota">Continuar</button>
                             {{-- <button type="button" class="btn btn-gray" id="btn-pdf-nota"> Nota de remision</button> --}}
                         </div>
                     </div>
@@ -375,6 +362,11 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/notas/notasalida.js') }}"></script>
-<script src="{{ asset('selects/select2.min.js') }}"></script>
+<script src="{{ asset('js/notas/salida.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        $("#id-menu-salida").removeClass('btn-outline-success');
+        $("#id-menu-salida").addClass('btn-success');
+    });
+</script>
 <!--Fin Scripts-->

@@ -25,11 +25,11 @@ $(document).ready(function () {
             },
             processing: true,
             serverSider: true,
-            ajax: '/dt_tanque_history/'+$('#serietanque').val(),
+            ajax: '/tanque/history/data/'+$('#serietanque').val(),
             columns:[
                 {data: 'num_serie'},
                 {data: 'estatus'},
-                {data: 'folios'},
+                {data: 'observaciones'},
                 {data: 'created_at'},
                 // {data: 'btnShow'},
                 

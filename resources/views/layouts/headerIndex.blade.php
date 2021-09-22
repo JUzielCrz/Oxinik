@@ -14,10 +14,11 @@
         <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
         <link href="{{asset('css/misestilos.css')}}" rel="stylesheet">
 
+        <!----Para SIDBAR----->
+        <link href="{{asset('css/sidebar-menu.css')}}" rel="stylesheet"> 
+
         {{-- archivos para datatables --}}
-        {{-- <link href="{{asset('css/jquery.dataTables.min.css')}}" rel="stylesheet"> --}}
         <link href="{{asset('datatables/datatables.min.css')}}" rel="stylesheet"> 
-        {{-- <link href="{{asset('tabledata/jquery.dataTables.min.css')}}" rel="stylesheet">  --}}
         
                 
         <!-- icon -->

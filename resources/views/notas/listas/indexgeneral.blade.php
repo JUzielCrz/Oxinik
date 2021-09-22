@@ -1,10 +1,10 @@
-@extends('layouts.navbar')
-@section('contentnavbar')
-<style>
-    body {
-        background-color: #e8ebf0;
-    }
-</style>
+@extends('layouts.sidebar')
+
+{{-- @section('menu-navbar') 
+    @include('notas.submenu_navbar')
+@endsection --}}
+
+@section('content-sidebar')
 
     <div class="container" >
         <center>

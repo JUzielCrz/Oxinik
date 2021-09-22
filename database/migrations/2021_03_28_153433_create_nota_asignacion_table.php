@@ -18,7 +18,7 @@ class CreateNotaAsignacionTable extends Migration
             $table->unsignedBigInteger('contrato_id');
             $table->foreign('contrato_id')->references('id')
                 ->on('contratos')
-                ->onDelete('restrict');
+                ->onDelete('cascade');
             $table->date('fecha');
             $table->enum('incidencia',['AUMENTO', 'DISMINUCION','INICIO-CONTRATO']);
             $table->timestamps();

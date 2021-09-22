@@ -1,5 +1,4 @@
 
-
     /* TABLA */
         thead{
             background: #587377;
@@ -64,13 +63,18 @@
 
         /* grisclaro */
         .bg-grisclaro, .btn-grisclaro{
-            color: #461220;
-            background: #cfd6ea ;
+            color: #fff;
+            background: #8A8E97 ;
         }
         .btn-grisclaro:hover{
-            background: #cfd6ea;
+            background: #f9c846;
             color: #461220;
-            border: 2px solid #587377;
+            
+        }
+        .btn-grisclaro:active{
+            background: #515358;
+            color: #fff;
+            
         }
 
         /* boton menu */

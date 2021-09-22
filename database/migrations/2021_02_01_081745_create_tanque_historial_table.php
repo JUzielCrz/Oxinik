@@ -20,7 +20,7 @@ class CreateTanqueHistorialTable extends Migration
                 ->on('tanques')
                 ->onDelete('restrict');
             $table->string('estatus');
-            $table->string('folios')->nullable();
+            $table->string('observaciones')->nullable();
             $table->timestamps();
         });
     }

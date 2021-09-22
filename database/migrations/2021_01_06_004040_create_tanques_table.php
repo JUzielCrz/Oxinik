@@ -6,11 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateTanquesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
     public function up()
     {
         Schema::create('tanques', function (Blueprint $table) {
@@ -20,17 +16,13 @@ class CreateTanquesTable extends Migration
             $table->string('capacidad');
             $table->string('material');
             $table->string('fabricante');
-            $table->string('tipo_gas');
+            $table->foreignId('tipo_gas')->references('id')->on('catalogo_gases')->onDelete('restrict');
+            $table->string('tipo_tanque');
             $table->string('estatus');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('tanques');

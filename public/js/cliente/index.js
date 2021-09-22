@@ -24,15 +24,17 @@ $(document).ready(function () {
             },
             processing: true,
             serverSider: true,
-            ajax: '/dt_tanque',
+            ajax: '/cliente/data',
             columns:[
-                {data: 'num_serie'},
-                {data: 'ph'},
-                {data: 'fabricante'},
-                {data: 'estatus'}, //aqui va estatus
+                {data: 'id'},
+                {data: 'apPaterno'},
+                {data: 'apMaterno'},
+                {data: 'nombre'},
+                {data: 'telefono'},
+                {data: 'telefonorespaldo'},
+                {data: 'btnContrato'},
                 {data: 'btnShow'},
                 {data: 'btnEdit'},
-                {data: 'btnHistory'},
                 {data: 'btnDelete'},
             ]
         });
@@ -56,56 +58,17 @@ $(document).ready(function () {
     $(document).on("click",".btn-delete-modal", metodo_detalle_delete);
     $(document).on("click","#btneliminar",metodo_eliminar);
     $(document).on("click","#btnactualizar",metodo_actualizar);
-
-    $("#fabricanteoficial").change( function() {
-        if ($(this).val() == "Otros") {
-            $("#otrofabricante").prop("disabled", false);
-        } else {
-            $("#otrofabricante").prop("disabled", true);
-            $("#otrofabricante").val('');
-        }
-    });
-    $("#fabricanteoficialedit").change( function() {
-        if ($(this).val() == "Otros") {
-            $("#otrofabricanteedit").prop("disabled", false);
-        } else {
-            $("#otrofabricanteedit").prop("disabled", true);
-            $("#otrofabricanteedit").val('');
-        }
-    });
-
+    
     function metodo_insertar() {
+
         metodo_limpiar_span("Error");
-
-        var fabri;
-        if($("#fabricanteoficial").val() == "Otros"){
-            fabri = $("#otrofabricante").val();
-        }else{
-            fabri = $("#fabricanteoficial").val();
-        }
-
-        var cap=$('#capacidadnum').val()+' '+ $('#unidadmedida').val();
-        if($('#capacidadnum').val()==''){
-            $("#capacidadError").text('El campo Capacidad es Obligatorio');
-            return false;
-        }
-
         $.ajax({
             method: "POST",
-            url: "/newtanque",
-            data: {
-                '_token': $('input[name=_token]').val(),
-                'id': $('#id').val(),
-                'num_serie': $('#num_serie').val(),
-                'ph': $('#ph').val(),
-                'capacidad': cap,
-                'material': $('#material').val(),
-                'fabricante': fabri,
-                'tipo_gas': $('#tipo_gas').val(),
-                'estatus': $('#estatus').val(),
-                },
+            url: "/cliente/create",
+            data: $("#idFormCliente").serialize(),
         })
             .done(function (msg) {
+                mostrar_mensaje("#divmsg",msg.mensaje, "alert-warning",null);
                 metodo_limpiar_campos();
                 listtabla.ajax.reload(null,false);      
                 mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modalinsertar");
@@ -126,23 +89,28 @@ $(document).ready(function () {
     }
     
     function metodo_limpiar_span(nombreerror) {
-        $("#num_serie"+ nombreerror).empty();
-        $("#ph"+ nombreerror).empty();
-        $("#capacidad"+ nombreerror).empty();
-        $("#material"+ nombreerror).empty();
-        $("#fabricante"+ nombreerror).empty();
-        $("#tipo_gas"+ nombreerror).empty();
+        $("#apPaterno"+ nombreerror).empty();
+        $("#apMaterno"+ nombreerror).empty();
+        $("#nombre"+ nombreerror).empty();
+        $("#rfc"+ nombreerror).empty();
+        $("#email"+ nombreerror).empty();
+        $("#telefono"+ nombreerror).empty();
+        $("#telefonorespaldo"+ nombreerror).empty();
+        $("#direccion"+ nombreerror).empty();
+        $("#referencia"+ nombreerror).empty();
         $("#estatus"+ nombreerror).empty();
     }
     
     function metodo_limpiar_campos() {
-        $("#num_serie").val("");
-        $("#ph").val("");
-        $("#capacidadnum").val("");
-        $("#material").val("");
-        $("#fabricanteoficial").val("");
-        $("#otrofabricante").val("");
-        $("#tipo_gas").val("");
+        $("#apPaterno").val("");
+        $("#apMaterno").val("");
+        $("#nombre").val("");
+        $("#rfc").val("");
+        $("#email").val("");
+        $("#telefono").val("");
+        $("#telefonorespaldo").val("");
+        $("#direccion").val("");
+        $("#referencia").val("");
         $("#estatus").val("");
     }
     
@@ -161,42 +129,27 @@ $(document).ready(function () {
     
     
     function metodo_detalle() {
-        $.get('/showtanque/' + $(this).data('id') + '', function(data) {
-            $.each(data.tanques, function (key, value) {
+        $.get('/cliente/show/' + $(this).data('id') + '', function(data) {
+            $.each(data.clientes, function (key, value) {
                 var variable = "#" + key + "info";
                 $(variable).val(value);
             });
-            $("#modalmostrar").modal("show");
-        })
+        }).done(function (msg) {
+            if(msg.accesso){
+                mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-warning",null);
+            }else{
+                $("#modalmostrar").modal("show");
+            }
+        });;
+        
     }
     
     function metodo_detalle_edit() {
         metodo_limpiar_span("editError");
-        $.get('/showtanque/' + $(this).data('id') + '', function(data) {
-            $.each(data.tanques, function (key, value) {
+        $.get('/cliente/show/' + $(this).data('id') + '', function(data) {
+            $.each(data.clientes, function (key, value) {
                 var variable = "#" + key + "edit";
                 $(variable).val(value);
-                if(key == 'fabricante'){
-                    if(value == 'Infra' || value == 'Plaxair'){
-                        $('#fabricanteoficialedit').val(value);
-                        $("#otrofabricanteedit").val('');
-                        $("#otrofabricanteedit").prop("disabled", true);
-                    }else{
-                        $('#fabricanteoficialedit').val('Otros');
-                        $("#otrofabricanteedit").val(value);
-                        $("#otrofabricanteedit").prop("disabled", false);
-                    }
-                }
-                if(key == 'capacidad'){
-                    if(value.includes('m3')){
-                        $('#unidadmedidaedit').val('m3');
-                        $('#capacidadnumedit').val(value.replace(' m3',''));
-                    }else{
-                        $('#unidadmedidaedit').val('kilos');
-                        $('#capacidadnumedit').val(value.replace(' kilos',''));
-
-                    }
-                }
             });
         }).done(function (msg) {
             if(msg.accesso){
@@ -209,39 +162,27 @@ $(document).ready(function () {
     
     function metodo_actualizar(){
         metodo_limpiar_span("editError");
-
-        var fabri;
-        if($("#fabricanteoficialedit").val() == "Otros"){
-            fabri = $("#otrofabricanteedit").val();
-        }else{
-            fabri = $("#fabricanteoficialedit").val();
-        }
-
-        var cap=$('#capacidadnumedit').val()+' '+ $('#unidadmedidaedit').val();
-        
-        if($('#capacidadnumedit').val()==''){
-            $("#capacidadeditError").text('El campo Capacidad es Obligatorio');
-            return false;
-        }
-
         $.ajax({
             method: "POST",
-            url: "updatetanque/"+$('#idedit').val()+'',
+            url: "/cliente/update/"+$('#idedit').val()+'',
             data: {
                 '_token': $('input[name=_token]').val(),
                 'id': $('#idedit').val(),
-                'num_serie': $('#num_serieedit').val(),
-                'ph': $('#phedit').val(),
-                'capacidad': cap,
-                'material': $('#materialedit').val(),
-                'fabricante': fabri,
-                'tipo_gas': $('#tipo_gasedit').val(),
-                'estatus': $('#estatusedit').val(),
+                'apPaterno': $('#apPaternoedit').val(),
+                'apMaterno': $('#apMaternoedit').val(),
+                'nombre': $('#nombreedit').val(),
+                'rfc': $('#rfcedit').val(),
+                'email': $('#emailedit').val(),
+                'telefono': $('#telefonoedit').val(),
+                'telefonorespaldo': $('#telefonorespaldoedit').val(),
+                'direccion': $('#direccionedit').val(),
+                'referencia': $('#referenciaedit').val(),
+                'estatus': $('#estatusedit').val()
                 },
         })
             .done(function (msg) {
                 listtabla.ajax.reload(null,false); 
-                mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modalactualizar");        
+                    mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modalactualizar");        
 
             }).fail(function (jqXHR, textStatus) {
                 mostrar_mensaje("#divmsgedit",'Error al actualizar, verifique sus datos.', "alert-danger",null);
@@ -264,7 +205,7 @@ $(document).ready(function () {
     function metodo_eliminar() {
         $.ajax({
             method: "POST",
-            url: "deletetanque/"+$('#ideliminar').text()+'',
+            url: "deletecliente/"+$('#ideliminar').text()+'',
             data: {
                 '_token': $('input[name=_token]').val(),
                 'id': $('#ideliminar').text()
@@ -284,6 +225,20 @@ $(document).ready(function () {
             if (this.value.length === 10) {
                 return false;
             }
+        });
+
+        $('.solo-numero').keypress(function (event) {
+            // console.log(event.charCode);
+            if (
+                event.charCode == 43 ||
+                event.charCode == 45 || 
+                event.charCode == 69 ||
+                event.charCode == 101||
+                event.charCode == 46    
+                ){
+                return false;
+            } 
+            return true;
         });
 
         $('.solo-text').keypress(function (event) {
@@ -306,8 +261,5 @@ $(document).ready(function () {
             } 
             return false;
         });
-
-
-        
 
 });

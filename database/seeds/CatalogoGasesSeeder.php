@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\CatalogoGases;
+use App\Models\CatalogoGas;
 use Illuminate\Database\Seeder;
 
 class CatalogoGasesSeeder extends Seeder
@@ -12,12 +12,12 @@ class CatalogoGasesSeeder extends Seeder
      */
     public function run()
     {
-        CatalogoGases::create(['nombre'=>'OXIGENO','abreviatura'=>'O2']);
-        CatalogoGases::create(['nombre'=>'ACETILENO','abreviatura'=>'C2H2']);
-        CatalogoGases::create(['nombre'=>'HELIO','abreviatura'=>'HE']);
-        CatalogoGases::create(['nombre'=>'HELIO GLOBOS','abreviatura'=>'HEG']);
-        CatalogoGases::create(['nombre'=>'HIDROGENO','abreviatura'=>'H']);
-        CatalogoGases::create(['nombre'=>'NITROGENO','abreviatura'=>'N']);
+        CatalogoGas::create(['nombre'=>'OXIGENO','abreviatura'=>'O2']);
+        CatalogoGas::create(['nombre'=>'ACETILENO','abreviatura'=>'C2H2']);
+        CatalogoGas::create(['nombre'=>'HELIO','abreviatura'=>'HE']);
+        CatalogoGas::create(['nombre'=>'HELIO GLOBOS','abreviatura'=>'HEG']);
+        CatalogoGas::create(['nombre'=>'HIDROGENO','abreviatura'=>'H']);
+        CatalogoGas::create(['nombre'=>'NITROGENO','abreviatura'=>'N']);
 
     }
 }

@@ -1,6 +1,15 @@
-@extends('layouts.navbar')
-@section('contentnavbar')
-    
+@extends('layouts.sidebar')
+
+{{-- @section('menu-navbar') 
+    <li class="nav-item">
+        <a class="btn btn-sm btn-success mr-1" href="{{ url('/nota/salida') }}"><i class="fas fa-sign-out-alt"></i> Salida</a>
+    </li>
+    <li class="nav-item">
+        <a class="btn btn-sm btn-outline-success" href="{{ url('/nota/entrada') }}"><i class="fas fa-sign-in-alt"></i> Entrada</a>
+    </li>
+@endsection --}}
+
+@section('content-sidebar')
 
     <div class="container" >
 
@@ -9,45 +18,51 @@
             </div>
         </center>
         
-        <div class="row ">
-            <div class="col-md-5 text-center">
-                <h3>Clientes</h3>
+        <div class="card">
+            <div class="card-header">
+                <div class="row ">
+                    <div class="col">
+                        <h5>Clientes</h5>
+                    </div>
+                    <div class="col text-right">
+                        <button type="button" class="btn btn-sm btn-gray" data-toggle="modal" data-target="#modalinsertar">
+                            <span class="fas fa-plus"></span>
+                            Agregar
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-5 text-right">
-                <button type="button" class="btn btn-gray" data-toggle="modal" data-target="#modalinsertar">
-                    <span class="fas fa-plus"></span>
-                    Agregar
-                </button>
+            <div class="card-body">
+                <div class="table-responsive" style="font-size:13px">
+                    <table id="tablecruddata" class="table table-sm " style="font-size:13px">
+                        <thead>
+                            <tr >
+                            <th scope="col">#ID</th>
+                            <th scope="col">Ap. Paterno</th>
+                            <th scope="col">Ap. Materno</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Teléfono</th>
+                            <th scope="col">2° Teléfono</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
-        
-        <div class="row table-responsive mt-2"> 
-            <table id="tablecruddata" class="table table-sm">
-                <thead>
-                    <tr>
-                    <th scope="col">#Cliente</th>
-                    <th scope="col">Ap. Paterno</th>
-                    <th scope="col">Ap. Materno</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Teléfono</th>
-                    <th scope="col">2° Teléfono</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
+
     </div>
 
 
     <!-- Modal insertar-->
-    <div class="modal fade bd-example-modal-lg" id="modalinsertar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal fade bd-example-modal-md" id="modalinsertar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="font-size: 13px">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header bg-onix">
-            <h1 class="modal-title" id="modalinsertarTitle">Nuevo</h1>
+            <h5 class="modal-title" id="modalinsertarTitle">Agregar Cliente</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff">
                 <span aria-hidden="true" class="fas fa-times"></span>
             </button>
@@ -70,11 +85,11 @@
     </div>
     
     <!-- Modal mostrar datos-->
-    <div class="modal fade bd-example-modal-lg" id="modalmostrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal fade bd-example-modal-md" id="modalmostrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header bg-onix">
-            <h1 class="modal-title" id="modalmostrarTitle">Informacion</h1>
+            <h5 class="modal-title" id="modalmostrarTitle">Informacion</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff">
                 <span aria-hidden="true" class="fas fa-times"></span>
             </button>
@@ -94,11 +109,11 @@
     </div>
 
     <!-- Modal actualizar datos-->
-    <div class="modal fade bd-example-modal-lg" id="modalactualizar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal fade bd-example-modal-md" id="modalactualizar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header bg-onix">
-            <h1 class="modal-title" id="modalactualizarTitle">Actualizar</h1>
+            <h5 class="modal-title" id="modalactualizarTitle">Actualizar</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff">
                 <span aria-hidden="true" class="fas fa-times"></span>
             </button>
@@ -158,5 +173,5 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/cruds/clientes.js') }}"></script>
+<script src="{{ asset('js/cliente/index.js') }}"></script>
 <!--Fin Scripts-->

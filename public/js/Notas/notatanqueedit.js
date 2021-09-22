@@ -126,7 +126,7 @@
 //             if(msg.mensaje || arrseriesnota.includes($('#serie_tanque').val())){
 //                 $.ajax({
 //                     method: "post",
-//                     url: "/insertfila/"+$('#serie_tanque').val()+'',
+//                     url: "/nota/insertar_fila/"+$('#serie_tanque').val()+'',
 //                     data: {
 //                         '_token': $('input[name=_token]').val(),
 //                         },

@@ -127,18 +127,18 @@ $(document).ready(function () {
                 //Insertar fila
                 $.ajax({
                     method: "post",
-                    url: "/insertfila/"+numserie+'',
+                    url: "/tanque/show_numserie/"+numserie+'',
                     data: {
                         '_token': $('input[name=_token]').val(),
                         },
                 })
                     .done(function (msg) {
         
-                        if(msg.alert){
+                        if(msg != ''){
                             $('#tablelistaTanques').append(
                                 "<tr class='classfilatanque'>"+
-                                "<td>"+msg.tanque.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.tanque.num_serie +"'></input>"+
-                                "<td>"+msg.tanque.capacidad+' '+msg.tanque.material+' '+msg.tanque.fabricante +
+                                "<td>"+msg.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie +"'></input>"+
+                                "<td>"+msg.capacidad+' '+msg.material+' '+msg.fabricante +
                                 "<td>"+$('#precio').val() +"</td>"+ "<input type='hidden' name='inputPrecio[]' value='"+$('#precio').val() +"'></input>"+
                                 "<td>"+$('#regulador').val() +"</td>"+ "<input type='hidden' name='inputRegulador[]' value='"+$('#regulador').val() +"'></input>"+
                                 "<td>"+$('#tapa_tanque').val() +"</td>"+ "<input type='hidden' name='inputTapa[]' value='"+$('#tapa_tanque').val() +"'></input>"+

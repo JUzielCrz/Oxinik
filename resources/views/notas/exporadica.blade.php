@@ -1,25 +1,26 @@
-@extends('layouts.navbar')
-@section('contentnavbar')
+@extends('layouts.sidebar')
 
-<style>
-    body {
-        background-color: #e8ebf7;
-    }
-</style>
+@section('menu-navbar') 
+    @include('notas.submenu_navbar')
+@endsection
 
-    <div class="container-fluid" style="width: 87rem">
+@section('content-sidebar')
+
+    <div class="container" >
         
     <form id="idFormNewVenta">
         @csrf
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-8">
                 {{-- Entrada --}}
                 <div class="card">
+                    <div class="card-header">
+                        <h5>ENTRADA TANQUES</h5>
+                    </div>
                     <div class="card-body">
-                        <p><strong>ENTRADA TANQUES</strong></p>
-                        <hr>
+
                         <div class="row justify-content-center">
-                            @csrf
+                            
                             <div class="col">
                                 {!! Form::label('# Serie') !!}
                                 {!! Form::text('serie_tanque_entrada', null, ['id'=>'serie_tanque_entrada', 'class' => 'form-control form-control-sm', 'placeholder'=>'#Serie',  'required' ]) !!}
@@ -64,9 +65,10 @@
         
                 {{-- SALIDA --}}
                 <div class="card mt-3">
+                    <div class="card-header">
+                        <h5>TANQUES SALIDA</h5>
+                    </div>
                     <div class="card-body">
-                        <p><strong>Tanques Salida</strong></p>
-                        <hr>
                         <div class="row justify-content-center">
                             
                             <div class="col">
@@ -96,11 +98,6 @@
                                 <span  id="precio_unitarioError" class="text-danger"></span>
                             </div>
                             
-                            <div class="col ">
-                                {!! Form::label('IVA') !!}
-                                {{ Form::select('iva',['SI' => 'SI', 'NO' => 'NO'],null,['id' => 'iva_particular','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
-                                <span  id="ivaError" class="text-danger"></span>
-                            </div> 
                             <div class="col align-self-end">
                                 <button type="button" class="btn btn-grisclaro" id="btn-insert-fila-salida"> <span class="fas fa-plus"></span>Add</button>
                             </div> 
@@ -134,9 +131,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card" >
-                    <div class="card-body">
+                    <div class="card-body" style="font-size: 13px">
                         <p><strong>REGISTRO CLIENTE</strong></p>
                         <hr>
                         <center>
@@ -150,7 +147,7 @@
                         <div class="form-row">
                             <div class="input-group input-group-sm mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">Cliente:</span>
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Nombre:</span>
                                 </div>
                                 <input name="nombre_cliente" id="nombre_cliente" type="text" class="form-control solo-texto" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                             </div>
@@ -188,15 +185,18 @@
                             </div>
                             <span id="direccionError" class="text-danger"></span>
                         </div>
+
                         
                         <hr>    
                         <!-- DATOS FACTURACION-->
+                        
                         <div id="datosfacturacion">
                             <div class="form-row justify-content-end" id="filaFacturacion">
                                 <button type="button" class="btn btn-sm btn-gray" id="btnFacturacion"><span class="fas fa-plus"></span>Datos Facturacion</button>
                             </div>
         
                             <div class="collapse" id="myCollapsible">
+                                <span class="ml-2 mb-3"><strong>Datos Facturación:</strong></span>
                                 <!-- RFC-->
                                 <div class="form-row">
                                     <div class="input-group input-group-sm mb-3">
@@ -294,7 +294,7 @@
 
                         <div class="row">
                             <div class="col-md-5">
-                                <label for="">TOTAL:</label>
+                                <label for="">TOTAL: $ </label>
                             </div>
                             <div class="col-md-6 text-right">
                                 <div id="div-total">
@@ -345,10 +345,7 @@
             </div>
 
         </div>
-        
 
-
-        
     </form>
 
 
@@ -366,7 +363,7 @@
                 <div class="modal-body">
                         {{-- input --}}
                         
-                        @include('notas.registrar_tanque')
+                        @include('tanques.create')
                         
                         {{-- endinputs --}}
                     <!-- botones Aceptar y cancelar-->
@@ -388,34 +385,36 @@
     <div class="modal fade bd-example-modal-md" id="modal-envio" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-md" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-onix">
-                    <h4 class="modal-title" id="modalinsertarTitle">Registrar Envio</h4>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalinsertarTitle">Registrar Envio</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
                         <span aria-hidden="true" class="fas fa-times"></span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form action="">
-                        <center>
-                            <div id="msg-envio-modal" style="display:none" class="alert" role="alert" style="font-size: 13px">
-                            </div>
-                        </center>
                         <div class="row"> 
                             <div class="col">
                                 <label>Dirección:</label>
-                                <textarea id="direccion_envio_modal" class="form-control" cols="30" rows="3" required></textarea>
+                                <textarea id="direccion_modal" class="form-control" cols="30" rows="2" required></textarea>
                             </div>
                         </div>
                         <div class="row"> 
                                 <div class="col">
                                     <label>Referencias:</label>
-                                    <textarea id="referencia_envio_modal" class="form-control" cols="30" rows="3" required></textarea>
+                                    <textarea id="referencia_modal" class="form-control" cols="30" rows="2" required></textarea>
                                 </div>
                         </div>
                         <div class="row"> 
+                            <div class="col">
+                                <label>Link Ubicación:</label>
+                                <textarea id="link_ubicacion_modal" class="form-control" cols="30" rows="2" required></textarea>
+                            </div>
+                    </div>
+                        <div class="row"> 
                                 <div class="col">
                                     <label>Precio:</label>
-                                    <input type="number" id="precio_envio_modal" class="form-control" required>
+                                    <input type="number" id="precio_modal" class="form-control numero-decimal-positivo" required>
                                 </div>
                         </div>
                     
@@ -474,5 +473,11 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/venta_exporadica/new_nota.js') }}"></script>
+<script src="{{ asset('js/notas/exporadica/index.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        $("#id-menu-exporadica").removeClass('btn-outline-success');
+        $("#id-menu-exporadica").addClass('btn-success');
+    });
+</script>
 <!--Fin Scripts-->

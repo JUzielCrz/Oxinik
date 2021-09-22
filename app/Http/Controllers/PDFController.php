@@ -12,6 +12,10 @@ use App\Models\NotaTanque;
 use Barryvdh\DomPDF\Facade as PDF;
 // use App\Funciones\ConvertNumber;
 use App\Http\Controllers\ConvertNumber;
+use App\Models\NotaPagos;
+use App\Models\VentaExporadica;
+use App\Models\VentaTanque;
+
 // include 'App\Funciones\ConvertNumber';
 
 class PDFController extends Controller
@@ -33,6 +37,21 @@ class PDFController extends Controller
         return $pdf->stream('nota_'.$nota->folio_nota.'.pdf');
         // return $pdf->dowload('name.pdf');
     }
+
+    public function pdf_nota_exporadica($idnota){
+        $nota=VentaExporadica::find($idnota);
+        $tanques=VentaTanque::
+        join('tanques', 'tanques.num_serie','=','venta_tanque.num_serie' )
+        ->where('venta_id', $nota->id)->get();
+        
+        $data=['nota'=>$nota,'tanques'=>$tanques];
+ 
+        $pdf = PDF::loadView('pdf.nota_exporadica', $data);
+
+        return $pdf->stream('nota_exporadica_'.$nota->folio_nota.'.pdf');
+        return $pdf->dowload('name.pdf');
+    }
+
 
     public function asignacion_tanques($nota_id){
         $nota= AsignacionNota::find($nota_id);

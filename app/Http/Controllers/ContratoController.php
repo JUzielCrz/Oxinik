@@ -7,7 +7,7 @@ use App\Models\AsignacionHistorial;
 use App\Models\AsignacionNota;
 use App\Models\AsignacionNotaDetalle;
 use App\Models\AsignacionTanques;
-use App\Models\CatalogoGases;
+use App\Models\CatalogoGas;
 use App\Models\Cliente;
 use App\Models\Contrato;
 use Illuminate\Http\Request;
@@ -38,7 +38,6 @@ class ContratoController extends Controller
             'num_contrato' => ['required','max:50', Rule::unique('contratos')->ignore($id, 'id')],
             'cliente_id' => ['required'],
             'tipo_contrato' => ['required', 'string', 'max:255'],
-            'precio_transporte' => ['required', 'string', 'max:255'],
         ]);
     }
 
@@ -48,7 +47,7 @@ class ContratoController extends Controller
         if($this->slugpermision()){
             $cliente = Cliente::where('id',$id)->first();
             $contratos=Contrato::select('contratos.*')->where('contratos.cliente_id',$id)->get();
-            $catalogogas = CatalogoGases::all();
+            $catalogogas = CatalogoGas::all();
             $data = ['cliente'=> $cliente, 'contratos'=>$contratos, 'catalogogas'=>$catalogogas];
             return view('contratos.index', $data);
         }
@@ -58,12 +57,12 @@ class ContratoController extends Controller
 
     public function create(Request $request)
     {
+        
         if($this->slugpermision()){
             $request->validate([
                 'num_contrato' => ['required', 'string', 'max:255', 'unique:contratos,num_contrato'],
                 'cliente_id' => ['required'],
                 'tipo_contrato' => ['required', 'string', 'max:255'],
-                'precio_transporte' => ['required', 'string', 'max:255'],
                 'deposito_garantia' => ['required'],
                 
             ]); 
@@ -120,8 +119,11 @@ class ContratoController extends Controller
             $contratos->deposito_garantia = $request->input('deposito_garantia');
             $contratos->observaciones= $request->observaciones;
 
+            
             if($contratos->save()){
+                
                 foreach( $request->tipo_gascreate AS $inci => $g){
+
                         $newAsignacionTanque= new Asignacion;
                         $newAsignacionTanque->contratos_id=$contratos->id;
                         $newAsignacionTanque->cilindros= $request->cilindroscreate[$inci];
@@ -132,6 +134,7 @@ class ContratoController extends Controller
                         $newAsignacionTanque->unidad_medida= $request->unidad_medidacreate[$inci];
                         $newAsignacionTanque->save();          
                 }   
+                
 
                 // Nota de asignaciones;
                 $notaAsig=new AsignacionNota;
@@ -140,8 +143,20 @@ class ContratoController extends Controller
                 $notaAsig->incidencia= 'INICIO-CONTRATO';
                 $notaAsig->save();
 
+                // $temporal=[]; 
+                // array_push($temporal, $request->materialcreate[$inci]); 
+                // dump($temporal);
+                // return false;
+
                 foreach( $request->tipo_gascreate AS $typeG => $g){
-                    $detalleNota=AsignacionNotaDetalle::where('nota_asignacion_id', $notaAsig->id)->where('tipo_gas', $request->tipo_gascreate[$typeG])->first();
+                    $detalleNota=
+                    AsignacionNotaDetalle::
+                    where('nota_asignacion_id', $notaAsig->id)
+                    ->where('tipo_gas', $request->tipo_gascreate[$typeG])
+                    ->where('tipo_tanque', $request->tipo_tanquecreate[$typeG])
+                    ->where('material', $request->materialcreate[$typeG])
+                    ->first();
+
                     if($detalleNota != null){
                         $detalleNota->cilindros = $detalleNota->cilindros + $request->cilindroscreate[$typeG];
                         $detalleNota->save();
@@ -150,7 +165,7 @@ class ContratoController extends Controller
                         $newDetalle->nota_asignacion_id = $notaAsig->id;
                         $newDetalle->cilindros= $request->cilindroscreate[$typeG];
                         $newDetalle->tipo_gas= $request->tipo_gascreate[$typeG];
-                        $newDetalle->tipo_tanque= $request->tipo_tanquecreate[$inci];
+                        $newDetalle->tipo_tanque= $request->tipo_tanquecreate[$typeG];
                         $newDetalle->unidad_medida= $request->unidad_medidacreate[$typeG];
                         $newDetalle->material= $request->materialcreate[$typeG];
                         $newDetalle->save(); 
@@ -189,6 +204,7 @@ class ContratoController extends Controller
             $contratos->precio_transporte = $request->precio_transporte;
             $contratos->direccion = $request->direccion;
             $contratos->referencia = $request->referencia;
+            $contratos->link_ubicacion = $request->link_ubicacion;
 
             if($contratos->save()){
                     return response()->json(['mensaje'=>'Editado Correctamente', 'contratos'=>$contratos]);

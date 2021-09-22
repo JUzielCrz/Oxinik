@@ -7,7 +7,7 @@ trait UserTrait{
     public function roles(){
         return $this->belongsToMany('App\Role')->withTimestamps();
     }
-
+    //                                'docente'
     public function havePermission($permission){
         foreach($this->roles as $role){
             if($role['slug']=='admin'){
@@ -23,7 +23,6 @@ trait UserTrait{
     }
 
     public function permissionsinFull($permission){
-
         foreach($this->roles as $role){
             foreach($role->permissions as $perm){
                 if($perm->slug == $permission){
@@ -35,7 +34,7 @@ trait UserTrait{
     }
 
     public function soloParaUnRol($rol){
-        
+
         foreach($this->roles as $role){
             if($role->slug == $rol){
                 return true;

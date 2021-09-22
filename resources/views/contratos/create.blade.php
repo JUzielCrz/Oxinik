@@ -3,7 +3,7 @@
         </div>
     </center>
 
-  <form id="idFormContrato">
+  <form id="idFormContrato" style="font-size: 13px">
     @csrf
     <label class="text-danger">* OBLIGATORIO </label>
     <hr>
@@ -39,7 +39,7 @@
             </div>
             
             <div class="form-group col-md-4">
-                {!! Form::label('Precio Transporte*') !!}
+                {!! Form::label('Precio Transporte') !!}
                 {!! Form::number('precio_transporte', null, ['id'=>'precio_transporte', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'$0.0']) !!}
                 <span  id="precio_transporteError" class="text-danger"></span>
             </div>
@@ -72,30 +72,23 @@
         
 
         <div class="form-row">
-            <table class="table table-sm" id="table-asignaciones" style="font-size: 13px">
+
+                
+            
+            <table class="table table-sm" id="table-asignaciones" style="font-size: 12px">
                 <thead>
                     <tr>
-                        <th>
-                            CILINDROS
-                        </th>
-                        <th>
-                            GAS
-                        </th>
-                        <th>
-                            TIPO
-                        </th>
-                        <th>
-                            MATERIAL
-                        </th>
-                        <th>
-                            P.U.
-                        </th>
-                        <th>
-                            U.M.
-                        </th>
+                        <th>CILINDROS</th>
+                        <th>GAS</th>
+                        <th>TIPO</th>
+                        <th>MATERIAL</th>
+                        <th>P.U.</th>
+                        <th>U.M.</th>
+                        <th></th>
                         <th></th>
                     </tr>
                 </thead>
+                <div id="msg-alert-asignacion"></div>
                 <tbody>
                     <tr class="trasignacion">
                         <td style="width: 5rem">
@@ -106,7 +99,8 @@
                                 <option value="" selected>Selecciona</option>
                                 @foreach ($catalogogas as $gas)
                                     <option value={{$gas->id}}>{{$gas->nombre}}</option>
-                                @endforeach </select>
+                                @endforeach 
+                            </select>
                         </td>
                         <td>
                             <select name="tipo_tanquecreate[]" id="tipo_tanquecreate" class="form-control form-control-sm tipo_tanque" disabled>
@@ -251,9 +245,10 @@
                                 '<option value="kg">kg</option>'+
                             '</select>'+
                         '</td>'+
-
                         '<td>'+
                             '<button type="button" class="btn btn-sm btn-amarillo" id="btn-anadir-asignacioncreate"><span class="fas fa-plus"></span></button>'+
+                        '</td>'+
+                        '<td>'+
                             '<button type="button" class="btn btn-sm btn-amarillo ml-1  " id="btn-eliminar-filaasignacion"><span class="fas fa-minus"></span></button>'+
                         '</td>'+
                     '</tr>'

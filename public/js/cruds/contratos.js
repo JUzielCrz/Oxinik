@@ -33,13 +33,13 @@ $(document).ready(function () {
         var contrato_id=$(this).data('id');
         
 
-        $.get('/showcontrato/' + contrato_id + '', function(data) {
+        $.get('/contrato/show/' + contrato_id + '', function(data) {
             $.each(data.contratos, function (key, value) {
                 var variable = "#" + key + "Show";
                 $(variable).val(value);
             });
             
-            $("#btn-edit-modal").val(data.contratos.num_contrato);
+            $("#btn-edit-modal").val(contrato_id);
 
             show_table_asignaciones(contrato_id, 'tableasignaciones', 'content-asignaciones');
 
@@ -50,16 +50,18 @@ $(document).ready(function () {
         $('#filatabla').remove();
         $('#cardtablas').append(
         "<div id='filatabla'>"+
-                "<div class='row table-responsive ml-1' >"+ 
-                    "<table id='tablecruddata' class='table table-sm  table-hover' >"+
+                "<div class='table-responsive' style='font-size:12px'>"+ 
+                    "<table id='tablecruddata' class='table table-sm  table-hover' style='font-size:12px'>"+
                         "<thead>"+
                             "<tr style='background: #fff; color: black'>"+
-                                "<th scope='col'>"+'Folio'+"</th>"+
-                                "<th scope='col'>"+'Fecha'+"</th>"+
-                                "<th scope='col'>"+'Núm. Contrato'+"</th>"+
+                                "<th scope='col'>Fecha</th>"+
+                                "<th scope='col'>Envio</th>"+
+                                "<th scope='col'>Total</th>"+
+                                "<th scope='col'>Metodo Pago</th>"+
+                                "<th scope='col'>Pagado</th>"+
                                 "<th scope='col'>"+"</th>"+
-                                "<th scope='col'>"+"</th>"+ 
-                                "<th scope='col'>"+"</th>"+ 
+                                // "<th scope='col'>"+"</th>"+ 
+                                // "<th scope='col'>"+"</th>"+ 
                             "</tr>"+
                         "</thead>"+
                     "</table>"+
@@ -90,16 +92,16 @@ $(document).ready(function () {
             },
             processing: true,
             serverSider: true,
-            ajax: '/dt_nota/'+contrato_id,
+            ajax: '/nota/data/'+contrato_id,
             columns:[
-                {data: 'folio_nota'},
                 {data: 'fecha'},
-                // {data: 'pago_realizado'},
-                // {data: 'metodo_pago'},
-                {data: 'num_contrato'},
-                {data: 'btnDevolucion'},
-                {data: 'btnEdit'},
-                {data: 'btnDelete'},
+                {data: 'envio'},
+                {data: 'total'},
+                {data: 'metodo_pago'},
+                {data: 'pago_cubierto'},
+                {data: 'btnPDF'},
+                // {data: 'btnEdit'},
+                // {data: 'btnDelete'},
             ]
         });
     });
@@ -108,10 +110,100 @@ $(document).ready(function () {
     function metodo_insertar() {
         metodo_limpiar_span("Error");
 
+        var campo=['num_contrato','deposito_garantia', 'precio_transporte'];
+        var camponombre=['# contrato','Deposito de garantia', 'Precio de transporte'];
+        var bandera=false;
+
+        $.each(campo, function(index){
+            if($('#'+campo[index]).val() < 1 || $('#'+campo[index]).val() == ""){
+                $('#'+campo[index]+'Error').text(camponombre[index]+" invalido");
+                $('#'+campo[index]).addClass("is-invalid");
+                bandera=true;
+            }else{
+                $('#'+campo[index]+'Error').empty();
+                $('#'+campo[index]).removeClass("is-invalid");
+            }
+        });
+        if(bandera){
+            return false;
+        }
+
+
+        var banderamensaje=false;
+        var banderamensaje2=false;
+        $("input[name='cilindroscreate[]']").each(function(indice, elemento) {
+            if($(elemento).val()=="" || $(elemento).val() < 1){
+                $(elemento).addClass("is-invalid");
+                banderamensaje=true;
+            }else{
+                $(elemento).removeClass("is-invalid");
+            }
+        });
+
+        $("input[name='precio_unitariocreate[]']").each(function(indice, elemento) {
+            if($(elemento).val()=="" || $(elemento).val() < 1){
+                $(elemento).addClass("is-invalid");
+                banderamensaje=true;
+            }else{
+                $(elemento).removeClass("is-invalid");
+            }
+        });
+    
+       
+        $("select[name='tipo_gascreate[]']").each(function(indice, elemento) {
+            if($(elemento).val()==""){
+                $(elemento).addClass("is-invalid");
+                banderamensaje2=true;
+            }else{
+                $(elemento).removeClass("is-invalid");
+            }
+        });
+        $("select[name='materialcreate[]']").each(function(indice, elemento) {
+            if($(elemento).val()==""){
+                $(elemento).addClass("is-invalid");
+                banderamensaje2=true;
+            }else{
+                $(elemento).removeClass("is-invalid");
+            }
+        });
+        $("select[name='unidad_medidacreate[]']").each(function(indice, elemento) {
+            if($(elemento).val()==""){
+                $(elemento).addClass("is-invalid");
+                banderamensaje2=true;
+            }else{
+                $(elemento).removeClass("is-invalid");
+            }
+        });
+        $("#msg-alert-asignacion").empty();
+        if(banderamensaje){
+            $("#msg-alert-asignacion").append(
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
+                    ' Cilindros o precio unitario invalidos.'+
+                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                    '<span aria-hidden="true">&times;</span>'+
+                '</button>'+
+                '</div>'
+            );
+        }
+
+        if(banderamensaje2){
+            $("#msg-alert-asignacion").append(
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
+                    'Faltan campos por rellenar.'+
+                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                    '<span aria-hidden="true">&times;</span>'+
+                '</button>'+
+                '</div>'
+            );
+        }
+        if(banderamensaje || banderamensaje2){
+            return false;
+        }
+
         var dataForm= $("#idFormContrato").serialize()+'&cliente_id=' +  $('#cliente_id').val();
         $.ajax({
             method: "POST",
-            url: "/newcontrato",
+            url: "/contrato/create",
             data: dataForm,
         })
             .done(function (msg) {
@@ -124,7 +216,8 @@ $(document).ready(function () {
                         "<tr class='fila"+ msg.contratos.id+"' data-id='"+msg.contratos.id+"'>"+
                             "<td class='text-center'>"+msg.contratos.num_contrato +"</td>"+
                             "<td class='text-center'>"+msg.contratos.tipo_contrato +"</td>"+
-                            "<td><button class='btn btn-amarillo btn-delete-modal btn-sm' data-id='"+msg.contratos.id+"'><span class='fas fa-trash'></span></button>"+
+                            "<td><a class='btn btn-amarillo btn-sm' target='_blank' href='/pdf/generar_contrato/"+msg.contratos.id+"'   title='Contrato'><i class='fas fa-clipboard'></i></span></a></td>"+
+                            "<td><button class='btn btn-amarillo btn-delete-modal btn-sm' data-id='"+msg.contratos.id+"'><span class='fas fa-trash'></span></button></td>"+
                         "</tr>"); 
                     mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modalinsertar");
                     window.open("/pdf/generar_contrato/"+ msg.contratos.id, '_blank');
@@ -153,6 +246,13 @@ $(document).ready(function () {
         $("#asignacion_tanques"+ nombreerror).empty();
         $("#precio_transporte"+ nombreerror).empty();
         $("#deposito_garantia"+ nombreerror).empty();
+        $("#direccion"+ nombreerror).empty();
+        $("#referencia"+ nombreerror).empty();
+        $("#link_ubicacion"+ nombreerror).empty();
+        $("#empresa"+ nombreerror).empty();
+        $("#reguladores"+ nombreerror).empty();
+        $("#deposito_garantia"+ nombreerror).empty();
+        $("#observaciones"+ nombreerror).empty();
     }
     
     function metodo_limpiar_campos() {
@@ -161,6 +261,23 @@ $(document).ready(function () {
         $("#tipo_contrato").val("");
         $("#asignacion_tanques").val("");
         $("#precio_transporte").val("");
+        $("#direccion").val("");
+        $("#referencia").val("");
+        $("#link_ubicacion").val("");
+        $("#empresa").val("");
+        $("#reguladores").val("");
+        $("#deposito_garantia").val("");
+        $("#observaciones").val("");
+
+        $("#tbody-tr-asignacioncreate").empty();
+
+        $("input[name='cilindroscreate[]']").val("");
+        $("select[name='tipo_gascreate[]']").val("");
+        $("select[name='tipo_tanquecreate[]']").val("");
+        $("select[name='tipo_tanquecreate[]']").empty();
+        $("select[name='materialcreate[]']").val("");
+        $("input[name='precio_unitariocreate[]']").val("");
+        $("select[name='unidad_medidacreate[]']").val("");
     }
     
     function mostrar_mensaje(divmsg,mensaje,clasecss,modal) {
@@ -179,7 +296,7 @@ $(document).ready(function () {
     function metodo_detalle_edit() {
         metodo_limpiar_span("editError");
         var numcontrato= $("#btn-edit-modal").val();
-        $.get('/showcontrato/' + numcontrato, function(data) {
+        $.get('/contrato/show/' + numcontrato, function(data) {
             $.each(data.contratos, function (key, value) {
                 var variable = "#" + key + "edit";
                 $(variable).val(value);
@@ -197,7 +314,7 @@ $(document).ready(function () {
         metodo_limpiar_span("editError");
         $.ajax({
             method: "POST",
-            url: "updatecontrato/"+$('#idedit').val()+'',
+            url: "/contrato/update/"+$('#idedit').val()+'',
             data: {
                 '_token': $('input[name=_token]').val(),
                 'id': $('#idedit').val(),
@@ -208,6 +325,7 @@ $(document).ready(function () {
                 'precio_transporte': $('#precio_transporteedit').val(),
                 'direccion': $('#direccionedit').val(),
                 'referencia': $('#referenciaedit').val(),
+                'link_ubicacion': $('#link_ubicacionedit').val(),
                 },
         })
             .done(function (msg) {
@@ -225,6 +343,7 @@ $(document).ready(function () {
                     $('#precio_transporteShow').val(msg.contratos.precio_transporte),
                     $('#direccionShow').val(msg.contratos.direccion),
                     $('#referenciaShow').val(msg.contratos.referencia),
+                    $('#link_ubicacionShow').val(msg.contratos.link_ubicacion),
                 mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modalactualizar");     
                 
             }).fail(function (jqXHR, textStatus) {
@@ -249,7 +368,7 @@ $(document).ready(function () {
         $.ajax({
             method: "get",
             // route: 'contrato.destroy',
-            url: "deletecontrato/"+$('#ideliminar').text()+'',
+            url: "/contrato/destroy/"+$('#ideliminar').text()+'',
             
         }).done(function (msg) {
             
@@ -339,7 +458,7 @@ $(document).ready(function () {
         $("#h5-title-modal").replaceWith('<h5 class="modal-title" id="h5-title-modal">Aumento</h5>');
         $('#modal-edit-asignacion').modal("show");
 
-        $('#incidencia-asignacion').val("AUMENTO");
+        $('#incidencia-asignacion').val("aumento");
     }
 
     function modal_edit_asignacion_minus(){
@@ -354,23 +473,22 @@ $(document).ready(function () {
         $("#h5-title-modal").replaceWith('<h5 class="modal-title" id="h5-title-modal">Disminución</h5>');
 
         $('#modal-edit-asignacion').modal("show");
-        $('#incidencia-asignacion').val("DISMINUCION");
+        $('#incidencia-asignacion').val("disminucion");
     }
 
     function getAsignaciones(){
         var contrato_id= $("#idShow").val();
-        $.get('/showasignaciones/' + contrato_id, function(data) {
+        $.get('/asignaciones/show/' + contrato_id, function(data) {
             var columnas='';
             $.each(data.asigTanques, function (key, value) {
                 columnas+='<tr class="trasignacion"><td>'+
                 '<input name="asignacion_cilindros[]" id="asignacion_cilindros" type="number" class="form-control form-control-sm" value="'+value.cilindros+'" readonly></td><td>'+
-                '<input name="asignacion_variante[]" id="asignacion_variante" type="number" class="form-control form-control-sm"></td><td>'+
+                '<input name="asignacion_variante[]" id="asignacion_variante" type="number" class="form-control form-control-sm" value=0></td><td>'+
                 '<select name="asignacion_gas[]" id="asignacion_gas" class="form-control form-control-sm select-search"><option value="'+value.idGas+'">'+ value.nombreGas +'</option></select></td><td>'+
                 '<input name="asignacion_tipo_tanque[]" id="asignacion_tipo_tanque" type="text" class="form-control form-control-sm" value="'+value.tipo_tanque+'" readonly></td><td>'+
                 '<input name="asignacion_material[]" id="asignacion_material" type="text" class="form-control form-control-sm" value="'+value.material+'" readonly></td><td>'+
                 '<input name="asignacion_precio_unitario[]" id="asignacion_precio_unitario" type="number" class="form-control form-control-sm" value="'+value.precio_unitario+'" readonly></td><td>'+
                 '<input name="asignacion_unidad_medida[]" id="asignacion_unidad_medida" type="text" class="form-control form-control-sm" value="'+value.unidad_medida+'" readonly></td><td>'+
-                // '</td><td>'+
                 '</td></tr>';
             });
 
@@ -386,7 +504,7 @@ $(document).ready(function () {
         $.ajax({
             
             method: "post",
-            url: "/asignacion/"+$('#incidencia-asignacion').val()+"/"+$('#idShow').val(),
+            url: "/asignaciones/"+$('#incidencia-asignacion').val()+"/"+$('#idShow').val(),
             // url: "/notasalida/save_edit_asignacion/"+$('#idShow').val(),
             data: $('#form-edit-asignacion').serialize(),
         }).done(function(msg){
@@ -403,7 +521,7 @@ $(document).ready(function () {
     }
     function show_table_asignaciones(contrato_id, idTabla, idDiv) {
         
-        $.get('/showasignaciones/' + contrato_id, function(data) {
+        $.get('/asignaciones/show/' + contrato_id, function(data) {
             var columnas='';
             $.each(data.asigTanques, function (key, value) {
                 columnas+='<tr><td>'+value.cilindros+'</td><td>'+value.nombreGas+'</td><td>'+value.tipo_tanque+'</td><td>'+value.precio_unitario+'</td><td>'+value.unidad_medida+'</td></tr>';
@@ -411,8 +529,8 @@ $(document).ready(function () {
 
             $('#'+idTabla).remove();
             $('#'+idDiv).append(
-                '<div id="'+idTabla+'" style="font-size: 10px">'+
-                    '<table class="table table-sm">'+
+                '<div id="'+idTabla+'" class="table-responsive" >'+
+                    '<table class="table table-sm" style="font-size: 13px">'+
                         '<thead><tr style="background: #fff; color: black">'+
                             '<th>Cil.</th>'+
                             '<th>Gas</th>'+

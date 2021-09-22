@@ -18,10 +18,12 @@
 
             <div class="form-group col-md-6">
                 {!! Form::label('Tipo de Contrato*') !!}
-                {{ Form::select('tipo_contratoedit',['PERMANENTE INDUSTRIAL' => 'PERMANENTE INDUSTRIAL', 
-                                                'PERMANENTE MEDICINAL' => 'PERMANENTE MEDICINAL',  
-                                                'EVENTUAL' => 'EVENTUAL' 
-                                                ],null,['id' => 'tipo_contratoedit','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona'])}}
+                {!! Form::text('tipo_contratoedit', null, ['id'=>'tipo_contratoedit', 'class' => 'form-control form-control-sm', 'required', 'readonly']) !!}
+
+                {{-- {{ Form::select('tipo_contratoedit',['Industrial' => 'Industrial', 
+                                                'Medicinal' => 'Medicinal',  
+                                                'Eventual' => 'Eventual' 
+                                                ],null,['id' => 'tipo_contratoedit','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona'])}} --}}
                 <span  id="tipo_contratoeditError" class="text-danger"></span>
             </div>
         </div>

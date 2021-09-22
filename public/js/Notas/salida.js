@@ -2,8 +2,6 @@ $(document).ready(function () {
 
 
     $(document).on("click","#btn-pagar-nota", pagar_nota);
-    $(document).on("click","#btnCancelar", cancelarnota);
-
 
     $(document).on("click","#btnInsertFila", insertfila);
     $(document).on("click","#btnEliminarFila", eliminarFila);
@@ -15,6 +13,7 @@ $(document).ready(function () {
     $(document).on("click","#btn-save-envio", save_edit_envio);
 
     $(document).on("click","#guardar-nota", guardar_nota);
+    $(document).on("click","#btnCancelar", cancelarnota);
 
 
                 // $('.select-search').select2();
@@ -26,7 +25,7 @@ $(document).ready(function () {
             {
                 $.ajax({
                     method: "POST",
-                    url:"notasalida/searchcontrato",
+                    url:"/nota/salida/search_contrato",
                     data:{'query':query,'_token': $('input[name=_token]').val(),},
                     success:function(data){
 
@@ -44,7 +43,7 @@ $(document).ready(function () {
 
             $.ajax({
                 method: "post",
-                url: "/datacontrato/"+numcontrato[0],
+                url: "/nota/data_contrato/"+numcontrato[0],
                 data: {'_token': $('input[name=_token]').val(),},
             })
             .done(function(msg) {
@@ -52,7 +51,7 @@ $(document).ready(function () {
                 $('#num_contrato').val(msg.contrato.num_contrato)
                 $('#nombre_cliente').val(msg.contrato.nombre+' '+msg.contrato.apPaterno+' '+msg.contrato.apMaterno)
                 $('#tipo_contrato').val(msg.contrato.tipo_contrato)
-                // $('#asignacion_tanques').val(msg.num_asignacion.num_asignacion)
+                $('#tablelistaTanques').empty();
 
                 show_table_asignaciones(msg.contrato.contrato_id, 'tableasignaciones', 'content-asignaciones');
             })
@@ -88,7 +87,7 @@ $(document).ready(function () {
 
         var numserie= $('#serie_tanque').val().replace(/ /g,'');
 
-        var campo= ['serie_tanque','cantidad','unidad_medida','precio_unitario','tapa_tanque','iva_particular'];
+        var campo= ['serie_tanque','cantidad','unidad_medida','precio_unitario','tapa_tanque'];
         var campovacio = [];
 
         $.each(campo, function(index){
@@ -125,87 +124,66 @@ $(document).ready(function () {
                 return false;
         }
 
-        //validar que tanque no ha sido registrado en almacene o no ha sido registrado como lleno.
-        $.ajax({
-            method: "post",
-            url: "../venta_exporadica/validar_existencia_salida/"+numserie+'',
-            data: {
-                '_token': $('input[name=_token]').val(),
-                },
-        }).done(function(msg){
+
+        $.get('/tanque/show_numserie/' + numserie, function(msg) { 
             
-            if(msg.mensaje){
-                //Insertar fila
-                $.ajax({
-                    method: "get",
-                    url: "/insertfila/"+numserie+'',
-                    // data: {
-                    //     '_token': $('input[name=_token]').val(),
-                    //     },
-                })
-                    .done(function (msg) {
-
-
-                        var precio_importe= $('#precio_unitario').val() * $('#cantidad').val();
-                        console.log(precio_importe);
-                        var iva =0;
-                        if( $('#iva_particular').val() == 'SI'){
-                            iva = precio_importe * 0.16;
-                        }
-        
-                        if(msg.alert){
+            if(msg != ''){
+                if(msg.estatus == 'LLENO-ALMACEN'){
+                    $.ajax({
+                        method: "post",
+                        url: "/nota/salida/validar_tanqueasignacion",
+                        data: {
+                            '_token': $('input[name=_token]').val(),
+                            'contrato_id': $('#contrato_id').val(),
+                            'num_serie': $('#serie_tanque').val(),
+                            },
+                    })
+                    .done(function(msgasignacion){
+                        if(msgasignacion.mensaje){
+                            
+                            var precio_importe= $('#precio_unitario').val() * $('#cantidad').val();
+                            var iva =0;
+                            
+                            if( msg.tipo_tanque == 'Industrial'){
+                                iva = precio_importe * 0.16;
+                            }
+    
                             $('#tablelistaTanques').append(
                                 "<tr class='classfilatanque'>"+
-                                "<td>"+msg.tanque.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.tanque.num_serie +"'></input>"+
+                                "<td>"+msg.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie +"'></input>"+
                                 "<td>"+$('#tapa_tanque').val() +"</td>"+ "<input type='hidden' name='inputTapa[]' value='"+$('#tapa_tanque').val() +"'></input>"+
-                                "<td>"+msg.tanque.tipo_gas +"</td>"+ "<input type='hidden' name='input_tipo_gas[]' value='"+msg.tanque.tipo_gas +"'></input>"+
+                                "<td>"+msg.tipo_gas +"</td>"+ "<input type='hidden' name='input_tipo_gas[]' value='"+msg.tipo_gas +"'></input>"+
                                 "<td>"+$('#cantidad').val() +"</td>"+ "<input type='hidden' name='input_cantidad[]' value='"+$('#cantidad').val() +"'></input>"+
                                 "<td>"+$('#unidad_medida').val() +"</td>"+ "<input type='hidden' name='input_unidad_medida[]' value='"+$('#unidad_medida').val() +"'></input>"+
                                 "<td>"+$('#precio_unitario').val() +"</td>"+ "<input type='hidden' name='input_precio_unitario[]' value='"+$('#precio_unitario').val() +"'></input>"+
                                 "<td>"+precio_importe +"</td>"+ "<input type='hidden' name='input_importe[]' value='"+precio_importe +"'></input>"+
-                                "<td>"+iva +"</td>"+ "<input type='hidden' name='input_iva_particular[]' value='"+iva +"'></input>"+
-
+                                "<td>"+iva +"</td>"+ "<input type='hidden' name='input_iva_particular[]' value='"+iva +"'></input>"+    
                                 "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
                                 "</tr>");
 
                                 actualizar_subtotal()
-                                actualizar_ivageneral()
-
                                 limpiar_inputs_fila();
+
+                                return false;
                         }else{
-                            $("#serie_tanqueError").text('Número de serie no existe');
+                            $("#serie_tanqueError").text('No tiene asignado en contrato este tipo de tanque');
                         }
-        
-                        return false;
-                        
-                    })
-                        
-                    .fail(function (jqXHR, textStatus) {
-                        mostrar_mensaje("#divmsg",'Error al insertar', "alert-danger",null);
-                        var status = jqXHR.status;
-                        if (status === 422) {
-                            $.each(jqXHR.responseJSON.errors, function (key, value) {
-                                var idError = "#" + key + "Error";
-                                //$(idError).removeClass("d-none");
-                                $(idError).text(value);
-                            });
-                        }
-                    });
+                    }); 
+                }else{
+                    $("#serie_tanqueError").text('Error Tanque - estatus: '+ msg.estatus);
+                }
+            
             }else{
-                $("#serie_tanqueError").text('Tanque no registrado en almacén o tanque vacio');
-            }
-        }).fail(function(){
-            $("#serie_tanqueError").text('tanque no registrado');
+                $("#serie_tanqueError").text('Número de serie no existe');
             }
             
-        );
+        });
         return false;
     }
 
     function eliminarFila(){
         $(this).closest('tr').remove();
         actualizar_subtotal();
-        actualizar_total();
     }
 
     function limpiar_inputs_fila() {
@@ -219,12 +197,16 @@ $(document).ready(function () {
 
     function actualizar_subtotal(){
 
-        var subtotal = 0;
+        var sumimporte = 0;
 
         $(".classfilatanque").each(function(){
             var preciotanque=$(this).find("td")[6].innerHTML;
-            subtotal=subtotal+parseFloat(preciotanque);
+            sumimporte=sumimporte+parseFloat(preciotanque);
         })
+
+        actualizar_ivageneral();
+        var subtotal = importe -  $('#input-ivaGen').val();
+
         $('#label-subtotal').replaceWith( 
             "<label id='label-subtotal'>"+Intl.NumberFormat('es-MX').format(subtotal) +"</label>"
         );
@@ -245,11 +227,17 @@ $(document).ready(function () {
         );
         $('#input-ivaGen').val(ivaGen);
 
-        actualizar_total();
     }
 
     function actualizar_total(){
-        var total=parseFloat($("#precio_envio").val())+parseFloat($("#input-ivaGen").val())+parseFloat($("#input-subtotal").val());
+        var importe = 0;
+
+        $(".classfilatanque").each(function(){
+            var preciotanque=$(this).find("td")[6].innerHTML;
+            importe=importe+parseFloat(preciotanque);
+        })
+        var total=parseFloat($("#precio_envio").val()) + importe;
+        
         $('#label-total').replaceWith( 
             "<label id='label-total'>"+Intl.NumberFormat('es-MX').format(total) +"</label>"
         );
@@ -257,7 +245,6 @@ $(document).ready(function () {
         $("#monto_pago").val(total);
     }
 
-    
 
   // FUNCIONES DE ENVIO
     function addenvio(){
@@ -265,8 +252,8 @@ $(document).ready(function () {
             return false;
         }
         $.ajax({
-            method: "post",
-            url: "/datacontrato/"+$('#num_contrato').val(),
+            method: "get",
+            url: "/contrato/show/"+$("#contrato_id").val(),
             data: {'_token': $('input[name=_token]').val(),},
         })
         .done(function(msg) {
@@ -277,7 +264,7 @@ $(document).ready(function () {
                 return false;
             }else{
                 $('#row-envio').append(
-                    '<div class="row" id="input-group-envio">'+
+                    '<div class="row mr-3" id="input-group-envio">'+
                         '<div class="col-auto mr-auto">'+
                             '<div  class="input-group input-group-sm  mb-3">'+
                                 '<div class="input-group-prepend ">'+
@@ -294,7 +281,7 @@ $(document).ready(function () {
                         '<div class="col-auto">'+
                             '<div  class="input-group input-group-sm  mb-3">'+
                                 '<div class="input-group-prepend ">'+
-                                    '<label id="label_precio_envio">$ '+ Intl.NumberFormat('es-MX').format(msg.contrato.precio_transporte) +'</label>'+
+                                    '<label id="label_precio_envio">$ '+ Intl.NumberFormat('es-MX').format(msg.contratos.precio_transporte) +'</label>'+
                                 '</div>'+
                                 
                             '</div>'+
@@ -302,10 +289,10 @@ $(document).ready(function () {
 
                     '</div>'
                 )
-                $('#precio_envio').val(msg.contrato.precio_transporte);
-                $('#precio_transporte').val(msg.contrato.precio_transporte);
-                $('#direccion').val(msg.contrato.direccion);
-                $('#referencia').val(msg.contrato.referencia);
+                $('#precio_envio').val(msg.contratos.precio_transporte);
+                $('#precio_transporte').val(msg.contratos.precio_transporte);
+                $('#direccion').val(msg.contratos.direccion);
+                $('#referencia').val(msg.contratos.referencia);
                 actualizar_total();
             }
         })
@@ -330,7 +317,7 @@ $(document).ready(function () {
 
         $.ajax({
             method: "post",
-            url: "/notasalida/save_edit_envio/"+$('#num_contrato').val(),
+            url: "/nota/salida/save_envio/"+$('#num_contrato').val(),
             data: $('#form-edit-envio').serialize(),
         }).done(function(msg){
             $('#precio_envio').val(msg.precio_transporte);
@@ -348,10 +335,6 @@ $(document).ready(function () {
             return false;
         }
 
-        if($('#folio_nota').val() == '') {
-            $("#folio_notaError").text('campoo folio nota necesario');
-            return false;
-        }
 
         //SI no hay tanques agregados manda error
         if($('input[id=idInputNumSerie]').length === 0) {
@@ -359,23 +342,19 @@ $(document).ready(function () {
             return false;
         }
 
-        if($("#inp_total").val() < $("#monto_pago").val()){
-            $("#ingreso-efectivoError").text('"Monto a pagar" no puede ser mayor a "Total"');
-            return false;
-        }
 
-        if($('#monto_pago').val() <= 0) {
+        if(parseFloat($('#monto_pago').val()) <= 0) {
             $("#metodo_pagoError").text('Monto debe ser mayor a 0');
             return false;
         }
 
         $("#ingreso-efectivoError").empty();
         if($("#metodo_pago").val()=='Efectivo'){
-            if($("#ingreso-efectivo").val() == 0){
+            if(parseFloat($("#ingreso-efectivo").val()) == 0){
                 $("#ingreso-efectivoError").text('Campo ingreso de efectivo obligatorio');
                 return false;
             }
-            if($("#ingreso-efectivo").val() < parseFloat($("#monto_pago").val())){
+            if(parseFloat($("#ingreso-efectivo").val()) < parseFloat($("#monto_pago").val())){
                 $("#ingreso-efectivoError").text('INGRESI EFECTIVO no puede ser menor a MONTO A PAGAR');
                 return false;
             }
@@ -387,22 +366,36 @@ $(document).ready(function () {
             return false;
         }else{
             $("#metodo_pago").removeClass('is-invalid');
+            $("#metodo_pagoError").empty();
+        }
+
+
+        if(parseFloat($("#monto_pago").val()) > parseFloat($("#input-total").val())){
+            $("#ingreso-efectivoError").text('Monto de pago no puede ser mayor al total de la nota');
+            return false;
+        }else{
+            $("#ingreso-efectivoError").empty();
         }
 
 
         $('#static-modal-pago').modal("show");
 
-        var adeudo = $("#input-total").val()-$("#monto_pago").val();
-        var cambio = $("#ingreso-efectivo").val()-$("#monto_pago").val();
-
-
+        var adeudo = parseFloat($("#input-total").val())- parseFloat($("#monto_pago").val());
+        
+        
         $("#label-adeudo").replaceWith(
             "<label id='label-adeudo'>"+Intl.NumberFormat('es-MX').format(adeudo)+"</label>"
         );
     
+        var cambio = 0;
         if($("#metodo_pago").val() == "Efectivo"){
+            cambio = parseFloat($("#ingreso-efectivo").val())-parseFloat($("#monto_pago").val());
             $("#label-cambio").replaceWith(
-                "<label id='label-cambio'>"+Intl.NumberFormat('es-MX').format(cambio)+"</label>"
+                "<label id='label-cambio'>$ "+Intl.NumberFormat('es-MX').format(cambio)+"</label>"
+            );
+        }else{
+            $("#label-cambio").replaceWith(
+                "<label id='label-cambio'>$ "+Intl.NumberFormat('es-MX').format(cambio)+"</label>"
             );
         }
 
@@ -423,8 +416,8 @@ $(document).ready(function () {
         // envio al controlador
         $.ajax({
             method: "post",
-            url: "/save_notasalida",
-            data: $("#form-entrada-nota").serialize(), 
+            url: "/nota/salida/save",
+            data: $("#form-salida-nota").serialize(), 
         }).done(function(msg){
             window.open("/pdf/nota/"+ msg.notaId, '_blank');
             location.reload();
@@ -441,7 +434,6 @@ $(document).ready(function () {
                 });
             }
         });
-
     }
 
 
@@ -458,7 +450,7 @@ $(document).ready(function () {
         limpiarasignacion();
         $("#h5-title-modal").replaceWith('<h5 class="modal-title" id="h5-title-modal">Aumento</h5>');
         $('#modal-edit-asignacion').modal("show");
-        $('#incidencia-asignacion').val("AUMENTO");
+        $('#incidencia-asignacion').val("aumento");
     }
 
     function modal_edit_asignacion_minus(){
@@ -470,7 +462,7 @@ $(document).ready(function () {
         show_table_asignaciones(contrato_id, 'table-show-asignaciones', 'show-asignaciones')
         $("#h5-title-modal").replaceWith('<h5 class="modal-title" id="h5-title-modal">Disminución</h5>');
         $('#modal-edit-asignacion').modal("show");
-        $('#incidencia-asignacion').val("DISMINUCION");
+        $('#incidencia-asignacion').val("disminucion");
         
     }
 
@@ -505,11 +497,10 @@ $(document).ready(function () {
     }
 
     function save_asignacion(){
-
         // &&falta validar que los campos no esten vacios al enviarlo y cuando regresen limpiar los campos
         $.ajax({
             method: "post",
-            url: "/asignacion/"+$('#incidencia-asignacion').val()+"/"+$('#contrato_id').val(),
+            url: "/asignaciones/"+$('#incidencia-asignacion').val()+"/"+$('#contrato_id').val(),
             data: $('#form-edit-asignacion').serialize(),
         }).done(function(msg){
             
@@ -530,23 +521,32 @@ $(document).ready(function () {
 
     function show_table_asignaciones(contrato_id, idTabla, idDiv) {
         
-        $.get('/showasignaciones/' + contrato_id, function(data) {
+        $.get('/asignaciones/show/' + contrato_id, function(data) {
 
             var columnas='';
             $.each(data.asigTanques, function (key, value) {
-                columnas+='<tr><td>'+value.cantidad+'</td><td>'+value.nombre+'</td></tr>';
+                columnas+='<tr><td>'+
+                value.cilindros+'</td><td>'+
+                value.nombreGas+'</td><td>'+
+                value.tipo_tanque+'</td><td>'+
+                value.material+'</td><td> $'+
+                value.precio_unitario+'</td><td>'+
+                value.unidad_medida+'</td></tr>';
             });
 
             $('#'+idTabla).remove();
             $('#'+idDiv).append(
-                '<div id="'+idTabla+'">'+
-                    '<table class="table table-sm">'+
+                '<div id="'+idTabla+'" class="table-responsive">'+
+                    '<table class="table table-sm" style="font-size:12px;">'+
                         '<tbody>'+
                             columnas+
                         '</tbody>'+
                     '</table>'+
                 '</div>'
             );
+
+
+
         })
     }
 
@@ -554,24 +554,6 @@ $(document).ready(function () {
   // FIN FUNCIONES DE ASIGNACION DE TANQUES
 
 
-
-    ///rescatar
-
-    function cancelarnota(){
-        window.location = "/contrato/"+ $('#idcliente').val();
-    }
-
-    // function metodo_limpiar_span_nota(nombreerror) {
-    //     $("#folio_nota"+ nombreerror).empty();
-    //     $("#fecha"+ nombreerror).empty();
-    //     $("#pago_realizado"+ nombreerror).empty();
-    //     $("#metodo_pago"+ nombreerror).empty();
-    // }
-    
-    //variable donde guarda todo el data que se envia al controllador
-        // var dataFormulario=$("#idFormNewNota").serialize()+'&pago_realizado=' + pagoRealizado;
-
-        
 
     //Generales
 
@@ -615,6 +597,24 @@ $(document).ready(function () {
         } 
         return true;
     });
+
+    //Cancelar nota
+    function cancelarnota(){
+        Swal.fire({
+            title: 'CANCELAR',
+            text: "¿Estas seguro de cancelar esta venta?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Si, Continuar!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.reload();
+            }
+        })
+    }
 
 });
 

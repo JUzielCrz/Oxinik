@@ -16,50 +16,180 @@ class TanqueSeeder extends Seeder
             'num_serie'=>'TQ00245',
             'ph'=>'2014-12',
             'capacidad'=>'8 m3',  
-            'material'=>'Aluminio',
+            'material'=>'Acero',
             'fabricante'=>'Plaxair',
-            'tipo_gas'=>'Oxigeno',
+            'tipo_gas'=>'1',
+            'tipo_tanque'=>'Industrial',
             'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
-            'num_serie'=>'TQ00265',
+            'num_serie'=>'TQ00246',
             'ph'=>'2014-12',
             'capacidad'=>'8 m3',  
             'material'=>'Acero',
             'fabricante'=>'Infra',
-            'tipo_gas'=>'Oxigeno',
+            'tipo_gas'=>'2',
+            'tipo_tanque'=>'Industrial',
             'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
-            'num_serie'=>'TQ00275',
+            'num_serie'=>'TQ00247',
             'ph'=>'2014-12',
             'capacidad'=>'8 m3',  
-            'material'=>'Aluminio',
+            'material'=>'Acero',
             'fabricante'=>'Plaxair',
-            'tipo_gas'=>'Oxigeno',
+            'tipo_gas'=>'3',
+            'tipo_tanque'=>'Industrial',
             'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
-            'num_serie'=>'TQ00285',
+            'num_serie'=>'TQ00248',
             'ph'=>'2014-12',
             'capacidad'=>'8 m3',  
             'material'=>'Acero',
             'fabricante'=>'TanQuir',
-            'tipo_gas'=>'Oxigeno',
+            'tipo_gas'=>'4',
+            'tipo_tanque'=>'Industrial',
             'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
-            'num_serie'=>'TQ00295',
+            'num_serie'=>'TQ00249',
+            'ph'=>'2014-12',
+            'capacidad'=>'8 m3',  
+            'material'=>'Acero',
+            'fabricante'=>'Plaxair',
+            'tipo_gas'=>'1',
+            'tipo_tanque'=>'Industrial',
+            'estatus'=>'LLENO-ALMACEN',
+        ]);
+
+        Tanque::create([
+            'num_serie'=>'TQ00250',
+            'ph'=>'2014-12',
+            'capacidad'=>'8 m3',  
+            'material'=>'Acero',
+            'fabricante'=>'Infra',
+            'tipo_gas'=>'2',
+            'tipo_tanque'=>'Industrial',
+            'estatus'=>'LLENO-ALMACEN',
+        ]);
+
+        Tanque::create([
+            'num_serie'=>'TQ00251',
+            'ph'=>'2014-12',
+            'capacidad'=>'8 m3',  
+            'material'=>'Acero',
+            'fabricante'=>'Plaxair',
+            'tipo_gas'=>'3',
+            'tipo_tanque'=>'Industrial',
+            'estatus'=>'LLENO-ALMACEN',
+        ]);
+
+        Tanque::create([
+            'num_serie'=>'TQ00252',
+            'ph'=>'2014-12',
+            'capacidad'=>'8 m3',  
+            'material'=>'Acero',
+            'fabricante'=>'TanQuir',
+            'tipo_gas'=>'4',
+            'tipo_tanque'=>'Industrial',
+            'estatus'=>'LLENO-ALMACEN',
+        ]);
+
+
+        ////ALUMINIOOOOOO
+        Tanque::create([
+            'num_serie'=>'AL00245',
             'ph'=>'2014-12',
             'capacidad'=>'8 m3',  
             'material'=>'Aluminio',
-            'fabricante'=>'Oxinair',
-            'tipo_gas'=>'Oxigeno',
+            'fabricante'=>'Plaxair',
+            'tipo_gas'=>'1',
+            'tipo_tanque'=>'Industrial',
             'estatus'=>'LLENO-ALMACEN',
         ]);
+
+        Tanque::create([
+            'num_serie'=>'AL00246',
+            'ph'=>'2014-12',
+            'capacidad'=>'8 m3',  
+            'material'=>'Aluminio',
+            'fabricante'=>'Infra',
+            'tipo_gas'=>'2',
+            'tipo_tanque'=>'Industrial',
+            'estatus'=>'LLENO-ALMACEN',
+        ]);
+
+        Tanque::create([
+            'num_serie'=>'AL00247',
+            'ph'=>'2014-12',
+            'capacidad'=>'8 m3',  
+            'material'=>'Aluminio',
+            'fabricante'=>'Plaxair',
+            'tipo_gas'=>'3',
+            'tipo_tanque'=>'Industrial',
+            'estatus'=>'LLENO-ALMACEN',
+        ]);
+
+        Tanque::create([
+            'num_serie'=>'AL00248',
+            'ph'=>'2014-12',
+            'capacidad'=>'8 m3',  
+            'material'=>'Aluminio',
+            'fabricante'=>'TanQuir',
+            'tipo_gas'=>'4',
+            'tipo_tanque'=>'Industrial',
+            'estatus'=>'LLENO-ALMACEN',
+        ]);
+
+        Tanque::create([
+            'num_serie'=>'AL00249',
+            'ph'=>'2014-12',
+            'capacidad'=>'8 m3',  
+            'material'=>'Aluminio',
+            'fabricante'=>'Plaxair',
+            'tipo_gas'=>'1',
+            'tipo_tanque'=>'Industrial',
+            'estatus'=>'LLENO-ALMACEN',
+        ]);
+
+        Tanque::create([
+            'num_serie'=>'AL00250',
+            'ph'=>'2014-12',
+            'capacidad'=>'8 m3',  
+            'material'=>'Aluminio',
+            'fabricante'=>'Infra',
+            'tipo_gas'=>'2',
+            'tipo_tanque'=>'Industrial',
+            'estatus'=>'LLENO-ALMACEN',
+        ]);
+
+        Tanque::create([
+            'num_serie'=>'AL00251',
+            'ph'=>'2014-12',
+            'capacidad'=>'8 m3',  
+            'material'=>'Aluminio',
+            'fabricante'=>'Plaxair',
+            'tipo_gas'=>'3',
+            'tipo_tanque'=>'Industrial',
+            'estatus'=>'LLENO-ALMACEN',
+        ]);
+
+        Tanque::create([
+            'num_serie'=>'AL00252',
+            'ph'=>'2014-12',
+            'capacidad'=>'8 m3',  
+            'material'=>'Aluminio',
+            'fabricante'=>'TanQuir',
+            'tipo_gas'=>'4',
+            'tipo_tanque'=>'Industrial',
+            'estatus'=>'LLENO-ALMACEN',
+        ]);
+        
+
     }
 }

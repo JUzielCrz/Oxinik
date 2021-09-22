@@ -25,7 +25,7 @@ class CreateContratosTable extends Migration
             $table->string('direccion')->nullable();
             $table->string('referencia')->nullable();
             $table->string('link_ubicacion')->nullable();
-            $table->integer('reguladores')->default(0);
+            $table->integer('reguladores')->default(0)->nullable();
             $table->string('empresa')->nullable();
             $table->float('deposito_garantia');
             $table->unique(['cliente_id', 'tipo_contrato']);

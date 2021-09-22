@@ -34,7 +34,7 @@
                             Fecha: {{$nota->fecha}}
                         </td>
                         <td  class="text-right" >
-                            Folio: <span style="color: red">{{$nota->folio_nota}}</span>
+                            Folio: <span style="color: red">{{$nota->id}}</span>
                         </td>
                     </tr>
                 </tbody>
@@ -115,24 +115,43 @@
 
             </table>
 
-            <hr>
-            {{-- <div class="row ml-3" >
-                <p>ENVASES ENTREGADOS AL CLIENTE: <br>
-                    @foreach ($tanques as $item)
-                        {{$tanq->num_serie}}, 
-                    @endforeach
-                </p>
-            </div> --}}
-            <hr>
+            
 
             <table class="table table-bordered">
                 <tbody >
                     <tr>
-                        <td>SUBTOTAL: <br> {{number_format($nota->subtotal,2)}}</td>
-                        <td>ENVÍO: <br> {{number_format($nota->envio,2)}}</td>
-                        <td>TASA 16% IVA: <br> {{number_format($nota->iva_general,2)}}</td>
+                        @php
+                            
+                            $subtotl= $nota->subtotal-($nota->subtotal * 0.16);
+                        @endphp
+                        <td>SUBTOTAL: <br>$ {{number_format($subtotl, 2, '.', ',')}}</td>
+                        <td>ENVÍO: <br>$ {{number_format($nota->envio,2)}}</td>
+                        <td>TASA 16% IVA: <br>$ {{number_format($nota->iva_general,2)}}</td>
                         <td>TOTAL: <br> $ {{number_format($nota->total,2)}}</td>
                     </tr>
+                </tbody>
+            </table>
+            @if ($nota->primer_pago < $nota->total)
+                <table class="table table-bordered mt-2">
+                    <tbody  >
+                        <tr>
+                            <td>Abono: <br> $ {{number_format($nota->primer_pago,2)}}</td>
+                            <td>Adeudo: <br> $ {{number_format($nota->total - $nota->primer_pago,2)}}</td>
+                        </tr>  
+                    </tbody>
+                </table>
+            {{-- @else
+            <table class="table table-bordered mt-2">
+                <tbody  >
+                    <tr>
+                        <td>PAGO CUBIERTO</td>
+                    </tr>  
+                </tbody>
+            </table> --}}
+            @endif
+            
+            <table class="table table-bordered mt-2">
+                <tbody >
                     <tr>
                         <td colspan="4">
                             <p>

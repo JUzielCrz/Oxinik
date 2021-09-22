@@ -1,12 +1,16 @@
-@extends('layouts.navbar')
-@section('contentnavbar')
-<style>
-    body {
-        background-color: #e8ebf7;
-    }
-</style>
+@extends('layouts.sidebar')
 
-    <div class="container-fluid" style="width: 90rem">
+@section('menu-navbar') 
+    <li class="nav-item">
+        <a class="btn btn-sm btn-success mr-1" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i> Atras</a>
+    </li>
+    {{-- <li class="nav-item">
+        <a class="btn btn-sm btn-outline-success" href="{{ url('/nota/entrada') }}"><i class="fas fa-sign-in-alt"></i> Entrada</a>
+    </li> --}}
+@endsection
+
+@section('content-sidebar')
+    <div class="container" >
         <center>
             <div id="divmsgindex" style="display:none" class="alert" role="alert">
             </div>
@@ -19,10 +23,10 @@
             <div class="card-header bg-gray">
                 <div class="row justify-content-end">
                     <div class="col-md-9">
-                        <h5 class="" style="font-size: 20px">CONTRATOS DE: {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}</h5>
+                        <h5 class="" style="font-size: 15px">CONTRATOS DE: {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}</h5>
                     </div>
                     <div class="col-md-3 text-right">
-                        <button type="button" class="btn btn-gray" data-toggle="modal" data-target="#modalinsertar">
+                        <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalinsertar">
                             <span class="fas fa-plus"></span>
                             Agregar
                         </button>
@@ -38,6 +42,7 @@
                             <th class="text-center">#Contrato</th>
                             <th class="text-center">Tipo</th>
                             <th scope="col"></th> 
+                            <th scope="col"></th> 
                             </tr>
                         </thead>
                         <tbody id="tableinsertfila">
@@ -48,7 +53,10 @@
                                 <tr class="fila{{$contrato->id}}" data-id="{{$contrato->id}}">
                                     <td class="text-center">{{$contrato->num_contrato}}</td>
                                     <td class="text-center">{{$contrato->tipo_contrato}}</td>
-                                    <td><button class="btn btn-amarillo btn-delete-modal btn-sm" data-id="{{$contrato->id}}"><span class="fas fa-trash"></span></button>
+                                    
+                                    <td><a class="btn btn-amarillo btn-sm" target="_blank" href="{{ url("/pdf/generar_contrato/{$contrato->id}") }}"  title="Contrato"><i class="fas fa-clipboard"></i></span></a></td>
+                                    <td><button class="btn btn-amarillo btn-delete-modal btn-sm" data-id="{{$contrato->id}}" title="Eliminar"><span class="fas fa-trash" ></span></button>
+                                
                                 </tr>
                             @endforeach
                             
@@ -63,18 +71,18 @@
         {{-- CARD INFORMACION CONTRATO INDIVIDUAL --}}
         <div class="row mt-3">
             <div class="col-md-4">
-                <div class="card ">
+                <div class="card pb-0">
                     <div class="card-header bg-gray">
                         <div class="form-row">
-                            <div class="col-md-8 ">
-                                <p>INFORMACIÓN</p>
+                            <div class="col ">
+                                <h5 style="font-size: 17px">INFORMACIÓN</h5>
                             </div>
-                            <div class="col-md-4 text-right">
+                            <div class="col ">
                                 <button class="btn btn-amarillo btn-sm" id="btn-edit-modal" ><span class="fas fa-edit"></span> Edit</button>
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="font-size: 12px;">
                         <div class="form-row">
                             <div class="input-group input-group-sm mb-3">
                                 <div class="input-group-prepend">
@@ -127,12 +135,12 @@
                 </div>
 
                 <div class="card ">
-                    <div class="card-header">
-                        <div class="row" >
-                            <div class="col-md-8 ">
-                                <p>ASIGNACIONES</p>
+                    <div class="card-header pb-0">
+                        <div class="row p-0">
+                            <div class="col">
+                                <h5 style="font-size: 17px">ASIGNACIONES</h5>
                             </div>
-                            <div class="col-4-md">
+                            <div class="col">
                                 <div class="input-group input-group-sm mb-3">
                                     <div class="input-group-prepend">
                                         <button class="btn btn-amarillo" type="button" id="btn-modal-asignacion-minus"> <span class="fas fa-minus"></span></button>
@@ -228,8 +236,8 @@
             </div>
             <div class="modal-body">
             <div class="deleteContent text-center m-5">
-                Se eliminara permanentemente. <br>
-                ¿Estas seguro?
+                Se eliminara todas las relaciones a este contrato permanentemente. <br>
+                ¿Estas seguro de continuar?
                 <input type="hidden" name="" id = "ideliminar">
                 <span class="hidden id"></span>
             </div>          

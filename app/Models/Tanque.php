@@ -8,11 +8,8 @@ class Tanque extends Model
 {
     protected $table = 'tanques';
     public $timestamps =  true;
-    protected $fillable = ['id','num_serie','ph', 'capacidad','material', 'fabricante', 'tipo_gas'];
+    protected $fillable = ['id','num_serie','ph', 'capacidad','material', 'fabricante', 'tipo_gas', 'tipo_tanque','estatus'];
     public $incrementing = true;
 
-    public function notas(){
-        return $this->belongsToMany('App\Models\Nota')->withTimestamps();
-    }
 
 }
