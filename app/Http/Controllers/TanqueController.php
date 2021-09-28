@@ -290,7 +290,7 @@ class TanqueController extends Controller
         return view('home');
     }
     public function reportados_data(){
-        if($this->slugpermision()){
+
             $tanques=TanqueReportado::
             join('tanques','tanques.num_serie','tanques_reportados.num_serie')
             ->select('tanques.*','tanques_reportados.*', 'tanques_reportados.id as reporte_id', 'tanques.id as tanque_id');
@@ -304,8 +304,6 @@ class TanqueController extends Controller
             })
             ->rawColumns(['btnHistory','btbEliminar'])
             ->toJson();
-        }
-        return view('home');
     }
 
     public function reportados_create(){
