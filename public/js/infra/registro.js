@@ -4,26 +4,18 @@ $(document).ready(function () {
     $(document).on("click","#btn-EliminarFila", eliminar_fila);
 
 
-    $(document).on("click","#btn-SaveAll", save_all);
+    $(document).on("click","#btn-save", guardar_registros);
 
     var contador=0;
 
     function insert_fila(){
-
         $('#serie_tanqueError').empty();
-        
-        var numserie= $('#serie_tanque').val().replace(/ /g,'');
 
-        
+        var numserie= $('#serie_tanque').val().replace(/ /g,'');
 
         if(numserie ==''){
             $('#serie_tanqueError').text('Número de serie obligatorio');
             return false;
-        }
-
-        if(boolRepetido){
-            $("#serie_tanqueError").text('Número de serie ya agregado a lista');
-                return false;
         }
 
         var boolRepetido=false;
@@ -33,32 +25,34 @@ $(document).ready(function () {
                 boolRepetido=true;
             }
         })
-
         if(boolRepetido){
             $("#serie_tanqueError").text('Número de serie ya agregado a lista');
                 return false;
         }
 
-        $.ajax({
-            method: "post",
-            url: "/buscartanqueinfra/"+numserie,
-            data: {
-                '_token': $('input[name=_token]').val(),
+        var valdiar_estatus="";
+        console.log($("#incidencia").val());
+        if($("#incidencia").val() == 'ENTRADA'){
+            valdiar_estatus='INFRA'
+        }else{
+            valdiar_estatus='VACIO-ALMACEN'
+        }
+        
+
+        $.get('/tanque/show_numserie/'+numserie, function(msg) {
+            if(msg==''){
+                $('#serie_tanqueError').text('Error, No exite registro de tanque con este número de serie');
+                return false;
             }
-        }).done(function(msg){
-            if(msg.tanque == 'NO ENCONTRADO'){
-                
-                $('#serie_tanqueError').text('Tanque no registrado como vacio en almacén');
-                
-            }else{
+            if(msg.estatus==valdiar_estatus){
                 $("#tbodyfilaTanques").append(
                     "<tr class='trFilaTanque'>"+
-                        "<td>"+msg.tanque.num_serie+"</td>"+"<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.tanque.num_serie +"'></input>"+
-                        "<td>"+msg.tanque.capacidad+"</td>"+
-                        "<td>"+msg.tanque.material+"</td>"+
-                        "<td>"+msg.tanque.ph+"</td>"+
+                        "<td>"+msg.num_serie+"</td>"+"<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie +"'></input>"+
+                        "<td>"+msg.capacidad+"</td>"+
+                        "<td>"+msg.material+"</td>"+
+                        "<td>"+msg.ph+"</td>"+
+                        "<td>"+msg.fabricante+"</td>"+
                         "<td>"+ "<button type='button' class='btn btn-naranja' id='btn-EliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
-
                     "</tr>"
                 );
 
@@ -68,8 +62,11 @@ $(document).ready(function () {
                 );
                 
                 $('#serie_tanque').val('');
+            }else{
+                $('#serie_tanqueError').text('Error, estatus tanque: '+ msg.estatus);
+                return false;
             }
-        })
+        });
     }
 
     function eliminar_fila(){
@@ -83,28 +80,26 @@ $(document).ready(function () {
     }
 
 
-    function save_all(){
-        limpiar_errores();
-        //SI no hay tanquies agregados manda error
+    function guardar_registros(){
+        //SI no hay tanques agregados manda error
         if($('input[id=idInputNumSerie]').length === 0) {
-            mostrar_mensaje("#divmsgtanque",'Error, No hay tanques en la lista', "alert-danger",null);
+            mensaje('error','Error','No hay tanques en lista',null);
             return false;
         }
 
-        var cantidad=contador;
-        var dataForm= $("#formCreateInfra").serialize()+'&cantidad=' + cantidad;
+        var dataForm= $("#formCreateInfra").serialize()+'&cantidad=' + contador;
 
         $.ajax({
             method: "post",
-            url: "/savenoteinfra",
+            url: "/infra/registro_save",
             data: dataForm,
         }).done(function(msg){
             limpiar_campos();
-            mostrar_mensaje("#divmsgindex", 'Registro creado correctamente', "alert-primary","#modalactualizar");
+            mensaje('success','Exito','Registro creado correctamente', 1500);
         })
         .fail(function (jqXHR, textStatus) {
             //Si existe algun error entra aqui
-            mostrar_mensaje("#divmsgnota",'Error, Verifica tus datos', "alert-danger",null);
+            mensaje('error','Error','Verifica tus datos', null);
             var status = jqXHR.status;
             if (status === 422) {
                 $.each(jqXHR.responseJSON.errors, function (key, value) {
@@ -116,27 +111,20 @@ $(document).ready(function () {
     }
 
 
-    function mostrar_mensaje(divmsg,mensaje,clasecss,modal) {
-        if(modal !== null){
-            $(modal).modal("hide");
-        }
-        $(divmsg).empty();
-        $(divmsg).addClass(clasecss);
-        $(divmsg).append("<p>" + mensaje + "</p>");
-        $(divmsg).show(500);
-        $.when($(divmsg).hide(5000)).done(function () {
-            $(divmsg).removeClass(clasecss);
-        });
+    //funciones generales
+    function mensaje(icono,titulo, mensaje, timer){
+        Swal.fire({
+            icon: icono,
+            title: titulo,
+            text: mensaje,
+            timer: timer,
+            width: 300,
+        })
     }
 
-    function limpiar_errores(){
-        $('#fechaError').empty();
-        $('#incidenciaError').empty();
-    }
+
 
     function limpiar_campos(){
-        $('#fecha').val('');
-        $('#incidencia').val('');
         $('.trFilaTanque').remove();
         contador= 0;
         $("#contador").replaceWith(

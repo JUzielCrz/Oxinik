@@ -8,9 +8,9 @@
 
 <div class="container">
     <div class="card">
-        <div class="card-header">
+        <div class="card-body">
             <div class="row justify-content-center">
-                {{-- <div class="col-md-3">
+                <div class="col-md-3">
                     <div class="card">
                         <div class="card-body bg-info border-dark text-white text-center  p-2" >
                             <i class="fas fa-sticky-note"></i> Entradas
@@ -21,7 +21,7 @@
                             </div>
                         </a>
                     </div>
-                </div> --}}
+                </div>
                 <div class="col-md-3">
                     <div class="card">
                         <div class="card-body bg-info border-dark text-white text-center  p-2" >
@@ -60,8 +60,14 @@
                 </div>
             </div>
         </div>
-        <div class="card-body">
-            <h1>card body</h1>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-header">
+            <h5 id="titulo-table"></h5>
+        </div>
+        <div class="card-body" id="card-contenido">
+            <div id="insert-table"></div>
         </div>
     </div>
 </div>
@@ -70,5 +76,5 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/notas/pendientes/index.js') }}"></script>
+<script src="{{ asset('js/notas/listas/index.js') }}"></script>
 <!--Fin Scripts-->

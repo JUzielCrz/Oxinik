@@ -13,7 +13,6 @@ use Yajra\DataTables\DataTables;
 
 class MantenimientoController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
@@ -33,42 +32,33 @@ class MantenimientoController extends Controller
         return response()->json(['mensaje'=>'Sin permisos']);
     }
 
-    public function datatables(){
+    public function data(){
         if($this->slugpermision()){
-            $mantenimiento=MantenimientoLLenado::
-            select('mantenimiento_llenado.*');
+            $mantenimiento=MantenimientoLLenado::all();
             return DataTables::of(
                 $mantenimiento
             )
-            ->addColumn( 'btnShow', '<button class="btn btn-morado btn-show-modal btn-xs" data-id="{{$id}}"><span class="far fa-eye"></span></button>')
-            ->addColumn( 'btnEdit', '<button class="btn btn-naranja btn-edit-modal btn-xs" data-id="{{$id}}"><span class="far fa-edit"></span></button>')
-            ->addColumn( 'btnDelete', '<button class="btn btn-amarillo btn-delete-modal btn-xs" data-id="{{$id}}"><span class="fas fa-trash"></span></button>')
-            ->rawColumns(['btnContrato','btnShow','btnEdit','btnDelete'])
+            ->addColumn( 'btnShow', '<button class="btn btn-morado btn-show btn-sm" data-id="{{$id}}"><span class="far fa-eye"></span></button>')
+            ->rawColumns(['btnShow'])
             ->toJson();
         }
         return view('home');
     }
 
-    public function create(){
+    public function entrada(){
         if($this->slugpermision()){
-            return view('mantenimiento.create');
+            return view('mantenimiento.entrada');
         }
         return response()->json(['mensaje'=>'Sin permisos']);
     }
-    
-    public function buscartanque($serie){
-        
-
-        if(Tanque::where('num_serie',$serie)->where('estatus', 'VACIO-ALMACEN')->first()){
-            $buscar=Tanque::where('num_serie',$serie)->where('estatus', 'VACIO-ALMACEN')->first();
-            return response()->json(['tanque'=>$buscar]);
+    public function salida(){
+        if($this->slugpermision()){
+            return view('mantenimiento.salida');
         }
-        return response()->json(['tanque'=>'NO ENCONTRADO']);
+        return response()->json(['mensaje'=>'Sin permisos']);
     }
 
-    
-
-    public function savenote(Request $request){
+    public function registro_save(Request $request){
 
         if($this->slugpermision()){
             $request->validate([
@@ -85,20 +75,27 @@ class MantenimientoController extends Controller
             $mantenimiento->incidencia= $request->incidencia;
 
             if($mantenimiento->save()){
+                if($mantenimiento->incidencia=='ENTRADA'){
+                    $obse_hystory='Regreso de MANTENIMIENTO. Nota id: '. $mantenimiento->id;
+                    $estatus_tanque='LLENO-ALMACEN';
+                }else{
+                    $obse_hystory='Llevado a MANTENIMIENTO. Nota id: '. $mantenimiento->id;
+                    $estatus_tanque='MANTENIMIENTO';
+                }
                 foreach( $request->inputNumSerie AS $series => $g){
-                    $MantenimientoTanque=new MantenimientoTanque;
-                    $MantenimientoTanque->num_serie = $request->inputNumSerie[$series];
-                    $MantenimientoTanque->MantenimientoLLenado_id = $mantenimiento->id;
-                    $MantenimientoTanque->save();
+                    $mantenimientoTanque=new MantenimientoTanque;
+                    $mantenimientoTanque->num_serie = $request->inputNumSerie[$series];
+                    $mantenimientoTanque->mantenimientoLLenado_id = $mantenimiento->id;
+                    $mantenimientoTanque->save();
 
                     $tanque=Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
-                    $tanque->estatus = 'MANTENIMIENTO';
+                    $tanque->estatus = $estatus_tanque;
                     $tanque->save();
 
                     $historytanques=new TanqueHistorial;
                     $historytanques->num_serie = $request->inputNumSerie[$series];
-                    $historytanques->estatus = 'MANTENIMIENTO';
-                    $historytanques->folios ='#mantenimiento: '. $mantenimiento->id;
+                    $historytanques->estatus = $estatus_tanque;
+                    $historytanques->observaciones =$obse_hystory;
                     $historytanques->save();
                 }
             }
@@ -107,92 +104,16 @@ class MantenimientoController extends Controller
 
     }
 
-
-    public function edit(MantenimientoLLenado $id){
-
+    public function show(MantenimientoLLenado $id){
         if($this->slugpermision()){
-
-            $fechaactual=date("Y")."-" . date("m")."-".date("d");
-            if( $fechaactual == $id->fecha){
-                $tanques=MantenimientoTanque::join('tanques', 'tanques.num_serie', 'mantenimiento_tanques.num_serie')->where('MantenimientoLLenado_id', $id->id)->get();
-                $data = ['mantenimientonota'=>$id, 'tanques' => $tanques];
-                return view('mantenimiento.edit', $data);
-            }
-            return back()->with('alertas', 'Solo puedes editar notas en el mismo día que fuerón creadas');
+            $tanques=MantenimientoLLenado::
+                join('tanques', 'tanques.num_serie', 'mantenimiento_tanques.num_serie')
+                ->where('mantenimientoLLenado_id', $id->id)
+                ->get();
+            $data = ['mantenimientonota'=>$id, 'tanques' => $tanques];
+            return view('mantenimiento.show', $data);
         }
-
         return response()->json(['mensaje'=>'Sin permisos']);
         
     }
-    
-    public function update(Request $request){
-        if($this->slugpermision()){
-            $fechaactual=date("Y")."-" . date("m")."-".date("d");
-            $notamantenimiento=MantenimientoLLenado::find($request->idMantenimientoNota);
-            if( $fechaactual == $notamantenimiento->fecha){
-                $notamantenimiento->incidencia = $request->incidencia;
-                $notamantenimiento->cantidad = $request->cantidad;
-                if($notamantenimiento->save()){
-                    foreach( $request->inputNumSerie AS $series => $g){
-                        $tanque=Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
-                        $tanque->estatus = 'VACIO-ALMACEN';
-                        $tanque->save();
-                    }
-
-                    MantenimientoTanque::where('MantenimientoLLenado_id',$notamantenimiento->id)->delete();
-                    
-                    foreach( $request->inputNumSerie AS $series => $g){
-                        $MantenimientoTanque=new MantenimientoTanque;
-                        $MantenimientoTanque->num_serie = $request->inputNumSerie[$series];
-                        $MantenimientoTanque->MantenimientoLLenado_id = $notamantenimiento->id;
-                        $MantenimientoTanque->save();
-
-                        $tanque=Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
-                        $tanque->estatus = 'MANTENIMIENTO';
-                        $tanque->save();
-
-                        $historytanques=new TanqueHistorial;
-                        $historytanques->num_serie = $request->inputNumSerie[$series];
-                        $historytanques->estatus = 'MANTENIMIENTO';
-                        $historytanques->save();
-                    }
-                }
-                return response()->json(['mensaje'=>'Actualizado correctamente',  'alert'=>'alert-primary']);
-            }
-
-            return response()->json(['mensaje'=>'Solo puedes editar notas en el mismo día que fuerón creadas', 'alert'=>'alert-danger']);
-            
-        }
-        return response()->json(['mensaje'=>'Sin permisos']);
-    }
-
-    public function delete(MantenimientoLLenado $id){
-        if($this->slugpermision()){
-            $fechaactual=date("Y")."-" . date("m")."-".date("d");
-            if( $fechaactual == $id->fecha){
-                $tanques= MantenimientoTanque::where('MantenimientoLLenado_id', $id->id)->get();
-                
-                foreach( $tanques AS $tanq){
-                    $tanque=Tanque::where('num_serie',$tanq->num_serie)->first();
-                    $tanque->estatus = 'VACIO-ALMACEN';
-                    $tanque->save();
-
-                    $historytanques=new TanqueHistorial;
-                    $historytanques->num_serie = $tanq->num_serie;
-                    $historytanques->estatus = 'VACIO-ALMACEN';
-                    $historytanques->save();
-                }
-
-                MantenimientoTanque::where('MantenimientoLLenado_id', $id->id)->delete();
-
-                $id->delete();
-
-                return response()->json(['mensaje'=>'Eliminado correctamente', 'alert'=>'alert-primary']);
-            }
-            return response()->json(['mensaje'=>'Solo puedes eliminar notas en el mismo día que fuerón creadas', 'alert'=>'alert-danger']);
-        }
-        return response()->json(['mensaje'=>'Sin permisos']);
-    }
-
-    
 }

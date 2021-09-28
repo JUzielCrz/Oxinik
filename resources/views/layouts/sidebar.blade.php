@@ -28,26 +28,22 @@
                 </li> --}}
 
                 {{-- Nota --}}
-                    <li id="nav-ico-notas">
-                        <a href="{{ url('/nota/salida') }}"><i class="fas fa-clipboard"></i>Notas</a></li>
-                
-                {{-- Exporadico --}}
+                    <li id="nav-ico-notas"><a href="{{ url('/nota/salida') }}"><i class="fas fa-clipboard"></i> Notas</a></li>
                 {{-- Clientes --}}
-                    <li id="nav-ico-cliente" ><a href="{{ url('/cliente/index') }}"><i class="fas fa-users"></i>Clientes</a></li>
-                
-                {{-- Infra --}}
-                {{-- Mantenimiento --}}
+                    <li id="nav-ico-cliente" ><a href="{{ url('/cliente/index') }}"><i class="fas fa-users"></i> Clientes</a></li>
+                {{-- Contratos --}}
+                    <li id="nav-ico-contratos" ><a href="{{ url('/contratos/index') }}"><i class="fas fa-file-signature"></i> Contratos</a></li>
                 {{-- Tanques --}}
-                    <li id="nav-ico-tanques"><a href="{{ url('/tanque/index') }}"><i class="fas fa-prescription-bottle"></i>Tanques</a></li>
+                    <li id="nav-ico-tanques"><a href="{{ url('/tanque/index') }}"><i class="fas fa-prescription-bottle"></i> Tanques</a></li>
+                {{-- Infra --}}
+                    <li id="nav-ico-infra" ><a href="{{ url('/infra/entrada') }}"><i class="fas fa-building"></i>Infra</a></li>
+                {{-- Mantenimiento --}}
+                    <li id="nav-ico-mantenimiento" ><a href="{{ url('/mantenimiento/entrada') }}"><i class="fas fa-dolly-flatbed"></i> Manteni- <br> miento</a></li>
+                
                 {{-- Reportes --}}
                 {{-- Usuarios --}}
-                    {{-- <li id="nav-ico-usuario" ><a href="{{ url('/user/index') }}"><i class="fas fa-users-cog"></i>Usuarios</a></li> --}}
+                {{-- <li id="nav-ico-usuario" ><a href="{{ url('/user/index') }}"><i class="fas fa-users-cog"></i>Usuarios</a></li> --}}
 
-                {{-- <li id="nav-ico-compra" ><a href="{{ url('/compra/index') }}"><i class="fas fa-shopping-cart"></i>Compras</a></li>
-                <li id="nav-ico-venta" ><a href="{{ url('/venta/index') }}"><i class="fas fa-file-invoice-dollar"></i>Venta</a></li>
-                <li id="nav-ico-almacen" ><a href="{{ url('/almacen/index') }}"><i class="fas fa-warehouse"></i>Almacen</a></li>
-                <li id="nav-ico-producto" ><a href="{{ url('/producto/index') }}"><i class="fas fa-shopping-basket"></i>Productos</a></li>
-                <li id="nav-ico-provedor" ><a href="{{ url('/provedor/index') }}"><i class="fas fa-user-tag"></i></i>Provedores</a></li> --}}
             </ul>
 
             <ul class="list-unstyled CTAs">

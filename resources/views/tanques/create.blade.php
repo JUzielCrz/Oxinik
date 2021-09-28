@@ -74,7 +74,13 @@
 
             <div class="form-group col-md-4">
                 {!! Form::label('estatus') !!}
-                {{ Form::select('estatus',['VACIO-ALMACEN' => 'VACIO-ALMACEN', 'LLENO-ALMACEN' => 'LLENO-ALMACEN', 'INFRA' => 'INFRA', 'ENTREGADO-CLIENTE' => 'ENTREGADO-CLIENTE' ,'MANTENIMIENTO' => 'MANTENIMIENTO' ],null,['id' => 'estatus','class'=>'form-control form-control-sm', 'placeholder'=>'selecciona'])}}
+                {{ Form::select('estatus',[
+                    'VACIO-ALMACEN' => 'VACIO-ALMACEN', 
+                    'LLENO-ALMACEN' => 'LLENO-ALMACEN', 
+                    'INFRA' => 'INFRA', 
+                    'ENTREGADO-CLIENTE' => 'ENTREGADO-CLIENTE' ,
+                    'MANTENIMIENTO' => 'MANTENIMIENTO',
+                    'TANQUE-CAMBIADO' => 'TANQUE-CAMBIADO' ],null,['id' => 'estatus','class'=>'form-control form-control-sm', 'placeholder'=>'selecciona'])}}
                 <span  id="estatusError" class="text-danger"></span>
             </div>
 

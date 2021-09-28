@@ -25,7 +25,6 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/nota/data_contrato/{num_contrato}', 'NotaController@data_contrato'); //url para buscar contrato en nota salida
     Route::get('/nota/data/{contrato_id}', 'NotaController@nota_data');
     Route::post('/nota/salida/validar_tanqueasignacion', 'NotaController@salida_validar_tanqueasignacion');
-    // Route::get('/nota/insertar_fila/{numserietanque}', 'NotaController@insertar_fila');
     Route::post('nota/salida/save', 'NotaController@salida_save');
     Route::post('/nota/salida/save_envio/{num_contrato}', 'NotaController@save_envio');
 
@@ -41,10 +40,10 @@ Route::get('/home', 'HomeController@index')->name('home');
     
     ///* Listar notas */
     Route::get('/nota/listar/index', 'NotaListasController@index');
-
-    // Route::get('/pendientes/index', 'PendienteController@indexgeneral')->name('pendientes');
-    // Route::get('/pendientepago', 'PendienteController@pendientepago');
-    // Route::get('/pendientetanques', 'PendienteController@pendientetanques');
+    Route::get('/nota/listar/salidas/data', 'NotaListasController@salidas_data');
+    Route::get('/nota/listar/exporadica/data', 'NotaListasController@exporadica_data');
+    Route::get('/nota/listar/adeudos/data', 'NotaListasController@adeudos_data');
+    Route::get('/nota/listar/entradas/data', 'NotaListasController@adeudos_data');
 
   /* Clientes */
     Route::get('/cliente/index', 'clienteController@index');
@@ -80,6 +79,17 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/tanque/lista_bajas/data', 'TanqueController@lista_bajas_data');
     Route::post('/tanque/restablecer/{id}', 'TanqueController@restablecer_tanque');
 
+    //tanques por estatus
+    Route::get('/tanque/estatus', 'TanqueController@estatus_index');
+    Route::get('/tanque/estatus/data/{estatus}', 'TanqueController@estatus_data');
+
+    //tanques por reportados
+    Route::get('/tanque/reportados', 'TanqueController@reportados_index');
+    Route::get('/tanque/reportados/data', 'TanqueController@reportados_data');
+    Route::get('/tanque/reportados/create', 'TanqueController@reportados_create');
+    Route::post('/tanque/reportados/save', 'TanqueController@reportados_save');
+    Route::get('/tanque/reportados/eliminar/{id}', 'TanqueController@reportados_eliminar');
+
     //GASES
     Route::get('/gas/index', 'CatalogoGasController@index');
     Route::get('/gas/data', 'CatalogoGasController@gas_data');
@@ -101,10 +111,25 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/pdf/generar_contrato/{idcontrato}', 'PDFController@generar_contrato')->name('pdf.contrato'); 
     Route::get('/pdf/nota/exporadica/{idnota}', 'PDFController@pdf_nota_exporadica')->name('pdf.nota_exporadica'); 
 
-  
+  //INFRA
+    Route::get('/infra/index', 'InfraController@index');
+    Route::get('/infra/data', 'InfraController@data');
+    Route::get('/infra/show/{id}', 'InfraController@show');
+    Route::get('/infra/entrada', 'InfraController@entrada');
+    Route::get('/infra/salida', 'InfraController@salida');
+    Route::post('/infra/registro_save', 'InfraController@registro_save');
+    // Route::get('editinfra/{id}', 'InfraController@edit');
 
+//   Route::get('/deleteinfra/{id}', 'InfraController@delete');
+//   Route::get('actualizarnoteinfra', 'InfraController@update');
 
-
+  //MANTENIMIENTO
+    Route::get('/mantenimiento/index', 'MantenimientoController@index');
+    Route::get('/mantenimiento/data', 'MantenimientoController@data');
+    Route::get('/mantenimiento/show/{id}', 'MantenimientoController@show');
+    Route::get('/mantenimiento/entrada', 'MantenimientoController@entrada');
+    Route::get('/mantenimiento/salida', 'MantenimientoController@salida');
+    Route::post('/mantenimiento/registro_save', 'MantenimientoController@registro_save');
 
 
 
@@ -163,39 +188,15 @@ Route::get('/home', 'HomeController@index')->name('home');
 //     Route::post('/updatecontrato/{id}', 'ContratoController@update');
 //     Route::get('/deletecontrato/{id}', 'ContratoController@destroy');
 
-
-  
-
-    
-
-//     // DataTables 
-//     Route::get('/dt_ventas', 'VentaExporadicaController@datatablesindex')->name('dt_ventas');
-
-
-
-
-
-
-
-
     
 //   /* Reportes */
-    Route::get('/reportes', 'ReportesController@index');
-//     Route::get('/dt_reportelisttanques/{estatus}', 'ReportesController@dt_listtanques')->name('dt_reportelisttanques');
 
 
- 
-//   //INFRA
-  Route::get('infra', 'InfraController@index');
-//   Route::get('dt_infra', 'InfraController@datatables')->name('dt_infra');
-//   Route::get('createinfra', 'InfraController@create');
-//   Route::post('buscartanqueinfra/{serie}', 'InfraController@buscartanque');
-//   Route::post('savenoteinfra', 'InfraController@savenote');
-//   Route::get('/deleteinfra/{id}', 'InfraController@delete');
+
+
   
   
-//   Route::get('editinfra/{id}', 'InfraController@edit');
-//   Route::get('actualizarnoteinfra', 'InfraController@update');
+
 
 //     //Mantenimiento
     Route::get('mantenimiento', 'MantenimientoController@index');

@@ -77,7 +77,7 @@ $(document).ready(function () {
                         showCancelButton: true,
                         confirmButtonText: 'Continuar de todos modos',
                         footer: '<a class="btn btn-link" target="_blank" href="/tanque/history/'+msg.id+'">ver historial <strong>'+msg.num_serie+'</strong></a>'+
-                        '<a class="btn btn-link" target="_blank" href="/tanque/reporte/'+msg.id+'">Levantar reporte <strong>'+msg.num_serie+'</strong></a>',
+                        '<a class="btn btn-link" target="_blank" href="/tanque/reportados/create'+msg.id+'">Levantar reporte <strong>'+msg.num_serie+'</strong></a>',
                         
                     }).then((result) => {
                         /* Read more about isConfirmed, isDenied below */

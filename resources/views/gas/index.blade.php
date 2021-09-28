@@ -1,15 +1,7 @@
 @extends('layouts.sidebar')
 
 @section('menu-navbar') 
-<li class="nav-item">
-    <a class="btn btn-sm btn-outline-success mr-1" href="{{ url('/tanque/index') }}"><i class="fas fa-prescription-bottle"></i> Tanques</a>
-</li>
-<li class="nav-item">
-    <a class="btn btn-sm btn-outline-success mr-1" href="{{ url('/tanque/lista_bajas') }}"><i class="fas fa-trash"></i> Dados de baja</a>
-</li>
-<li class="nav-item">
-    <a class="btn btn-sm btn-success" href="{{ url('/gas/index') }}"><i class="fas fa-gas-pump"></i></i> Gases</a>
-</li>
+    @include('tanques.submenu_navbar')
 @endsection
 
 

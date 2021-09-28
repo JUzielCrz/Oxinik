@@ -1,12 +1,7 @@
 @extends('layouts.sidebar')
 
 @section('menu-navbar') 
-    <li class="nav-item">
-        <a class="btn btn-sm btn-outline-success mr-1" href="{{ url('/tanque/index') }}"><i class="fas fa-prescription-bottle"></i> Tanques</a>
-    </li>
-    <li class="nav-item">
-        <a class="btn btn-sm btn-success" href="{{ url('/tanque/lista_bajas') }}"><i class="fas fa-trash"></i>Dados de baja</a>
-    </li>
+    @include('tanques.submenu_navbar')
 @endsection
 
 @section('content-sidebar')
@@ -23,12 +18,6 @@
                 <div class="row">
                     <div class="col">
                         <h5>LISTA DE BAJAS</h5>
-                    </div>
-                    <div class="col text-right">
-                        <button type="button" class="btn btn-gray" data-toggle="modal" data-target="#modalinsertar">
-                            <span class="fas fa-plus"></span>
-                            Agregar
-                        </button>
                     </div>
                 </div>
             </div>

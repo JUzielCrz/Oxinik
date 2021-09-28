@@ -9,7 +9,7 @@ class TanqueHistorial extends Model
     
     protected $table = 'tanque_historial';
     public $timestamps =  true;
-    protected $fillable = ['id','num_serie', 'estatus', 'folios'];
+    protected $fillable = ['id','num_serie', 'estatus', 'observaciones'];
     public $incrementing = true;
 
 }

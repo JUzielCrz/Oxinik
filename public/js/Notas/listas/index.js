@@ -10,162 +10,138 @@ $(document).ready(function () {
     $(document).on("click","#btn-adeudos", adeudos);
 
     function entradas(){
-        console.log("entradas")
+        var titulo_table="Notas Entradas"; 
+        var titulo_columnas=
+            "<thead><tr>"+
+                "<th>ID</th>"+
+                "<th>#CONTRATO</th>"+
+                "<th>FECHA</th>"+
+                "<th>METODO DE PAGO</th>"+
+                "<th>RECARGOS</th>"+
+                "<th>OBSERVACIONES</th>"+
+                "<th></th>"+
+            "</tr></thead>";
+        var contenido_columnas=
+            [{data: 'nota_id'},
+            {data: 'num_contrato'},
+            {data: 'fecha'},
+            {data: 'metodo_pago'},
+            {data: 'recargos'},
+            {data: 'observaciones'},
+            {data: 'btnNota'}];
+        var link_data="/nota/listar/entradas/data";
+        
+        insertar_tabla(titulo_table,titulo_columnas,contenido_columnas, link_data);
     }
     function salidas(){
-        console.log("salidas")
+        var titulo_table="Notas Salidas"; 
+        var titulo_columnas=
+            "<thead><tr>"+
+                "<th>ID</th>"+
+                "<th>#CONTRATO</th>"+
+                "<th>FECHA</th>"+
+                "<th>PAGO CUBIERTO</th>"+
+                "<th>OBSERVACIONES</th>"+
+                "<th></th>"+
+            "</tr></thead>";
+        var contenido_columnas=
+            [{data: 'nota_id'},
+            {data: 'num_contrato'},
+            {data: 'fecha'},
+            {data: 'pago_cubierto'},
+            {data: 'observaciones'},
+            {data: 'btnNota'}];
+        var link_data="/nota/listar/salidas/data";
+        
+        insertar_tabla(titulo_table,titulo_columnas,contenido_columnas, link_data);
     }
+
     function exporadicas(){
-        console.log("exporadicas")
+        var titulo_table="Notas Ventas Exporadicas"; 
+        var titulo_columnas=
+            "<thead><tr>"+
+                "<th>ID</th>"+
+                "<th>CLIENTE</th>"+
+                "<th>FECHA</th>"+
+                "<th>TELEFONO</th>"+
+                "<th>TOTAL</th>"+
+                "<th></th>"+
+            "</tr></thead>";
+        var contenido_columnas=
+            [{data: 'id'},
+            {data: 'nombre_cliente'},
+            {data: 'fecha'},
+            {data: 'telefono'},
+            {data: 'total'},
+            {data: 'btnNota'}];
+        var link_data="/nota/listar/exporadica/data";
+        
+        insertar_tabla(titulo_table,titulo_columnas,contenido_columnas, link_data);
     }
     function adeudos(){
-        console.log("adeudos")
+        var titulo_table="Notas Sin Liquidar"; 
+        var titulo_columnas=
+            "<thead><tr>"+
+                "<th>ID</th>"+
+                "<th>#CONTRATO</th>"+
+                "<th>FECHA</th>"+
+                "<th>PAGO CUBIERTO</th>"+
+                "<th>OBSERVACIONES</th>"+
+                "<th></th>"+
+            "</tr></thead>";
+        var contenido_columnas=
+            [{data: 'nota_id'},
+            {data: 'num_contrato'},
+            {data: 'fecha'},
+            {data: 'pago_cubierto'},
+            {data: 'observaciones'},
+            {data: 'btnNota'}];
+        var link_data="/nota/listar/adeudos/data";
+        
+        insertar_tabla(titulo_table,titulo_columnas,contenido_columnas, link_data);
+    }
+
+    function insertar_tabla(titulo_table, titulo_columnas,contenido_columnas, link_data){
+        
+        $("#titulo-table").replaceWith("<h5 id='titulo-table'>"+titulo_table+"</h5>")
+        $("#insert-table").empty();
+        $("#insert-table").append(
+            '<div class="table-responsive">'+
+                '<table class="table table-hover table-sm" id="table-data" style="font-size: 13px">'+
+                    titulo_columnas+
+                '</table>'+
+            '</div>'
+        );
+
+        // Data Tables
+        var listtabla = $('#table-data').DataTable({
+            language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            processing: true,
+            serverSider: true,
+            ajax: link_data,
+            columns: contenido_columnas
+            
+        });
     }
     
-
-    // $('#pendienteselect').change(function(){
-
-
-    //     if($('#pendienteselect').val()=='pendiente-pagos'){
-    //         $('#filatabla').remove();
-    //         $('#cardtablas').append(
-    //             "<div id='filatabla'>"+
-    //                 "<div class='row table-responsive ml-1' >"+ 
-    //                     "<table id='tablecruddata' class='table table-sm table-striped table-hover'>"+
-    //                         "<thead>"+
-    //                             "<tr>"+
-    //                                 "<th scope='col'>"+'#Folio Nota'+"</th>"+
-    //                                 "<th scope='col'>"+'Fecha'+"</th>"+
-    //                                 "<th scope='col'>"+'#Contrato'+"</th>"+
-    //                                 "<th scope='col'>"+'Total'+"</th>"+
-    //                             "</tr>"+
-    //                         "</thead>"+
-    //                         "<tbody id='tbodycontenido'></tbody>"+
-    //                     "</table>"+
-    //                 "</div>"+
-    //             "</div>"
-    //         );
-
-    //         $.ajax({
-    //             method: "GET",
-    //             url: "pendientepago",
-                
-    //         }).done(function(msg){
-    //             $.each(msg.notas, function(index, value){
-    //             $('#tbodycontenido').append(
-                    
-    //                     "<tr>"+
-    //                     "<td><button typer='button' class='btn btn-link' id='btn-info-nota' data-id='"+value.folio_nota+"'>"+value.folio_nota+"</button></td>"+
-    //                     "<td>"+value.fecha+"</td>"+
-    //                     "<td>"+value.num_contrato+"</td>"+
-    //                     "<td>"+value.total+"</td>"+
-    //                     "</tr>"
-    //                 );
-    //             })
-
-    //         });
-
-    //     }
-
-    //     if($('#pendienteselect').val()=='pendiente-tanques'){
-    //         $('#filatabla').remove();
-    //         $('#cardtablas').append(
-    //             "<div id='filatabla'>"+
-    //                 "<div class='row table-responsive ml-1' >"+ 
-    //                     "<table id='tablecruddata' class='table table-sm table-striped table-hover'>"+
-    //                         "<thead>"+
-    //                             "<tr>"+
-    //                                 "<th scope='col'>"+'#Serie'+"</th>"+
-    //                                 "<th scope='col'>"+'Estatus'+"</th>"+
-    //                                 "<th scope='col'>"+'#Nota'+"</th>"+
-    //                                 "<th scope='col'>"+'Fecha'+"</th>"+
-    //                                 "<th scope='col'>"+'Historial'+"</th>"+
-    //                             "</tr>"+
-    //                         "</thead>"+
-    //                         "<tbody id='tbodycontenido'></tbody>"+
-    //                     "</table>"+
-    //                 "</div>"+
-    //             "</div>"
-    //         );
-
-    //         $.ajax({
-    //             method: "GET",
-    //             url: "pendientetanques",
-                
-    //         }).done(function(msg){
-                
-    //             $.each(msg.tanques, function(index, value){
-                    
-    //             $('#tbodycontenido').append(
-                    
-    //                     "<tr>"+ 
-    //                     "<td>"+value.num_serie+"</td>"+
-    //                     "<td>"+value.estatus+"</td>"+
-    //                     "<td>"+value.folioNota+"</td>"+
-    //                     "<td>"+value.nota_fecha+"</td>"+
-    //                     "<td>"+"<a type='button' class='btn btn-link' href='/tanque/history/"+value.idtanque+"'>Historial</a>"+"</td>"+
-    //                     "</tr>"
-    //                 );
-    //             })
-
-    //         });
-
-    //     }
-    // });
-
-
-
-    // function mostrar_nota(){
-    //     limpiarmodal();
-    //     console.log($(this).data('id'));
-    //     $.get('/shownota/' + $(this).data('id'), function(data) {
-            
-    //         $.each(data.nota, function (key, value) {
-    //             var variable = "#" + key;
-    //             $(variable).val(value);
-    //         });
-            
-    //         $.each(data.notatanque, function (key, value) {
-    //             $("#tbodylisttanqinfo").append(
-    //                 "<tr class='trmodalnota'>"+
-    //                 "<td>"+value.num_serie+"</td>"+
-    //                 "<td>"+value.ph+ value.material+value.capacidad+"</td>"+
-    //                 "<td>"+value.precio+"</td>"+
-    //                 "<td>"+value.regulador+"</td>"+
-    //                 "<td>"+value.tapa_tanque+"</td>"+
-    //                 "</tr>"
-    //             );
-    //         })
-            
-
-    //     }).done(function () {
-    //         $("#modal-info-nota").modal("show");
-    //     });;
-    // }
-
-    // function limpiarmodal(){
-    //     $('#folio_nota').val('');
-    //     $('#fecha').val('');
-    //     $('#pago_realizado').val('');
-    //     $('#metodo_pago').val('');
-    //     $(".trmodalnota").remove();
-    // }
-
-
-    // function metodo_detalle() {
-    //     $.get('/shownota/' + $('#get-serie-number').val(), function(data) {
-    //         $.each(data.notas, function (key, value) {
-    //             var variable = "#" + key;
-    //             $(variable).val(value);
-    //         });
-    //     }).done(function (msg) {
-    //         if(msg.accesso){
-    //             mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-warning",null);
-    //         }else{
-    //             $("#modal-info-nota").modal("show");
-    //         }
-    //     });;
-        
-    // }
-
+    
 });

@@ -26,11 +26,11 @@ $(document).ready(function () {
             serverSider: true,
             ajax: '/tanque/data',
             columns:[
-                {data: 'num_serie'},
-                {data: 'ph'},
-                {data: 'fabricante'},
-                {data: 'material'},
-                {data: 'estatus'}, //aqui va estatus
+                {data: 'num_serie', className: "text-center"},
+                {data: 'ph', className: "text-center"},
+                {data: 'fabricante', className: "text-center"},
+                {data: 'material', className: "text-center"},
+                {data: 'estatus', className: "text-center"}, //aqui va estatus
                 {data: 'btnShow'},
                 {data: 'btnEdit'},
                 {data: 'btnHistory'},

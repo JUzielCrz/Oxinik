@@ -1,30 +1,13 @@
 @extends('layouts.sidebar')
 
 @section('menu-navbar') 
-<li class="nav-item">
-    <a class="btn btn-sm btn-success mr-1" href="{{ url('/tanque/index') }}"><i class="fas fa-prescription-bottle"></i> Tanques</a>
-</li>
-{{-- <li class="nav-item">
-    <a class="btn btn-sm btn-outline-success mr-1" href="{{ url('/tanque/reportado') }}"><i class="fas fa-bug"></i> reportado</a>
-</li> --}}
-<li class="nav-item">
-    <a class="btn btn-sm btn-outline-success mr-1" href="{{ url('/gas/index') }}"><i class="fas fa-gas-pump"></i> Gases</a>
-</li>
-<li class="nav-item">
-    <a class="btn btn-sm btn-outline-success mr-1" href="{{ url('/tanque/lista_bajas') }}"><i class="fas fa-trash"></i> Dados de baja</a>
-</li>
-
+    @include('tanques.submenu_navbar')
 @endsection
 
 @section('content-sidebar')
 
     <div class="container" >
     @csrf
-        <center>
-            <div id="divmsgindex" style="display:none" class="alert" role="alert">
-            </div>
-        </center>
-
         <div class="card">
             <div class="card-header">
                 <div class="row">
@@ -44,15 +27,15 @@
                     <table id="tablecruddata" class="table table-sm" style="font-size: 13px">
                         <thead>
                             <tr>
-                            <th scope="col">N. Serie</th>
-                            <th scope="col">P.Hidrostática</th>
-                            <th scope="col">Fabricante</th>
-                            <th scope="col">Material</th>
-                            <th scope="col">Estatus</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th> 
-                            <th scope="col"></th>
-                            <th scope="col"></th>
+                            <th class="text-center">N. Serie</th>
+                            <th class="text-center">P.Hidrostática</th>
+                            <th class="text-center">Fabricante</th>
+                            <th class="text-center">Material</th>
+                            <th class="text-center">Estatus</th>
+                            <th class="text-center"></th>
+                            <th class="text-center"></th> 
+                            <th class="text-center"></th>
+                            <th class="text-center"></th>
                             </tr>
                         </thead>
                     </table>

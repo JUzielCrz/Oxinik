@@ -19,11 +19,8 @@ class CreateInfraTanquesTable extends Migration
             $table->foreign('infrallenado_id')
                 ->references('id')
                 ->on('infra_llenado')
-                ->onDelete('restrict');
+                ->onDelete('cascade');
             $table->string('num_serie');
-            $table->foreign('num_serie')->references('num_serie')
-                ->on('tanques')
-                ->onDelete('restrict');
             $table->timestamps();
         });
     }
