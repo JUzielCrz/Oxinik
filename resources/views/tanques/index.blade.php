@@ -7,7 +7,7 @@
 @section('content-sidebar')
 
     <div class="container" >
-    @csrf
+        @csrf
         <div class="card">
             <div class="card-header">
                 <div class="row">
