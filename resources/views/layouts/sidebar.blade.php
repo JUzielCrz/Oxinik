@@ -32,7 +32,7 @@
                 {{-- Clientes --}}
                     <li id="nav-ico-cliente" ><a href="{{ url('/cliente/index') }}"><i class="fas fa-users"></i> Clientes</a></li>
                 {{-- Contratos --}}
-                    <li id="nav-ico-contratos" ><a href="{{ url('/contratos/index') }}"><i class="fas fa-file-signature"></i> Contratos</a></li>
+                    {{-- <li id="nav-ico-contratos" ><a href="{{ url('/contratos/index') }}"><i class="fas fa-file-signature"></i> Contratos</a></li> --}}
                 {{-- Tanques --}}
                     <li id="nav-ico-tanques"><a href="{{ url('/tanque/index') }}"><i class="fas fa-prescription-bottle"></i> Tanques</a></li>
                 {{-- Infra --}}
