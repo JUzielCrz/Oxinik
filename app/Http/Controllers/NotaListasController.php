@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Nota;
 use App\Models\NotaEntrada;
 use App\Models\VentaExporadica;
-use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
 use App\User;
@@ -84,7 +83,8 @@ class NotaListasController extends Controller
                 $nota_entrada
             )                                                             
             ->addColumn( 'btnNota', '<a class="btn btn-sm btn-grisclaro btn-xs" target="_blank" href="{{route(\'pdf.nota_salida\', $nota_id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
-            ->rawColumns(['btnNota'])
+            ->addColumn( 'btnShow', '<a class="btn btn-sm btn-grisclaro btn-xs" target="_blank" href="{{route(\'nota.pagos.index\', $nota_id)}}" title="Nota"><i class="far fa-eye"></i></a>')
+            ->rawColumns(['btnNota','btnShow'])
             ->editColumn('pago_cubierto', function ($user) {
                 if($user->pago_cubierto== true){
                     return 'Pagado';

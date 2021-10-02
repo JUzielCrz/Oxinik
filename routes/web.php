@@ -45,6 +45,10 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/nota/listar/adeudos/data', 'NotaListasController@adeudos_data');
     Route::get('/nota/listar/entradas/data', 'NotaListasController@adeudos_data');
 
+    ///* Pago notas */
+    Route::get('/nota/pagos/index/{not_id}', 'NotaPagosController@index')->name('nota.pagos.index');
+    Route::post('/nota/pagos/create', 'NotaPagosController@create')->name('nota.pagos.create');
+
   /* Clientes */
     Route::get('/cliente/index', 'clienteController@index');
     Route::get('/cliente/data', 'clienteController@data');
@@ -56,11 +60,13 @@ Route::get('/home', 'HomeController@index')->name('home');
     
 
   /* Contratos */
-    Route::get('/contrato/{id}', 'ContratoController@index')->name('contrato.index');
+    Route::get('/contrato/index/{id}', 'ContratoController@index')->name('contrato.index');
     Route::post('/contrato/create', 'ContratoController@create');
     Route::post('/contrato/update/{id}', 'ContratoController@update');
     Route::get('/contrato/destroy/{id}', 'ContratoController@destroy');
     Route::get('/contrato/show/{contrato_id}', 'ContratoController@show');
+    Route::get('/contrato/listar', 'ContratoController@contratos_listar');
+    Route::get('/contrato/listar/data', 'ContratoController@listar_data');
 
 
 

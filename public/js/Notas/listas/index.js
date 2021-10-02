@@ -87,7 +87,8 @@ $(document).ready(function () {
                 "<th>FECHA</th>"+
                 "<th>PAGO CUBIERTO</th>"+
                 "<th>OBSERVACIONES</th>"+
-                "<th></th>"+
+                "<th>VER</th>"+
+                "<th>NOTA</th>"+
             "</tr></thead>";
         var contenido_columnas=
             [{data: 'nota_id'},
@@ -95,6 +96,7 @@ $(document).ready(function () {
             {data: 'fecha'},
             {data: 'pago_cubierto'},
             {data: 'observaciones'},
+            {data: 'btnShow'},
             {data: 'btnNota'}];
         var link_data="/nota/listar/adeudos/data";
         

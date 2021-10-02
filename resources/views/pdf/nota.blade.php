@@ -133,7 +133,7 @@
             </table>
             @if ($nota->primer_pago < $nota->total)
                 <table class="table table-bordered mt-2">
-                    <tbody  >
+                    <tbody>
                         <tr>
                             <td>Abono: <br> $ {{number_format($nota->primer_pago,2)}}</td>
                             <td>Adeudo: <br> $ {{number_format($nota->total - $nota->primer_pago,2)}}</td>

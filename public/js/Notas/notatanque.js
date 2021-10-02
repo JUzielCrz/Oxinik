@@ -49,7 +49,7 @@ $(document).ready(function () {
             url: "/createnota",
             data: dataFormulario, 
         }).done(function(msg){
-            window.location = "/contrato/"+  $('#idcliente').val();
+            window.location = "/contrato/index/"+  $('#idcliente').val();
         })
         .fail(function (jqXHR, textStatus) {
             //Si existe algun error entra aqui
@@ -250,7 +250,7 @@ $(document).ready(function () {
     }
 
     function cancelarnota(){
-        window.location = "/contrato/"+ $('#idcliente').val();
+        window.location = "/contrato/index/"+ $('#idcliente').val();
     }
 });
 

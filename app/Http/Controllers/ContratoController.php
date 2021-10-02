@@ -20,8 +20,7 @@ use Illuminate\Support\Facades\DB;
 class ContratoController extends Controller
 {
     
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('auth');
     }
 
@@ -32,8 +31,7 @@ class ContratoController extends Controller
         return $user->havePermission('contratos');
     }
     
-    protected function validatorupdate(array $data,$id)
-    {
+    protected function validatorupdate(array $data,$id){
         return Validator::make($data, [
             'num_contrato' => ['required','max:50', Rule::unique('contratos')->ignore($id, 'id')],
             'cliente_id' => ['required'],
@@ -41,9 +39,7 @@ class ContratoController extends Controller
         ]);
     }
 
-
-    public function index($id)
-    {
+    public function index($id){
         if($this->slugpermision()){
             $cliente = Cliente::where('id',$id)->first();
             $contratos=Contrato::select('contratos.*')->where('contratos.cliente_id',$id)->get();
@@ -54,10 +50,7 @@ class ContratoController extends Controller
         return view('home');
     }
 
-
-    public function create(Request $request)
-    {
-        
+    public function create(Request $request){
         if($this->slugpermision()){
             $request->validate([
                 'num_contrato' => ['required', 'string', 'max:255', 'unique:contratos,num_contrato'],
@@ -179,8 +172,7 @@ class ContratoController extends Controller
         return response()->json(['mensaje'=>'Sin permisos']);
     }
 
-    public function show($contrato_id)
-    {
+    public function show($contrato_id){
         if($this->slugpermision()){
             $contrato=Contrato::where('id',$contrato_id)->first();
 
@@ -190,8 +182,7 @@ class ContratoController extends Controller
         return response()->json(['mensaje'=>'Sin permisos','accesso'=>'true']);
     }
 
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id){
         if($this->slugpermision()){
 
             $this->validatorupdate($request->all(),$id)->validate();
@@ -215,8 +206,7 @@ class ContratoController extends Controller
         return response()->json(['mensaje'=>'Sin permisos','accesso'=>'true']);
     }
 
-    public function destroy(Contrato $id)
-    {
+    public function destroy(Contrato $id){
         if($this->slugpermision()){
             if($id->delete()){
                 return response()->json(['mensaje'=>'Eliminado Correctamente']);
@@ -227,6 +217,31 @@ class ContratoController extends Controller
 
     }
 
-    
+    public function contratos_listar(){
+        if($this->slugpermision()){
+            return view('contratos.listar');
+        }
+        return view('home');
+    }
+
+    public function listar_data(){
+        if($this->slugpermision()){
+            $contrato=Contrato::all();
+            return DataTables::of(
+                $contrato
+            )
+            ->editColumn('cliente', function ($contrato) {
+                $cliente = 
+                Cliente::select('nombre','apPaterno','apMaterno')
+                ->where('id', $contrato->cliente_id)
+                ->first();
+                return $cliente->nombre." ".$cliente->apPaterno." ".$cliente->apMaterno;
+            })
+            ->addColumn( 'btnShow', '<a class="btn btn-sm btn-grisclaro btn-xs" href="{{route(\'contrato.index\', $cliente_id)}}" title="Información"><span class="far fa-eye"></span></a>')
+            ->rawColumns(['btnShow'])
+            ->toJson();
+        }
+        return view('home');
+    }
 
 }
