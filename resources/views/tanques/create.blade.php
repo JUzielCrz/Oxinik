@@ -54,7 +54,7 @@
 
             <div class="form-group col-md-2">
                 {!! Form::label('Fabricante') !!}
-                {{ Form::select('fabricanteoficial',['Infra' => 'Infra', 'Plaxair' => 'Plaxair', 'Otros' => 'Otros' ],null,['id' => 'fabricanteoficial','class'=>'form-control form-control-sm', 'placeholder'=>'selecciona'])}}
+                {{ Form::select('fabricanteoficial',['Infra' => 'Infra', 'Praxair' => 'Praxair', 'Otros' => 'Otros' ],null,['id' => 'fabricanteoficial','class'=>'form-control form-control-sm', 'placeholder'=>'selecciona'])}}
                 <span  id="fabricanteError" class="text-danger"></span>
             </div>
             <div class="form-group col-md-4">

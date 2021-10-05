@@ -8,7 +8,16 @@ $(document).ready(function () {
 
     var contador=0;
 
+    $('#serie_tanque').keypress(function (event) {
+        // console.log(event.charCode);
+        if (event.charCode == 13 ){
+            event.preventDefault();
+            insert_fila();
+        } 
+    });
+
     function insert_fila(){
+        
         $('#serie_tanqueError').empty();
 
         var numserie= $('#serie_tanque').val().replace(/ /g,'');
@@ -27,7 +36,7 @@ $(document).ready(function () {
         })
         if(boolRepetido){
             $("#serie_tanqueError").text('Número de serie ya agregado a lista');
-                return false;
+            return false;
         }
 
         var valdiar_estatus="";

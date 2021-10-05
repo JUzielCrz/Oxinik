@@ -17,8 +17,8 @@ class CreateVentasTable extends Migration
             $table->id();
             $table->string('nombre_cliente');
             $table->string('telefono');
-            $table->string('email');
-            $table->string('direccion');
+            $table->string('email')->nullable();
+            $table->string('direccion')->nullable();
             $table->string('rfc')->nullable();
             $table->string('cfdi')->nullable();
             $table->string('direccion_factura')->nullable();

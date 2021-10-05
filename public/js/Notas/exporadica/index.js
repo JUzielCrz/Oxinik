@@ -617,7 +617,7 @@ $(document).ready(function () {
     //Funciones finales de Nota General
 
     function pagar_nota(){
-        var campo= ['nombre_cliente','telefono','email', 'direccion'];
+        var campo= ['nombre_cliente','telefono'];
         var campovacio = [];
         //Limpiar errores
         $.each(campo, function(index){

@@ -351,7 +351,7 @@ $(document).ready(function () {
                                 '<select name="fabricanteoficial" id="fabricanteoficial" class="form-control form-control-sm">'+
                                     '<option value="">Selecciona</option>'+
                                     '<option value="Infra">Infra</option>'+
-                                    '<option value="Plaxair">Plaxair</option>'+
+                                    '<option value="Praxair">Praxair</option>'+
                                     '<option value="Otros">Otros</option>'+
                                 '</select>'+
                                 '<span  id="fabricanteError" class="text-danger"></span>'+

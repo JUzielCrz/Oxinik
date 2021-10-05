@@ -51,6 +51,7 @@ $(document).ready(function () {
             $(this).removeClass("is-invalid");
         }
     });
+    
 
     $(document).on("click","#btnaccept",metodo_insertar);
     $(document).on("click",".btn-show-modal",metodo_detalle);
@@ -58,6 +59,51 @@ $(document).ready(function () {
     $(document).on("click",".btn-delete-modal", metodo_detalle_delete);
     $(document).on("click","#btneliminar",metodo_eliminar);
     $(document).on("click","#btnactualizar",metodo_actualizar);
+
+
+    $("#tipo-clienteedit").change( function() {
+        tipo_cliente('edit');
+    });
+    $("#tipo-cliente").change( function() {
+        tipo_cliente($(this).val(),'');
+    });
+
+    function tipo_cliente(valor, edit) {
+        console.log('valor'+ valor+ 'edit='+edit);
+        $("#empresa-cliente"+edit).empty();
+        if (valor == "PERSONA" ) {
+            $("#empresa-cliente"+edit).append(
+                '<div class="form-row">'+
+                    '<div class="form-group col-md-4">'+
+                        '<label for="">Apellido Paterno</label>'+
+                        '<input type="text" name="apPaterno'+edit+'" id="apPaterno'+edit+'" class="form-control form-control-sm solo-text" placeholder="Apellido">'+
+                    '<span  id="apPaterno'+edit+'Error" class="text-danger"></span>'+
+                    '</div>'+
+                    '<div class="form-group col-md-4">'+
+                        '<label for="">Apellido Materno</label>'+
+                        '<input type="text" name="apMaterno'+edit+'" id="apMaterno'+edit+'" class="form-control form-control-sm solo-text" placeholder="Apellido">'+
+                        '<span  id="apMaterno'+edit+'Error" class="text-danger"></span>'+
+                    '</div>'+
+                    '<div class="form-group col-md-4">'+
+                        '<label for="">Nombre(s)</label>'+
+                        '<input type="text" name="nombre'+edit+'" id="nombre'+edit+'" class="form-control form-control-sm solo-text" placeholder="Nombre">'+
+                        '<span  id="nombre'+edit+'Error" class="text-danger"></span>'+
+                    '</div>'+
+                '</div>'
+            );
+        } 
+        if(valor == "EMPRESA"){
+            $("#empresa-cliente").append(
+                '<div class="form-row">'+
+                    '<div class="form-group col">'+
+                        '<label for="">Empresa</label>'+
+                        '<input type="text" name="empresa'+edit+'" id="empresa'+edit+'" class="form-control form-control-sm solo-text" placeholder="Empresa">'+
+                    '<span  id="empresa'+edit+'Error" class="text-danger"></span>'+
+                    '</div>'+
+                '</div>'
+            );
+        }
+    }
     
     function metodo_insertar() {
 
@@ -147,6 +193,15 @@ $(document).ready(function () {
     function metodo_detalle_edit() {
         metodo_limpiar_span("editError");
         $.get('/cliente/show/' + $(this).data('id') + '', function(data) {
+            
+            if(data.clientes.nombre != ''){
+                tipo_cliente('PERSONA', 'edit');
+                $("#tipo-clienteedit").val('PERSONA');
+            }
+            if(data.clientes.empresa){
+                tipo_cliente('EMPRESA', 'edit');
+                $("#tipo-clienteedit").val('EMPRESA');
+            }
             $.each(data.clientes, function (key, value) {
                 var variable = "#" + key + "edit";
                 $(variable).val(value);
@@ -167,10 +222,12 @@ $(document).ready(function () {
             url: "/cliente/update/"+$('#idedit').val()+'',
             data: {
                 '_token': $('input[name=_token]').val(),
+                'tipo-cliente': $('#tipo-clienteedit').val(),
                 'id': $('#idedit').val(),
                 'apPaterno': $('#apPaternoedit').val(),
                 'apMaterno': $('#apMaternoedit').val(),
                 'nombre': $('#nombreedit').val(),
+                'empresa': $('#empresaedit').val(),
                 'rfc': $('#rfcedit').val(),
                 'email': $('#emailedit').val(),
                 'telefono': $('#telefonoedit').val(),

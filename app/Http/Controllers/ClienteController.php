@@ -22,22 +22,6 @@ class ClienteController extends Controller
         return $user->havePermission('clientes');
     }
 
-    protected function validator(array $data,$id)
-    {
-        return Validator::make($data, [
-            'apPaterno' => ['required', 'string', 'max:255'],
-            'apMaterno' => ['required', 'string', 'max:255'],
-            'nombre' => ['required', 'string', 'max:255'],
-            'rfc' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email','max:255', Rule::unique('clientes')->ignore($id, 'id')],
-            'telefono' => ['required', 'string', 'max:255'],
-            'telefonorespaldo' => ['required', 'string', 'max:255'],
-            'direccion' => ['required', 'string', 'max:255'],
-            'referencia' => ['required', 'string', 'max:255'],
-            'estatus' =>  ['required', 'alpha', 'max:20','regex:(Activo|Inactivo|Cancelado)'],
-        ]);
-    }
-
     public function index()
     {
         if($this->slugpermision()){
@@ -68,12 +52,21 @@ class ClienteController extends Controller
     public function create(Request $request)
     {
         if($this->slugpermision()){
+            if($request->input('tipo-cliente') == 'PERSONA'){
+                $request->validate([
+                    'apPaterno' => ['required', 'string', 'max:255'],
+                    'apMaterno' => ['required', 'string', 'max:255'],
+                    'nombre' => ['required', 'string', 'max:255'],
+                ]);
+            }
+            if($request->input('tipo-cliente') == 'EMPRESA'){
+                $request->validate([
+                    'empresa' => ['required', 'string', 'max:255'],
+                ]);
+            }
             $request->validate([
-                'apPaterno' => ['required', 'string', 'max:255'],
-                'apMaterno' => ['required', 'string', 'max:255'],
-                'nombre' => ['required', 'string', 'max:255'],
                 'rfc' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255','unique:clientes,email'],
+                'email' => ['required', 'email'],
                 'telefono' => ['required', 'string', 'max:255'],
                 'telefonorespaldo' => ['required', 'string', 'max:255'],
                 'direccion' => ['required', 'string', 'max:255'],
@@ -85,6 +78,7 @@ class ClienteController extends Controller
             $clientes->apPaterno = $request->input('apPaterno');
             $clientes->apMaterno = $request->input('apMaterno');
             $clientes->nombre = $request->input('nombre');
+            $clientes->empresa = $request->input('empresa');
             $clientes->rfc = $request->input('rfc');
             $clientes->email = $request->input('email');
             $clientes->telefono = $request->input('telefono');
@@ -113,7 +107,28 @@ class ClienteController extends Controller
     {
         if($this->slugpermision()){
 
-            $this->validator($request->all(),$id)->validate();
+            if($request->input('tipo-cliente') == 'PERSONA'){
+                $request->validate([
+                    'apPaterno' => ['required', 'string', 'max:255'],
+                    'apMaterno' => ['required', 'string', 'max:255'],
+                    'nombre' => ['required', 'string', 'max:255'],
+                ]);
+            }
+            if($request->input('tipo-cliente') == 'EMPRESA'){
+                $request->validate([
+                    'empresa' => ['required', 'string', 'max:255'],
+                ]);
+            }
+            $request->validate([
+                'rfc' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'email'],
+                // 'email' => ['required', 'email', 'max:255','unique:clientes,email'],
+                'telefono' => ['required', 'string', 'max:255'],
+                'telefonorespaldo' => ['required', 'string', 'max:255'],
+                'direccion' => ['required', 'string', 'max:255'],
+                'referencia' => ['required', 'string', 'max:255'],
+                'estatus' => ['required', 'string', 'max:255'],
+            ]);
 
             $clientes=  Cliente::find($id);
             $clientes->apPaterno = $request->input('apPaterno');

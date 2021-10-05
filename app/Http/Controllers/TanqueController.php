@@ -61,10 +61,14 @@ class TanqueController extends Controller
                 $fechaactual=new DateTime(date("Y")."-" . date("m")."-".date("d"));
                 $fechaPh=new DateTime($pruebaH->ph);
                 $diferencia = $fechaactual->diff($fechaPh);
-                if($diferencia->y == 0 && $diferencia->m < 6){
+                
+                if( $diferencia->y >= 9 &&  $diferencia->m >= 10 || $diferencia->y >= 10){
                     return '<div class="alert-danger" role="alert">'.$pruebaH->ph.'</div>';
                 };
-                return $pruebaH->ph;
+                if( $diferencia->y >= 9 &&  $diferencia->m >= 7 ){
+                    return '<div class="alert-warning" role="alert">'.$pruebaH->ph.'</div>';
+                };
+                return  $pruebaH->ph;
             })                                                               
             ->addColumn( 'btnHistory', '<a class="btn btn-sm btn-grisclaro btn-xs" href="{{route(\'tanques.history\', $id)}}" title="Historial"><span class="fas fa-history"></span></a>')
             ->addColumn( 'btnShow', '<button class="btn btn-sm btn-grisclaro btn-show-modal btn-xs" data-id="{{$id}}" title="Información"><span class="far fa-eye"></span></button>')

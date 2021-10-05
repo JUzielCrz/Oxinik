@@ -205,7 +205,7 @@ $(document).ready(function () {
         })
 
         actualizar_ivageneral();
-        var subtotal = importe -  $('#input-ivaGen').val();
+        var subtotal = sumimporte -  $('#input-ivaGen').val();
 
         $('#label-subtotal').replaceWith( 
             "<label id='label-subtotal'>"+Intl.NumberFormat('es-MX').format(subtotal) +"</label>"
@@ -226,6 +226,8 @@ $(document).ready(function () {
             "<label id='label-ivaGen'>"+Intl.NumberFormat('es-MX').format(ivaGen) +"</label>"
         );
         $('#input-ivaGen').val(ivaGen);
+
+        console.log(ivaGen);
 
     }
 

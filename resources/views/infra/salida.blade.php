@@ -12,14 +12,7 @@
         <input type="hidden" name="incidencia" id="incidencia" value="SALIDA">
         <div class="card">
             <div class="card-header p-2 bg-dark text-white">
-                <div class="row">
-                    <div class="col-md-9">
-                        <h5 >SALIDA TANQUES <strong>INFRA</strong></h5>
-                    </div>
-                    <div class="col-md-3 text-right" >
-                        <button type="button" id="btn-SaveAll" class="btn btn-sm btn-gray "> <span class="fas fa-save"></span> GUARDAR</button>
-                    </div>
-                </div>
+                <h5 >SALIDA TANQUES <strong>INFRA</strong></h5>
             </div>
         </div>
 
@@ -91,6 +84,14 @@
     $(document).ready(function () {
         $("#id-menu-salida").removeClass('btn-outline-success');
         $("#id-menu-salida").addClass('btn-success');
+
     });
+
+    // function pulsar(e) {
+    //     if (e.keyCode === 13 && !e.shiftKey) {
+    //         e.preventDefault();
+    //         insert_fila();
+    //     }
+    // }
 </script>
 <!--Fin Scripts-->

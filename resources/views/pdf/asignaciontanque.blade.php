@@ -79,31 +79,54 @@
                 }
             @endphp
             <p><img src="img/ico/checkcuadro2.svg" style="width: 20px" alt="" class="mr-2"> {{$optiontext}}</p>
-                
-                
-                <table class="table table-sm text-center" style="margin-top: 2rem">
-                    <thead>
-                        <tr>
-                            <th>CILINDROS</th>
-                            <th>GAS</th>
-                            <th>TIPO</th>
-                            <th>MATERIAL</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($detalleNota as $tanques)
-                            @if ($tanques->cilindros > 0)
-                                <tr>
-                                    <td>{{$tanques->cilindros}}</td>
-                                    <td>{{$tanques->nombre}}</td>
-                                    <td>{{$tanques->tipo_tanque}}</td>
-                                    <td>{{$tanques->material}}</td>
-                                </tr>
-                            @endif
-                            
-                        @endforeach
-                    </tbody>
-                </table>
+
+            <table class="table table-sm text-center" style="font-size: 13px">
+                <thead>
+                    <tr>
+                        <th style="padding: 0">CILINDROS</th>
+                        <th style="padding: 0">GAS</th>
+                        <th style="padding: 0">TIPO</th>
+                        <th style="padding: 0">MATERIAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($detalleNota as $tanques)
+                        @if ($tanques->cilindros > 0)
+                            <tr>
+                                <td style="padding: 0">{{$tanques->cilindros}}</td>
+                                <td style="padding: 0">{{$tanques->nombre}}</td>
+                                <td style="padding: 0">{{$tanques->tipo_tanque}}</td>
+                                <td style="padding: 0">{{$tanques->material}}</td>
+                            </tr>
+                        @endif            
+                    @endforeach
+                </tbody>
+            </table>
+
+            <p>RESUMEN CILINDROS EN CONTRATO</p>
+
+            <table class="table table-sm text-center" style="font-size: 13px;">
+                <thead>
+                    <tr>
+                        <th style="padding: 0">CILINDROS</th>
+                        <th style="padding: 0">GAS</th>
+                        <th style="padding: 0">TIPO</th>
+                        <th style="padding: 0">MATERIAL</th>
+                    </tr>
+                </thead>
+                <tbody >
+                    @foreach ($asignaciones_all as $tanque)
+                        @if ($tanque->cilindros > 0)
+                            <tr>
+                                <td style="padding: 0">{{$tanque->cilindros}}</td>
+                                <td style="padding: 0">{{$tanque->nombre}}</td>
+                                <td style="padding: 0">{{$tanque->tipo_tanque}}</td>
+                                <td style="padding: 0">{{$tanque->material}}</td>
+                            </tr>
+                        @endif            
+                    @endforeach
+                </tbody>
+            </table>
 
             
             <p>LOS ENVASES RECIBIDOS MEDIANTE LA FIRMA DE ESTE DOCUMENTO ARRIBA RELACIONADOS SON PROPIEDAD DE OXINIK GASES ESPECIALES. </p>

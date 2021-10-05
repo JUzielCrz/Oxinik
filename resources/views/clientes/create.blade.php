@@ -6,24 +6,21 @@
   <form id="idFormCliente">
     @csrf
 
-        <!-- Nombre Completo-->
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                {!! Form::label('Apellido Paterno*') !!}
-                {!! Form::text('apPaterno', null, ['id'=>'apPaterno', 'class' => 'form-control form-control-sm solo-text', 'placeholder'=>'Apellido Paterno', 'required' ]) !!}
-            <span  id="apPaternoError" class="text-danger"></span>
+        <!-- Cliente o empresa-->
+        <div class="row">
+            <div class="col-md-4">
+                <select name="tipo-clienteedit" id="tipo-cliente" class="form-control-sm form-control">
+                    <option value="">Selecciona</option>
+                    <option value="PERSONA">PERSONA</option>
+                    <option value="EMPRESA">EMPRESA</option>
+                </select>
+            </div>
         </div>
-        <div class="form-group col-md-4">
-            {!! Form::label('Apellido Materno*') !!}
-            {!! Form::text('apMaterno', null, ['id'=>'apMaterno', 'class' => 'form-control form-control-sm solo-text', 'placeholder'=>'Apellido Materno']) !!}
-            <span  id="apMaternoError" class="text-danger"></span>
-        </div>
-        <div class="form-group col-md-4">
-            {!! Form::label('Nombre(s)*') !!}
-            {!! Form::text('nombre', null, ['id'=>'nombre', 'class' => 'form-control form-control-sm solo-text', 'placeholder'=>'Nombre']) !!}
-            <span  id="nombreError" class="text-danger"></span>
-        </div>
-        </div>
+        <hr>
+        
+        <div id="empresa-cliente"></div>
+        
+        
         
         <div class="form-row">
             <div class="form-group col-md-6">

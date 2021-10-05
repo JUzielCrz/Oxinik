@@ -6,6 +6,15 @@ $(document).ready(function () {
 
     $(document).on("click","#btn-save", guardar_registros);
 
+    $('#serie_tanque').keypress(function (event) {
+        // console.log(event.charCode);
+        if (event.charCode == 13 ){
+            event.preventDefault();
+            insert_fila();
+        } 
+    });
+
+    
     var contador=0;
 
     function insert_fila(){

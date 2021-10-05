@@ -254,7 +254,7 @@ $(document).ready(function () {
                 var variable = "#" + key + "edit";
                 $(variable).val(value);
                 if(key == 'fabricante'){
-                    if(value == 'Infra' || value == 'Plaxair'){
+                    if(value == 'Infra' || value == 'Praxair'){
                         $('#fabricanteoficialedit').val(value);
                         $("#otrofabricanteedit").val('');
                         $("#otrofabricanteedit").prop("disabled", true);

@@ -38,7 +38,6 @@ class NotaExporadicaController extends Controller
         $request->validate([
             'nombre_cliente' => ['required', 'string', 'max:255'],
             'telefono' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'max:255'],
             'metodo_pago' => ['required', 'string', 'max:255'],
             'input-subtotal' => ['required', 'numeric'],
             'input-total' => ['required', 'numeric'],
@@ -85,7 +84,7 @@ class NotaExporadicaController extends Controller
                             $historytanques->save();
                         }else{
                             //Si no existe registrar
-                            //	1 Carga, Acero, Plaxair, Industrial, LLENO-ALMACEN, 2 ACETILENO
+                            //	1 Carga, Acero, Praxair, Industrial, LLENO-ALMACEN, 2 ACETILENO
                             $cadena=explode(', ', $request->inputDescripcion_entrada[$entrada]);
                             $newTanque = new Tanque;
                             $newTanque->num_serie = $request->inputNumSerie_entrada[$entrada];

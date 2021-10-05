@@ -6,25 +6,10 @@
   <form id="idFormClienteedit">
 
     {!! Form::hidden('idedit', null, ['id'=>'idedit']) !!}
+    <input type="hidden" name="tipo-clienteedit" id="tipo-clienteedit">
 
-        <!-- Nombre Completo-->
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                {!! Form::label('Apellido Paterno*') !!}
-                {!! Form::text('apPaternoedit', null, ['id'=>'apPaternoedit', 'class' => 'form-control form-control-sm solo-text', 'placeholder'=>'Apellido Paterno', 'required' ]) !!}
-                <span  id="apPaternoeditError" class="text-danger"></span>
-            </div>
-            <div class="form-group col-md-4">
-                {!! Form::label('Apellido Materno*') !!}
-                {!! Form::text('apMaternoedit', null, ['id'=>'apMaternoedit', 'class' => 'form-control form-control-sm solo-text', 'placeholder'=>'Apellido Materno']) !!}
-                <span  id="apMaternoeditError" class="text-danger"></span>
-            </div>
-            <div class="form-group col-md-4">
-                {!! Form::label('Nombre*') !!}
-                {!! Form::text('nombreedit', null, ['id'=>'nombreedit', 'class' => 'form-control form-control-sm solo-text', 'placeholder'=>'Nombre']) !!}
-                <span  id="nombreeditError" class="text-danger"></span>
-            </div>
-        </div>
+        <!-- Cliente o empresa-->
+        <div id="empresa-clienteedit"></div>
 
         <div class="form-row">
             <div class="form-group col-md-6">

@@ -115,7 +115,7 @@ $(document).ready(function () {
         var bandera=false;
 
         $.each(campo, function(index){
-            if($('#'+campo[index]).val() < 1 || $('#'+campo[index]).val() == ""){
+            if($('#'+campo[index]).val() < 0 || $('#'+campo[index]).val() == ""){
                 $('#'+campo[index]+'Error').text(camponombre[index]+" invalido");
                 $('#'+campo[index]).addClass("is-invalid");
                 bandera=true;
@@ -148,8 +148,7 @@ $(document).ready(function () {
                 $(elemento).removeClass("is-invalid");
             }
         });
-    
-       
+
         $("select[name='tipo_gascreate[]']").each(function(indice, elemento) {
             if($(elemento).val()==""){
                 $(elemento).addClass("is-invalid");

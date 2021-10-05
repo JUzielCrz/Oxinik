@@ -5,9 +5,6 @@
 
   <form id="idFormContrato" style="font-size: 13px">
     @csrf
-    <label class="text-danger">* OBLIGATORIO </label>
-    <hr>
-
         <!-- Nombre Completo-->
         <div class="form-row">
             <div class="form-group col-md-6">
@@ -32,19 +29,24 @@
             </div>
 
             <div class="form-group col-md-4">
-                {!! Form::label('#Reguladores*') !!}
-                {!! Form::select('reguladores',[0 => 0,1 => 1, 2 => 2,3 => 3, 4 => 4, 5 => 5,6 => 6 
-                ] ,null, ['id'=>'reguladores', 'class' => 'form-control form-control-sm', 'placeholder'=>'#', 'required' ]) !!}
+                {!! Form::label('#Reguladores') !!}
+                <select name="reguladores" id="reguladores" class="form-control form-control-sm">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
                 <span  id="reguladoresError" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group col-md-4">
-                {!! Form::label('Precio Transporte') !!}
-                {!! Form::number('precio_transporte', null, ['id'=>'precio_transporte', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'$0.0']) !!}
-                <span  id="precio_transporteError" class="text-danger"></span>
             </div>
         </div>
 
+        <hr>
+        <div class="form-row">
+                <p>Datos Envío</p>
+        </div>
         <div class="form-row">
             <div class="col-md-6">
                 <label for="">Dirección envío</label>
@@ -57,9 +59,14 @@
         </div>
 
         <div class="form-row">
+            <div class="form-group col-md-6">
+                {!! Form::label('Precio Transporte') !!}
+                {!! Form::number('precio_transporte', null, ['id'=>'precio_transporte', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'$0.0']) !!}
+                <span  id="precio_transporteError" class="text-danger"></span>
+            </div>
             <div class="col-md-6">
                 <label for="">URL Ubicación</label>
-                <textarea name="link_ubicacion" id="link_ubicacion" class="form-control form-control-sm" cols="30" rows="2"></textarea>
+                <textarea name="link_ubicacion" id="link_ubicacion" class="form-control form-control-sm" cols="30" rows="1"></textarea>
             </div>
         </div>
         
