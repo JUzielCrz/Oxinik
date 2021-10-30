@@ -54,8 +54,6 @@ $(document).ready(function () {
 
 
     function save_tanque(clave, accion, e) {
-        
-
         var campo= [
             'nombre',
             'abreviatura'];
@@ -97,6 +95,10 @@ $(document).ready(function () {
                 },
         })
             .done(function (msg) {
+                if(msg.mensaje == 'Sin permisos'){
+                    mensaje("error","Sin permisos", "No tienes los permisos suficientes para hacer este cambio", null, "#modal-tanque"+clave);
+                    return false;
+                }
                 limpiar_campos();
                 listtabla.ajax.reload(null,false);      
                 mensaje("success","Exito", "Los datos se guardaron correctamente", 1800, "#modal-tanque"+clave);
@@ -157,6 +159,10 @@ $(document).ready(function () {
                     method: "GET",
                     url: '/gas/delete/'+ $(this).data('id'),
                 }).done(function (msg) {
+                    if(msg.mensaje == 'Sin permisos'){
+                        mensaje("error","Sin permisos", "No tienes los permisos suficientes para hacer este cambio", null, null);
+                        return false;
+                    }
                     listtabla.ajax.reload(null,false); 
                     Swal.fire('Exito!', '', 'success')
                 }).fail(function (){

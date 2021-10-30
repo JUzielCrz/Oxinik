@@ -68,7 +68,7 @@ $(document).ready(function () {
             }else{
                 if(msg.estatus == "VENTA-EXPORADICA"){
                     insertar_fila_entrada(msg);
-                    mensaje("info","Exito", "Este cilindro ya estaba registrado" , 2000, "#modal-registrar-tanque");
+                    mensaje("info","Aviso", "Este cilindro ya esta registrado en su base da datos" , null, "#modal-registrar-tanque");
                 }else{ 
                     //Tanque registrado en el sistema con estus diferente a VENTA-EXPORADICA
                     Swal.fire({
@@ -77,7 +77,7 @@ $(document).ready(function () {
                         showCancelButton: true,
                         confirmButtonText: 'Continuar de todos modos',
                         footer: '<a class="btn btn-link" target="_blank" href="/tanque/history/'+msg.id+'">ver historial <strong>'+msg.num_serie+'</strong></a>'+
-                        '<a class="btn btn-link" target="_blank" href="/tanque/reportados/create'+msg.id+'">Levantar reporte <strong>'+msg.num_serie+'</strong></a>',
+                        '<a class="btn btn-link" target="_blank" href="/tanque/reportados/create">Levantar reporte <strong>'+msg.num_serie+'</strong></a>',
                         
                     }).then((result) => {
                         /* Read more about isConfirmed, isDenied below */
@@ -93,7 +93,6 @@ $(document).ready(function () {
     }
 
     function insertar_fila_entrada(msg){
-        console.log(msg);
         var valorcampo=[];
         var inputRegistro=false;
 

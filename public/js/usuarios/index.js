@@ -23,7 +23,7 @@ $(document).ready(function () {
         },
         processing: true,
         serverSider: true,
-        ajax: '/dt_usuarios',
+        ajax: '/user/data',
         columns:[
             {data: 'name'},
             {data: 'email'},
@@ -57,7 +57,7 @@ $(document).ready(function () {
         metodo_limpiar_span("Error");
         $.ajax({
             method: "POST",
-            url: "newuser",
+            url: "/user/create",
             data: $("#idFormUser").serialize(),
         })
             .done(function (msg) {
@@ -111,7 +111,7 @@ $(document).ready(function () {
     
     
     function metodo_detalle() {
-        $.get('/showuser/' + $(this).data('id') + '', function(data) {
+        $.get('/user/show/' + $(this).data('id') + '', function(data) {
             $.each(data.user, function (key, value) {
                 var variable = "#" + key + "info";
                 $(variable).val(value);
@@ -136,7 +136,7 @@ $(document).ready(function () {
             return false;
         }
 
-        $.get('/showuser/' + $(this).data('id') + '', function(data) {
+        $.get('/user/show/' + $(this).data('id') + '', function(data) {
             $.each(data.user, function (key, value) {
                 var variable = "#" + key + "edit";
                 $(variable).val(value);
@@ -157,7 +157,7 @@ $(document).ready(function () {
         metodo_limpiar_span("editError");
         $.ajax({
             method: "POST",
-            url: "updateuser/"+$('#idedit').val()+'',
+            url: "/user/update/"+$('#idedit').val()+'',
             data: {
                 '_token': $('input[name=_token]').val(),
                 'id': $('#idedit').val(),
@@ -196,7 +196,7 @@ $(document).ready(function () {
     function metodo_eliminar() {
         $.ajax({
             method: "POST",
-            url: "deleteuser/"+$('#ideliminar').text()+'',
+            url: "/user/delete/"+$('#ideliminar').text()+'',
             data: {
                 '_token': $('input[name=_token]').val(),
                 'id': $('#ideliminar').text()

@@ -88,6 +88,35 @@
                     </div>
                 </div>
                 </fieldset>
+
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h5>Pendientes</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="table-tanques-nota" class="table table-sm table-hover table-bordered">
+                                <thead>
+                                    <tr style="font-size: 13px">
+                                        <th scope="col">#SERIE</th>
+                                        <th scope="col">DESCRIPCIÓN</th>
+                                        <th scope="col">TAPA</th>
+                                        <th scope="col">FECHA</th>
+                                        <th scope="col">NOTA</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody id="tbody-tanques-nota">
+                                </tbody>
+                            </table>
+                        </div>
+                        <center>
+                            <div id="msg-tanques" style="display:none" class="alert" role="alert">
+                            </div>
+                        </center>
+                    </div>
+                </div>
             </div>
             
             <div class="col-md-4">
@@ -122,6 +151,15 @@
                                 <input id="nombre_cliente" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled>
                             </div>
                         </div>
+                        {{-- Cliente--}}
+                        <div class="form-row">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Empresa:</span>
+                                </div>
+                                <input id="nombre_empresa" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled>
+                            </div>
+                        </div>
 
                         {{-- Numero contrato, tipo contrato--}}
                         <div class="form-row">
@@ -149,10 +187,10 @@
                 <div class="card mt-2">
                     <div class="card-header">
                         <div class="row" >
-                            <div class="col-md-8 ">
+                            <div class="col">
                                 <p>ASIGNACIONES</p>
                             </div>
-                            <div class="col-4-md">
+                            {{-- <div class="col-4-md">
                                 <div class="input-group input-group-sm mb-3">
                                     <div class="input-group-prepend">
                                         <button class="btn btn-amarillo" type="button" id="btn-modal-asignacion-minus"> <span class="fas fa-minus"></span></button>
@@ -161,7 +199,7 @@
                                         <button class="btn btn-amarillo" type="button" id="btn-modal-asignacion-plus"> <span class="fas fa-plus"></span></button>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div class="card-body">
@@ -335,7 +373,7 @@
             </div>
         </div>
 
-        <!-- Modal Edit Asignacion de tanques en contrato-->
+        {{-- <!-- Modal Edit Asignacion de tanques en contrato-->
     <div class="modal fade" id="modal-edit-asignacion" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content">
@@ -349,12 +387,11 @@
                 @include('contratos.asignaciontanques')
             </div>
             <div class="modal-footer">
-            {{-- <button type="button" class="btn btn-grisclaro" data-dismiss="modal">Cancelar</button> --}}
             <button id="btn-save-asignacion" type="button" class="btn btn-verde">Guardar</button>
             </div>
         </div>
         </div>
-    </div>
+    </div> --}}
 
     
 

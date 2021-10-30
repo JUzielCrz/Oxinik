@@ -32,6 +32,7 @@
                             <th scope="col">Estatus</th>
                             <th scope="col"></th>
                             <th scope="col"></th>
+                            <th></th>
                             </tr>
                         </thead>
                     </table>

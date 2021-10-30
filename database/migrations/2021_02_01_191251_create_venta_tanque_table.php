@@ -18,11 +18,8 @@ class CreateVentaTanqueTable extends Migration
             $table->unsignedBigInteger('venta_id');
             $table->foreign('venta_id')->references('id')
                 ->on('ventas')
-                ->onDelete('restrict');
+                ->onDelete('cascade');
             $table->string('num_serie');
-            $table->foreign('num_serie')->references('num_serie')
-                ->on('tanques')
-                ->onDelete('restrict');
             $table->integer('cantidad')->nullable();
             $table->string('unidad_medida')->nullable();
             $table->double('precio_unitario')->nullable();

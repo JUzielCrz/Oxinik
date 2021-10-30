@@ -53,7 +53,7 @@ class RoleController extends Controller
         return view('home');
     }
 
-    public function datatablesindex(){
+    public function data(){
         if($this->slugpermision()){
             $roles=Role::
             select('roles.*');
@@ -61,8 +61,8 @@ class RoleController extends Controller
                 $roles
             )
             // ->addColumn( 'btnShow', '<button class="btn btn-morado btn-show-modal btn-xs" data-id="{{$id}}"><span class="far fa-eye"></span></button>')
-            ->addColumn( 'btnEdit', '<button class="btn btn-naranja btn-edit-modal btn-xs" data-id="{{$id}}"><span class="far fa-edit"></span></button>')
-            ->addColumn( 'btnDelete', '<button class="btn btn-amarillo btn-delete-modal btn-xs" data-id="{{$id}}"><span class="fas fa-trash"></span></button>')
+            ->addColumn( 'btnEdit', '<button class="btn btn-grisclaro btn-edit-modal btn-xs" data-id="{{$id}}"><span class="far fa-edit"></span></button>')
+            ->addColumn( 'btnDelete', '<button class="btn btn-grisclaro btn-delete-modal btn-xs" data-id="{{$id}}"><span class="fas fa-trash"></span></button>')
             ->rawColumns(['btnShow','btnEdit','btnDelete'])
             ->toJson();
         }

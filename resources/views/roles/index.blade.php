@@ -1,39 +1,47 @@
-@extends('layouts.navbar')
-@section('contentnavbar')
+@extends('layouts.sidebar')
 
-    <div class="container-fluid" >
+@section('content-sidebar')
+
+    <div class="container" >
 
         <center>
             <div id="divmsgindex" style="display:none" class="alert" role="alert">
             </div>
-            </center>
-            
-        <div class="row ">
-            <div class="col-md-5 text-center">
-                <h3>Roles</h3>
+        </center>
+        
+        <div class="card">
+            <div class="card-footer">
+                <div class="row ">
+                    <div class="col-md-5 text-center">
+                        <h5>Roles</h5>
+                    </div>
+                    <div class="col-md-5 text-right">
+                        <button type="button" class="btn btn-gray" data-toggle="modal" data-target="#modalinsertar">
+                            <span class="fas fa-plus"></span>
+                            Agregar
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-5 text-right">
-                <button type="button" class="btn btn-gray" data-toggle="modal" data-target="#modalinsertar">
-                    <span class="fas fa-plus"></span>
-                    Agregar
-                </button>
+            <div class="card-body">
+                <div class="row d-flex justify-content-center table-responsive mt-2"> 
+                    <table id="tablecruddata" class="table table-sm">
+                        <thead>
+                            <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">slug</th>
+                            <th scope="col">Descripcion</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
-
         </div>
         
-        <div class="row d-flex justify-content-center table-responsive mt-2"> 
-            <table id="tablecruddata" class="table table-sm">
-                <thead>
-                    <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">slug</th>
-                    <th scope="col">Descripcion</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
+        
+        
     </div>
 
 
@@ -42,7 +50,7 @@
         <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header bg-onix">
-            <h1 class="modal-title" id="modalinsertarTitle">Usuario Nuevo</h1>
+            <h5 class="modal-title" id="modalinsertarTitle">Nuevo Rol de Usuario</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff">
                 <span aria-hidden="true" class="fas fa-times"></span>
             </button>
@@ -52,10 +60,10 @@
             <!-- botones Aceptar y cancelar-->
             <div class="row justify-content-center" >
                 <div class="btn-group col-md-2" style="margin:10px" >
-                <button type="submit" class="btn btn-azul" id="btnaccept">Aceptar</button>
+                <button type="submit" class="btn btn-primary" id="btnaccept">Aceptar</button>
                 </div>
                 <div class="btn-group col-md-2" style="margin:10px">
-                <button  class="btn btn-azul" data-dismiss="modal">Cancelar</button>
+                <button  class="btn btn-primary" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
             </div>
@@ -80,10 +88,10 @@
             <!-- botones Aceptar y cancelar-->
             <div class="row justify-content-center" >
                 <div class="btn-group col-md-2" style="margin:10px" >
-                <button type="submit" class="btn btn-azul" id="btnactualizar">Actualizar</button>
+                <button type="submit" class="btn btn-primary" id="btnactualizar">Actualizar</button>
                 </div>
                 <div class="btn-group col-md-2" style="margin:10px">
-                <button type="reset" class="btn btn-azul" data-dismiss="modal">Cancelar</button>
+                <button type="reset" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
             </div>
@@ -112,10 +120,10 @@
             <!-- botones Aceptar y cancelar-->
             <div class="row justify-content-center" >
                 <div class="btn-group col-md-2" style="margin:10px" >
-                <button type="submit" class="btn btn-rojo" id="btneliminar">Eliminar</button>
+                <button type="submit" class="btn btn-primary" id="btneliminar">Eliminar</button>
                 </div>
                 <div class="btn-group col-md-2" style="margin:10px">
-                <button type="reset" class="btn btn-azul" data-dismiss="modal">Cancelar</button>
+                <button type="reset" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
             </div>
@@ -129,5 +137,5 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/cruds/roles.js') }}"></script>
+<script src="{{ asset('js/roles/index.js') }}"></script>
 <!--Fin Scripts-->

@@ -20,10 +20,11 @@ class TanqueController extends Controller
         $this->middleware('auth');
     }
 
-    public function slugpermision(){
+    public function slug_permiso($slug_permiso){
         $idauth=auth()->user()->id;
         $user=User::find($idauth);
-        return $user->havePermission('tanques');
+
+        return $user->permiso_con_admin($slug_permiso);
     }
 
     protected function validator(array $data,$id){
@@ -39,7 +40,7 @@ class TanqueController extends Controller
     }
 
     public function index(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('tanque_show')){
             $catalogo = CatalogoGas::pluck('nombre','id');
             $data= ['catalogo'=>$catalogo];
             return view('tanques.index', $data);
@@ -48,7 +49,7 @@ class TanqueController extends Controller
     }
 
     public function tanques_data(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('tanque_show')){
             $tanques=Tanque::
             select('tanques.*')
             ->where('estatus',"!=","BAJA-TANQUE")
@@ -80,9 +81,22 @@ class TanqueController extends Controller
         return view('home');
     }
 
+    public function validar_ph($pruebaH){
+        $fechaactual=new DateTime(date("Y")."-" . date("m")."-".date("d"));
+        $fechaPh=new DateTime($pruebaH);
+        $diferencia = $fechaactual->diff($fechaPh);
+
+            if( $diferencia->y >= 9 &&  $diferencia->m >= 10 || $diferencia->y >= 10){
+                return response()->json(['alert'=>true, 'mensaje'=>'Prueba hidroestatica 3 meses a vencer o vencido']);
+            };
+            if( $diferencia->y >= 9 &&  $diferencia->m >= 7 ){
+                return response()->json(['alert'=>true, 'mensaje'=>'Prueba hidroestatica 6 meses a vencer']);
+            };
+        return response()->json(['alert'=>false]);;
+    }
 
     public function create(Request $request){
-        if($this->slugpermision()){
+        if($this->slug_permiso('tanque_create')){
             $request->validate([
                 'num_serie' => ['required', 'string', 'max:255','unique:tanques,num_serie'],
                 'ph' => ['required', 'string', 'max:255'],
@@ -118,22 +132,16 @@ class TanqueController extends Controller
     }
 
     public function show( Tanque $id){
-        if($this->slugpermision()){
             return $id;
-        }
-        return response()->json(['mensaje'=>'Sin permisos']);
     }
 
     public function show_numserie($num_serie){
-        if($this->slugpermision()){
             $tanque=Tanque::where('num_serie',$num_serie)->first();
             return $tanque;
-        }
-        return response()->json(['mensaje'=>'Sin permisos']);
     }
 
     public function update(Request $request, $id){
-        if($this->slugpermision()){
+        if($this->slug_permiso('tanque_update')){
             $this->validator($request->all(),$id)->validate();
 
             $tanques=  Tanque::find($id);
@@ -159,27 +167,83 @@ class TanqueController extends Controller
         return response()->json(['mensaje'=>'Sin permisos']);
     }
 
+    public function destroy( Tanque $id){
+        if($this->slug_permiso('tanque_delete')){
+            $id->delete();
+            return response()->json(['mensaje'=>'exito']);
+        }
+        return response()->json(['mensaje'=>'Sin permisos']);
+    }
+
+    //////// Historial de tanques 
+
+    public function history(Tanque $id){
+        if($this->slug_permiso('tanque_history')){
+            $data=['tanque'=>$id];
+            return view('tanques.history', $data);
+        }
+        return view('home');
+    }
+
+    public function history_data($serietanque){
+        if($this->slug_permiso('tanque_history')){
+            $tanques=TanqueHistorial::
+            select('tanque_historial.*')->where('num_serie',$serietanque);
+            return DataTables::of(
+                $tanques
+            )
+            ->editColumn('created_at', function ($user) {
+                return $user->created_at->format('H:i:s A - d/m/Y');
+            })
+            ->toJson();
+        }
+        return view('home');
+    }
+
+    //// BAJAS de tanques 
+    public function lista_bajas(){
+        if($this->slug_permiso('tanque_show')){
+            return view('tanques.lista_bajas');
+        }
+        return view('home');
+    }
+
+    public function lista_bajas_data(){
+        if($this->slug_permiso('tanque_show')){
+            $tanques=Tanque::
+            select('tanques.*')
+            ->where('estatus',"BAJA-TANQUE");
+            return DataTables::of(
+                $tanques
+            )             
+            ->addColumn( 'btnRestablecer', '<button class="btn btn-sm btn-grisclaro btn-restore" data-id="{{$id}}" title="Restablecer"><i class="fas fa-trash-restore-alt"></i></button>')
+            ->addColumn( 'btnHistory', '<a class="btn btn-sm btn-grisclaro" href="{{route(\'tanques.history\', $id)}}" title="Historial"><span class="fas fa-history"></span></a>')
+            ->addColumn( 'btnDelete', '<button class="btn btn-sm btn-grisclaro btn-delete" data-id="{{$id}}" title="Eliminar"><i class="fas fa-trash-alt"></i></button>')
+            ->rawColumns(['btnHistory','btnRestablecer', 'btnDelete'])
+            ->toJson();
+        }
+        return view('home');
+    }
 
     public function baja_tanque(Tanque $id){
-        if($this->slugpermision()){
+        if($this->slug_permiso('tanque_delete')){
             $id->estatus = "BAJA-TANQUE";
+            $id->save();
 
-            if($id->save()){
-                $historytanques=new TanqueHistorial;
+            $historytanques=new TanqueHistorial;
             $historytanques->num_serie = $id->num_serie;
             $historytanques->estatus = $id->estatus;
             $historytanques->observaciones ='Tanque dado de baja';
             $historytanques->save();
-                return response()->json(['mensaje'=>'Eliminado Correctamente']);
-            }else{
-                return response()->json(['mensaje'=>'Error al Eliminar']);
-            }
+
+            return response()->json(['mensaje'=>'Eliminado Correctamente']);
+            
         }
-        return response()->json(['mensaje'=>'Sin permisos','accesso'=>'true']);
+        return response()->json(['mensaje'=>'Sin permisos']);
     }
 
     public function restablecer_tanque(Tanque $id){
-        if($this->slugpermision()){
+        if($this->slug_permiso('tanque_delete')){
             $id->estatus = "VACIO-ALMACEN";
 
             if($id->save()){
@@ -196,61 +260,9 @@ class TanqueController extends Controller
         return response()->json(['mensaje'=>'Sin permisos','accesso'=>'true']);
     }
 
-
-
-
-    //////// Historial de tanques 
-
-    public function history(Tanque $id){
-        if($this->slugpermision()){
-            $data=['tanque'=>$id];
-            return view('tanques.history', $data);
-        }
-        return view('home');
-    }
-
-    public function history_data($serietanque){
-        if($this->slugpermision()){
-            $tanques=TanqueHistorial::
-            select('tanque_historial.*')->where('num_serie',$serietanque);
-            return DataTables::of(
-                $tanques
-            )
-            ->editColumn('created_at', function ($user) {
-                return $user->created_at->format('H:i:s A - d/m/Y');
-            })
-            ->toJson();
-        }
-        return view('home');
-    }
-
-    //// BAJAS de tanques 
-    public function lista_bajas(){
-        if($this->slugpermision()){
-            return view('tanques.lista_bajas');
-        }
-        return view('home');
-    }
-
-    public function lista_bajas_data(){
-        if($this->slugpermision()){
-            $tanques=Tanque::
-            select('tanques.*')
-            ->where('estatus',"BAJA-TANQUE");
-            return DataTables::of(
-                $tanques
-            )             
-            ->addColumn( 'btnRestablecer', '<button class="btn btn-sm btn-grisclaro btn-delete-modal btn-xs" data-id="{{$id}}" title="Restablecer"><i class="fas fa-trash-restore-alt"></i></button>')
-            ->addColumn( 'btnHistory', '<a class="btn btn-sm btn-grisclaro btn-xs" href="{{route(\'tanques.history\', $id)}}" title="Historial"><span class="fas fa-history"></span></a>')
-            ->rawColumns(['btnHistory','btnRestablecer'])
-            ->toJson();
-        }
-        return view('home');
-    }
-
     //// lISTAR tanques POR ESTATUS
     public function estatus_index(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('tanque_show')){
             $vacioalmacen= Tanque::where('estatus','VACIO-ALMACEN'); //analizar
             $llenoalmacen= Tanque::where('estatus','LLENO-ALMACEN');
             $infra= Tanque::where('estatus','INFRA');
@@ -274,7 +286,7 @@ class TanqueController extends Controller
     }
     public function estatus_data($estatus){
 
-        if($this->slugpermision()){
+        if($this->slug_permiso('tanque_show')){
             $tanques=Tanque::
             select('tanques.*')->where('estatus', $estatus);
 
@@ -288,13 +300,13 @@ class TanqueController extends Controller
 
     //// REPORTES TANQUES
     public function reportados_index(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('tanque_show')){
             return view('tanques.reportes.index');
         }
         return view('home');
     }
     public function reportados_data(){
-
+        if($this->slug_permiso('tanque_show')){
             $tanques=TanqueReportado::
             join('tanques','tanques.num_serie','tanques_reportados.num_serie')
             ->select('tanques.*','tanques_reportados.*', 'tanques_reportados.id as reporte_id', 'tanques.id as tanque_id');
@@ -308,10 +320,12 @@ class TanqueController extends Controller
             })
             ->rawColumns(['btnHistory','btbEliminar'])
             ->toJson();
+        }
+        return view('home');
     }
 
     public function reportados_create(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('tanque_report')){
             return view('tanques.reportes.create');
         }
         return view('home');
@@ -319,7 +333,7 @@ class TanqueController extends Controller
 
     public function reportados_save(Request $request){
         
-        if($this->slugpermision()){
+        if($this->slug_permiso('tanque_report')){
             $tanque=Tanque::where('num_serie',$request->num_serie)->first();
             
             if($tanque){
@@ -344,9 +358,8 @@ class TanqueController extends Controller
         return view('home');
     }
 
-
     public function reportados_eliminar($id){
-        if($this->slugpermision()){
+        if($this->slug_permiso('tanque_report')){
             $reporte= TanqueReportado::find($id);
             $tanque=Tanque::where('num_serie',$reporte->num_serie)->first();
             if($tanque){

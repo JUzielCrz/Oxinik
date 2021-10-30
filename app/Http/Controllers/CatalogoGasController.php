@@ -16,10 +16,11 @@ class CatalogoGasController extends Controller
         $this->middleware('auth');
     }
 
-    public function slugpermision(){
+    public function slug_permiso($slug_permiso){
         $idauth=auth()->user()->id;
         $user=User::find($idauth);
-        return $user->havePermission('gases');
+
+        return $user->permiso_con_admin($slug_permiso);
     }
 
     protected function validator(array $data,$id){
@@ -30,14 +31,14 @@ class CatalogoGasController extends Controller
     }
 
     public function index(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('gas_show')){
             return view('gas.index');
         }
         return view('home');
     }
 
     public function gas_data(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('gas_show')){
             $gases=CatalogoGas::
             select('catalogo_gases.*');
             return DataTables::of(
@@ -52,15 +53,14 @@ class CatalogoGasController extends Controller
     }
 
     public function show( CatalogoGas $id){
-        if($this->slugpermision()){
+        if($this->slug_permiso('gas_show')){
             return $id;
         }
         return response()->json(['mensaje'=>'Sin permisos']);
     }
 
-    public function create(Request $request)
-    {
-        if($this->slugpermision()){
+    public function create(Request $request){
+        if($this->slug_permiso('gas_create')){
             $request->validate([
                 'nombre' => ['required', 'string', 'max:255','unique:catalogo_gases,nombre'],
                 'abreviatura' => ['required', 'string', 'max:255', 'unique:catalogo_gases,abreviatura'],
@@ -76,9 +76,8 @@ class CatalogoGasController extends Controller
         return response()->json(['mensaje'=>'Sin permisos']);
     }
     
-    public function update(Request $request, $id)
-    {
-        if($this->slugpermision()){
+    public function update(Request $request, $id){
+        if($this->slug_permiso('gas_update')){
             $this->validator($request->all(), $id)->validate();
 
             $gas=CatalogoGas::find( $id);
@@ -93,8 +92,10 @@ class CatalogoGasController extends Controller
     }
 
     public function destroy(CatalogoGas $id){
-        if($id->delete()){
-            return response()->json(['mensaje'=>'Eliminado correctamente']);
+        if($this->slug_permiso('gas_delete')){
+            if($id->delete()){
+                return response()->json(['mensaje'=>'Eliminado correctamente']);
+            }
         }
         return response()->json(['mensaje'=>'Sin permisos']);
     }

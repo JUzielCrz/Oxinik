@@ -18,7 +18,7 @@ class CreateNotasTable extends Migration
             $table->unsignedBigInteger('contrato_id');
             $table->foreign('contrato_id')->references('id')
                 ->on('contratos')
-                ->onDelete('restrict');
+                ->onDelete('cascade');
             $table->date('fecha');
             $table->string('envio');
             $table->float('subtotal');
@@ -28,6 +28,7 @@ class CreateNotasTable extends Migration
             $table->string('metodo_pago');
             $table->boolean('pago_cubierto');
             $table->string('observaciones')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
         });
     }

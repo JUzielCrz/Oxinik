@@ -18,6 +18,7 @@ class CreateMantenimientoLlenadoTable extends Migration
             $table->date('fecha');
             $table->integer('cantidad');
             $table->enum('incidencia', ['ENTRADA', 'SALIDA']);
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
         });
     }

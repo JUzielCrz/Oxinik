@@ -35,6 +35,8 @@ class CreateVentasTable extends Migration
             $table->string('metodo_pago')->nullable();
             $table->date('fecha');
 
+            $table->unsignedBigInteger('user_id')->nullable();
+
             $table->timestamps();
         });
     }

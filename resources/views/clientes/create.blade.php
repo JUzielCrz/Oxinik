@@ -8,13 +8,15 @@
 
         <!-- Cliente o empresa-->
         <div class="row">
-            <div class="col-md-4">
-                <select name="tipo-clienteedit" id="tipo-cliente" class="form-control-sm form-control">
+            <div class="col-md-8">
+                <select name="tipo-cliente" id="tipo-cliente" class="form-control-sm form-control">
                     <option value="">Selecciona</option>
                     <option value="PERSONA">PERSONA</option>
                     <option value="EMPRESA">EMPRESA</option>
                 </select>
+                <span  id="tipo-clienteError" class="text-danger"></span>
             </div>
+
         </div>
         <hr>
         

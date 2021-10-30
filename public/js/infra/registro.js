@@ -40,7 +40,6 @@ $(document).ready(function () {
         }
 
         var valdiar_estatus="";
-        console.log($("#incidencia").val());
         if($("#incidencia").val() == 'ENTRADA'){
             valdiar_estatus='INFRA'
         }else{
@@ -105,6 +104,7 @@ $(document).ready(function () {
         }).done(function(msg){
             limpiar_campos();
             mensaje('success','Exito','Registro creado correctamente', 1500);
+            window.open("/pdf/infra/nota/"+ msg.notaId, '_blank');
         })
         .fail(function (jqXHR, textStatus) {
             //Si existe algun error entra aqui

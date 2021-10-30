@@ -19,11 +19,8 @@ class CreateNotaTanqueTable extends Migration
             $table->unsignedBigInteger('nota_id');
             $table->foreign('nota_id')->references('id')
                 ->on('notas')
-                ->onDelete('restrict');
+                ->onDelete('cascade');
             $table->string('num_serie');
-            $table->foreign('num_serie')->references('num_serie')
-                ->on('tanques')
-                ->onDelete('restrict');
             //solo  salida
             $table->integer('cantidad')->nullable();
             $table->string('unidad_medida')->nullable();

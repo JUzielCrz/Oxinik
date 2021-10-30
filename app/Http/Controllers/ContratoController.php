@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asignacion;
-use App\Models\AsignacionHistorial;
 use App\Models\AsignacionNota;
 use App\Models\AsignacionNotaDetalle;
-use App\Models\AsignacionTanques;
 use App\Models\CatalogoGas;
 use App\Models\Cliente;
 use App\Models\Contrato;
@@ -15,7 +13,6 @@ use App\User;
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
 
 class ContratoController extends Controller
 {
@@ -24,11 +21,11 @@ class ContratoController extends Controller
         $this->middleware('auth');
     }
 
-    public function slugpermision(){
+    public function slug_permiso($slug_permiso){
         $idauth=auth()->user()->id;
         $user=User::find($idauth);
 
-        return $user->havePermission('contratos');
+        return $user->permiso_con_admin($slug_permiso);
     }
     
     protected function validatorupdate(array $data,$id){
@@ -40,7 +37,7 @@ class ContratoController extends Controller
     }
 
     public function index($id){
-        if($this->slugpermision()){
+        if($this->slug_permiso('contrato_show')){
             $cliente = Cliente::where('id',$id)->first();
             $contratos=Contrato::select('contratos.*')->where('contratos.cliente_id',$id)->get();
             $catalogogas = CatalogoGas::all();
@@ -51,7 +48,7 @@ class ContratoController extends Controller
     }
 
     public function create(Request $request){
-        if($this->slugpermision()){
+        if($this->slug_permiso('contrato_create')){
             $request->validate([
                 'num_contrato' => ['required', 'string', 'max:255', 'unique:contratos,num_contrato'],
                 'cliente_id' => ['required'],
@@ -60,8 +57,8 @@ class ContratoController extends Controller
                 
             ]); 
 
-            if($request->input('num_contrato')<1 ||$request->input('deposito_garantia')<1 || $request->input('precio_transporte')<1){
-                return response()->json(['alert'=>'alert-danger', 'mensaje'=>'No puedes introducir valores menor a 1']);
+            if($request->input('num_contrato')<0 ||$request->input('deposito_garantia')<0 || $request->input('precio_transporte')<0){
+                return response()->json(['alert'=>'alert-danger', 'mensaje'=>'No puedes introducir valores menor a 0']);
             }
             foreach( $request->cilindroscreate AS $negativo => $g){
                 if($request->cilindroscreate[$negativo] < 1 || $request->precio_unitariocreate[$negativo] < 1){
@@ -136,11 +133,6 @@ class ContratoController extends Controller
                 $notaAsig->incidencia= 'INICIO-CONTRATO';
                 $notaAsig->save();
 
-                // $temporal=[]; 
-                // array_push($temporal, $request->materialcreate[$inci]); 
-                // dump($temporal);
-                // return false;
-
                 foreach( $request->tipo_gascreate AS $typeG => $g){
                     $detalleNota=
                     AsignacionNotaDetalle::
@@ -173,7 +165,7 @@ class ContratoController extends Controller
     }
 
     public function show($contrato_id){
-        if($this->slugpermision()){
+        if($this->slug_permiso('contrato_show')){
             $contrato=Contrato::where('id',$contrato_id)->first();
 
             $data=['contratos'=>$contrato];
@@ -182,8 +174,15 @@ class ContratoController extends Controller
         return response()->json(['mensaje'=>'Sin permisos','accesso'=>'true']);
     }
 
+    public function envio_show($contrato_id){
+        $contrato=Contrato::select('precio_transporte', 'precio_transporte', 'direccion', 'referencia')->where('id',$contrato_id)->first();
+
+        $data=['contratos'=>$contrato];
+        return $data;
+    }
+
     public function update(Request $request, $id){
-        if($this->slugpermision()){
+        if($this->slug_permiso('contrato_update')){
 
             $this->validatorupdate($request->all(),$id)->validate();
 
@@ -207,25 +206,23 @@ class ContratoController extends Controller
     }
 
     public function destroy(Contrato $id){
-        if($this->slugpermision()){
-            if($id->delete()){
-                return response()->json(['mensaje'=>'Eliminado Correctamente']);
-            }
-            return response()->json(['mensaje'=>'Error al Eliminar']);
+        if($this->slug_permiso('contrato_delete')){
+            $id->delete();
+            return response()->json(['mensaje'=>'Eliminado Correctamente']);
         }
-        return response()->json(['mensaje'=>'Sin permisos','accesso'=>'true']);
+        return response()->json(['mensaje'=>'Sin permisos']);
 
     }
 
     public function contratos_listar(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('contrato_show')){
             return view('contratos.listar');
         }
         return view('home');
     }
 
     public function listar_data(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('contrato_show')){
             $contrato=Contrato::all();
             return DataTables::of(
                 $contrato

@@ -7,7 +7,6 @@ use App\Models\InfraTanque;
 use App\Models\Tanque;
 use App\Models\TanqueHistorial;
 use App\User;
-use Facade\Ignition\DumpRecorder\Dump;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -19,51 +18,54 @@ class InfraController extends Controller
         $this->middleware('auth');
     }
 
-    public function slugpermision(){
+    public function slug_permiso($slug_permiso){
         $idauth=auth()->user()->id;
         $user=User::find($idauth);
-        return $user->havePermission('infra');
+
+        return $user->permiso_con_admin($slug_permiso);
     }
 
 
     public function index(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('infra_salida') || $this->slug_permiso('infra_entrada')){
             return view('infra.index');
         }
-        return response()->json(['mensaje'=>'Sin permisos']);
+        return view('home');
     }
 
     public function data(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('infra_salida') || $this->slug_permiso('infra_entrada')){
             $infra=InfraLLenado::all();
             return DataTables::of(
                 $infra
             )
-            ->addColumn( 'btnShow', '<button class="btn btn-morado btn-show btn-sm" data-id="{{$id}}"><span class="far fa-eye"></span></button>')
-            // ->addColumn( 'btnEdit', '<button class="btn btn-naranja btn-edit-modal btn-xs" data-id="{{$id}}"><span class="far fa-edit"></span></button>')
-            // ->addColumn( 'btnDelete', '<button class="btn btn-amarillo btn-delete-modal btn-xs" data-id="{{$id}}"><span class="fas fa-trash"></span></button>')
-            ->rawColumns(['btnContrato','btnShow','btnEdit','btnDelete'])
+            ->editColumn('created_at', function ($infra) {
+                return $infra->created_at->format('H:i:s A - d/m/Y');
+            })
+            ->addColumn( 'btnShow', '<button class="btn btn-grisclaro btn-show btn-sm" data-id="{{$id}}"><span class="far fa-eye"></span></button>')
+            ->addColumn( 'btnPDF', '<a class="btn btn-grisclaro btn-sm" href="{{route(\'pdf.infra_nota\', $id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Nota PDF"><i class="fas fa-file-pdf"></i></a>')
+            ->rawColumns(['btnShow','btnPDF'])
             ->toJson();
         }
         return view('home');
     }
 
     public function entrada(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('infra_entrada')){
             return view('infra.entrada');
         }
-        return response()->json(['mensaje'=>'Sin permisos']);
+        return view('home');
     }
     public function salida(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('infra_salida')){
             return view('infra.salida');
         }
-        return response()->json(['mensaje'=>'Sin permisos']);
+        return view('home');
     }
 
     public function registro_save(Request $request){
 
-        if($this->slugpermision()){
+        if($this->slug_permiso('infra_salida') || $this->slug_permiso('infra_entrada')){
             $request->validate([
                 // 'fecha' => ['required'],
                 'cantidad' => ['required', 'int'],
@@ -101,6 +103,7 @@ class InfraController extends Controller
                     $historytanques->observaciones =$obse_hystory;
                     $historytanques->save();
                 }
+                return response()->json(['notaId'=>$infra->id]);
             }
         }
         return response()->json(['mensaje'=>'Sin permisos']);
@@ -108,7 +111,7 @@ class InfraController extends Controller
     }
 
     public function show(InfraLLenado $id){
-        if($this->slugpermision()){
+        if($this->slug_permiso('infra_salida') || $this->slug_permiso('infra_entrada')){
             $tanques=InfraTanque::
                 join('tanques', 'tanques.num_serie', 'infra_tanques.num_serie')
                 ->where('infrallenado_id', $id->id)

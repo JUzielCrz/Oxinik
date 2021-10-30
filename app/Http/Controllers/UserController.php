@@ -46,17 +46,16 @@ class UserController extends Controller
         return view('home');
     }
 
-    public function datatablesindex(){
+    public function data(){
         if($this->slugpermision()){
-
             $usuario=User::
             select('users.*');
             return DataTables::of(
                 $usuario
             )
-            ->addColumn( 'btnShow', '<button class="btn btn-morado btn-show-modal btn-xs" data-id="{{$id}}"><span class="far fa-eye"></span></button>')
-            ->addColumn( 'btnEdit', '<button class="btn btn-naranja btn-edit-modal btn-xs" data-id="{{$id}}"><span class="far fa-edit"></span></button>')
-            ->addColumn( 'btnDelete', '<button class="btn btn-amarillo btn-delete-modal btn-xs" data-id="{{$id}}"><span class="fas fa-trash"></span></button>')
+            ->addColumn( 'btnShow', '<button class="btn btn-sm btn-grisclaro btn-show-modal btn-xs" data-id="{{$id}}"><span class="far fa-eye"></span></button>')
+            ->addColumn( 'btnEdit', '<button class="btn btn-sm btn-grisclaro btn-edit-modal btn-xs" data-id="{{$id}}"><span class="far fa-edit"></span></button>')
+            ->addColumn( 'btnDelete', '<button class="btn btn-sm btn-grisclaro btn-delete-modal btn-xs" data-id="{{$id}}"><span class="fas fa-trash"></span></button>')
             ->rawColumns(['btnShow','btnEdit','btnDelete'])
             ->toJson();
         }

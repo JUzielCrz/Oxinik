@@ -18,7 +18,7 @@ class CreateNotaPagosTable extends Migration
             $table->unsignedBigInteger('nota_id');
             $table->foreign('nota_id')->references('id')
                 ->on('notas')
-                ->onDelete('restrict');
+                ->onDelete('cascade');
             $table->float('monto_pago');
             $table->string('metodo_pago');
             $table->timestamps();

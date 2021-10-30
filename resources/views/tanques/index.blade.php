@@ -11,14 +11,20 @@
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col">
+                    <div class="col-md-8">
                         <h5>TANQUES</h5>
                     </div>
-                    <div class="col text-right">
-                        <button type="button" class="btn btn-gray" data-toggle="modal" data-target="#modal-tanque">
-                            <span class="fas fa-plus"></span>
-                            Agregar
-                        </button>
+                    <div class="col-md-4 text-right">
+                        <div class="input-group m-0 p-0">
+                            <input type="text" name="serie_tanque" id="serie_tanque" class="form-control form-control-sm" placeholder="#Serie" >
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-sm btn-gray" id="add-cilindro">
+                                    <span class="fas fa-plus"></span>
+                                    Agregar
+                                </button>
+                            </div>
+                        </div>
+                        <span  id="serie_tanqueError" class="text-danger"></span>
                     </div>
                 </div>
             </div>

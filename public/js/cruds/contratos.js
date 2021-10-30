@@ -3,14 +3,14 @@ $(document).ready(function () {
     // CRUD
     metodo_limpiar_span("Error");
 
-    $("input").focusout(function () {
-        var value = $(this).val();
-        if (value.length == 0) {
-            $(this).addClass("is-invalid");
-        } else {
-            $(this).removeClass("is-invalid");
-        }
-    });
+    // $("input").focusout(function () {
+    //     var value = $(this).val();
+    //     if (value.length == 0) {
+    //         $(this).addClass("is-invalid");
+    //     } else {
+    //         $(this).removeClass("is-invalid");
+    //     }
+    // });
 
     $(document).on("click","#btnaccept",metodo_insertar);
     $(document).on("click","#btn-edit-modal",metodo_detalle_edit);
@@ -29,7 +29,6 @@ $(document).ready(function () {
 
     $('#table-contratos').on('click','tr', function(evt){
 
-        // var numContrato=$(this).find("td")[0].innerHTML;
         var contrato_id=$(this).data('id');
         
 
@@ -38,11 +37,8 @@ $(document).ready(function () {
                 var variable = "#" + key + "Show";
                 $(variable).val(value);
             });
-            
             $("#btn-edit-modal").val(contrato_id);
-
             show_table_asignaciones(contrato_id, 'tableasignaciones', 'content-asignaciones');
-
         })
 
         
@@ -206,7 +202,10 @@ $(document).ready(function () {
             data: dataForm,
         })
             .done(function (msg) {
-
+                if(msg.mensaje == 'Sin permisos'){
+                    mensaje("error","Sin permisos", "No tienes los permisos suficientes para hacer este cambio", null,null);
+                    return false;
+                }
                 if(msg.alert == 'alert-danger'){
                     mostrar_mensaje("#divmsg",msg.mensaje, "alert-danger",null);
                 }else{
@@ -215,7 +214,7 @@ $(document).ready(function () {
                         "<tr class='fila"+ msg.contratos.id+"' data-id='"+msg.contratos.id+"'>"+
                             "<td class='text-center'>"+msg.contratos.num_contrato +"</td>"+
                             "<td class='text-center'>"+msg.contratos.tipo_contrato +"</td>"+
-                            "<td><a class='btn btn-amarillo btn-sm' target='_blank' href='/pdf/generar_contrato/"+msg.contratos.id+"'   title='Contrato'><i class='fas fa-clipboard'></i></span></a></td>"+
+                            "<td><a class='btn btn-amarillo btn-sm' target='_blank' href='/pdf/generar_contrato/"+msg.contratos.id+"'   title='Contrato'><i class='fas fa-file-pdf'></i></span></a></td>"+
                             "<td><button class='btn btn-amarillo btn-delete-modal btn-sm' data-id='"+msg.contratos.id+"'><span class='fas fa-trash'></span></button></td>"+
                         "</tr>"); 
                     mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modalinsertar");
@@ -291,6 +290,17 @@ $(document).ready(function () {
             $(divmsg).removeClass(clasecss);
         });
     }
+    
+    function mensaje(icono,titulo, mensaje, tiempo, modal){
+        $(modal).modal("hide");
+        Swal.fire({
+            icon: icono,
+            title: titulo,
+            text: mensaje,
+            timer: tiempo,
+            width: 300,
+        })
+    }
 
     function metodo_detalle_edit() {
         metodo_limpiar_span("editError");
@@ -328,6 +338,10 @@ $(document).ready(function () {
                 },
         })
             .done(function (msg) {
+                if(msg.mensaje == 'Sin permisos'){
+                    mensaje("error","Sin permisos", "No tienes los permisos suficientes para hacer este cambio", null, null);
+                    return false;
+                }
                 $('.fila'+ msg.contratos.id).replaceWith(" "+
                     "<tr class='fila"+ msg.contratos.id+"'>"+
                     "<td class='text-center'>"+msg.contratos.num_contrato +"</td>"+
@@ -370,7 +384,10 @@ $(document).ready(function () {
             url: "/contrato/destroy/"+$('#ideliminar').text()+'',
             
         }).done(function (msg) {
-            
+            if(msg.mensaje == 'Sin permisos'){
+                mensaje("error","Sin permisos", "No tienes los permisos suficientes para hacer este cambio", null, null);
+                return false;
+            }
             $('.fila' + $('#ideliminar').text()).remove();
             mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modaleliminar");
         }).fail(function (jqXHR, textStatus){

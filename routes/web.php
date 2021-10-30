@@ -43,7 +43,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/nota/listar/salidas/data', 'NotaListasController@salidas_data');
     Route::get('/nota/listar/exporadica/data', 'NotaListasController@exporadica_data');
     Route::get('/nota/listar/adeudos/data', 'NotaListasController@adeudos_data');
-    Route::get('/nota/listar/entradas/data', 'NotaListasController@adeudos_data');
+    Route::get('/nota/listar/entradas/data', 'NotaListasController@entradas_data');
 
     ///* Pago notas */
     Route::get('/nota/pagos/index/{not_id}', 'NotaPagosController@index')->name('nota.pagos.index');
@@ -55,7 +55,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/cliente/create', 'clienteController@create');
     Route::get('/cliente/show/{id}', 'clienteController@show');
     Route::post('/cliente/update/{id}', 'clienteController@update');
-// Route::post('/deletecliente/{id}', 'clienteController@destroy');
+    Route::get('/cliente/delete/{id}', 'clienteController@destroy');
 // // DataTables 
     
 
@@ -67,23 +67,28 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/contrato/show/{contrato_id}', 'ContratoController@show');
     Route::get('/contrato/listar', 'ContratoController@contratos_listar');
     Route::get('/contrato/listar/data', 'ContratoController@listar_data');
-
+    
+    Route::get('/contrato/envio/show/{contrato_id}', 'ContratoController@envio_show');
 
 
   /* Tanques */
     Route::get('/tanque/index', 'TanqueController@index');
+    Route::get('/tanque/data', 'TanqueController@tanques_data');
     Route::post('/tanque/create', 'TanqueController@create');
     Route::get('/tanque/show/{id}', 'TanqueController@show');
     Route::get('/tanque/show_numserie/{num_serie}', 'TanqueController@show_numserie');
     Route::post('/tanque/update/{id}', 'TanqueController@update');
-    Route::get('/tanque/data', 'TanqueController@tanques_data');
+    Route::get('/tanque/destroy/{id}', 'TanqueController@destroy');
+    
+    //tanque historial
     Route::get('/tanque/history/{id}', 'TanqueController@history')->name('tanques.history');
-    Route::post('/tanque/baja/{id}', 'TanqueController@baja_tanque');
     Route::get('/tanque/history/data/{serietanque}', 'TanqueController@history_data');
 
+    //tanque bajas
+    Route::get('/tanque/baja/{id}', 'TanqueController@baja_tanque');
     Route::get('/tanque/lista_bajas', 'TanqueController@lista_bajas');
     Route::get('/tanque/lista_bajas/data', 'TanqueController@lista_bajas_data');
-    Route::post('/tanque/restablecer/{id}', 'TanqueController@restablecer_tanque');
+    Route::get('/tanque/restablecer/{id}', 'TanqueController@restablecer_tanque');
 
     //tanques por estatus
     Route::get('/tanque/estatus', 'TanqueController@estatus_index');
@@ -95,6 +100,9 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/tanque/reportados/create', 'TanqueController@reportados_create');
     Route::post('/tanque/reportados/save', 'TanqueController@reportados_save');
     Route::get('/tanque/reportados/eliminar/{id}', 'TanqueController@reportados_eliminar');
+
+    //tanques por reportados
+    Route::get('/tanque/validar_ph/{ph}', 'TanqueController@validar_ph');
 
     //GASES
     Route::get('/gas/index', 'CatalogoGasController@index');
@@ -116,6 +124,8 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/pdf/nota/{idnota}', 'PDFController@pdf_nota')->name('pdf.nota_salida'); 
     Route::get('/pdf/generar_contrato/{idcontrato}', 'PDFController@generar_contrato')->name('pdf.contrato'); 
     Route::get('/pdf/nota/exporadica/{idnota}', 'PDFController@pdf_nota_exporadica')->name('pdf.nota_exporadica'); 
+    Route::get('/pdf/infra/nota/{idnota}', 'PDFController@infra_nota')->name('pdf.infra_nota'); 
+    Route::get('/pdf/mantenimiento/nota/{idnota}', 'PDFController@mantenimiento_nota')->name('pdf.mantenimiento_nota'); 
 
   //INFRA
     Route::get('/infra/index', 'InfraController@index');
@@ -138,106 +148,19 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/mantenimiento/registro_save', 'MantenimientoController@registro_save');
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //     
-//     
-//     
-//     
-//     
-
-
-
-
-
-
-
-
-//  Route::post('/inserttanque', 'TanqueController@store');
-
-
-
-
-//   // Route::get('/nota/{id}', 'NotaController@index')->name('nota.index');
-//   Route::get('contrato/newnota/{idContrato}', 'NotaController@newnota')->name('nueva.nota');
-//   Route::get('/shownota/{folioNota}', 'NotaController@show');
-//   Route::post('/nota/deletenota/{id}', 'NotaController@destroy');
-//   Route::post('/updatenota/{idNota}', 'NotaController@update');
-//   Route::get('/editnota/{folionota}', 'NotaController@editnota');
-//   Route::get('/devolucionnota/{folionota}', 'NotaController@devolucionnota');
-//   Route::post('/savedevolucionnota/{idNota}', 'NotaController@savedevolucionnota');
-
-//   // DataTables 
-
-
-//     // Route::get('/inserttablacontrato/{numcontrato}', 'ContratoController@inserttabla');
-
-//     // General
-//     Route::post('/updatecontrato/{id}', 'ContratoController@update');
-//     Route::get('/deletecontrato/{id}', 'ContratoController@destroy');
-
-    
-//   /* Reportes */
-
-
-
-
-  
-  
-
-
-//     //Mantenimiento
-    Route::get('mantenimiento', 'MantenimientoController@index');
-//     Route::get('dt_mantenimiento', 'MantenimientoController@datatables')->name('dt_mantenimiento');
-//     Route::get('createmantenimiento', 'MantenimientoController@create');
-//     Route::post('buscartanquemantenimiento/{serie}', 'MantenimientoController@buscartanque');
-//     Route::post('savenotemantenimiento', 'MantenimientoController@savenote');
-//     Route::get('/deletemantenimiento/{id}', 'MantenimientoController@delete');
-    
-    
-//     Route::get('editmantenimiento/{id}', 'MantenimientoController@edit');
-//     Route::get('actualizarnotemantenimiento', 'MantenimientoController@update');
-
-
-//     //PDFs
-
-
-
-//    
-
-
-//     /* Usuarios */
-//     Route::get('/user', 'UserController@index');
-//     Route::post('/newuser', 'UserController@create');
-//     Route::get('/showuser/{id}', 'UserController@show');
-//     Route::post('/updateuser/{id}', 'UserController@update');
-//     Route::post('/deleteuser/{id}', 'UserController@destroy');
-//     // DataTables 
-//     Route::get('/dt_usuarios', 'UserController@datatablesindex')->name('dt_usuarios');
+  /* Usuarios */
+    Route::get('/user/index', 'UserController@index');
+    Route::post('/user/create', 'UserController@create');
+    Route::get('/user/show/{id}', 'UserController@show');
+    Route::post('/user/update/{id}', 'UserController@update');
+    Route::post('/user/delete/{id}', 'UserController@destroy');
+    Route::get('/user/data', 'UserController@data')->name('usuarios_data');
 
 //   /* Roles */
-//     Route::get('/role', 'RoleController@index');
-//     Route::get('/showrole/{id}', 'RoleController@show');
-//     Route::post('/insertrole', 'RoleController@store');
-//     Route::post('/updaterol/{id}', 'RoleController@update');
-//     Route::post('/deleterol/{id}', 'RoleController@destroy');
-//     // DataTables 
-//     Route::get('/dt_role', 'RoleController@datatablesindex')->name('dt_role');
+    Route::get('/rol/index', 'RoleController@index');
+    Route::get('/rol/show/{id}', 'RoleController@show');
+    Route::post('/rol/create', 'RoleController@store');
+    Route::post('/rol/update/{id}', 'RoleController@update');
+    Route::post('/rol/delete/{id}', 'RoleController@destroy');
+    // DataTables 
+    Route::get('/rol/data', 'RoleController@data')->name('rol_data');

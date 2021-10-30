@@ -18,9 +18,10 @@ class CreateTanqueHistorialTable extends Migration
             $table->string('num_serie');
             $table->foreign('num_serie')->references('num_serie')
                 ->on('tanques')
-                ->onDelete('restrict');
+                ->onDelete('cascade');
             $table->string('estatus');
             $table->string('observaciones')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
         });
     }

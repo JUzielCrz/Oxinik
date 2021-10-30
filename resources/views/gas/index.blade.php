@@ -4,6 +4,10 @@
     @include('tanques.submenu_navbar')
 @endsection
 
+@php
+        $idauth=Auth::user()->id;
+        $user=App\User::find($idauth);
+@endphp
 
 @section('content-sidebar')
 

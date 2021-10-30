@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asignacion;
-use App\Models\Cliente;
-use App\Models\Contrato;
+use App\Models\Contrato; 
 use App\Models\Nota;
 use App\Models\NotaEntrada;
 use App\Models\NotaEntradaTanque;
@@ -14,28 +13,26 @@ use App\Models\Tanque;
 use App\Models\TanqueHistorial;
 use App\User;
 use Yajra\DataTables\DataTables;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
 class NotaController extends Controller
 {
-    
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    public function slugpermision(){
+    public function slug_permiso($slug_permiso){
         $idauth=auth()->user()->id;
         $user=User::find($idauth);
 
-        return $user->havePermission('contratos');
+        return $user->permiso_con_admin($slug_permiso);
     }
 
     public function salidas(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('nota_salida')){
             return view('notas.salidas');
         }
         return view('home');
@@ -44,22 +41,18 @@ class NotaController extends Controller
 
     public function search_contrato(Request $request){
         if($request->get('query')){
-
             $query = $request->get('query');
-
-            // $data = DB::table('contratos') ->where('num_contrato', 'LIKE', "%{$query}%")->get();
-            
             $data=Contrato::
             join('clientes','clientes.id','=','contratos.cliente_id')
             ->where('num_contrato', 'LIKE', "%{$query}%")
             ->orWhere(DB::raw("CONCAT(clientes.nombre,' ', clientes.apPaterno,' ', clientes.apMaterno )"),'LIKE', "%{$query}%")
+            ->orWhere('clientes.empresa', 'LIKE', "%{$query}%")
             ->get();
-
 
             $output = '<ul class="dropdown-menu" style="display:block; position:relative">'; 
 
             foreach($data as $row) {
-                $output .= '<li><a href="#">'.$row->num_contrato.', '.$row->nombre.' '.$row->apPaterno.' '.$row->apMaterno.', '.$row->tipo_contrato.'</a></li>'; 
+                $output .= '<li><a href="#">'.$row->num_contrato.', '.$row->nombre.' '.$row->apPaterno.', '.$row->empresa.', '.$row->tipo_contrato.'</a></li>'; 
             }
 
             $output .= '</ul>'; echo $output;
@@ -74,26 +67,18 @@ class NotaController extends Controller
         
         $num_asignacion= Asignacion::where('contratos_id', $contrato->id)->get() ;
 
-        
         return response()->json(['contrato' => $contrato,'num_asignacion' => $num_asignacion->sum('cantidad')]);
     }
 
     public function nota_data($contrato_id){
-        if($this->slugpermision()){
             $notas=Nota::
             select('notas.*')->where('contrato_id',$contrato_id);
             return DataTables::of(
                 $notas
             )
             ->addColumn( 'btnPDF', '<a class="btn btn-grisclaro btn-sm" href="{{route(\'pdf.nota_salida\', $id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Nota PDF"><i class="fas fa-file-pdf"></i></a>')
-            // ->addColumn( 'btnShow', '<button class="btn btn-morado btnnota-show-modal btn-xs" data-id="{{$id}}"><span class="far fa-eye"></span></button>')
-            // ->addColumn( 'btnDevolucion', '<button class="btn btn-grisclaro btnnota-devolucion btn-xs" data-id="{{$id}}"><span class="fas fa-undo"></span></button>')
-            // ->addColumn( 'btnEdit', '<button class="btn btn-naranja btnnota-edit btn-xs" data-id="{{$id}}"><span class="far fa-edit"></span></button>')
-            // ->addColumn( 'btnDelete', '<button class="btn btn-amarillo btnnota-delete-modal btn-xs" data-id="{{$id}}"><span class="fas fa-trash"></span></button>')
             ->rawColumns(['btnPDF'])
             ->toJson();
-        }
-        return view('home');
     }
 
     public function salida_validar_tanqueasignacion(Request $request){
@@ -113,19 +98,8 @@ class NotaController extends Controller
         }
     }
 
-    // public function insertar_fila($serietanque){
-    
-    //     if($this->slugpermision()){
-    //         if($tanques=Tanque::where('num_serie',$serietanque)->first() ){
-    //             return response()->json(['tanque' => $tanques, 'alert' => true]);
-    //         }
-    //         return response()->json(['tanque' => $tanques, 'alert' => false]);
-    //     }
-    //     return view('home');
-    // }
-
     public function salida_save(Request $request){        
-        if($this->slugpermision()){
+        if($this->slug_permiso('nota_salida')){
             $request->validate([
                 'contrato_id' => ['required'],
                 'input-total' => ['required', 'numeric'],
@@ -191,7 +165,7 @@ class NotaController extends Controller
     }
 
     public function save_envio(Request $request, $num_contrato){
-        if($this->slugpermision()){
+        if($this->slug_permiso('nota_salida')){
             $envio = Contrato::where('num_contrato',$num_contrato)->first();
             $envio->precio_transporte = $request->precio_transporte;
             $envio->direccion = $request->direccion;
@@ -204,7 +178,11 @@ class NotaController extends Controller
 
     //Metodos nota entrada
     public function entradas(){
-        return view('notas.entrada');
+        
+        if($this->slug_permiso('nota_entrada')){
+            return view('notas.entrada');
+        }
+        return view('home');
     }
 
     public function tanques_pendientes($contrato_id){
@@ -220,13 +198,9 @@ class NotaController extends Controller
         ->addSelect(['tanque_desc' => tanque::select(DB::raw("CONCAT(ph,', ', capacidad,', ', material,', ',fabricante,', ',tipo_tanque)"))->whereColumn( 'nota_tanque.num_serie', 'tanques.num_serie')])
         ->where('contrato_id', $contrato_id)
         ->where('nota_tanque.devuelto', false)
-        // ->where( Tanque::select('estatus')->whereColumn( 'nota_tanque.num_serie', 'tanques.num_serie') , 'ENTREGADO-CLIENTE')
         ->get();
 
-        // DB::raw("CONCAT(clientes.nombre,' ', clientes.apPaterno,' ', clientes.apMaterno )")
-        // ->select( DB::raw("CONCAT(materias.materia,' -- ', personal.nombre ) AS docentemat"), 'docente_materias.id')
         return  $notatanque;
-
     }
 
     
@@ -234,8 +208,7 @@ class NotaController extends Controller
 
     public function save_entrada(Request $request){
 
-
-        if($this->slugpermision()){
+        if($this->slug_permiso('nota_entrada')){
 
             $request->validate([
                 'input-total' => ['required', 'numeric'],
@@ -357,7 +330,7 @@ class NotaController extends Controller
         }
         return response()->json(['mensaje'=>'Sin permisos']);
     }
-
+}
 
 
 
@@ -426,65 +399,6 @@ class NotaController extends Controller
 
     
     
-
-
-
-   
-
-    
-
-    // public function adeudos_tanques(Request $request){
-        
-    //     //buscar nota 
-    //     $tanquespendientes=Nota::
-    //     join('nota_tanque','nota_tanque.nota_id','=','notas.id')
-    //     ->select(
-    //         'nota_tanque.num_serie',
-    //         'nota_tanque.tapa_tanque',
-    //         )
-    //     ->addSelect(['estatus' => Tanque::select('estatus')->whereColumn( 'nota_tanque.num_serie', 'tanques.num_serie')])
-    //     ->where('contrato_id', $request->contrato_id)
-    //     ->where('num_serie', $request->num_serie)
-    //     ->first();
-
-    //     if($tanquespendientes){
-    //         $tanque=Tanque::where('num_serie',$tanquespendientes->num_serie)->first();
-    //         return response()->json(['mensaje'=>'alert-primary', 'tanquespendientes'=>$tanquespendientes, 'tanque'=>$tanque]);
-    //     }else{
-    //         dump($request->num_serie);
-
-    //         $contratoDiferente=Nota::
-    //         join('nota_tanque','nota_tanque.nota_id','=','notas.id')
-    //         ->select(
-    //             'nota_tanque.contrato_id',
-    //             )
-    //         ->addSelect(['estatus' => Tanque::select('estatus')->whereColumn( 'nota_tanque.num_serie', 'tanques.num_serie')])
-    //         ->where('num_serie', $request->num_serie)
-    //         // ->where( Tanque::select('estatus')->whereColumn( 'nota_tanque.num_serie', 'tanques.num_serie') , 'ENTREGADO-CLIENTE')
-    //         ->first();
-
-    //         return response()->json(['mensaje'=>'alert-danger', 'contratoDiferente'=>$contratoDiferente]);
-    //     }
-
-    // }
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -500,14 +414,14 @@ class NotaController extends Controller
     
 
 
-    public function newnota($numContrato){
-        if($this->slugpermision()){
-            $idcliente=Contrato::where('num_contrato',$numContrato)->first();
-            $data = ['numContrato'=>$numContrato,  'idcliente'=>$idcliente->cliente_id];
-            return view( 'notas.newnota', $data);
-        }
-        return view('home');
-    }
+    // public function newnota($numContrato){
+    //     if($this->slug_permiso('')){
+    //         $idcliente=Contrato::where('num_contrato',$numContrato)->first();
+    //         $data = ['numContrato'=>$numContrato,  'idcliente'=>$idcliente->cliente_id];
+    //         return view( 'notas.newnota', $data);
+    //     }
+    //     return view('home');
+    // }
 
     
 
@@ -515,41 +429,41 @@ class NotaController extends Controller
 
     
 
-    public function editnota($folionota){
-        if($this->slugpermision()){
-            $notas= Nota::where('folio_nota',$folionota)->first();
+    // public function editnota($folionota){
+    //     if($this->slugpermision()){
+    //         $notas= Nota::where('folio_nota',$folionota)->first();
 
-            $notasTanques= NotaTanque:: 
-            join('tanques', 'tanques.num_serie','nota_tanque.num_serie')
-            ->where('folio_nota', $notas->folio_nota)->where('devolucion', false)->get();
+    //         $notasTanques= NotaTanque:: 
+    //         join('tanques', 'tanques.num_serie','nota_tanque.num_serie')
+    //         ->where('folio_nota', $notas->folio_nota)->where('devolucion', false)->get();
 
-            $idcliente=Contrato::where('num_contrato',$notas->num_contrato)->first();
+    //         $idcliente=Contrato::where('num_contrato',$notas->num_contrato)->first();
 
-            $data=['notas'=>$notas, 'notasTanques' =>$notasTanques, 'idcliente'=>$idcliente->cliente_id ];
-            return view('notas.edit',$data );
-        }
-    }
+    //         $data=['notas'=>$notas, 'notasTanques' =>$notasTanques, 'idcliente'=>$idcliente->cliente_id ];
+    //         return view('notas.edit',$data );
+    //     }
+    // }
 
-    public function devolucionnota($folionota){
-        if($this->slugpermision()){
-            $notas= Nota::where('folio_nota',$folionota)->first();
+    // public function devolucionnota($folionota){
+    //     if($this->slugpermision()){
+    //         $notas= Nota::where('folio_nota',$folionota)->first();
 
-            $notasTanques= NotaTanque:: 
-            join('tanques', 'tanques.num_serie','nota_tanque.num_serie')
-            ->where('folio_nota', $notas->folio_nota)->where('devolucion', false)
-            ->get();
+    //         $notasTanques= NotaTanque:: 
+    //         join('tanques', 'tanques.num_serie','nota_tanque.num_serie')
+    //         ->where('folio_nota', $notas->folio_nota)->where('devolucion', false)
+    //         ->get();
 
-            $devolucionTanques= NotaTanque:: 
-            join('tanques', 'tanques.num_serie','nota_tanque.num_serie')
-            ->where('folio_nota', $notas->folio_nota)->where('devolucion', true)
-            ->get();
+    //         $devolucionTanques= NotaTanque:: 
+    //         join('tanques', 'tanques.num_serie','nota_tanque.num_serie')
+    //         ->where('folio_nota', $notas->folio_nota)->where('devolucion', true)
+    //         ->get();
 
-            $idcliente=Contrato::where('num_contrato',$notas->num_contrato)->first();
+    //         $idcliente=Contrato::where('num_contrato',$notas->num_contrato)->first();
 
-            $data=['notas'=>$notas, 'notasTanques' =>$notasTanques, 'idcliente'=>$idcliente->cliente_id, 'devolucionTanques'=>$devolucionTanques  ];
-            return view('notas.devolucion',$data );
-        }
-    }
+    //         $data=['notas'=>$notas, 'notasTanques' =>$notasTanques, 'idcliente'=>$idcliente->cliente_id, 'devolucionTanques'=>$devolucionTanques  ];
+    //         return view('notas.devolucion',$data );
+    //     }
+    // }
 
     // public function savedevolucionnota(Request $request, $idNota){
         
@@ -611,109 +525,108 @@ class NotaController extends Controller
     //     return response()->json(['mensaje'=>'No hay registros']);
     // }
 
-    public function update(Request $request , $idNota)
-    {        
-        if($this->slugpermision()){ 
+    // public function update(Request $request , $idNota)
+    // {        
+    //     if($this->slugpermision()){ 
 
-            $request->validate([
-                'folio_nota' => ['required', 'string','max:255', Rule::unique('notas')->ignore($idNota, 'id')],
-                'fecha' => ['required'],
-                'pago_realizado' => ['required', 'string', 'max:255'],
-                // 'metodo_pago' => ['required', 'string', 'max:255'],
-                'num_contrato' => ['required', 'string', 'max:255'],
-                'inputTotal' => ['required'],
-            ]);
+    //         $request->validate([
+    //             'folio_nota' => ['required', 'string','max:255', Rule::unique('notas')->ignore($idNota, 'id')],
+    //             'fecha' => ['required'],
+    //             'pago_realizado' => ['required', 'string', 'max:255'],
+    //             // 'metodo_pago' => ['required', 'string', 'max:255'],
+    //             'num_contrato' => ['required', 'string', 'max:255'],
+    //             'inputTotal' => ['required'],
+    //         ]);
 
-            if(count($request->inputNumSerie) > 0){
+    //         if(count($request->inputNumSerie) > 0){
 
-                $notas=Nota::find($idNota);
+    //             $notas=Nota::find($idNota);
                 
-                $notaTanque=NotaTanque::where('folio_nota',$notas->folio_nota)->get();
-                foreach($notaTanque AS $nt){
-                    $estatustanque= Tanque::where('num_serie', $nt->num_serie)->first();
-                    $estatustanque->estatus='LLENO-ALMACEN';
-                    $estatustanque->save();
-                };
+    //             $notaTanque=NotaTanque::where('folio_nota',$notas->folio_nota)->get();
+    //             foreach($notaTanque AS $nt){
+    //                 $estatustanque= Tanque::where('num_serie', $nt->num_serie)->first();
+    //                 $estatustanque->estatus='LLENO-ALMACEN';
+    //                 $estatustanque->save();
+    //             };
                 
-                NotaTanque::where('folio_nota',$notas->folio_nota)->where('devolucion', false)->delete();
-                TanqueHistorial::where('folios','#Nota: '.$notas->folio_nota)->delete();
+    //             NotaTanque::where('folio_nota',$notas->folio_nota)->where('devolucion', false)->delete();
+    //             TanqueHistorial::where('folios','#Nota: '.$notas->folio_nota)->delete();
 
-                $actufolioallnotas=NotaTanque::select('folio_nota')->where('folio_nota',$notas->folio_nota)->get();
-                foreach($actufolioallnotas as $act){
-                    $cambiarfolio= NotaTanque::where('folio_nota', $act->folio_nota)->first();
-                    $cambiarfolio->folio_nota=$request->input('folio_nota');
-                    $cambiarfolio->save();
-                };
+    //             $actufolioallnotas=NotaTanque::select('folio_nota')->where('folio_nota',$notas->folio_nota)->get();
+    //             foreach($actufolioallnotas as $act){
+    //                 $cambiarfolio= NotaTanque::where('folio_nota', $act->folio_nota)->first();
+    //                 $cambiarfolio->folio_nota=$request->input('folio_nota');
+    //                 $cambiarfolio->save();
+    //             };
 
-                $notas->fecha = $request->input('fecha');
-                $notas->metodo_pago = $request->input('metodo_pago');
-                $notas->pago_realizado = $request->input('pago_realizado');
-                $notas->num_contrato = $request->input('num_contrato');
-                $notas->total = $request->input('inputTotal');
+    //             $notas->fecha = $request->input('fecha');
+    //             $notas->metodo_pago = $request->input('metodo_pago');
+    //             $notas->pago_realizado = $request->input('pago_realizado');
+    //             $notas->num_contrato = $request->input('num_contrato');
+    //             $notas->total = $request->input('inputTotal');
 
-                if($notas->save()){
-                    foreach( $request->inputNumSerie AS $series => $g){
-                        $notaTanque=new NotaTanque;
-                        $notaTanque->folio_nota = $request->input('folio_nota');
-                        $notaTanque->num_serie = $request->inputNumSerie[$series];
-                        $notaTanque->precio = $request->inputPrecio[$series];
-                        // $notaTanque->regulador = $request->inputRegulador[$series];
-                        $notaTanque->tapa_tanque = $request->inputTapa[$series];
-                        $notaTanque->save();
+    //             if($notas->save()){
+    //                 foreach( $request->inputNumSerie AS $series => $g){
+    //                     $notaTanque=new NotaTanque;
+    //                     $notaTanque->folio_nota = $request->input('folio_nota');
+    //                     $notaTanque->num_serie = $request->inputNumSerie[$series];
+    //                     $notaTanque->precio = $request->inputPrecio[$series];
+    //                     // $notaTanque->regulador = $request->inputRegulador[$series];
+    //                     $notaTanque->tapa_tanque = $request->inputTapa[$series];
+    //                     $notaTanque->save();
 
-                        $historytanques=new TanqueHistorial;
-                        $historytanques->num_serie = $request->inputNumSerie[$series];
-                        $historytanques->estatus = 'ENTREGADO-CLIENTE';
-                        $historytanques->folios = '#Nota: '. $request->input('folio_nota');;
-                        $historytanques->save();
+    //                     $historytanques=new TanqueHistorial;
+    //                     $historytanques->num_serie = $request->inputNumSerie[$series];
+    //                     $historytanques->estatus = 'ENTREGADO-CLIENTE';
+    //                     $historytanques->folios = '#Nota: '. $request->input('folio_nota');;
+    //                     $historytanques->save();
 
-                        $tanque=Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
-                        $tanque->estatus = 'ENTREGADO-CLIENTE';
-                        $tanque->save();
-                    }
+    //                     $tanque=Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
+    //                     $tanque->estatus = 'ENTREGADO-CLIENTE';
+    //                     $tanque->save();
+    //                 }
                     
-                }
-            }
+    //             }
+    //         }
 
-            return response()->json(['mensaje'=>'Registrado Correctamente']);
-        }
-        return response()->json(['mensaje'=>'Sin permisos']);
-    }
-
-
-    public function destroy($folioNota){
-        if($this->slugpermision()){
-            $nota= Nota::where('folio_nota', $folioNota)->first();
-            $tanqueNota= NotaTanque::where('folio_nota', $nota->folio_nota);
-            if($tanqueNota->delete()){
-                if($nota->delete()){
-                    return response()->json(['mensaje'=>'Eliminado Correctamente']);
-                }
-            }
-            else{
-                return response()->json(['mensaje'=>'Error al Eliminar']);
-            }
-        }
-        return response()->json(['mensaje'=>'Sin permisos','accesso'=>'true']);
-    }
+    //         return response()->json(['mensaje'=>'Registrado Correctamente']);
+    //     }
+    //     return response()->json(['mensaje'=>'Sin permisos']);
+    // }
 
 
-    public function show($folioNota){
-        if($this->slugpermision()){
-            $nota=Nota::where('folio_nota', $folioNota)->first();
+    // public function destroy($folioNota){
+    //     if($this->slugpermision()){
+    //         $nota= Nota::where('folio_nota', $folioNota)->first();
+    //         $tanqueNota= NotaTanque::where('folio_nota', $nota->folio_nota);
+    //         if($tanqueNota->delete()){
+    //             if($nota->delete()){
+    //                 return response()->json(['mensaje'=>'Eliminado Correctamente']);
+    //             }
+    //         }
+    //         else{
+    //             return response()->json(['mensaje'=>'Error al Eliminar']);
+    //         }
+    //     }
+    //     return response()->json(['mensaje'=>'Sin permisos','accesso'=>'true']);
+    // }
+
+
+    // public function show($folioNota){
+    //     if($this->slugpermision()){
+    //         $nota=Nota::where('folio_nota', $folioNota)->first();
             
-            $notatanque=NotaTanque::
-            join('tanques', 'tanques.num_serie', '=', 'nota_tanque.num_serie')
-            ->select('tanques.*','nota_tanque.*',)
-            ->where('folio_nota', $folioNota)
-            ->where('nota_tanque.devolucion', false)
-            ->get();
+    //         $notatanque=NotaTanque::
+    //         join('tanques', 'tanques.num_serie', '=', 'nota_tanque.num_serie')
+    //         ->select('tanques.*','nota_tanque.*',)
+    //         ->where('folio_nota', $folioNota)
+    //         ->where('nota_tanque.devolucion', false)
+    //         ->get();
 
-            $data=['nota'=>$nota, 'notatanque'=>$notatanque];
-            return $data;
-        }
-        return response()->json(['mensaje'=>'Sin permisos']);
+    //         $data=['nota'=>$nota, 'notatanque'=>$notatanque];
+    //         return $data;
+    //     }
+    //     return response()->json(['mensaje'=>'Sin permisos']);
         
-    }
+    // }
 
-}

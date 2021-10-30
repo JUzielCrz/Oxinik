@@ -19,7 +19,7 @@ class CreateContratosTable extends Migration
             $table->unsignedBigInteger('cliente_id');
             $table->foreign('cliente_id')->references('id')
                 ->on('clientes')
-                ->onDelete('restrict');
+                ->onDelete('cascade');
             $table->string('tipo_contrato');
             $table->double('precio_transporte')->default(0)->nullable();
             $table->string('direccion')->nullable();

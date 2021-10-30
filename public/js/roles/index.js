@@ -25,7 +25,7 @@ $(document).ready(function () {
         },
         processing: true,
         serverSider: true,
-        ajax: '/dt_role',
+        ajax: '/rol/data',
         columns:[
             {data: 'name'},
             {data: 'slug'},
@@ -61,7 +61,12 @@ $(document).ready(function () {
     
     function metodo_insertar() {
         metodo_limpiar_span("Error");
-        
+        var campo=$('#slug').val();
+        if(campo.includes(' ')){
+            mostrar_mensaje("#divmsg",'campo slug no debe contener espacios', "alert-danger",null);
+            return false;
+        }
+
         if ($('input[type=checkbox]:checked').length === 0) {
             mostrar_mensaje("#divmsg",'Debes seleccionar al menos un permiso', "alert-danger",null);
             return false;
@@ -69,7 +74,7 @@ $(document).ready(function () {
 
         $.ajax({
             method: "POST",
-            url: "/insertrole/",
+            url: "/rol/create",
             data: $("#idformRole").serialize(),
             
         })
@@ -123,7 +128,7 @@ $(document).ready(function () {
     }
     
     function metodo_detalle() {
-        $.get('/showrole/' + $(this).data('id') + '', function(data, msg) {
+        $.get('/rol/show/' + $(this).data('id') + '', function(data, msg) {
             $.each(data.rol, function (key, value) {
                 var variable = "#" + key + "info";
                 $(variable).val(value);
@@ -156,7 +161,7 @@ $(document).ready(function () {
             return false;
         }
         metodo_limpiar_span("editError");
-        $.get('/showrole/' + $(this).data('id') + '', function(data, msg) {
+        $.get('/rol/show/' + $(this).data('id') + '', function(data, msg) {
             $.each(data.rol, function (key, value) {
                 var variable = "#" + key + "edit";
                 $(variable).val(value);
@@ -198,7 +203,7 @@ $(document).ready(function () {
         });
         $.ajax({
             method: "POST",
-            url: "updaterol/"+$('#idedit').val()+'',
+            url: "/rol/update/"+$('#idedit').val()+'',
             data: 
                 {
                 '_token': $('input[name=_token]').val(),
@@ -235,11 +240,10 @@ $(document).ready(function () {
         }
     }
     
-    function metodo_eliminar() {
-
+    function metodo_eliminar(){
         $.ajax({
             method: "POST",
-            url: "deleterol/"+$('#ideliminar').text()+'',
+            url: "/rol/delete/"+$('#ideliminar').text()+'',
             data: {
                 '_token': $('input[name=_token]').val()
                 }
@@ -250,4 +254,10 @@ $(document).ready(function () {
             mostrar_mensaje("#divmsgindex",'Error al eliminar.', "alert-danger",null);
         });       
     }
+
+    $('#slug').keypress(function (event) {
+        if (event.charCode == 32){
+            return false;
+        }
+    });
 });

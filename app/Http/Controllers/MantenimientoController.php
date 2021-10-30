@@ -7,7 +7,6 @@ use App\Models\MantenimientoTanque;
 use App\Models\Tanque;
 use App\Models\TanqueHistorial;
 use App\User;
-use Facade\Ignition\DumpRecorder\Dump;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -18,49 +17,51 @@ class MantenimientoController extends Controller
         $this->middleware('auth');
     }
 
-    public function slugpermision(){
+    public function slug_permiso($slug_permiso){
         $idauth=auth()->user()->id;
         $user=User::find($idauth);
-        return $user->havePermission('mantenimiento');
+
+        return $user->permiso_con_admin($slug_permiso);
     }
 
 
     public function index(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('mantenimiento_salida') || $this->slug_permiso('mantenimiento_entrada')){
             return view('mantenimiento.index');
         }
-        return response()->json(['mensaje'=>'Sin permisos']);
+        return view('home');
     }
 
     public function data(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('mantenimiento_salida') || $this->slug_permiso('mantenimiento_entrada')){
             $mantenimiento=MantenimientoLLenado::all();
             return DataTables::of(
                 $mantenimiento
             )
             ->addColumn( 'btnShow', '<button class="btn btn-morado btn-show btn-sm" data-id="{{$id}}"><span class="far fa-eye"></span></button>')
-            ->rawColumns(['btnShow'])
+            ->addColumn( 'btnPDF', '<a class="btn btn-grisclaro btn-sm" href="{{route(\'pdf.mantenimiento_nota\', $id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Nota PDF"><i class="fas fa-file-pdf"></i></a>')
+            ->rawColumns(['btnShow', 'btnPDF'])
             ->toJson();
         }
         return view('home');
     }
 
     public function entrada(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('mantenimiento_entrada')){
             return view('mantenimiento.entrada');
         }
-        return response()->json(['mensaje'=>'Sin permisos']);
+        return view('home');
     }
     public function salida(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('mantenimiento_salida')){
             return view('mantenimiento.salida');
         }
-        return response()->json(['mensaje'=>'Sin permisos']);
+        return view('home');
     }
 
     public function registro_save(Request $request){
 
-        if($this->slugpermision()){
+        if($this->slug_permiso('mantenimiento_salida') || $this->slug_permiso('mantenimiento_entrada')){
             $request->validate([
                 // 'fecha' => ['required'],
                 'cantidad' => ['required', 'int'],
@@ -90,6 +91,7 @@ class MantenimientoController extends Controller
 
                     $tanque=Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
                     $tanque->estatus = $estatus_tanque;
+                    $tanque->ph = $request->idInputPH[$series];
                     $tanque->save();
 
                     $historytanques=new TanqueHistorial;
@@ -98,6 +100,7 @@ class MantenimientoController extends Controller
                     $historytanques->observaciones =$obse_hystory;
                     $historytanques->save();
                 }
+                return response()->json(['notaId'=>$mantenimiento->id]);
             }
         }
         return response()->json(['mensaje'=>'Sin permisos']);
@@ -105,7 +108,7 @@ class MantenimientoController extends Controller
     }
 
     public function show(MantenimientoLLenado $id){
-        if($this->slugpermision()){
+        if($this->slug_permiso('mantenimiento_salida') || $this->slug_permiso('mantenimiento_entrada')){
             $tanques=MantenimientoLLenado::
                 join('tanques', 'tanques.num_serie', 'mantenimiento_tanques.num_serie')
                 ->where('mantenimientoLLenado_id', $id->id)

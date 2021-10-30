@@ -17,6 +17,12 @@
         </div>
 
         <div class="form-row">
+            <div class="form-group col">
+                {!! Form::label('empresa*') !!}
+                {!! Form::text('empresainfo', null, ['id'=>'empresainfo', 'class' => 'form-control form-control-sm solo-text']) !!}
+            </div>
+        </div>
+        <div class="form-row">
             <div class="form-group col-md-6">
                 {!! Form::label('RFC*') !!}
                 {!! Form::text('rfcinfo', null, ['id'=>'rfcinfo', 'class' => 'form-control form-control-sm solo-text', 'placeholder'=>'RFC']) !!}

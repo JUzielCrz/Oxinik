@@ -14,11 +14,11 @@ class AsignacionController extends Controller
         $this->middleware('auth');
     }
 
-    public function slugpermision(){
+    public function slug_permiso($slug_permiso){
         $idauth=auth()->user()->id;
         $user=User::find($idauth);
 
-        return $user->havePermission('contratos');
+        return $user->permiso_con_admin($slug_permiso);
     }
     
 
@@ -26,15 +26,15 @@ class AsignacionController extends Controller
         $asigTanques=Asignacion::
         join('catalogo_gases','catalogo_gases.id','=','asignacion.tipo_gas')
         ->select('asignacion.*', 'catalogo_gases.nombre as nombreGas', 'catalogo_gases.id as idGas')
-        ->where('contratos_id', $contrato_id)->get();
+        ->where('contratos_id', $contrato_id)
+        ->get();
 
         $data=['asigTanques'=>$asigTanques];
         return $data;
     }
 
     public function asignacion_plus(Request $request, $contrato_id){
-        if($this->slugpermision()){
-
+        if($this->slug_permiso('asignacion_aumento')){
             //valiodacion para que los campos no vengan vacios
             foreach( $request->asignacion_variante AS $valid => $g){
                 if($request->asignacion_variante[$valid] < 0 || 
@@ -128,7 +128,7 @@ class AsignacionController extends Controller
     }
 
     public function asignacion_minus(Request $request, $contrato_id){
-        if($this->slugpermision()){
+        if($this->slug_permiso('asignacion_disminucion')){
             //valiodacion para que los campos no vengan vacios
             foreach( $request->asignacion_variante AS $valid => $g){
                 if($request->asignacion_variante[$valid] < 0 || 

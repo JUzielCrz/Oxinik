@@ -10,6 +10,12 @@
 @endsection
 
 @section('content-sidebar')
+
+@php
+    $idauth=Auth::user()->id;
+    $user=App\User::find($idauth);
+@endphp
+
     <div class="container" >
         <center>
             <div id="divmsgindex" style="display:none" class="alert" role="alert">
@@ -26,10 +32,12 @@
                         <h5 class="" style="font-size: 15px">CONTRATOS DE: {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}</h5>
                     </div>
                     <div class="col-md-3 text-right">
-                        <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalinsertar">
-                            <span class="fas fa-plus"></span>
-                            Agregar
-                        </button>
+                        @if($user->permiso_con_admin('contrato_create')) 
+                            <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalinsertar">
+                                <span class="fas fa-plus"></span>
+                                Agregar
+                            </button>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -54,7 +62,7 @@
                                     <td class="text-center">{{$contrato->num_contrato}}</td>
                                     <td class="text-center">{{$contrato->tipo_contrato}}</td>
                                     
-                                    <td><a class="btn btn-amarillo btn-sm" target="_blank" href="{{ url("/pdf/generar_contrato/{$contrato->id}") }}"  title="Contrato"><i class="fas fa-clipboard"></i></span></a></td>
+                                    <td><a class="btn btn-amarillo btn-sm" target="_blank" href="{{ url("/pdf/generar_contrato/{$contrato->id}") }}"  title="Contrato"><i class='fas fa-file-pdf'></i></span></a></td>
                                     <td><button class="btn btn-amarillo btn-delete-modal btn-sm" data-id="{{$contrato->id}}" title="Eliminar"><span class="fas fa-trash" ></span></button>
                                 
                                 </tr>
@@ -78,7 +86,9 @@
                                 <h5 style="font-size: 17px">INFORMACIÓN</h5>
                             </div>
                             <div class="col ">
+                                @if($user->permiso_con_admin('contrato_update')) 
                                 <button class="btn btn-amarillo btn-sm" id="btn-edit-modal" ><span class="fas fa-edit"></span> Edit</button>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -143,10 +153,14 @@
                             <div class="col">
                                 <div class="input-group input-group-sm mb-3">
                                     <div class="input-group-prepend">
+                                        @if ($user->permiso_con_admin('asignacion_disminucion'))
                                         <button class="btn btn-amarillo" type="button" id="btn-modal-asignacion-minus"> <span class="fas fa-minus"></span></button>
+                                        @endif
                                     </div>
                                     <div class="input-group-prepend">
+                                        @if ($user->permiso_con_admin('asignacion_aumento'))
                                         <button class="btn btn-amarillo" type="button" id="btn-modal-asignacion-plus"> <span class="fas fa-plus"></span></button>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -288,7 +302,7 @@
         </div>
     </div>
 
-    {{--------------------------------- MODALES PARA ASIGNACION ------------------------------------------------------}}+
+    {{--------------------------------- MODALES PARA ASIGNACION ------------------------------------------------------}}
     <!-- Modal Edit Asignacion de tanques en contrato-->
     <div class="modal fade" id="modal-edit-asignacion" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">

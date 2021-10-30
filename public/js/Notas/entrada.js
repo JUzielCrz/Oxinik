@@ -121,7 +121,6 @@ $(document).ready(function () {
         evnt.preventDefault();
         var numserie= $('#serie_tanque').val().replace(/ /g,'');
 
-
         if($(".class-tanques-nota").length == 0) {
             mensaje_error('Cliente no adeuda mas tanques');
             return false;
@@ -155,57 +154,68 @@ $(document).ready(function () {
             $("#serie_tanqueError").text('Número de serie ya agregado a esta nota');
                 return false;
         }
+        
 
         //validar si el tanque existe
         $.get('/tanque/show_numserie/'+numserie, function(msg) {
             if(msg==''){//tanque no existe
                 tanque_no_existe();
             }else{//tanque si existe
-                var bandera_pendiete=false; //validar si el tanque es de los que adeuda
-                var tapa_tanque_estatus="";
-                $(".class-tanques-nota").each(function(index, value){
-                    var tanquePendiente = $(this).find("td")[0].innerHTML;
-                    if(tanquePendiente == numserie){
-                        bandera_pendiete=true;
-                        tapa_tanque_estatus=$(this).find("td")[2].innerHTML;
-                    }
-                })
-
-                if(bandera_pendiete){
-                    // si es de los que adeuda, el tanque le pertenece al contrato del cliente.
-                    if( msg.estatus == "ENTREGADO-CLIENTE"){
-                        if($('#tapa_tanque').val() == 'NO' && tapa_tanque_estatus == 'SI'){ ///si no viene con tapa
-                            tanque_sin_tapa(numserie, msg.id);
-                        }else{
-                            insertar_fila(msg.id, 0);
-                        }
+                $.get('/tanque/validar_ph/' + msg.ph, function(respuesta) {
+                    if(respuesta.alert){
+                        //detener 
+                        mensaje("error","PH: "+msg.ph, "Prueba Hidrostática  proximo a VENCER o VENCIDO", null, null);
+                        return false;
                     }else{
-                        //#serie si esta en su contrato pero su estatus es reportado o esta entregado a otro cliente;
-                        Swal.fire({
-                            icon: 'warning',
-                            html: 'Este tanque se muestra con estatus: <br> <strong> '+msg.estatus+'</strong> <br> <p> Debes modificar estatus del tanque a <strong> "ENTREGADO-CLIENTE" </strong> si deseas agregarlo a esta nota <p>',
-                            footer: '<a class="btn btn-link" target="_blank" href="/tanque/history/'+msg.id+'">ver historial <strong>'+msg.num_serie+'</strong></a>'
+                        var bandera_pendiete=false; //validar si el tanque es de los que adeuda
+                        var tapa_tanque_estatus="";
+                        $(".class-tanques-nota").each(function(index, value){
+                            var tanquePendiente = $(this).find("td")[0].innerHTML;
+                            if(tanquePendiente == numserie){
+                                bandera_pendiete=true;
+                                tapa_tanque_estatus=$(this).find("td")[2].innerHTML;
+                            }
                         })
+
+                        if(bandera_pendiete){
+                            // si es de los que adeuda, el tanque le pertenece al contrato del cliente.
+                            if( msg.estatus == "ENTREGADO-CLIENTE"){
+                                if($('#tapa_tanque').val() == 'NO' && tapa_tanque_estatus == 'SI'){ ///si no viene con tapa
+                                    tanque_sin_tapa(numserie, msg.id);
+                                }else{
+                                    insertar_fila(msg.id, 0);
+                                }
+                            }else{
+                                //#serie si esta en su contrato pero su estatus es reportado o esta entregado a otro cliente;
+                                Swal.fire({
+                                    icon: 'warning',
+                                    html: 'Este tanque se muestra con estatus: <br> <strong> '+msg.estatus+'</strong> <br> <p> Debes modificar estatus del tanque a <strong> "ENTREGADO-CLIENTE" </strong> si deseas agregarlo a esta nota <p>',
+                                    footer: '<a class="btn btn-link" target="_blank" href="/tanque/history/'+msg.id+'">ver historial <strong>'+msg.num_serie+'</strong></a>'
+                                })
+                            }
+                            
+                        }else{
+                            
+                            //#serie no encontrado en su contrato pero si existe;
+                            Swal.fire({
+                                icon: 'warning',
+                                html: 'Este tanque esta registrado en el sistema, pero no es de los entregados a este cliente <br> Estatus:  <strong> '+msg.estatus+'</strong> <br>',
+                                showCancelButton: true,
+                                confirmButtonText: 'Continuar de todos modos',
+                                footer: '<a class="btn btn-link" target="_blank" href="/tanque/history/'+msg.id+'">ver historial <strong>'+msg.num_serie+'</strong></a>'+
+                                '<a class="btn btn-link" target="_blank" href="/tanque/reportados/create'+msg.id+'">Levantar reporte <strong>'+msg.num_serie+'</strong></a>',
+                                
+                            }).then((result) => {
+                                /* Read more about isConfirmed, isDenied below */
+                                if (result.isConfirmed) {
+                                    diferente_cliente(msg.id, 0);
+                                } 
+                            })
+                        }
                     }
-                    
-                }else{
-                    
-                    //#serie no encontrado en su contrato pero si existe;
-                    Swal.fire({
-                        icon: 'warning',
-                        html: 'Este tanque esta registrado en el sistema, pero no es de los entregados a este cliente <br> Estatus:  <strong> '+msg.estatus+'</strong> <br>',
-                        showCancelButton: true,
-                        confirmButtonText: 'Continuar de todos modos',
-                        footer: '<a class="btn btn-link" target="_blank" href="/tanque/history/'+msg.id+'">ver historial <strong>'+msg.num_serie+'</strong></a>'+
-                        '<a class="btn btn-link" target="_blank" href="/tanque/reportados/create'+msg.id+'">Levantar reporte <strong>'+msg.num_serie+'</strong></a>',
-                        
-                    }).then((result) => {
-                        /* Read more about isConfirmed, isDenied below */
-                        if (result.isConfirmed) {
-                            diferente_cliente(msg.id, 0);
-                        } 
-                    })
-                }
+
+                });
+                
             
             }
         })
@@ -317,10 +327,28 @@ $(document).ready(function () {
                                 '<span  id="capacidadError" class="text-danger"></span>'+
                             '</div>'+
         
-                            '<div class="form-group col-md-4">'+
+                            '<div class="form-group col-md-2">'+
                                 '<label for="">PH</label>'+
-                                '<input type="month" name="ph" id="ph" class="form-control form-control-sm">'+
+                                '<select name="ph_mes" id="ph_mes" class="form-control form-control-sm">'+
+                                    '<option value="">Mes</option>'+
+                                    '<option value="01">01</option>'+
+                                    '<option value="02">02</option>'+
+                                    '<option value="03">03</option>'+
+                                    '<option value="04">04</option>'+
+                                    '<option value="05">05</option>'+
+                                    '<option value="06">06</option>'+
+                                    '<option value="07">07</option>'+
+                                    '<option value="08">08</option>'+
+                                    '<option value="09">09</option>'+
+                                    '<option value="10">10</option>'+
+                                    '<option value="11">11</option>'+
+                                    '<option value="12">12</option>'+
+                                '</select>'+
                                 '<span  id="phError" class="text-danger"></span>'+
+                            '</div>'+
+                            '<div class="form-group col-md-2">'+
+                                '<label for="">.</label>'+
+                                '<input type="number" name="ph_anio" id="ph_anio" class="form-control form-control-sm anio_format" placeholder="Anio">'+
                             '</div>'+
                         '</div>'+
         
@@ -423,6 +451,18 @@ $(document).ready(function () {
                     $("#modal_generico").css("width", "60%");
                     $("#modal_generico").css("left", "20%");
                     $('#modal_generico').modal('show');
+
+                    $('.anio_format').keypress(function (event) {
+                        if (this.value.length === 4||
+                            event.charCode == 43 || //+
+                            event.charCode == 45 || //-
+                            event.charCode == 69 || //E
+                            event.charCode == 101|| //e
+                            event.charCode == 46    //.
+                            ) {
+                            return false;
+                        }
+                    });
                     
                 });
                 
@@ -440,6 +480,16 @@ $(document).ready(function () {
             text: mensaje,
             width: '20rem',
             // showConfirmButton: true,
+        })
+    }
+    function mensaje(icono,titulo, mensaje, tiempo, modal){
+        $(modal).modal("hide");
+        Swal.fire({
+            icon: icono,
+            title: titulo,
+            text: mensaje,
+            timer: tiempo,
+            width: 300,
         })
     }
 
@@ -516,7 +566,8 @@ $(document).ready(function () {
             'material',
             'tipo_tanque',
             'estatus',
-            'ph',
+            'ph_anio',
+            'ph_mes',
             'tipo_gas'];
         var campovacio = [];
 
@@ -563,6 +614,15 @@ $(document).ready(function () {
         }
         $('#modal_generico').modal('hide');
 
+        $("#phError").empty();
+        $("#ph_anio").removeClass('is-invalid');
+        if($('#ph_anio').val()<1950){
+            $("#phError").text('Campo Incorrecto');
+            $("#ph_anio").addClass('is-invalid');
+            return false;
+        }
+
+
         var descrp=
         cap+", "+
         $("#material").val()+", "+
@@ -586,7 +646,7 @@ $(document).ready(function () {
                 "<tr class='classfilatanque'>"+
                     "<td>"+$('#serie_tanque').val() +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+$('#serie_tanque').val() +"'></input>"+
                     "<td>"+descrp+"</td>"+"<input type='hidden' name='inputDescripcion[]' value='"+descrp +"'></input>"+
-                    "<td>"+$("#ph").val() +"</td>"+  "<input type='hidden' name='inputPh[]' value='"+$("#ph").val() +"'></input>"+
+                    "<td>"+$('#ph_anio').val()+'-'+$('#ph_mes').val()+"</td>"+  "<input type='hidden' name='inputPh[]' value='"+$('#ph_anio').val()+'-'+$('#ph_mes').val()+"'></input>"+
                     "<td>"+$('#tapa_tanque').val() +"</td>"+ "<input type='hidden' name='inputTapa[]' value='"+$('#tapa_tanque').val() +"'></input>"+
                     "<td>"+$('input:radio[name=exampleRadios]:checked').val()+"</td>"+ "<input type='hidden' name='inputCambio[]' value='"+$('input:radio[name=exampleRadios]:checked').val()+"'></input>"+
                     "<td>"+$("#inputModal-recargos-xTapa").val()+"</td>"+
@@ -816,7 +876,7 @@ $(document).ready(function () {
             }
         }
 
-        if($("#metodo_pago").val()==''){
+        if($("#metodo_pago").val()=='' && parseFloat($("#input-total").val()) > 0){
             $("#metodo_pago").addClass('is-invalid');
             $("#metodo_pagoError").text('Selecciona un metodo de pago');
             return false;
@@ -969,6 +1029,7 @@ $(document).ready(function () {
             }
         })
     }
+
 
 });
 

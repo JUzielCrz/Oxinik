@@ -16,22 +16,21 @@ class NotaListasController extends Controller
         $this->middleware('auth');
     }
 
-    public function slugpermision(){
+    public function slug_permiso($slug_permiso){
         $idauth=auth()->user()->id;
         $user=User::find($idauth);
-        return $user->havePermission('clientes');
+        return $user->permiso_con_admin($slug_permiso);
     }
-
-
+    
     public function index(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('nota_show')){
             return view('notas.listas.index');
         }
         return view('home');
     }
 
     public function salidas_data(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('nota_show')){
             $nota_entrada=Nota::
             join('contratos','contratos.id','=','notas.contrato_id')
             ->select('notas.id as nota_id',
@@ -57,7 +56,7 @@ class NotaListasController extends Controller
     }
 
     public function exporadica_data(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('nota_show')){
             $nota_entrada=VentaExporadica::all();
             return DataTables::of(
                 $nota_entrada
@@ -70,7 +69,7 @@ class NotaListasController extends Controller
     }
 
     public function adeudos_data(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('nota_show')){
             $nota_entrada=Nota::
             join('contratos','contratos.id','=','notas.contrato_id')
             ->select('notas.id as nota_id',
@@ -98,7 +97,7 @@ class NotaListasController extends Controller
     }
 
     public function entradas_data(){
-        if($this->slugpermision()){
+        if($this->slug_permiso('nota_show')){
             $nota_entrada=NotaEntrada::
             join('contratos','contratos.id','=','notas_entrada.contrato_id')
             ->select('notas_entrada.id as nota_id',

@@ -12,6 +12,10 @@ use App\Models\NotaTanque;
 use Barryvdh\DomPDF\Facade as PDF;
 // use App\Funciones\ConvertNumber;
 use App\Http\Controllers\ConvertNumber;
+use App\Models\InfraLLenado;
+use App\Models\InfraTanque;
+use App\Models\MantenimientoLLenado;
+use App\Models\MantenimientoTanque;
 use App\Models\NotaPagos;
 use App\Models\VentaExporadica;
 use App\Models\VentaTanque;
@@ -86,12 +90,40 @@ class PDFController extends Controller
         ->where('incidencia','INICIO-CONTRATO')
         ->get();
 
-        $objeto = new ConvertNumberController();
-        $precioLetras = $objeto->num2letras($contrato->deposito_garantia); 
+        if($contrato->deposito_garantia > 0){
+            $objeto = new ConvertNumberController();
+            $precioLetras = $objeto->num2letras($contrato->deposito_garantia);
+        }else{
+            $precioLetras = 'CERO';
+        }
 
         $data=['contrato'=>$contrato, 'cliente'=>$cliente, 'tanques'=>$tanques, 'nota'=>$nota, 'precioLetras'=>$precioLetras];
 
         $pdf = PDF::loadView('pdf.contratogenerate', $data);
         return $pdf->stream('contrato_'. $contrato->num_contrato.'.pdf');
+    }
+
+    public function infra_nota($idnota){
+        $nota=InfraLLenado::find($idnota);
+        $tanques=InfraTanque::where('infrallenado_id', $nota->id)->get();
+        
+        $data=['nota'=>$nota,'tanques'=>$tanques];
+ 
+        $pdf = PDF::loadView('pdf.infra_nota', $data);
+
+        return $pdf->stream('nota_infra_'.$nota->folio_nota.'.pdf');
+        // return $pdf->dowload('name.pdf');
+    }
+
+    public function mantenimiento_nota($idnota){
+        $nota=MantenimientoLLenado::find($idnota);
+        $tanques=MantenimientoTanque::where('mantenimientollenado_id', $nota->id)->get();
+        
+        $data=['nota'=>$nota,'tanques'=>$tanques];
+ 
+        $pdf = PDF::loadView('pdf.mantenimiento_nota', $data);
+
+        return $pdf->stream('nota_mantenimiento_'.$nota->folio_nota.'.pdf');
+        // return $pdf->dowload('name.pdf');
     }
 }

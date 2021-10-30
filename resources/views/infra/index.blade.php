@@ -19,9 +19,10 @@
                         <thead class="text-center">
                             <tr >
                             <th>ID</th>
-                            <th>FECHA</th>
                             <th>INCIDENCIA</th>
                             <th>CANTIDAD</th>
+                            <th>FECHA</th>
+                            <th></th>
                             <th></th>
                             </tr>
                         </thead>

@@ -15,8 +15,6 @@ $(document).ready(function () {
     $(document).on("click","#guardar-nota", guardar_nota);
     $(document).on("click","#btnCancelar", cancelarnota);
 
-
-                // $('.select-search').select2();
     //BUSCAR CONTRATO
 
         $('#numcontrato').keyup(function(){ 
@@ -28,10 +26,8 @@ $(document).ready(function () {
                     url:"/nota/salida/search_contrato",
                     data:{'query':query,'_token': $('input[name=_token]').val(),},
                     success:function(data){
-
                         $('#listarcontratos').fadeIn();  
                         $('#listarcontratos').html(data);
-
                     }
                 });
             }
@@ -49,10 +45,16 @@ $(document).ready(function () {
             .done(function(msg) {
                 $('#contrato_id').val(msg.contrato.contrato_id)
                 $('#num_contrato').val(msg.contrato.num_contrato)
-                $('#nombre_cliente').val(msg.contrato.nombre+' '+msg.contrato.apPaterno+' '+msg.contrato.apMaterno)
+                if(msg.contrato.nombre == null){
+                    $('#nombre_cliente').val('------')
+                }else{
+                    $('#nombre_cliente').val(msg.contrato.nombre+' '+msg.contrato.apPaterno+' '+msg.contrato.apMaterno)
+                };  
+                $('#nombre_empresa').val(msg.contrato.empresa)
                 $('#tipo_contrato').val(msg.contrato.tipo_contrato)
                 $('#tablelistaTanques').empty();
 
+                show_nota_lista_tanques(msg.contrato.contrato_id, 'tbody-tanques-nota');
                 show_table_asignaciones(msg.contrato.contrato_id, 'tableasignaciones', 'content-asignaciones');
             })
 
@@ -65,6 +67,24 @@ $(document).ready(function () {
             }
             
         }); 
+
+        function show_nota_lista_tanques(contrato_id, tbody) {
+            
+            $.get('/nota/entrada/tanques_pendientes/' + contrato_id, function(data) {
+                var columnas='';
+                $.each(data, function (key, value) {
+                    columnas+='<tr class="class-tanques-nota"><td>'+
+                    value.num_serie+'</td><td>'+
+                    value.tanque_desc+'</td><td>'+
+                    value.tapa_tanque+'</td><td>'+
+                    value.fecha+ '</td><td>' +
+                    value.nota_id+'</td><td>'+
+                    '<a type="button" href="/pdf/nota/'+value.nota_id+'" target="_blank" class="btn btn-sm btn-grisclaro btn-nota-id" ><i class="fas fa-sticky-note"></i></a></td></tr>';
+                });
+                $('.class-tanques-nota').remove();
+                $('#'+tbody).append(columnas);
+            });
+        }
     //FIN BUSCAR CONTRATO
 
 
@@ -128,50 +148,59 @@ $(document).ready(function () {
         $.get('/tanque/show_numserie/' + numserie, function(msg) { 
             
             if(msg != ''){
-                if(msg.estatus == 'LLENO-ALMACEN'){
-                    $.ajax({
-                        method: "post",
-                        url: "/nota/salida/validar_tanqueasignacion",
-                        data: {
-                            '_token': $('input[name=_token]').val(),
-                            'contrato_id': $('#contrato_id').val(),
-                            'num_serie': $('#serie_tanque').val(),
-                            },
-                    })
-                    .done(function(msgasignacion){
-                        if(msgasignacion.mensaje){
-                            
-                            var precio_importe= $('#precio_unitario').val() * $('#cantidad').val();
-                            var iva =0;
-                            
-                            if( msg.tipo_tanque == 'Industrial'){
-                                iva = precio_importe * 0.16;
-                            }
-    
-                            $('#tablelistaTanques').append(
-                                "<tr class='classfilatanque'>"+
-                                "<td>"+msg.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie +"'></input>"+
-                                "<td>"+$('#tapa_tanque').val() +"</td>"+ "<input type='hidden' name='inputTapa[]' value='"+$('#tapa_tanque').val() +"'></input>"+
-                                "<td>"+msg.tipo_gas +"</td>"+ "<input type='hidden' name='input_tipo_gas[]' value='"+msg.tipo_gas +"'></input>"+
-                                "<td>"+$('#cantidad').val() +"</td>"+ "<input type='hidden' name='input_cantidad[]' value='"+$('#cantidad').val() +"'></input>"+
-                                "<td>"+$('#unidad_medida').val() +"</td>"+ "<input type='hidden' name='input_unidad_medida[]' value='"+$('#unidad_medida').val() +"'></input>"+
-                                "<td>"+$('#precio_unitario').val() +"</td>"+ "<input type='hidden' name='input_precio_unitario[]' value='"+$('#precio_unitario').val() +"'></input>"+
-                                "<td>"+precio_importe +"</td>"+ "<input type='hidden' name='input_importe[]' value='"+precio_importe +"'></input>"+
-                                "<td>"+iva +"</td>"+ "<input type='hidden' name='input_iva_particular[]' value='"+iva +"'></input>"+    
-                                "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
-                                "</tr>");
-
-                                actualizar_subtotal()
-                                limpiar_inputs_fila();
-
-                                return false;
+                $.get('/tanque/validar_ph/' + msg.ph, function(respuesta) {
+                    if(respuesta.alert){
+                        //detener 
+                        mensaje("error","PH: "+msg.ph, "Prueba Hidrostática  proximo a VENCER o VENCIDO", null, null);
+                        return false;
+                    }else{
+                        if(msg.estatus == 'LLENO-ALMACEN'){
+                            $.ajax({
+                                method: "post",
+                                url: "/nota/salida/validar_tanqueasignacion",
+                                data: {
+                                    '_token': $('input[name=_token]').val(),
+                                    'contrato_id': $('#contrato_id').val(),
+                                    'num_serie': $('#serie_tanque').val(),
+                                    },
+                            })
+                            .done(function(msgasignacion){
+                                if(msgasignacion.mensaje){
+                                    
+                                    var precio_importe= $('#precio_unitario').val() * $('#cantidad').val();
+                                    var iva =0;
+                                    
+                                    if( msg.tipo_tanque == 'Industrial'){
+                                        iva = precio_importe * 0.16;
+                                    }
+            
+                                    $('#tablelistaTanques').append(
+                                        "<tr class='classfilatanque'>"+
+                                        "<td>"+msg.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie +"'></input>"+
+                                        "<td>"+$('#tapa_tanque').val() +"</td>"+ "<input type='hidden' name='inputTapa[]' value='"+$('#tapa_tanque').val() +"'></input>"+
+                                        "<td>"+msg.tipo_gas +"</td>"+ "<input type='hidden' name='input_tipo_gas[]' value='"+msg.tipo_gas +"'></input>"+
+                                        "<td>"+$('#cantidad').val() +"</td>"+ "<input type='hidden' name='input_cantidad[]' value='"+$('#cantidad').val() +"'></input>"+
+                                        "<td>"+$('#unidad_medida').val() +"</td>"+ "<input type='hidden' name='input_unidad_medida[]' value='"+$('#unidad_medida').val() +"'></input>"+
+                                        "<td>"+$('#precio_unitario').val() +"</td>"+ "<input type='hidden' name='input_precio_unitario[]' value='"+$('#precio_unitario').val() +"'></input>"+
+                                        "<td>"+precio_importe +"</td>"+ "<input type='hidden' name='input_importe[]' value='"+precio_importe +"'></input>"+
+                                        "<td>"+iva +"</td>"+ "<input type='hidden' name='input_iva_particular[]' value='"+iva +"'></input>"+    
+                                        "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
+                                        "</tr>");
+        
+                                        actualizar_subtotal()
+                                        limpiar_inputs_fila();
+        
+                                        return false;
+                                }else{
+                                    $("#serie_tanqueError").text('No tiene asignado en contrato este tipo de tanque');
+                                }
+                            }); 
                         }else{
-                            $("#serie_tanqueError").text('No tiene asignado en contrato este tipo de tanque');
+                            $("#serie_tanqueError").text('Error Tanque - estatus: '+ msg.estatus);
                         }
-                    }); 
-                }else{
-                    $("#serie_tanqueError").text('Error Tanque - estatus: '+ msg.estatus);
-                }
+                    }
+                });
+                
             
             }else{
                 $("#serie_tanqueError").text('Número de serie no existe');
@@ -226,9 +255,6 @@ $(document).ready(function () {
             "<label id='label-ivaGen'>"+Intl.NumberFormat('es-MX').format(ivaGen) +"</label>"
         );
         $('#input-ivaGen').val(ivaGen);
-
-        console.log(ivaGen);
-
     }
 
     function actualizar_total(){
@@ -255,11 +281,10 @@ $(document).ready(function () {
         }
         $.ajax({
             method: "get",
-            url: "/contrato/show/"+$("#contrato_id").val(),
+            url: "/contrato/envio/show/"+$("#contrato_id").val(),
             data: {'_token': $('input[name=_token]').val(),},
         })
         .done(function(msg) {
-            
             $('#btn-addEnvio').remove();
 
             if($("#input-group-envio").length){
@@ -441,86 +466,6 @@ $(document).ready(function () {
 
       // FUNCIONES DE ASIGNACION DE TANQUES
 
-    $(document).on("click","#btn-save-asignacion", save_asignacion);
-    $(document).on("click","#btn-modal-asignacion-minus", modal_edit_asignacion_minus);
-    $(document).on("click","#btn-modal-asignacion-plus", modal_edit_asignacion_plus);
-
-    function modal_edit_asignacion_plus(){
-        if($('#num_contrato').val() == ''){
-            return false;
-        }
-        limpiarasignacion();
-        $("#h5-title-modal").replaceWith('<h5 class="modal-title" id="h5-title-modal">Aumento</h5>');
-        $('#modal-edit-asignacion').modal("show");
-        $('#incidencia-asignacion').val("aumento");
-    }
-
-    function modal_edit_asignacion_minus(){
-        if($('#num_contrato').val() == ''){
-            return false;
-        }
-        limpiarasignacion();
-        var contrato_id= $("#contrato_id").val();
-        show_table_asignaciones(contrato_id, 'table-show-asignaciones', 'show-asignaciones')
-        $("#h5-title-modal").replaceWith('<h5 class="modal-title" id="h5-title-modal">Disminución</h5>');
-        $('#modal-edit-asignacion').modal("show");
-        $('#incidencia-asignacion').val("disminucion");
-        
-    }
-
-    function limpiarasignacion(){
-        $.ajax({
-            method: "get",
-            url: "/catalogo_gases",
-        }).done(function(msg){
-            $(".trasignacion").remove();
-
-            var opciones;
-            opciones = '<option value="" selected>SELECCIONA</option>';
-            $(msg).each(function(index, value){
-                opciones += '<option value="'+value.id+'">'+ value.nombre +'</option>';
-            });
-            
-            $("#tbody-tr-asignacion1").append(
-                '<tr class="trasignacion">'+
-                '<td>'+
-                    '<input name="cantidadtanques[]" id="cantidadtanques" type="number" class="form-control form-control-sm"  placeholder="#">'+
-                '</td>'+
-                '<td>'+
-                    '<select name="tipo_gas[]" id="tipo_gas" class="form-control form-control-sm">'+opciones +'</select>'+
-                '</td>'+
-                '<td>'+
-                    '<button type="button" class="btn btn-amarillo btn-sm" id="btn-anadir-asignacion"><span class="fas fa-plus"></span></button>'+
-                '</td>'+
-            '</tr>'
-            );  
-        })
-        
-    }
-
-    function save_asignacion(){
-        // &&falta validar que los campos no esten vacios al enviarlo y cuando regresen limpiar los campos
-        $.ajax({
-            method: "post",
-            url: "/asignaciones/"+$('#incidencia-asignacion').val()+"/"+$('#contrato_id').val(),
-            data: $('#form-edit-asignacion').serialize(),
-        }).done(function(msg){
-            
-            if(msg.alert == 'alert-danger'){
-                mostrar_mensaje('#msg-modal-asignacion', msg.mensaje,'alert-danger' , null);
-            }else{
-
-                var contrato_id = $("#contrato_id").val();
-                show_table_asignaciones(contrato_id, 'tableasignaciones', 'content-asignaciones');
-                mostrar_mensaje('#msg-asignacion-save','editado correctamente','alert-primary' ,'#modal-edit-asignacion');
-                limpiarasignacion();
-                window.open("/pdf/asignacion_tanque/"+ msg.nota_id, '_blank');
-
-            }
-            
-        })  
-    }
-
     function show_table_asignaciones(contrato_id, idTabla, idDiv) {
         
         $.get('/asignaciones/show/' + contrato_id, function(data) {
@@ -553,6 +498,8 @@ $(document).ready(function () {
     }
 
     
+
+    
   // FIN FUNCIONES DE ASIGNACION DE TANQUES
 
 
@@ -572,9 +519,18 @@ $(document).ready(function () {
         });
     }
 
+    function mensaje(icono,titulo, mensaje, tiempo, modal){
+        $(modal).modal("hide");
+        Swal.fire({
+            icon: icono,
+            title: titulo,
+            text: mensaje,
+            timer: tiempo,
+            width: 300,
+        })
+    }
 
     $('.numero-entero-positivo').keypress(function (event) {
-        // console.log(event.charCode);
         if (
             event.charCode == 43 || //+
             event.charCode == 45 || //-
@@ -588,7 +544,6 @@ $(document).ready(function () {
     });
 
     $('.numero-decimal-positivo').keypress(function (event) {
-        // console.log(event.charCode);
         if (
             event.charCode == 43 || //+
             event.charCode == 45 || //-

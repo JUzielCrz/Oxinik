@@ -1,8 +1,10 @@
 @extends("layouts.headerindex")
 @section('contenido')
 
-
-{{-- <img src="{{asset('/img/empresa/logo.svg')}}" width="120" class="d-inline-block align-top">--}}
+    @php
+        $idauth=Auth::user()->id;
+        $user=App\User::find($idauth);
+    @endphp
 
 <!--Container Main end-->
 
@@ -28,21 +30,55 @@
                 </li> --}}
 
                 {{-- Nota --}}
-                    <li id="nav-ico-notas"><a href="{{ url('/nota/salida') }}"><i class="fas fa-clipboard"></i> Notas</a></li>
+                    @if($user->permiso_con_admin('nota_salida') ||  $user->permiso_con_admin('nota_entrada') )
+                        <li id="nav-ico-notas"><a @if ($user->permiso_con_admin('nota_salida') )
+                            href="{{ url('/nota/salida') }}"
+                            @else
+                            href="{{ url('/nota/entrada') }}"
+                            @endif
+                            ><i class="fas fa-clipboard"></i> Notas</a></li>
+                    @endif
                 {{-- Clientes --}}
-                    <li id="nav-ico-cliente" ><a href="{{ url('/cliente/index') }}"><i class="fas fa-users"></i> Clientes</a></li>
+                    @if($user->permiso_con_admin('cliente_show'))    
+                        <li id="nav-ico-cliente" ><a href="{{ url('/cliente/index') }}"><i class="fas fa-users"></i> Clientes</a></li>
+                    @endif
                 {{-- Contratos --}}
-                    <li id="nav-ico-contratos" ><a href="{{ url('/contrato/listar') }}"><i class="fas fa-file-signature"></i> Contratos</a></li>
+                    @if($user->permiso_con_admin('contrato_show'))    
+                        <li id="nav-ico-contratos" ><a href="{{ url('/contrato/listar') }}"><i class="fas fa-file-signature"></i> Contratos</a></li>
+                    @endif
                 {{-- Tanques --}}
-                    <li id="nav-ico-tanques"><a href="{{ url('/tanque/index') }}"><i class="fas fa-prescription-bottle"></i> Tanques</a></li>
+                    @if($user->permiso_con_admin('tanque_show') || $user->permiso_con_admin('gas_show'))    
+                        <li id="nav-ico-tanques"><a 
+                            @if ($user->permiso_con_admin('tanque_show'))
+                                href="{{ url('/tanque/index') }}"
+                            @else
+                                href="{{ url('/gas/index') }}"
+                            @endif
+                            ><i class="fas fa-prescription-bottle"></i> Tanques</a></li>
+                    @endif
                 {{-- Infra --}}
-                    <li id="nav-ico-infra" ><a href="{{ url('/infra/entrada') }}"><i class="fas fa-building"></i>Infra</a></li>
+                    @if($user->permiso_con_admin('infra_salida') || $user->permiso_con_admin('infra_entrada'))    
+                        <li id="nav-ico-infra" ><a 
+                            @if ($user->permiso_con_admin('infra_salida'))
+                                href="{{ url('/infra/salida') }}"
+                            @else
+                                href="{{ url('/infra/entrada') }}"
+                            @endif ><i class="fas fa-building"></i>Infra</a></li>
+                    @endif
                 {{-- Mantenimiento --}}
-                    <li id="nav-ico-mantenimiento" ><a href="{{ url('/mantenimiento/entrada') }}"><i class="fas fa-dolly-flatbed"></i> Manteni- <br> miento</a></li>
-                
-                {{-- Reportes --}}
+                    @if($user->permiso_con_admin('mantenimiento_salida') || $user->permiso_con_admin('mantenimiento_entrada'))    
+                        <li id="nav-ico-mantenimiento" ><a 
+                            @if ($user->permiso_con_admin('mantenimiento_salida'))
+                                href="{{ url('/mantenimiento/salida') }}"
+                            @else
+                                href="{{ url('/mantenimiento/entrada') }}"
+                            @endif
+                            ><i class="fas fa-dolly-flatbed"></i> Manteni- <br> miento</a></li>
+                    @endif
                 {{-- Usuarios --}}
-                {{-- <li id="nav-ico-usuario" ><a href="{{ url('/user/index') }}"><i class="fas fa-users-cog"></i>Usuarios</a></li> --}}
+                    @if($user->soloParaUnRol('admin'))
+                        <li id="nav-ico-usuario" ><a href="{{ url('/user/index') }}"><i class="fas fa-users-cog"></i>Usuarios</a></li>
+                    @endif
 
             </ul>
 

@@ -32,53 +32,101 @@ $(document).ready(function () {
                 {data: 'estatus'}, //aqui va estatus
                 {data: 'btnHistory'},
                 {data: 'btnRestablecer'},
+                {data: 'btnDelete'},
             ]
         });
     
     // CRUD
-    $(document).on("click",".btn-delete-modal", metodo_detalle_delete);
-    $(document).on("click","#btneliminar",metodo_eliminar);
+    $(document).on("click",".btn-restore", restore_cilindro);
+    $(document).on("click",".btn-delete", delete_cilindro);
     
+    
+    
+    function restore_cilindro() {
 
-    function metodo_detalle_delete() {
-        $("#modaleliminar").modal("show");
-        $('#ideliminar').html($(this).data('id'));
+        Swal.fire({
+            title: 'Estas seguro?',
+            text: "Este cilindro se restaurara",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Restaurar cilindro'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    method: "GET",
+                    url: "/tanque/restablecer/"+$(this).data('id'),
+
+                }).done(function (msg) {
+                    
+                    if(msg.mensaje == 'Sin permisos'){
+                        mensaje("error","Sin permisos", "No tienes los permisos suficientes para hacer este cambio", null, null);
+                        return false;
+                    }
+                    listtabla.ajax.reload(null,false); 
+                    Swal.fire(
+                        'Exito!',
+                        'Restaurado correctamente',
+                        'success'
+                    )
+                }).fail(function (jqXHR, textStatus){
+                    Swal.fire(
+                        'Error!',
+                        'Verifique sus datos',
+                        'error'
+                    )
+                });  
+            }
+        })
+
     }
-    
-    function mostrar_mensaje(divmsg,mensaje,clasecss,modal) {
-        if(modal !== null){
-            $(modal).modal("hide");
-        }
-        $(divmsg).empty();
-        $(divmsg).addClass(clasecss);
-        $(divmsg).append("<p>" + mensaje + "</p>");
-        $(divmsg).show(500);
-        $.when($(divmsg).hide(5000)).done(function () {
-            $(divmsg).removeClass(clasecss);
-        });
-    }
-    
 
-    
+    function delete_cilindro() {
+        Swal.fire({
+            title: 'Estas seguro?',
+            text: "Se eliminara permanetemente de la base de datos junto con su historial",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Eliminar permanentemente'
+        }).then((result) => {
+            $.ajax({
+                method: "GET",
+                url: "/tanque/destroy/"+$(this).data('id')+'',
 
-    function metodo_eliminar() {
-        $.ajax({
-            method: "POST",
-            url: "/tanque/restablecer/"+$('#ideliminar').text()+'',
-            data: {
-                '_token': $('input[name=_token]').val(),
-                'id': $('#ideliminar').text()
+            }).done(function (msg) {
+                if(msg.mensaje == 'Sin permisos'){
+                    mensaje("error","Sin permisos", "No tienes los permisos suficientes para hacer este cambio", null, null);
+                    return false;
                 }
-        }).done(function (msg) {
-            listtabla.ajax.reload(null,false); 
-            mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modaleliminar");
-        }).fail(function (jqXHR, textStatus){
-            mostrar_mensaje("#divmsgindex",'Error al eliminar.', "alert-danger",null);
-        });       
+                listtabla.ajax.reload(null,false); 
+                Swal.fire(
+                    'Exito!',
+                    'Restaurado correctamente',
+                    'success'
+                )
+            }).fail(function (jqXHR, textStatus){
+                Swal.fire(
+                    'Error!',
+                    'Verifique sus datos',
+                    'error'
+                )
+            });
+        })
+
     }
 
-
-
-        
+    function mensaje(icono,titulo, mensaje, tiempo, modal){
+        $(modal).modal("hide");
+        Swal.fire({
+            icon: icono,
+            title: titulo,
+            text: mensaje,
+            timer: tiempo,
+            width: 300,
+        })
+    }
 
 });

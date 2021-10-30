@@ -1,15 +1,11 @@
 @extends('layouts.sidebar')
 
-{{-- @section('menu-navbar') 
-    <li class="nav-item">
-        <a class="btn btn-sm btn-success mr-1" href="{{ url('/nota/salida') }}"><i class="fas fa-sign-out-alt"></i> Salida</a>
-    </li>
-    <li class="nav-item">
-        <a class="btn btn-sm btn-outline-success" href="{{ url('/nota/entrada') }}"><i class="fas fa-sign-in-alt"></i> Entrada</a>
-    </li>
-@endsection --}}
-
 @section('content-sidebar')
+
+@php
+$idauth=Auth::user()->id;
+$user=App\User::find($idauth);
+@endphp
 
     <div class="container" >
 
@@ -25,10 +21,12 @@
                         <h5>Clientes</h5>
                     </div>
                     <div class="col text-right">
-                        <button type="button" class="btn btn-sm btn-gray" data-toggle="modal" data-target="#modalinsertar">
-                            <span class="fas fa-plus"></span>
-                            Agregar
-                        </button>
+                        @if($user->permiso_con_admin('cliente_create')) 
+                            <button type="button" class="btn btn-sm btn-gray" data-toggle="modal" data-target="#modalinsertar">
+                                <span class="fas fa-plus"></span>
+                                Agregar
+                            </button>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -41,6 +39,7 @@
                             <th scope="col">Ap. Paterno</th>
                             <th scope="col">Ap. Materno</th>
                             <th scope="col">Nombre</th>
+                            <th scope="col">Empresa</th>
                             <th scope="col">Teléfono</th>
                             <th scope="col">2° Teléfono</th>
                             <th scope="col"></th>
@@ -135,38 +134,6 @@
         </div>
   </div>
 
-
-        <!-- Modal Eliminar datos-->
-    <div class="modal fade bd-example-modal-md" id="modaleliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-amarillo">
-            <h4 class="modal-title" id="modaleliminarTitle">Eliminar</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff">
-                <span aria-hidden="true" class="fas fa-times"></span>
-            </button>
-            </div>
-            <div class="modal-body">
-            <div class="deleteContent text-center m-5">
-                Se eliminara permanentemente. <br>
-                ¿Estas seguro?
-                <input type="hidden" name="" id = "ideliminar">
-                <span class="hidden id"></span>
-            </div>          
-            <!-- botones Aceptar y cancelar-->
-            <div class="row justify-content-center" >
-                <div class="btn-group col-auto" style="margin:10px" >
-                <button type="submit" class="btn btn-naranja" id="btneliminar">Eliminar</button>
-                </div>
-                <div class="btn-group col-auto" style="margin:10px">
-                <button type="reset" class="btn btn-gray" data-dismiss="modal">Cancelar</button>
-                </div>
-            </div>
-            </div>
-            
-        </div>
-        </div>
-    </div>
 
 
 @endsection

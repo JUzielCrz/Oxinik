@@ -31,10 +31,28 @@
                 <span  id="capacidadError" class="text-danger"></span>
             </div>
 
-            <div class="form-group col-md-4">
-                {!! Form::label('PH') !!}
-                {!! Form::month('ph', null, ['id'=>'ph', 'class' => 'form-control form-control-sm', 'placeholder'=>'PH']) !!}
+            <div class="form-group col-md-2">
+                <label for="">PH</label>
+                <select name="ph_mes" id="ph_mes" class="form-control form-control-sm">
+                    <option value="">Mes</option>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
                 <span  id="phError" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="">.</label>
+                <input type="number" name="ph_anio" id="ph_anio" class="form-control form-control-sm anio_format" placeholder="Año">
             </div>
         </div>
         

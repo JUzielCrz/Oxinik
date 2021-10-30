@@ -14,11 +14,12 @@ $(document).ready(function () {
         } 
     });
 
-    
+    $("#ph_anio").val(new Date().getFullYear());
     var contador=0;
 
     function insert_fila(){
         $('#serie_tanqueError').empty();
+        $('#phError').empty();
 
         var numserie= $('#serie_tanque').val().replace(/ /g,'');
 
@@ -42,6 +43,10 @@ $(document).ready(function () {
         var valdiar_estatus="";
         if($("#incidencia").val() == 'ENTRADA'){
             valdiar_estatus='MANTENIMIENTO'
+            if($("#ph_anio").val() == "" || $("#ph_mes").val() == ""){
+                $("#phError").text('Campo Obligatorio');
+                return false;
+            }
         }else{
             valdiar_estatus='VACIO-ALMACEN'
         }
@@ -52,13 +57,14 @@ $(document).ready(function () {
                 $('#serie_tanqueError').text('Error, No exite registro de tanque con este número de serie');
                 return false;
             }
+            var nuevo_ph=$("#ph_anio").val()+"-"+$("#ph_mes").val();
             if(msg.estatus==valdiar_estatus){
                 $("#tbodyfilaTanques").append(
                     "<tr class='trFilaTanque'>"+
                         "<td>"+msg.num_serie+"</td>"+"<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie +"'></input>"+
                         "<td>"+msg.capacidad+"</td>"+
                         "<td>"+msg.material+"</td>"+
-                        "<td>"+msg.ph+"</td>"+
+                        "<td>"+nuevo_ph+"</td>"+"<input type='hidden' name='idInputPH[]' id='idInputPH' value='"+nuevo_ph+"'></input>"+
                         "<td>"+msg.fabricante+"</td>"+
                         "<td>"+ "<button type='button' class='btn btn-naranja' id='btn-EliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
                     "</tr>"
@@ -104,6 +110,7 @@ $(document).ready(function () {
         }).done(function(msg){
             limpiar_campos();
             mensaje('success','Exito','Registro creado correctamente', 1500);
+            window.open("/pdf/mantenimiento/nota/"+ msg.notaId, '_blank');
         })
         .fail(function (jqXHR, textStatus) {
             //Si existe algun error entra aqui
@@ -138,6 +145,19 @@ $(document).ready(function () {
         $("#contador").replaceWith(
             "<h1 id='contador' class='display-1' style='font-size: 6rem;'>"+ contador+"</h1>"
         );
+        $('#ph_mes').val('');
     }
 
+
+    $('.anio_format').keypress(function (event) {
+        if (this.value.length === 4||
+            event.charCode == 43 || //+
+            event.charCode == 45 || //-
+            event.charCode == 69 || //E
+            event.charCode == 101|| //e
+            event.charCode == 46    //.
+            ) {
+            return false;
+        }
+    });
 });

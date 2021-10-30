@@ -31,10 +31,28 @@
             <span  id="capacidadeditError" class="text-danger"></span>
         </div>
 
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
             {!! Form::label('PH') !!}
-            {!! Form::month('phedit', null, ['id'=>'phedit', 'class' => 'form-control form-control-sm', 'placeholder'=>'PH']) !!}
+            <select name="ph_mesedit" id="ph_mesedit" class="form-control form-control-sm">
+                <option value="">Mes</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select>
             <span  id="pheditError" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-2">
+            {!! Form::label('.') !!}
+            {!! Form::number('ph_anioedit', null, ['id'=>'ph_anioedit', 'class' => 'form-control form-control-sm anio_format', 'placeholder'=>'Año']) !!}
         </div>
     </div>
     

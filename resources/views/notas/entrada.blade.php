@@ -74,7 +74,6 @@
                             <h5>Pendientes</h5>
                         </div>
                         <div class="card-body">
-                            <span  id="serie_tanqueError" class="text-danger"></span>
                             <div class="table-responsive">
                                 <table id="table-tanques-nota" class="table table-sm table-hover table-bordered">
                                     <thead>
@@ -348,7 +347,6 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-
 <script src="{{ asset('js/notas/entrada.js') }}"></script>
 
 <script>

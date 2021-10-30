@@ -18,11 +18,8 @@ class CreateNotasEntradaTanqueTable extends Migration
             $table->unsignedBigInteger('nota_id');
             $table->foreign('nota_id')->references('id')
                 ->on('notas_entrada')
-                ->onDelete('restrict');
+                ->onDelete('cascade');
             $table->string('num_serie');
-            $table->foreign('num_serie')->references('num_serie')
-                ->on('tanques')
-                ->onDelete('restrict');
             $table->enum('tapa_tanque', ['SI', 'NO']);
             $table->string('intercambio');
             $table->timestamps();

@@ -30,6 +30,7 @@ $(document).ready(function () {
                 {data: 'apPaterno'},
                 {data: 'apMaterno'},
                 {data: 'nombre'},
+                {data: 'empresa'},
                 {data: 'telefono'},
                 {data: 'telefonorespaldo'},
                 {data: 'btnContrato'},
@@ -43,22 +44,21 @@ $(document).ready(function () {
 
     metodo_limpiar_span("Error");
 
-    $("input").focusout(function () {
-        var value = $(this).val();
-        if (value.length == 0) {
-            $(this).addClass("is-invalid");
-        } else {
-            $(this).removeClass("is-invalid");
-        }
-    });
+    // $("input").focusout(function () {
+    //     var value = $(this).val();
+    //     if (value.length == 0) {
+    //         $(this).addClass("is-invalid");
+    //     } else {
+    //         $(this).removeClass("is-invalid");
+    //     }
+    // });
     
 
     $(document).on("click","#btnaccept",metodo_insertar);
     $(document).on("click",".btn-show-modal",metodo_detalle);
     $(document).on("click",".btn-edit-modal",metodo_detalle_edit);
-    $(document).on("click",".btn-delete-modal", metodo_detalle_delete);
-    $(document).on("click","#btneliminar",metodo_eliminar);
     $(document).on("click","#btnactualizar",metodo_actualizar);
+    $(document).on("click",".btn-delete-modal", eliminar);
 
 
     $("#tipo-clienteedit").change( function() {
@@ -69,7 +69,6 @@ $(document).ready(function () {
     });
 
     function tipo_cliente(valor, edit) {
-        console.log('valor'+ valor+ 'edit='+edit);
         $("#empresa-cliente"+edit).empty();
         if (valor == "PERSONA" ) {
             $("#empresa-cliente"+edit).append(
@@ -114,14 +113,17 @@ $(document).ready(function () {
             data: $("#idFormCliente").serialize(),
         })
             .done(function (msg) {
-                mostrar_mensaje("#divmsg",msg.mensaje, "alert-warning",null);
+                if(msg.mensaje == 'Sin permisos'){
+                    mensaje("error","Sin permisos", "No tienes los permisos suficientes para realizar esta acción.", null, null);
+                    return false;
+                }
                 metodo_limpiar_campos();
                 listtabla.ajax.reload(null,false);      
-                mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modalinsertar");
+                mensaje("success","Exito", "Registrado correctamente.", 1800, "#modalinsertar");  
             })
                 
             .fail(function (jqXHR, textStatus) {
-                mostrar_mensaje("#divmsg",'Error, verifique sus datos.', "alert-danger",null);
+                mensaje("error","Error", "Error al registrar, verifique sus datos.", null, null);
                 var status = jqXHR.status;
                 if (status === 422) {
                     $.each(jqXHR.responseJSON.errors, function (key, value) {
@@ -138,6 +140,7 @@ $(document).ready(function () {
         $("#apPaterno"+ nombreerror).empty();
         $("#apMaterno"+ nombreerror).empty();
         $("#nombre"+ nombreerror).empty();
+        $("#empresa"+ nombreerror).empty();
         $("#rfc"+ nombreerror).empty();
         $("#email"+ nombreerror).empty();
         $("#telefono"+ nombreerror).empty();
@@ -151,6 +154,7 @@ $(document).ready(function () {
         $("#apPaterno").val("");
         $("#apMaterno").val("");
         $("#nombre").val("");
+        $("#empresa").val("");
         $("#rfc").val("");
         $("#email").val("");
         $("#telefono").val("");
@@ -159,18 +163,16 @@ $(document).ready(function () {
         $("#referencia").val("");
         $("#estatus").val("");
     }
-    
-    function mostrar_mensaje(divmsg,mensaje,clasecss,modal) {
-        if(modal !== null){
-            $(modal).modal("hide");
-        }
-        $(divmsg).empty();
-        $(divmsg).addClass(clasecss);
-        $(divmsg).append("<p>" + mensaje + "</p>");
-        $(divmsg).show(500);
-        $.when($(divmsg).hide(5000)).done(function () {
-            $(divmsg).removeClass(clasecss);
-        });
+
+    function mensaje(icono,titulo, mensaje, tiempo, modal){
+        $(modal).modal("hide");
+        Swal.fire({
+            icon: icono,
+            title: titulo,
+            text: mensaje,
+            timer: tiempo,
+            width: 300,
+        })
     }
     
     
@@ -180,13 +182,8 @@ $(document).ready(function () {
                 var variable = "#" + key + "info";
                 $(variable).val(value);
             });
-        }).done(function (msg) {
-            if(msg.accesso){
-                mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-warning",null);
-            }else{
-                $("#modalmostrar").modal("show");
-            }
-        });;
+            $("#modalmostrar").modal("show");
+        })
         
     }
     
@@ -206,13 +203,8 @@ $(document).ready(function () {
                 var variable = "#" + key + "edit";
                 $(variable).val(value);
             });
-        }).done(function (msg) {
-            if(msg.accesso){
-                mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-warning",null);
-            }else{
-                $("#modalactualizar").modal("show");
-            }
-        });
+            $("#modalactualizar").modal("show");
+        })
     }
     
     function metodo_actualizar(){
@@ -238,11 +230,16 @@ $(document).ready(function () {
                 },
         })
             .done(function (msg) {
+                if(msg.mensaje == 'Sin permisos'){
+                    mensaje("error","Sin permisos", "No tienes los permisos suficientes para realizar esta acción.", null, null);
+                    return false;
+                }
+
                 listtabla.ajax.reload(null,false); 
-                    mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modalactualizar");        
+                mensaje("success","Exito", "Actualizado correctamente.", 1800, "#modalactualizar");     
 
             }).fail(function (jqXHR, textStatus) {
-                mostrar_mensaje("#divmsgedit",'Error al actualizar, verifique sus datos.', "alert-danger",null);
+                mensaje("error","Error", "Error al actualizar, verifique sus datos.", null, null);
                 var status = jqXHR.status;
                 if (status === 422) {
                     $.each(jqXHR.responseJSON.errors, function (key, value) {
@@ -253,26 +250,41 @@ $(document).ready(function () {
             });
         return false;
     }
-
-    function metodo_detalle_delete() {
-                $("#modaleliminar").modal("show");
-                $('#ideliminar').html($(this).data('id'));
-    }
     
-    function metodo_eliminar() {
-        $.ajax({
-            method: "POST",
-            url: "deletecliente/"+$('#ideliminar').text()+'',
-            data: {
-                '_token': $('input[name=_token]').val(),
-                'id': $('#ideliminar').text()
-                }
-        }).done(function (msg) {
-            listtabla.ajax.reload(null,false); 
-            mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modaleliminar");
-        }).fail(function (jqXHR, textStatus){
-            mostrar_mensaje("#divmsgindex",'Error al eliminar.', "alert-danger",null);
-        });       
+    function eliminar() {
+        Swal.fire({
+            title: 'Estas seguro?',
+            text: "Se eliminara todo lo que este relacionado a este cliente definitivamente (Contratos, notas, pagos, etc.)",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    method: "get",
+                    url: "/cliente/delete/"+$(this).data('id'),
+                }).done(function (msg) {
+                    if(msg.mensaje == 'Sin permisos'){
+                        mensaje("error","Sin permisos", "No tienes los permisos suficientes para hacer este cambio", null, null);
+                        return false;
+                    }
+                    Swal.fire(
+                        'Exito',
+                        'Eliminado correctamente.',
+                        'success'
+                    )
+                }).fail(function (){
+                    Swal.fire(
+                        'Error',
+                        'Verifica tus datos',
+                        'error'
+                    )
+                });
+            }
+        })
     }
 
 

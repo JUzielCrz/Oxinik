@@ -41,22 +41,15 @@ $(document).ready(function () {
     // CRUD
 
     metodo_limpiar_span("Error");
-
-    $("input").focusout(function () {
-        var value = $(this).val();
-        if (value.length == 0) {
-            $(this).addClass("is-invalid");
-        } else {
-            $(this).removeClass("is-invalid");
-        }
-    });
+    $(document).on("click","#add-cilindro", nuevo_cilindro);
 
     $(document).on("click","#btnaccept",function(){save_tanque("","create")});
     $(document).on("click",".btn-show-modal",metodo_detalle);
     $(document).on("click",".btn-edit-modal",metodo_detalle_edit);
     $(document).on("click",".btn-delete-modal", metodo_detalle_delete);
-    $(document).on("click","#btneliminar",metodo_eliminar);
+    $(document).on("click","#btneliminar", baja_tanque);
     $(document).on("click","#btnactualizar", function(){save_tanque("edit","update")});
+    
 
     $("#fabricanteoficial").change( function() {
         if ($(this).val() == "Otros") {
@@ -95,6 +88,27 @@ $(document).ready(function () {
         }
     });
 
+    function nuevo_cilindro() {
+        var numserie= $('#serie_tanque').val().replace(/ /g,'');
+
+        $("#serie_tanque").removeClass('is-invalid');
+        $("#serie_tanqueError").empty();
+        if($("#serie_tanque").val()==""){
+            $("#serie_tanque").addClass('is-invalid');
+            $("#serie_tanqueError").text('Campo número de serie necesario');
+            return false;
+        }
+        $.get('/tanque/show_numserie/' + numserie, function(data) {
+            if(data==''){
+                $("#num_serie").val(numserie);
+                $("#modal-tanque").modal("show");
+                return false;
+            }else{
+                mensaje('error', 'Alerta', 'Este tanque ya esta registrado', null, null)
+                return false;
+            }
+        });
+    }
     function save_tanque(clave, accion, e) {
 
         metodo_limpiar_span("Error");
@@ -106,7 +120,8 @@ $(document).ready(function () {
             'material',
             'tipo_tanque',
             'estatus',
-            'ph',
+            'ph_anio',
+            'ph_mes',
             'tipo_gas'];
         var campovacio = [];
 
@@ -154,10 +169,16 @@ $(document).ready(function () {
             return false;
         }
 
+        $("#ph"+clave+"Error").empty();
+        $("#ph_anio"+clave).removeClass('is-invalid');
+        if($('#ph_anio'+clave).val()<1950){
+            $("#ph"+clave+"Error").text('Campo Incorrecto');
+            $("#ph_anio"+clave).addClass('is-invalid');
+            return false;
+        }
+
         var numserie= $('#num_serie'+clave).val().replace(/ /g,'');
 
-        // method: "POST",
-        //url: "updatetanque/"+$('#idedit').val()+'',
         var url_link="";
         if(accion=="update"){
             url_link="/tanque/update/"+$('#idedit').val();
@@ -171,7 +192,7 @@ $(document).ready(function () {
                 '_token': $('input[name=_token]').val(),
                 'id': $('#id'+clave).val(),
                 'num_serie': numserie,
-                'ph': $('#ph'+clave).val(),
+                'ph': $('#ph_anio'+clave).val()+'-'+$('#ph_mes'+clave).val() ,
                 'capacidad': cap,
                 'material': $('#material'+clave).val(),
                 'fabricante': fabri,
@@ -181,6 +202,10 @@ $(document).ready(function () {
                 },
         })
             .done(function (msg) {
+                if(msg.mensaje == 'Sin permisos'){
+                    mensaje("error","Sin permisos", "No tienes los permisos suficientes para realizar esta acción.", null, null);
+                    return false;
+                }
                 metodo_limpiar_campos();
                 listtabla.ajax.reload(null,false);      
                 mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modal-tanque"+clave);
@@ -213,7 +238,9 @@ $(document).ready(function () {
     
     function metodo_limpiar_campos() {
         $("#num_serie").val("");
-        $("#ph").val("");
+        $("#ph_mes").val("");
+        $("#ph_anio").val("");
+        $("#unidadmedida").val("");
         $("#capacidadnum").val("");
         $("#material").val("");
         $("#fabricanteoficial").val("");
@@ -235,6 +262,17 @@ $(document).ready(function () {
             $(divmsg).removeClass(clasecss);
         });
     }
+
+    function mensaje(icono,titulo, mensaje, tiempo, modal){
+        $(modal).modal("hide");
+        Swal.fire({
+            icon: icono,
+            title: titulo,
+            text: mensaje,
+            timer: tiempo,
+            width: 300,
+        })
+    }
     
     
     function metodo_detalle() {
@@ -250,31 +288,31 @@ $(document).ready(function () {
     function metodo_detalle_edit() {
         metodo_limpiar_span("editError");
         $.get('/tanque/show/' + $(this).data('id') + '', function(data) {
+            var separarph = data.ph.split("-");
+            $('#ph_anioedit').val(separarph[0]);
+            $('#ph_mesedit').val(separarph[1]);
+
+            if(data.fabricante == 'Infra' || data.fabricante == 'Praxair'){
+                $('#fabricanteoficialedit').val(data.fabricante);
+                $("#otrofabricanteedit").val('');
+                $("#otrofabricanteedit").prop("disabled", true);
+            }else{
+                $('#fabricanteoficialedit').val('Otros');
+                $("#otrofabricanteedit").val(data.fabricante);
+                $("#otrofabricanteedit").prop("disabled", false);
+            }
+
+            var cadenaarray = data.capacidad.split(" ");
+            $('#unidadmedidaedit').val(cadenaarray[1]);
+            $('#capacidadnumedit').val(cadenaarray[0]);
+            if(cadenaarray[1] == "Carga"){
+                $("#capacidadnumedit").prop("disabled", true);
+            }
+
             $.each(data, function (key, value) {
                 var variable = "#" + key + "edit";
                 $(variable).val(value);
-                if(key == 'fabricante'){
-                    if(value == 'Infra' || value == 'Praxair'){
-                        $('#fabricanteoficialedit').val(value);
-                        $("#otrofabricanteedit").val('');
-                        $("#otrofabricanteedit").prop("disabled", true);
-                    }else{
-                        $('#fabricanteoficialedit').val('Otros');
-                        $("#otrofabricanteedit").val(value);
-                        $("#otrofabricanteedit").prop("disabled", false);
-                    }
-                }
-                if(key == 'capacidad'){
 
-                    var cadenaarray = value.split(" ");
-                    $('#unidadmedidaedit').val(cadenaarray[1]);
-                    $('#capacidadnumedit').val(cadenaarray[0]);
-                    if(cadenaarray[1] == "Carga"){
-                        $("#capacidadnumedit").prop("disabled", true);
-                    }
-                    
-
-                }
             });
         }).done(function (msg) {
             if(msg.accesso){
@@ -291,15 +329,15 @@ $(document).ready(function () {
                 $('#ideliminar').html($(this).data('id'));
     }
     
-    function metodo_eliminar() {
+    function  baja_tanque() {
         $.ajax({
-            method: "POST",
+            method: "get",
             url: "/tanque/baja/"+$('#ideliminar').text()+'',
-            data: {
-                '_token': $('input[name=_token]').val(),
-                'id': $('#ideliminar').text()
-                }
         }).done(function (msg) {
+            if(msg.mensaje == 'Sin permisos'){
+                mensaje("error","Sin permisos", "No tienes los permisos suficientes para hacer este cambio", null, null);
+                return false;
+            }
             listtabla.ajax.reload(null,false); 
             mostrar_mensaje("#divmsgindex",msg.mensaje, "alert-primary","#modaleliminar");
         }).fail(function (jqXHR, textStatus){
@@ -310,34 +348,16 @@ $(document).ready(function () {
 
     //Para Validar Campos
 
-        $('.telefono').keypress(function (event) {
-            if (this.value.length === 10) {
+        $('.anio_format').keypress(function (event) {
+            if (this.value.length === 4||
+                event.charCode == 43 || //+
+                event.charCode == 45 || //-
+                event.charCode == 69 || //E
+                event.charCode == 101|| //e
+                event.charCode == 46    //.
+                ) {
                 return false;
             }
         });
-
-        $('.solo-text').keypress(function (event) {
-            // console.log(event.charCode);
-            if (event.charCode >= 65 && event.charCode <= 90 || event.charCode >= 97 && event.charCode <= 122 || 
-                event.charCode ==  32 ||
-                event.charCode == 193 || 
-                event.charCode == 201 ||
-                event.charCode == 205 || 
-                event.charCode == 211 || 
-                event.charCode == 218 || 
-                event.charCode == 225 || 
-                event.charCode == 233 ||
-                event.charCode == 237 || 
-                event.charCode == 243 ||
-                event.charCode == 250 ||
-                event.charCode == 241 ||
-                event.charCode == 209  ){
-                return true;
-            } 
-            return false;
-        });
-
-
-        
 
 });

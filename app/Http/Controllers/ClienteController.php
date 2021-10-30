@@ -6,8 +6,6 @@ use App\Models\Cliente;
 use Illuminate\Http\Request;
 use App\User;
 use Yajra\DataTables\DataTables;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Validator;
 
 class ClienteController extends Controller
 {
@@ -16,15 +14,16 @@ class ClienteController extends Controller
         $this->middleware('auth');
     }
 
-    public function slugpermision(){
+    public function slug_permiso($slug_permiso){
         $idauth=auth()->user()->id;
         $user=User::find($idauth);
-        return $user->havePermission('clientes');
+
+        return $user->permiso_con_admin($slug_permiso);
     }
 
     public function index()
     {
-        if($this->slugpermision()){
+        if($this->slug_permiso('cliente_show')){
             return view('clientes.index');
         }
         return view('home');
@@ -32,7 +31,7 @@ class ClienteController extends Controller
 
     public function data(){
         // dump('pasas');
-        if($this->slugpermision()){
+        if($this->slug_permiso('cliente_show')){
             $clientes=Cliente::
             select('clientes.*');
             return DataTables::of(
@@ -51,7 +50,7 @@ class ClienteController extends Controller
 
     public function create(Request $request)
     {
-        if($this->slugpermision()){
+        if($this->slug_permiso('cliente_create')){
             if($request->input('tipo-cliente') == 'PERSONA'){
                 $request->validate([
                     'apPaterno' => ['required', 'string', 'max:255'],
@@ -64,7 +63,9 @@ class ClienteController extends Controller
                     'empresa' => ['required', 'string', 'max:255'],
                 ]);
             }
+
             $request->validate([
+                'tipo-cliente' => ['required'],
                 'rfc' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'email'],
                 'telefono' => ['required', 'string', 'max:255'],
@@ -86,17 +87,15 @@ class ClienteController extends Controller
             $clientes->direccion = $request->input('direccion');
             $clientes->referencia = $request->input('referencia');
             $clientes->estatus = $request->input('estatus');
+            $clientes->save();
 
-            if($clientes->save()){
-                return response()->json(['mensaje'=>' Registrado Correctamente']);
-            }
-            return response()->json(['mensaje'=>'No registrado']);
+            return response()->json(['mensaje'=>' Registrado Correctamente']);
         }
         return response()->json(['mensaje'=>'Sin permisos']);
     }
 
     public function show(Cliente $id){
-        if($this->slugpermision()){
+        if($this->slug_permiso('cliente_show')){
             $data=['clientes'=>$id];
             return $data;
         }
@@ -105,7 +104,7 @@ class ClienteController extends Controller
 
     public function update(Request $request, $id)
     {
-        if($this->slugpermision()){
+        if($this->slug_permiso('cliente_update')){
 
             if($request->input('tipo-cliente') == 'PERSONA'){
                 $request->validate([
@@ -153,14 +152,10 @@ class ClienteController extends Controller
 
     public function destroy(Cliente $id)
     {
-        if($this->slugpermision()){
-
-            if($id->delete()){
-                return response()->json(['mensaje'=>'Eliminado Correctamente']);
-            }else{
-                return response()->json(['mensaje'=>'Error al Eliminar']);
-            }
+        if($this->slug_permiso('cliente_delete')){
+            $id->delete();
+            return response()->json(['mensaje'=>'Eliminado Correctamente']);
         }
-        return response()->json(['mensaje'=>'Sin permisos','accesso'=>'true']);
+        return response()->json(['mensaje'=>'Sin permisos']);
     }
 }
