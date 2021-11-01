@@ -90,14 +90,14 @@ class PDFController extends Controller
         ->where('incidencia','INICIO-CONTRATO')
         ->get();
 
-        if($contrato->deposito_garantia > 0){
-            $objeto = new ConvertNumberController();
-            $precioLetras = $objeto->num2letras($contrato->deposito_garantia);
-        }else{
-            $precioLetras = 'CERO';
-        }
+        //if($contrato->deposito_garantia > 0){
+          //  $objeto = new ConvertNumberController();
+            //$precioLetras = $objeto->num2letras($contrato->deposito_garantia);
+        //}else{
+         //   $precioLetras = 'CERO';
+        //}
 
-        $data=['contrato'=>$contrato, 'cliente'=>$cliente, 'tanques'=>$tanques, 'nota'=>$nota, 'precioLetras'=>$precioLetras];
+        $data=['contrato'=>$contrato, 'cliente'=>$cliente, 'tanques'=>$tanques, 'nota'=>$nota, 'precioLetras'=>'------'];
 
         $pdf = PDF::loadView('pdf.contratogenerate', $data);
         return $pdf->stream('contrato_'. $contrato->num_contrato.'.pdf');
