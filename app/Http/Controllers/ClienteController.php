@@ -51,21 +51,12 @@ class ClienteController extends Controller
     public function create(Request $request)
     {
         if($this->slug_permiso('cliente_create')){
-            if($request->input('tipo-cliente') == 'PERSONA'){
-                $request->validate([
-                    'apPaterno' => ['required', 'string', 'max:255'],
-                    'apMaterno' => ['required', 'string', 'max:255'],
-                    'nombre' => ['required', 'string', 'max:255'],
-                ]);
-            }
-            if($request->input('tipo-cliente') == 'EMPRESA'){
-                $request->validate([
-                    'empresa' => ['required', 'string', 'max:255'],
-                ]);
-            }
 
             $request->validate([
                 'tipo-cliente' => ['required'],
+                'apPaterno' => ['required', 'string', 'max:255'],
+                'apMaterno' => ['required', 'string', 'max:255'],
+                'nombre' => ['required', 'string', 'max:255'],
                 'rfc' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'email'],
                 'telefono' => ['required', 'string', 'max:255'],
@@ -74,6 +65,12 @@ class ClienteController extends Controller
                 'referencia' => ['required', 'string', 'max:255'],
                 'estatus' => ['required', 'string', 'max:255'],
             ]);
+
+            if($request->input('tipo-cliente') == 'EMPRESA'){
+                $request->validate([
+                    'empresa' => ['required', 'string', 'max:255'],
+                ]);
+            }
 
             $clientes=new Cliente;
             $clientes->apPaterno = $request->input('apPaterno');

@@ -3,186 +3,305 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use ParseError;
 
 class ConvertNumberController extends Controller
 {
-    /*! 
-    @function num2letras () 
-    @abstract Dado un n?mero lo devuelve escrito. 
-    @param $num number - N?mero a convertir. 
-    @param $fem bool - Forma femenina (true) o no (false). 
-    @param $dec bool - Con decimales (true) o no (false). 
-    @result string - Devuelve el n?mero escrito en letra. 
+    
+    /**
+     * @var array
+     */
+    private $unidades = [
+        '',
+        'UNO ',
+        'DOS ',
+        'TRES ',
+        'CUATRO ',
+        'CINCO ',
+        'SEIS ',
+        'SIETE ',
+        'OCHO ',
+        'NUEVE ',
+        'DIEZ ',
+        'ONCE ',
+        'DOCE ',
+        'TRECE ',
+        'CATORCE ',
+        'QUINCE ',
+        'DIECISÉIS ',
+        'DIECISIETE ',
+        'DIECIOCHO ',
+        'DIECINUEVE ',
+        'VEINTE ',
+    ];
 
-    */ 
-    function num2letras($num, $fem = false, $dec = true) { 
-        $matuni[2]  = "dos"; 
-        $matuni[3]  = "tres"; 
-        $matuni[4]  = "cuatro"; 
-        $matuni[5]  = "cinco"; 
-        $matuni[6]  = "seis"; 
-        $matuni[7]  = "siete"; 
-        $matuni[8]  = "ocho"; 
-        $matuni[9]  = "nueve"; 
-        $matuni[10] = "diez"; 
-        $matuni[11] = "once"; 
-        $matuni[12] = "doce"; 
-        $matuni[13] = "trece"; 
-        $matuni[14] = "catorce"; 
-        $matuni[15] = "quince"; 
-        $matuni[16] = "dieciseis"; 
-        $matuni[17] = "diecisiete"; 
-        $matuni[18] = "dieciocho"; 
-        $matuni[19] = "diecinueve"; 
-        $matuni[20] = "veinte"; 
-        $matunisub[2] = "dos"; 
-        $matunisub[3] = "tres"; 
-        $matunisub[4] = "cuatro"; 
-        $matunisub[5] = "quin"; 
-        $matunisub[6] = "seis"; 
-        $matunisub[7] = "sete"; 
-        $matunisub[8] = "ocho"; 
-        $matunisub[9] = "nove"; 
-    
-        $matdec[2] = "veint"; 
-        $matdec[3] = "treinta"; 
-        $matdec[4] = "cuarenta"; 
-        $matdec[5] = "cincuenta"; 
-        $matdec[6] = "sesenta"; 
-        $matdec[7] = "setenta"; 
-        $matdec[8] = "ochenta"; 
-        $matdec[9] = "noventa"; 
-        $matsub[3]  = 'mill'; 
-        $matsub[5]  = 'bill'; 
-        $matsub[7]  = 'mill'; 
-        $matsub[9]  = 'trill'; 
-        $matsub[11] = 'mill'; 
-        $matsub[13] = 'bill'; 
-        $matsub[15] = 'mill'; 
-        $matmil[4]  = 'millones'; 
-        $matmil[6]  = 'billones'; 
-        $matmil[7]  = 'de billones'; 
-        $matmil[8]  = 'millones de billones'; 
-        $matmil[10] = 'trillones'; 
-        $matmil[11] = 'de trillones'; 
-        $matmil[12] = 'millones de trillones'; 
-        $matmil[13] = 'de trillones'; 
-        $matmil[14] = 'billones de trillones'; 
-        $matmil[15] = 'de billones de trillones'; 
-        $matmil[16] = 'millones de billones de trillones'; 
-        
-        //Zi hack
-        $float=explode('.',$num);
-        $num=$float[0];
-    
-        $num = trim((string)@$num); 
-        if ($num[0] == '-') { 
-            $neg = 'menos '; 
-            $num = substr($num, 1); 
-        }else 
-            $neg = ''; 
-        while ($num[0] == '0') $num = substr($num, 1); 
-        if ($num[0] < '1' or $num[0] > 9) $num = '0' . $num; 
-        $zeros = true; 
-        $punt = false; 
-        $ent = ''; 
-        $fra = ''; 
-        for ($c = 0; $c < strlen($num); $c++) { 
-            $n = $num[$c]; 
-            if (! (strpos(".,'''", $n) === false)) { 
-                if ($punt) break; 
-                else{ 
-                    $punt = true; 
-                    continue; 
-                } 
-    
-            }elseif (! (strpos('0123456789', $n) === false)) { 
-                if ($punt) { 
-                    if ($n != '0') $zeros = false; 
-                    $fra .= $n; 
-                }else 
-    
-                    $ent .= $n; 
-            }else 
-    
-                break; 
-    
-        } 
-        $ent = '     ' . $ent; 
-        if ($dec and $fra and ! $zeros) { 
-            $fin = ' coma'; 
-            for ($n = 0; $n < strlen($fra); $n++) { 
-                if (($s = $fra[$n]) == '0') 
-                    $fin .= ' cero'; 
-                elseif ($s == '1') 
-                    $fin .= $fem ? ' una' : ' un'; 
-                else 
-                    $fin .= ' ' . $matuni[$s]; 
-            } 
-        }else 
-            $fin = ''; 
-        if ((int)$ent === 0) return 'Cero ' . $fin; 
-        $tex = ''; 
-        $sub = 0; 
-        $mils = 0; 
-        $neutro = false; 
-        while ( ($num = substr($ent, -3)) != '   ') { 
-            $ent = substr($ent, 0, -3); 
-            if (++$sub < 3 and $fem) { 
-                $matuni[1] = 'una'; 
-                $subcent = 'as'; 
-            }else{ 
-                $matuni[1] = $neutro ? 'un' : 'uno'; 
-                $subcent = 'os'; 
-            } 
-            $t = ''; 
-            $n2 = substr($num, 1); 
-            if ($n2 == '00') { 
-            }elseif ($n2 < 21) 
-                $t = ' ' . $matuni[(int)$n2]; 
-            elseif ($n2 < 30) { 
-                $n3 = $num[2]; 
-                if ($n3 != 0) $t = 'i' . $matuni[$n3]; 
-                $n2 = $num[1]; 
-                $t = ' ' . $matdec[$n2] . $t; 
-            }else{ 
-                $n3 = $num[2]; 
-                if ($n3 != 0) $t = ' y ' . $matuni[$n3]; 
-                $n2 = $num[1]; 
-                $t = ' ' . $matdec[$n2] . $t; 
-            } 
-            $n = $num[0]; 
-            if ($n == 1) { 
-                $t = ' ciento' . $t; 
-            }elseif ($n == 5){ 
-                $t = ' ' . $matunisub[$n] . 'ient' . $subcent . $t; 
-            }elseif ($n != 0){ 
-                $t = ' ' . $matunisub[$n] . 'cient' . $subcent . $t; 
-            } 
-            if ($sub == 1) { 
-            }elseif (! isset($matsub[$sub])) { 
-                if ($num == 1) { 
-                    $t = ' mil'; 
-                }elseif ($num > 1){ 
-                    $t .= ' mil'; 
-                } 
-            }elseif ($num == 1) { 
-                $t .= ' ' . $matsub[$sub] . '?n'; 
-            }elseif ($num > 1){ 
-                $t .= ' ' . $matsub[$sub] . 'ones'; 
-            }   
-            if ($num == '000') $mils ++; 
-            elseif ($mils != 0) { 
-                if (isset($matmil[$sub])) $t .= ' ' . $matmil[$sub]; 
-                $mils = 0; 
-            } 
-            $neutro = true; 
-            $tex = $t . $tex; 
-        } 
+    /**
+     * @var array
+     */
+    private $decenas = [
+        'VEINTI',
+        'TREINTA ',
+        'CUARENTA ',
+        'CINCUENTA ',
+        'SESENTA ',
+        'SETENTA ',
+        'OCHENTA ',
+        'NOVENTA ',
+        'CIEN ',
+    ];
 
-        $tex = $neg . substr($tex, 1) . $fin; 
-        //Zi hack --> return ucfirst($tex);
-        // $end_num=ucfirst($tex).' pesos '.$float[1].'/100 M.N.';
-        return ucfirst($tex); 
-        } 
+    /**
+     * @var array
+     */
+    private $centenas = [
+        'CIENTO ',
+        'DOSCIENTOS ',
+        'TRESCIENTOS ',
+        'CUATROCIENTOS ',
+        'QUINIENTOS ',
+        'SEISCIENTOS ',
+        'SETECIENTOS ',
+        'OCHOCIENTOS ',
+        'NOVECIENTOS ',
+    ];
+
+    /**
+     * @var array
+     */
+    private $acentosExcepciones = [
+        'VEINTIDOS'  => 'VEINTIDÓS ',
+        'VEINTITRES' => 'VEINTITRÉS ',
+        'VEINTISEIS' => 'VEINTISÉIS ',
+    ];
+
+    /**
+     * @var string
+     */
+    public $conector = 'CON';
+
+    /**
+     * @var bool
+     */
+    public $apocope = true;
+
+    /**
+     * Formatea y convierte un número a letras.
+     *
+     * @param int|float $number
+     * @param int       $decimals
+     *
+     * @return string
+     */
+    public function toWords($number, $decimals = 2)
+    {
+        $this->checkApocope();
+
+        $number = number_format($number, $decimals, '.', '');
+
+        $splitNumber = explode('.', $number);
+
+        $splitNumber[0] = $this->wholeNumber($splitNumber[0]);
+
+        if (!empty($splitNumber[1])) {
+            $splitNumber[1] = $this->convertNumber($splitNumber[1]);
+        }
+
+        return $this->glue($splitNumber);
+    }
+
+    /**
+     * Formatea y convierte un número a letras en formato moneda.
+     *
+     * @param int|float $number
+     * @param int       $decimals
+     * @param string    $currency
+     * @param string    $cents
+     *
+     * @return string
+     */
+    public function toMoney($number, $decimals = 2, $currency = '', $cents = '')
+    {
+        $this->checkApocope();
+
+        $number = number_format($number, $decimals, '.', '');
+
+        $splitNumber = explode('.', $number);
+
+        $splitNumber[0] = $this->wholeNumber($splitNumber[0]) . ' ' . mb_strtoupper($currency, 'UTF-8');
+
+        if (!empty($splitNumber[1])) {
+            $splitNumber[1] = $this->convertNumber($splitNumber[1]);
+        }
+
+        if (!empty($splitNumber[1])) {
+            $splitNumber[1] .= ' ' . mb_strtoupper($cents, 'UTF-8');
+        }
+
+        return $this->glue($splitNumber);
+    }
+
+    /**
+     * Formatea y convierte un número a letras en formato libre.
+     *
+     * @param int|float $number
+     * @param int       $decimals
+     * @param string    $whole_str
+     * @param string    $decimal_str
+     *
+     * @return string
+     */
+    public function toString($number, $decimals = 2, $whole_str = '', $decimal_str = '')
+    {
+        return $this->toMoney($number, $decimals, $whole_str, $decimal_str);
+    }
+
+    /**
+     * Formatea y convierte un número a letras en formato facturación electrónica.
+     *
+     * @param int|float $number
+     * @param int       $decimals
+     * @param string    $currency
+     *
+     * @return string
+     */
+    public function toInvoice($number, $decimals = 2, $currency = '')
+    {
+        $this->checkApocope();
+
+        $number = number_format($number, $decimals, '.', '');
+
+        $splitNumber = explode('.', $number);
+
+        $splitNumber[0] = $this->wholeNumber($splitNumber[0]);
+
+        if (!empty($splitNumber[1])) {
+            $splitNumber[1] .= '/100 ';
+        } else {
+            $splitNumber[1] = '00/100 ';
+        }
+
+        return $this->glue($splitNumber) . mb_strtoupper($currency, 'UTF-8');
+    }
+
+    /**
+     * Valida si debe aplicarse apócope de uno.
+     *
+     * @return void
+     */
+    private function checkApocope()
+    {
+        if ($this->apocope === true) {
+            $this->unidades[1] = 'UN ';
+        }
+    }
+
+    /**
+     * Formatea la parte entera del número a convertir.
+     *
+     * @param string $number
+     *
+     * @return string
+     */
+    private function wholeNumber($number)
+    {
+        if ($number == '0') {
+            $number = 'CERO ';
+        } else {
+            $number = $this->convertNumber($number);
+        }
+
+        return $number;
+    }
+
+    /**
+     * Concatena las partes formateadas del número convertido.
+     *
+     * @param array $splitNumber
+     *
+     * @return string
+     */
+    private function glue($splitNumber)
+    {
+        return implode(' ' . mb_strtoupper($this->conector, 'UTF-8') . ' ', array_filter($splitNumber));
+    }
+
+    /**
+     * Convierte número a letras.
+     *
+     * @param string $number
+     *
+     * @return string
+     */
+    private function convertNumber($number)
+    {
+        $converted = '';
+
+        if (($number < 0) || ($number > 999999999)) {
+            throw new ParseError('Wrong parameter number');
+        }
+
+        $numberStrFill = str_pad($number, 9, '0', STR_PAD_LEFT);
+        $millones = substr($numberStrFill, 0, 3);
+        $miles = substr($numberStrFill, 3, 3);
+        $cientos = substr($numberStrFill, 6);
+
+        if (intval($millones) > 0) {
+            if ($millones == '001') {
+                $converted .= 'UN MILLON ';
+            } elseif (intval($millones) > 0) {
+                $converted .= sprintf('%sMILLONES ', $this->convertGroup($millones));
+            }
+        }
+
+        if (intval($miles) > 0) {
+            if ($miles == '001') {
+                $converted .= 'MIL ';
+            } elseif (intval($miles) > 0) {
+                $converted .= sprintf('%sMIL ', $this->convertGroup($miles));
+            }
+        }
+
+        if (intval($cientos) > 0) {
+            if ($cientos == '001') {
+                $this->apocope === true ? $converted .= 'UN ' : $converted .= 'UNO ';
+            } elseif (intval($cientos) > 0) {
+                $converted .= sprintf('%s ', $this->convertGroup($cientos));
+            }
+        }
+
+        return trim($converted);
+    }
+
+    /**
+     * @param string $n
+     *
+     * @return string
+     */
+    private function convertGroup($n)
+    {
+        $output = '';
+
+        if ($n == '100') {
+            $output = 'CIEN ';
+        } elseif ($n[0] !== '0') {
+            $output = $this->centenas[$n[0] - 1];
+        }
+
+        $k = intval(substr($n, 1));
+
+        if ($k <= 20) {
+            $unidades = $this->unidades[$k];
+        } else {
+            if (($k > 30) && ($n[2] !== '0')) {
+                $unidades = sprintf('%sY %s', $this->decenas[intval($n[1]) - 2], $this->unidades[intval($n[2])]);
+            } else {
+                $unidades = sprintf('%s%s', $this->decenas[intval($n[1]) - 2], $this->unidades[intval($n[2])]);
+            }
+        }
+
+        $output .= array_key_exists(trim($unidades), $this->acentosExcepciones) ?
+            $this->acentosExcepciones[trim($unidades)] : $unidades;
+
+        return $output;
+    }
 }

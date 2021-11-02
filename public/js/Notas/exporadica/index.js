@@ -111,9 +111,10 @@ $(document).ready(function () {
                 $('#material').val(),// 3
                 $('#tipo_tanque').val(),// 4
                 $('#estatus').val(),// 5
-                $('#ph').val(),// 6
-                $("#tipo_gas").val()+" "+$("#tipo_gas option:selected").text(),// 7
-                fabri//8
+                $('#ph_anio').val(),// 6
+                $('#ph_mes').val(),// 7
+                $("#tipo_gas").val()+" "+$("#tipo_gas option:selected").text(),// 8
+                fabri//9
             ];
 
         }else{
@@ -126,19 +127,21 @@ $(document).ready(function () {
                 msg.tipo_tanque,// 4
                 msg.estatus,// 5
                 msg.ph,// 6
-                'gas id: '+msg.tipo_gas,// 7
-                msg.fabricante//8
+                '',// 7
+                'gas id: '+msg.tipo_gas,// 8
+                msg.fabricante//9
             ];
         }
 
         var capacidad=valorcampo[2]+' '+ valorcampo[1];
-        var descrp= capacidad+", "+valorcampo[3]+", "+valorcampo[8]+", "+valorcampo[4]+", "+valorcampo[5]+", "+valorcampo[7];
+        var descrp= capacidad+", "+valorcampo[3]+", "+valorcampo[9]+", "+valorcampo[4]+", "+valorcampo[5]+", "+valorcampo[8];
+        var pruebah= valorcampo[6]+'-'+valorcampo[7];
 
         $('#tbody-tanques-entrada').append(
             "<tr class='classfilasdevolucion'>"+
             "<td>"+valorcampo[0] +"</td>"+ "<input type='hidden' name='inputNumSerie_entrada[]' id='idInputNumSerie_entrada' value='"+valorcampo[0] +"'></input>"+
             "<td>"+descrp+"</td>"+"<input type='hidden' name='inputDescripcion_entrada[]' value='"+descrp +"'></input>"+
-            "<td>"+valorcampo[6] +"</td>"+ "<input type='hidden' name='inputPh_entrada[]' value='"+valorcampo[6] +"'></input>"+
+            "<td>"+pruebah +"</td>"+ "<input type='hidden' name='inputPh_entrada[]' value='"+pruebah +"'></input>"+
             "<td>"+$('#tapa_tanque_entrada').val() +"</td>"+ "<input type='hidden' name='inputTapa_entrada[]' value='"+$('#tapa_tanque_entrada').val() +"'></input>"+
             "<input type='hidden' name='inputRegistro[]' value="+inputRegistro+"></input>"+
             "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
@@ -179,8 +182,10 @@ $(document).ready(function () {
             'material',
             'tipo_tanque',
             'estatus',
-            'ph',
-            'tipo_gas'];
+            'ph_anio',
+            'ph_mes',
+            'tipo_gas',
+            'fabricanteoficial'];
         var campovacio = [];
 
         $.each(campo, function(index){
@@ -221,13 +226,14 @@ $(document).ready(function () {
             $("#fabricanteoficial").removeClass('is-invalid');
         }
 
-        var cap=$('#capacidadnum').val()+' '+ $('#unidadmedida').val();
-        if($('#capacidadnum').val()==''){
-            $("#capacidadError").text('El campo Capacidad es Obligatorio');
+        $("#phError").empty();
+        $("#ph_anio").removeClass('is-invalid');
+        if($('#ph_anio').val()<1950){
+            $("#phError").text('Campo Incorrecto');
+            $("#ph_anio").addClass('is-invalid');
             return false;
         }
 
-        var numserie= $('#num_serie').val().replace(/ /g,'');
 
         insertar_fila_entrada('REGISTRO-TANQUE');
     }
@@ -730,5 +736,21 @@ $(document).ready(function () {
             }
         })
     }
+
+
+    
+    //Para Validar Campos
+
+    $('.anio_format').keypress(function (event) {
+        if (this.value.length === 4||
+            event.charCode == 43 || //+
+            event.charCode == 45 || //-
+            event.charCode == 69 || //E
+            event.charCode == 101|| //e
+            event.charCode == 46    //.
+            ) {
+            return false;
+        }
+    });
 
 });

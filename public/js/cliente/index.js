@@ -72,19 +72,17 @@ $(document).ready(function () {
         $("#empresa-cliente"+edit).empty();
         if (valor == "PERSONA" ) {
             $("#empresa-cliente"+edit).append(
-                '<div class="form-row">'+
+                '<label for="">Nombre: </label>'+
+                '<div class="form-row">'+                
                     '<div class="form-group col-md-4">'+
-                        '<label for="">Apellido Paterno</label>'+
                         '<input type="text" name="apPaterno'+edit+'" id="apPaterno'+edit+'" class="form-control form-control-sm solo-text" placeholder="Apellido">'+
                     '<span  id="apPaterno'+edit+'Error" class="text-danger"></span>'+
                     '</div>'+
                     '<div class="form-group col-md-4">'+
-                        '<label for="">Apellido Materno</label>'+
                         '<input type="text" name="apMaterno'+edit+'" id="apMaterno'+edit+'" class="form-control form-control-sm solo-text" placeholder="Apellido">'+
                         '<span  id="apMaterno'+edit+'Error" class="text-danger"></span>'+
                     '</div>'+
                     '<div class="form-group col-md-4">'+
-                        '<label for="">Nombre(s)</label>'+
                         '<input type="text" name="nombre'+edit+'" id="nombre'+edit+'" class="form-control form-control-sm solo-text" placeholder="Nombre">'+
                         '<span  id="nombre'+edit+'Error" class="text-danger"></span>'+
                     '</div>'+
@@ -99,6 +97,22 @@ $(document).ready(function () {
                         '<input type="text" name="empresa'+edit+'" id="empresa'+edit+'" class="form-control form-control-sm solo-text" placeholder="Empresa">'+
                     '<span  id="empresa'+edit+'Error" class="text-danger"></span>'+
                     '</div>'+
+                '</div>'+
+                '<label for=""> Representante Legal </label>'+
+                '<div class="form-row">'+
+                    '<div class="form-group col-md-4">'+
+                        
+                        '<input type="text" name="apPaterno'+edit+'" id="apPaterno'+edit+'" class="form-control form-control-sm solo-text" placeholder="Ap. paterno">'+
+                    '<span  id="apPaterno'+edit+'Error" class="text-danger"></span>'+
+                    '</div>'+
+                    '<div class="form-group col-md-4">'+
+                        '<input type="text" name="apMaterno'+edit+'" id="apMaterno'+edit+'" class="form-control form-control-sm solo-text" placeholder="Ap. Materno">'+
+                        '<span  id="apMaterno'+edit+'Error" class="text-danger"></span>'+
+                    '</div>'+
+                    '<div class="form-group col-md-4">'+
+                        '<input type="text" name="nombre'+edit+'" id="nombre'+edit+'" class="form-control form-control-sm solo-text" placeholder="Nombre">'+
+                        '<span  id="nombre'+edit+'Error" class="text-danger"></span>'+
+                    '</div>'+
                 '</div>'
             );
         }
@@ -107,6 +121,7 @@ $(document).ready(function () {
     function metodo_insertar() {
 
         metodo_limpiar_span("Error");
+
         $.ajax({
             method: "POST",
             url: "/cliente/create",
@@ -148,6 +163,7 @@ $(document).ready(function () {
         $("#direccion"+ nombreerror).empty();
         $("#referencia"+ nombreerror).empty();
         $("#estatus"+ nombreerror).empty();
+        $("#tipo-cliente"+ nombreerror).empty();
     }
     
     function metodo_limpiar_campos() {
@@ -162,6 +178,7 @@ $(document).ready(function () {
         $("#direccion").val("");
         $("#referencia").val("");
         $("#estatus").val("");
+        $("#tipo-cliente").val("");
     }
 
     function mensaje(icono,titulo, mensaje, tiempo, modal){

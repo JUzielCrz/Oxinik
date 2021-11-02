@@ -18,7 +18,7 @@ Auth::routes();
 Route::get('/', 'Auth\LoginController@showLoginForm');
 Route::get('/home', 'HomeController@index')->name('home');
 
-  
+
   /* Notas */
     Route::get('/nota/salida', 'NotaController@salidas');
     Route::post('/nota/salida/search_contrato', 'NotaController@search_contrato');

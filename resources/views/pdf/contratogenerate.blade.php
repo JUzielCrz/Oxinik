@@ -146,7 +146,7 @@
                 Además, tendrá la obligación “EL CONSUMIDOR” de constituir un depósito en efectivo como garantía, que no representa de ninguna manera el precio de el o los envases que requiera del PROVEEDOR cantidades que estarán sujetas a la siguiente tabla. 
             </p>
             <p class="ml-4">
-                Los depósitos a los que se refiere esta cláusula son los siguientes: un depósito en garantía de <strong>$5,000.00 (CINCO MIL pesos 00/100 m.n.)</strong>, por CADA UNO de los envases proporcionados al “CONSUMIDOR” 
+                Los depósitos a los que se refiere esta cláusula son los siguientes: un depósito en garantía de <strong>$5,000.00 (CINCO MIL PESOS 00/100 m.n.)</strong>, por CADA UNO de los envases proporcionados al “CONSUMIDOR” 
             </p>
             <p class="ml-4">
                 “EL CONSUMIDOR” tendrá derecho a recuperar la cantidad que haya entregado como depósito en los términos del art. 11 de la Ley Federal de Protección al Consumidor que a la letra dice: “El consumidor que al adquirir un bien haya entregado una cantidad como depósito por envase o empaque, tendrá derecho a recuperar en el momento de su devolución, la suma integra que haya erogado por ese concepto”.  Lo anterior operara siempre y cuando “EL CONSUMIDOR” se encuentre al corriente en el cumplimiento de sus obligaciones.
@@ -314,7 +314,7 @@
                 $precioFormat= number_format($contrato->deposito_garantia, 2, '.', ',')
             @endphp
             <p style="margin-top: 6rem; margin-bottom: 6rem">RECIBÍ DE <span>{{$contrato->empresa}}</span>
-                LA CANTIDAD DE {{$precioFormat}} ( <span>{{$precioLetras}}</span> PESOS 00/100 MN) 
+                LA CANTIDAD DE {{$precioFormat}} ( <span>{{$precioLetras}}</span>  00/100 MN) 
                 POR CONCEPTO DE DEPOSITO DE 
                 @foreach ($tanques as $item)
                     <span>{{$item->cilindros}}</span> CILINDROS DE <span>{{$item->material}}</span> DE <span>{{$item->nombre}}</span> <span>{{$item->tipo_tanque}}</span>, 

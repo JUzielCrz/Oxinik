@@ -8,12 +8,6 @@
                     <div class="col">
                         <h5>CONTRATOS</h5>
                     </div>
-                    <div class="col text-right">
-                        <button type="button" class="btn btn-gray" data-toggle="modal" data-target="#modal-tanque">
-                            <span class="fas fa-plus"></span>
-                            Agregar
-                        </button>
-                    </div>
                 </div>
             </div>
             <div class="card-body">

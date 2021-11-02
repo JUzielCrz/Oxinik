@@ -51,7 +51,7 @@
                                     </tr>
                                 </thead>
                                 
-                                <tbody id="tbody-tanques-entrada">
+                                <tbody id="tbody-tanques-entrada" style="font-size: 13px">
                                 </tbody>
             
                             </table>
@@ -104,8 +104,8 @@
                         </div>
                         <span  id="serie_tanqueError" class="text-danger"></span>
                         <div class="table-responsive mt-3">
-                            <table class="table table-sm table-hover table-bordered">
-                                <thead>
+                            <table class="table table-sm table-hover table-bordered" >
+                                <thead >
                                     <tr style="font-size: 13px">
                                         <th scope="col">#SERIE</th>
                                         <th scope="col">TAPA</th>
