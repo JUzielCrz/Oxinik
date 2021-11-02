@@ -45,7 +45,12 @@
                     <tr >
                         <td rowspan="2" style="width: 4rem">
                             <p > 
+                                @if ($cliente->empresa != null)
+                                Empresa:  <br>
+                                Representante:  <br>
+                                @else
                                 Cliente:  <br>
+                                @endif
                                 #Contrato:  <br>
                                 Tipo Contrato: <br>
                                 Asignación: <br>
@@ -56,7 +61,10 @@
                         </td>
                         <td rowspan="2" style="width: 8rem">
                                 <p > 
-                                    {{$cliente->nombre}}{{$cliente->apPaterno}}  {{$cliente->apMaterno}} <br>
+                                    @if ($cliente->empresa != null)
+                                    {{$cliente->empresa}} <br>
+                                    @endif
+                                    {{$cliente->nombre}} {{$cliente->apPaterno}}  {{$cliente->apMaterno}} <br>
                                     {{$contrato->num_contrato}} <br>
                                     {{$contrato->tipo_contrato}} <br>
                                     {{$contrato->asignacion_tanques}} tanques <br>
@@ -150,23 +158,37 @@
             </table> --}}
             @endif
             
-            <table class="table table-bordered mt-2">
+            <table class="table table-sm table-bordered mt-2">
                 <tbody >
+                    <tr style="background: black">
+                        <td colspan="2"><div class="text-center text-white" > CUENTAS BANCARIAS PARA TRANSFERENCIAS</div></td>
+                    </tr>
                     <tr>
-                        <td colspan="4">
-                            <p>
-                                <div class="text-center text-white" style="background: black"> CUENTAS BANCARIAS PARA TRANSFERENCIAS</div> <br>
-                                BANCO: <strong>HSBC</strong> <br>
+                        <td>
+                            <p class="p-0 m-0">
+                                DENOMINACIÓN : <strong>JUAN MANUEL CONTRERAS GÓMEZ </strong> <br>
+                                BANCO: <strong>BANORTE</strong> <br>
                                 RFC: <strong>COGJ940414C74</strong> <br>
-                                #CUENTA: <strong>4065355091</strong> <br>
-                                CLABE: <strong>021610040653550912</strong> <br>
-                                Al hacer esta transferencia electrónica, favor de poner como referencia su numero de nota.
+                                # CUENTA: <strong>1159955737</strong> <br>
+                                CLABE: <strong>072610011599557374</strong> <br>
+                                # SUCURSAL: <strong>_2376</strong> <br>
+                                
+                            </p>
+                        </td>
+                        <td>
+                            <p class="p-0 m-0">
+                                ASÍ MISMO SE LES PIDE ENVIAR COMPROBANTE DE PAGO AL SIGUIENTE CORREO: <strong>sge.oxinik@gmail.com</strong><br>
+                                HACIENDO REFERENCIA EN CONCEPTO ALGUNO DE LOS SIGUIENTES:<br>
+                                    * FOLIO DE FACTURA<br>
+                                    * NÚMERO DE VALE O TICKET DE VENTA<br>
+                                    * NÚMERO DE FOLIO DE HOJA DE CONTRATO.<br>
+                                ESTAMOS A SUS ORDENES
                             </p>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            
+
 
 
 

@@ -247,7 +247,6 @@ $(document).ready(function () {
         $("#direccion"+ nombreerror).empty();
         $("#referencia"+ nombreerror).empty();
         $("#link_ubicacion"+ nombreerror).empty();
-        $("#empresa"+ nombreerror).empty();
         $("#reguladores"+ nombreerror).empty();
         $("#deposito_garantia"+ nombreerror).empty();
         $("#observaciones"+ nombreerror).empty();
@@ -262,7 +261,6 @@ $(document).ready(function () {
         $("#direccion").val("");
         $("#referencia").val("");
         $("#link_ubicacion").val("");
-        $("#empresa").val("");
         $("#reguladores").val("");
         $("#deposito_garantia").val("");
         $("#observaciones").val("");

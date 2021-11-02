@@ -127,6 +127,7 @@ class ClienteController extends Controller
             ]);
 
             $clientes=  Cliente::find($id);
+            $clientes->empresa = $request->input('empresa');
             $clientes->apPaterno = $request->input('apPaterno');
             $clientes->apMaterno = $request->input('apMaterno');
             $clientes->nombre = $request->input('nombre');

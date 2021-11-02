@@ -39,7 +39,7 @@
                         </thead>
                         <tbody class="text-center">
                             <tr><td>ENTREGADO-CLIENTE</td> <td> <strong>{{$entregadocliente}} </strong>  </td> </tr>
-                            <tr><td>VENTA-EXPORADICA</td> <td> <strong>{{$ventaexporadica}} </strong> </td> </tr>
+                            <tr><td>VENTA-ESPORÁDICA</td> <td> <strong>{{$ventaexporadica}} </strong> </td> </tr>
                             <tr><td>TANQUE-CAMBIADO</td> <td> <strong>{{$tanquecambiado}} </strong> </td> </tr>
                         </tbody>
                     </table>

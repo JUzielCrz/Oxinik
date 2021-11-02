@@ -370,8 +370,8 @@ $(document).ready(function () {
         }
 
 
-        if(parseFloat($('#monto_pago').val()) <= 0) {
-            $("#metodo_pagoError").text('Monto debe ser mayor a 0');
+        if(parseFloat($('#monto_pago').val()) < 0) {
+            $("#metodo_pagoError").text('Monto debe ser mayor igual a 0');
             return false;
         }
 

@@ -105,7 +105,6 @@ class ContratoController extends Controller
             $contratos->referencia = $request->input('referencia');
             $contratos->link_ubicacion = $request->input('link_ubicacion');
             $contratos->reguladores = $request->input('reguladores');
-            $contratos->empresa = $request->input('empresa');
             $contratos->deposito_garantia = $request->input('deposito_garantia');
             $contratos->observaciones= $request->observaciones;
 

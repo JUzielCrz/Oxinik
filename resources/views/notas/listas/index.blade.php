@@ -37,7 +37,7 @@
                 <div class="col-md-3">
                     <div class="card">
                         <div class="card-body bg-info border-dark text-white text-center  p-2" >
-                            <i class="fas fa-sticky-note"></i> Exporadicas
+                            <i class="fas fa-sticky-note"></i> Esporádica
                         </div>
                         <a href="#" id="btn-exporadicas">
                             <div class="card-footer bg-dark text-white text-center p-1 " style="font-size:14px">

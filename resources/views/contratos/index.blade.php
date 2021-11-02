@@ -29,7 +29,12 @@
             <div class="card-header bg-gray">
                 <div class="row justify-content-end">
                     <div class="col-md-9">
-                        <h5 class="" style="font-size: 15px">CONTRATOS DE: {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}</h5>
+                        @if ($cliente->empresa == '')
+                            <h5 class="" style="font-size: 15px">CONTRATOS DE: {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}</h5>
+                        @else
+                            <h5 class="" style="font-size: 15px"> Empresa: {{$cliente->empresa}}  - Representante: {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}</h5>
+                        @endif
+                        
                     </div>
                     <div class="col-md-3 text-right">
                         @if($user->permiso_con_admin('contrato_create')) 

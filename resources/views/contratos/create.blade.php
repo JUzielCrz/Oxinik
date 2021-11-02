@@ -7,12 +7,12 @@
     @csrf
         <!-- Nombre Completo-->
         <div class="form-row">
-            <div class="form-group col-md-6">
+            <div class="form-group col">
                 {!! Form::label('#Contrato*') !!}
                 {!! Form::number('num_contrato', null, ['id'=>'num_contrato', 'class' => 'form-control form-control-sm numero-entero-positivo', 'placeholder'=>'Número de Contrato', 'required' ]) !!}
             <span  id="num_contratoError" class="text-danger"></span>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col">
                 {!! Form::label('Tipo de Contrato*') !!}
                 {{ Form::select('tipo_contrato',['Industrial' => 'Industrial', 
                                                 'Medicinal' => 'Medicinal',  
@@ -20,15 +20,7 @@
                                                 ],null,['id' => 'tipo_contrato','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona'])}}
                 <span  id="tipo_contratoError" class="text-danger"></span>
             </div>
-        </div>
-        
-        <div class="form-row">
-            <div class="col-md-4">
-                <label for="">Empresa</label>
-                <input type="text" name="empresa" id="empresa" class="form-control form-control-sm" >
-            </div>
-
-            <div class="form-group col-md-4">
+            <div class="form-group col">
                 {!! Form::label('#Reguladores') !!}
                 <select name="reguladores" id="reguladores" class="form-control form-control-sm">
                     <option value="0">0</option>
@@ -42,6 +34,7 @@
                 <span  id="reguladoresError" class="text-danger"></span>
             </div>
         </div>
+
 
         <hr>
         <div class="form-row">

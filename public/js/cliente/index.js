@@ -69,6 +69,7 @@ $(document).ready(function () {
     });
 
     function tipo_cliente(valor, edit) {
+        console.log(valor+edit);
         $("#empresa-cliente"+edit).empty();
         if (valor == "PERSONA" ) {
             $("#empresa-cliente"+edit).append(
@@ -90,7 +91,7 @@ $(document).ready(function () {
             );
         } 
         if(valor == "EMPRESA"){
-            $("#empresa-cliente").append(
+            $("#empresa-cliente"+edit).append(
                 '<div class="form-row">'+
                     '<div class="form-group col">'+
                         '<label for="">Empresa</label>'+
@@ -207,15 +208,15 @@ $(document).ready(function () {
     function metodo_detalle_edit() {
         metodo_limpiar_span("editError");
         $.get('/cliente/show/' + $(this).data('id') + '', function(data) {
-            
-            if(data.clientes.nombre != ''){
+
+            if(data.clientes.empresa != null){
+                tipo_cliente('EMPRESA', 'edit');
+                $("#tipo-clienteedit").val('EMPRESA');
+            }else{
                 tipo_cliente('PERSONA', 'edit');
                 $("#tipo-clienteedit").val('PERSONA');
             }
-            if(data.clientes.empresa){
-                tipo_cliente('EMPRESA', 'edit');
-                $("#tipo-clienteedit").val('EMPRESA');
-            }
+            
             $.each(data.clientes, function (key, value) {
                 var variable = "#" + key + "edit";
                 $(variable).val(value);
