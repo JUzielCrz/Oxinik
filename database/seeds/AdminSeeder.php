@@ -35,5 +35,23 @@ class AdminSeeder extends Seeder
         $useradmin->roles()->sync([$roladmin->id]);
 
      //end
+
+
+
+        $useradmin=User::create([
+            'name'      => 'Trabajador 1',
+            'email'     =>  'trabajador1_oxinik@gmail.com',
+            'email_verified_at'     =>  '2020-01-17 13:00:00',
+            'password'  => Hash::make('trabajador1'),
+        ]);
+        $roladmin= Role::create([
+            'name'=>'Gerente de ventas',
+            'slug'=>'GerenteVentas',
+            'description'=>'Quien realiza las ventas',
+        ]);
+        //crear relacion en la tabla rol_user para admin
+        $useradmin->roles()->sync([$roladmin->id]);
+
+    
     }
 }

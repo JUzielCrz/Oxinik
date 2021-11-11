@@ -105,12 +105,12 @@ class PermisosSeeder extends Seeder
         
         //MANTENIMIENTO
         Permissions::create([
-            'name'=>'mantenimiento (Salida)',
+            'name'=>'Mantenimiento (Salida)',
             'slug'=>'mantenimiento_salida',
             'description'=>'El usuario puede registra salida de cilindros a mantenimiento',
         ]);
         Permissions::create([
-            'name'=>'mantenimiento (Entrada)',
+            'name'=>'Mantenimiento (Entrada)',
             'slug'=>'mantenimiento_entrada',
             'description'=>'El usuario puede registra entrada de cilindros de mantenimiento',
         ]);
@@ -130,6 +130,11 @@ class PermisosSeeder extends Seeder
             'name'=>'Notas Entrada (Crear)',
             'slug'=>'nota_entrada',
             'description'=>'El usuario puede generar notas de salida de cilindros',
+        ]);
+        Permissions::create([
+            'name'=>'Notas Foraneas',
+            'slug'=>'nota_foranea',
+            'description'=>'Acceso a notas foraneas',
         ]);
         
 

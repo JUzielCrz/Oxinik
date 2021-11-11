@@ -16,6 +16,8 @@ use App\Models\InfraLLenado;
 use App\Models\InfraTanque;
 use App\Models\MantenimientoLLenado;
 use App\Models\MantenimientoTanque;
+use App\Models\NotaForanea;
+use App\Models\NotaForaneaTanque;
 use App\Models\NotaPagos;
 use App\Models\VentaExporadica;
 use App\Models\VentaTanque;
@@ -55,7 +57,6 @@ class PDFController extends Controller
         return $pdf->stream('nota_exporadica_'.$nota->folio_nota.'.pdf');
         return $pdf->dowload('name.pdf');
     }
-
 
     public function asignacion_tanques($nota_id){
         $nota= AsignacionNota::find($nota_id);
@@ -121,5 +122,18 @@ class PDFController extends Controller
 
         return $pdf->stream('nota_mantenimiento_'.$nota->folio_nota.'.pdf');
         // return $pdf->dowload('name.pdf');
+    }
+
+    public function pdf_nota_foranea($idnota){
+        $nota=NotaForanea::find($idnota);
+        $tanques=NotaForaneaTanque::
+        join('tanques', 'tanques.num_serie','=','notaforanea_tanque.num_serie' )
+        ->where('nota_foranea_id', $nota->id)->get();
+        
+        $data=['nota'=>$nota,'tanques'=>$tanques];
+        $pdf = PDF::loadView('pdf.nota_foranea', $data);
+
+        return $pdf->stream('nota_foranea_'.$nota->folio_nota.'.pdf');
+        return $pdf->dowload('name.pdf');
     }
 }

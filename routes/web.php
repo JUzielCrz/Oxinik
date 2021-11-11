@@ -37,6 +37,14 @@ Route::get('/home', 'HomeController@index')->name('home');
     // nota exporadica
     Route::get('/nota/exporadica', 'NotaExporadicaController@index');
     Route::post('/nota/exporadica/save', 'NotaExporadicaController@save');
+
+    // nota foranea
+    Route::get('/nota/foranea/index', 'NotaForaneaController@index');
+    Route::get('/nota/foranea/create', 'NotaForaneaController@create');
+    Route::get('/nota/foranea/data', 'NotaForaneaController@data');
+    Route::get('/nota/foranea/edit/{id}', 'NotaForaneaController@edit')->name('nota.foranea.edit');
+    Route::post('/nota/foranea/salida/save', 'NotaForaneaController@salida_save');
+    Route::post('/nota/foranea/entrada/save/{id}', 'NotaForaneaController@entrada_save');
     
     ///* Listar notas */
     Route::get('/nota/listar/index', 'NotaListasController@index');
@@ -124,8 +132,9 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/pdf/nota/{idnota}', 'PDFController@pdf_nota')->name('pdf.nota_salida'); 
     Route::get('/pdf/generar_contrato/{idcontrato}', 'PDFController@generar_contrato')->name('pdf.contrato'); 
     Route::get('/pdf/nota/exporadica/{idnota}', 'PDFController@pdf_nota_exporadica')->name('pdf.nota_exporadica'); 
+    Route::get('/pdf/nota/foranea/{idnota}', 'PDFController@pdf_nota_foranea')->name('pdf.nota_foranea'); 
     Route::get('/pdf/infra/nota/{idnota}', 'PDFController@infra_nota')->name('pdf.infra_nota'); 
-    Route::get('/pdf/mantenimiento/nota/{idnota}', 'PDFController@mantenimiento_nota')->name('pdf.mantenimiento_nota'); 
+    Route::get('/pdf/mantenimiento/nota/{idnota}', 'PDFController@mantenimiento_nota')->name('pdf.mantenimiento_nota');
 
   //INFRA
     Route::get('/infra/index', 'InfraController@index');

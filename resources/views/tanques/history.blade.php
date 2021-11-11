@@ -15,7 +15,7 @@
             <div class="card-header">
                 <div class="row ">
                     <div class="col-md-1 m-auto">
-                        <button class="btn btn-gray btn-block " onclick="return window.history.back();"><span class="fas fa-arrow-circle-left"></span></button>
+                        <button class="btn btn-gray btn-block" onclick="return window.history.back();"><span class="fas fa-arrow-circle-left"></span></button>
                     </div>
                     <div class="col">
                         <h5>Historial Tanque</h5>

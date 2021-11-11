@@ -92,7 +92,8 @@ class TanqueController extends Controller
             if( $diferencia->y >= 9 &&  $diferencia->m >= 7 ){
                 return response()->json(['alert'=>true, 'mensaje'=>'Prueba hidroestatica 6 meses a vencer']);
             };
-        return response()->json(['alert'=>false]);;
+        
+        return response()->json(['alert'=>false]);
     }
 
     public function create(Request $request){

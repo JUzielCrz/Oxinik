@@ -39,36 +39,32 @@
                 </tbody>
             </table>
 
-            <table class=" table table-sm">
-                <tbody>
-                    <tr >
-                        <td rowspan="2" style="width: 4rem">
-                            <p > 
-                                Cliente:  <br>
-                                Telefono: <br>
-                                Correo: <br>
-                                direccion: <br>
-                            </p>
-                        </td>
-                        <td rowspan="2" style="width: 8rem">
-                                <p > 
-                                    {{$nota->nombre_cliente}} <br>
-                                    {{$nota->telefono}} <br>
-                                    {{$nota->email}} <br>
-                                    {{$nota->direccion}}<br>
-                                </p>
-                            
-                        </td>
-
-                        <td style="width: 4rem"><p >Entregar en:</p> </td>
-                        <td style="width: 8rem"><p >{{$nota->direccion_envio}} </p></td>  
-                    </tr>
-                    <tr>
-                        <td style="width: 4rem"><p >Referencia:</p> </td>
-                        <td style="width: 8rem"><p >{{$nota->referencia_envio}} </p></td> 
-                    </tr>              
-                </tbody>
-            </table>
+                    <table class="mb-3">
+                        <tbody>
+                            <tr>
+                                <td style="width: 2rem"><strong>Cliente:</strong> </td>
+                                <td style="width: 15rem">{{$nota->nombre_cliente}}</td>
+                                <td rowspan="4"><p><strong>Entregar en: </strong> <br> {{$nota->direccion_envio}} <br> <strong>Referencia: </strong> <br> {{$nota->referencia_envio}}</p></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 2rem"><strong>Telefono: </strong></td>
+                                <td>{{$nota->telefono}}</td>
+                                <td >{{$nota->direccion_envio}} </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 2rem"><strong>Correo: </strong></td>
+                                <td>{{$nota->email}} </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 2rem"><strong>Direccion: </strong></td>
+                                <td>{{$nota->direccion}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            
 
             {{-- tanques de entrada --}}
             <span><strong>CILINDROS ENTRADA</strong></span>
@@ -153,17 +149,31 @@
                 </tbody>
             </table>
             
-            <table class="table table-bordered mt-2">
+            <table class="table table-sm table-bordered mt-2">
                 <tbody >
+                    <tr style="background: black">
+                        <td colspan="2"><div class="text-center text-white" > CUENTAS BANCARIAS PARA TRANSFERENCIAS</div></td>
+                    </tr>
                     <tr>
-                        <td colspan="4">
-                            <p>
-                                <div class="text-center text-white" style="background: black"> CUENTAS BANCARIAS PARA TRANSFERENCIAS</div> <br>
-                                BANCO: <strong>HSBC</strong> <br>
+                        <td>
+                            <p class="p-0 m-0">
+                                DENOMINACIÓN : <strong>JUAN MANUEL CONTRERAS GÓMEZ </strong> <br>
+                                BANCO: <strong>BANORTE</strong> <br>
                                 RFC: <strong>COGJ940414C74</strong> <br>
-                                #CUENTA: <strong>4065355091</strong> <br>
-                                CLABE: <strong>021610040653550912</strong> <br>
-                                Al hacer esta transferencia electrónica, favor de poner como referencia su numero de nota.
+                                # CUENTA: <strong>1159955737</strong> <br>
+                                CLABE: <strong>072610011599557374</strong> <br>
+                                # SUCURSAL: <strong>_2376</strong> <br>
+                                
+                            </p>
+                        </td>
+                        <td>
+                            <p class="p-0 m-0">
+                                ASÍ MISMO SE LES PIDE ENVIAR COMPROBANTE DE PAGO AL SIGUIENTE CORREO: <strong>sge.oxinik@gmail.com</strong><br>
+                                HACIENDO REFERENCIA EN CONCEPTO ALGUNO DE LOS SIGUIENTES:<br>
+                                    * FOLIO DE FACTURA<br>
+                                    * NÚMERO DE VALE O TICKET DE VENTA<br>
+                                    * NÚMERO DE FOLIO DE HOJA DE CONTRATO.<br>
+                                ESTAMOS A SUS ORDENES
                             </p>
                         </td>
                     </tr>
