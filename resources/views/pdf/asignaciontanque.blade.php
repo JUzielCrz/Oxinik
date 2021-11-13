@@ -150,7 +150,7 @@
             <p class="text-right">DEPO. XXXX</p>
 
             @php
-                $precioFormat= number_format($contrato->deposito_garantia, 2, '.', ',')
+                $precioFormat= number_format($nota->deposito_garantia, 2, '.', ',')
             @endphp
             <p class="mt-4">
                 RECIBI DE: <strong> {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}} </strong><br>

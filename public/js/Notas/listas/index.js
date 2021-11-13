@@ -19,6 +19,7 @@ $(document).ready(function () {
                 "<th>METODO DE PAGO</th>"+
                 "<th>RECARGOS</th>"+
                 "<th>OBSERVACIONES</th>"+
+                "<th>USUARIO</th>"+
                 "<th></th>"+
             "</tr></thead>";
         var contenido_columnas=
@@ -28,7 +29,10 @@ $(document).ready(function () {
             {data: 'metodo_pago'},
             {data: 'recargos'},
             {data: 'observaciones'},
-            {data: 'btnNota'}];
+            {data: 'user_name'},
+            {data: 'btnNota'}
+        ];
+            
         var link_data="/nota/listar/entradas/data";
         
         insertar_tabla(titulo_table,titulo_columnas,contenido_columnas, link_data);
@@ -42,6 +46,7 @@ $(document).ready(function () {
                 "<th>FECHA</th>"+
                 "<th>PAGO CUBIERTO</th>"+
                 "<th>OBSERVACIONES</th>"+
+                "<th>USUARIO</th>"+
                 "<th></th>"+
             "</tr></thead>";
         var contenido_columnas=
@@ -50,6 +55,7 @@ $(document).ready(function () {
             {data: 'fecha'},
             {data: 'pago_cubierto'},
             {data: 'observaciones'},
+            {data: 'user_name'},
             {data: 'btnNota'}];
         var link_data="/nota/listar/salidas/data";
         
@@ -65,6 +71,7 @@ $(document).ready(function () {
                 "<th>FECHA</th>"+
                 "<th>TELEFONO</th>"+
                 "<th>TOTAL</th>"+
+                "<th>USUARIO</th>"+
                 "<th></th>"+
             "</tr></thead>";
         var contenido_columnas=
@@ -73,6 +80,7 @@ $(document).ready(function () {
             {data: 'fecha'},
             {data: 'telefono'},
             {data: 'total'},
+            {data: 'user_name'},
             {data: 'btnNota'}];
         var link_data="/nota/listar/exporadica/data";
         
@@ -87,6 +95,7 @@ $(document).ready(function () {
                 "<th>FECHA</th>"+
                 "<th>PAGO CUBIERTO</th>"+
                 "<th>OBSERVACIONES</th>"+
+                "<th>USUARIO</th>"+
                 "<th>VER</th>"+
                 "<th>NOTA</th>"+
             "</tr></thead>";
@@ -96,6 +105,7 @@ $(document).ready(function () {
             {data: 'fecha'},
             {data: 'pago_cubierto'},
             {data: 'observaciones'},
+            {data: 'user_name'},
             {data: 'btnShow'},
             {data: 'btnNota'}];
         var link_data="/nota/listar/adeudos/data";

@@ -22,7 +22,7 @@ $user=App\User::find($idauth);
                     </div>
                     <div class="col text-right">
                         @if($user->permiso_con_admin('cliente_create')) 
-                            <button type="button" class="btn btn-sm btn-gray" data-toggle="modal" data-target="#modalinsertar">
+                            <button type="button" class="btn btn-sm btn-amarillo" data-toggle="modal" data-target="#modalinsertar">
                                 <span class="fas fa-plus"></span>
                                 Agregar
                             </button>
@@ -71,10 +71,10 @@ $user=App\User::find($idauth);
             <!-- botones Aceptar y cancelar-->
             <div class="row justify-content-center" >
                 <div class="btn-group col-auto" style="margin:10px" >
-                <button type="submit" class="btn btn-gray" id="btnaccept">Aceptar</button>
+                <button type="submit" class="btn btn-amarillo" id="btnaccept">Aceptar</button>
                 </div>
                 <div class="btn-group col-auto" style="margin:10px">
-                <button  class="btn btn-gray" data-dismiss="modal">Cancelar</button>
+                <button  class="btn btn-amarillo" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
             </div>
@@ -98,7 +98,7 @@ $user=App\User::find($idauth);
             <!-- botones Aceptar y cancelar-->
             <div class="row justify-content-center" >
                 <div class="btn-group col-auto" style="margin:10px">
-                <button type="reset" class="btn btn-gray" data-dismiss="modal">Aceptar</button>
+                <button type="reset" class="btn btn-amarillo" data-dismiss="modal">Aceptar</button>
                 </div>
             </div>
             </div>
@@ -122,10 +122,10 @@ $user=App\User::find($idauth);
             <!-- botones Aceptar y cancelar-->
             <div class="row justify-content-center" >
                 <div class="btn-group col-auto " style="margin:10px" >
-                <button type="submit" class="btn btn-gray form-control" id="btnactualizar">Actualizar</button>
+                <button type="submit" class="btn btn-amarillo form-control" id="btnactualizar">Actualizar</button>
                 </div>
                 <div class="btn-group col-auto" style="margin:10px">
-                <button type="reset" class="btn btn-gray form-control" data-dismiss="modal">Cancelar</button>
+                <button type="reset" class="btn btn-amarillo form-control" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
             </div>

@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row">
             <div class="col text-center">
-                <div class="card bg-dark text-white ">
+                <div class="card bg-gris">
                     <div class="card-body">
                         <h1 class="display-4">Bienvenido</h1>
                     </div>

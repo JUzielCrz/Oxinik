@@ -44,8 +44,8 @@ class CatalogoGasController extends Controller
             return DataTables::of(
                 $gases
             )                                                               
-            ->addColumn( 'btnEdit', '<button class="btn btn-sm btn-grisclaro btn-edit-modal btn-xs" data-id="{{$id}}" title="Editar"><span class="far fa-edit"></span></button>')
-            ->addColumn( 'btnDestroy', '<button class="btn btn-sm btn-grisclaro btn-delete-modal btn-xs" data-id="{{$id}}" title="Baja"><span class="fas fa-trash"></span></button>')
+            ->addColumn( 'btnEdit', '<button class="btn btn-sm btn-verde btn-edit-modal btn-xs" data-id="{{$id}}" title="Editar"><span class="far fa-edit"></span></button>')
+            ->addColumn( 'btnDestroy', '<button class="btn btn-sm btn-verde btn-delete-modal btn-xs" data-id="{{$id}}" title="Baja"><span class="fas fa-trash"></span></button>')
             ->rawColumns(['btnEdit','btnDestroy'])
             ->toJson();
         }

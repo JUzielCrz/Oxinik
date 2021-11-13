@@ -29,7 +29,6 @@ $(document).ready(function () {
                 {data: 'num_contrato', className: "text-center"},
                 {data: 'cliente', className: "text-center"},
                 {data: 'tipo_contrato', className: "text-center"},
-                {data: 'empresa', className: "text-center"},
                 {data: 'observaciones', className: "text-center"}, //aqui va estatus
                 {data: 'btnShow'},
             ]

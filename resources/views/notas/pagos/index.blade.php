@@ -7,14 +7,14 @@
 @section('content-sidebar')
 
     <div class="container">
-        <div class="card bg-dark ">
-            <div class="card-header pt-1 pb-1 text-white    ">
+        <div class="card ">
+            <div class="card-header pt-1 pb-1">
                 <h5 class="mb-0" style="font-size: 20px">IFORMACIÓN NOTA</h5>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-sm text-white" style="font-size: 13px" >
-                        <thead class="bg-dark">
+                    <table class="table table-sm" style="font-size: 13px" >
+                        <thead >
                             <tr>
                                 <th class="text-center">ID</th>
                                 <th class="text-center">FECHA</th>

@@ -78,7 +78,7 @@ $(document).ready(function () {
                 value.tapa_tanque+'</td><td>'+
                 value.fecha+ '</td><td>' +
                 value.nota_id+'</td><td>'+
-                '<a type="button" href="/pdf/nota/'+value.nota_id+'" target="_blank" class="btn btn-sm btn-grisclaro btn-nota-id" ><i class="fas fa-sticky-note"></i></a></td></tr>';
+                '<a type="button" href="/pdf/nota/'+value.nota_id+'" target="_blank" class="btn btn-sm btn-verde btn-nota-id" ><i class="fas fa-sticky-note"></i></a></td></tr>';
             });
             $('.class-tanques-nota').remove();
             $('#'+tbody).append(columnas);
@@ -239,8 +239,8 @@ $(document).ready(function () {
             '</div></div></div><hr> '
         );
         $('#modal_general_botones').append(
-            '<button type="button" class="btn btn-gray" id="btn-continuar-RXtapa"   data-id="'+tanque_id+'">Aceptar</button>'+
-            '<button class="btn btn-gray ml-2" data-dismiss="modal">Cancelar</button>'
+            '<button type="button" class="btn btn-amarillo" id="btn-continuar-RXtapa"   data-id="'+tanque_id+'">Aceptar</button>'+
+            '<button class="btn btn-amarillo ml-2" data-dismiss="modal">Cancelar</button>'
         );
         $("#modal_generico").css("width", "40%");
         $("#modal_generico").css("left", "30%");
@@ -444,8 +444,8 @@ $(document).ready(function () {
                     });
                     
                     $('#modal_general_botones').append(
-                        '<button type="button" class="btn btn-gray" id="btn-insertar-nuevo-tanque" >Aceptar</button>'+
-                        '<button class="btn btn-gray ml-2" data-dismiss="modal">Cancelar</button>'
+                        '<button type="button" class="btn btn-amarillo" id="btn-insertar-nuevo-tanque" >Aceptar</button>'+
+                        '<button class="btn btn-amarillo ml-2" data-dismiss="modal">Cancelar</button>'
                     );
 
                     $("#modal_generico").css("width", "60%");
@@ -716,8 +716,8 @@ $(document).ready(function () {
                     );
                     
                     $('#modal_general_botones').append(
-                        '<button type="button" class="btn btn-gray" data-id="'+tanque_id+'" id="btn-insertar-tanque-clientediferente" >Aceptar</button>'+
-                        '<button class="btn btn-gray ml-2" data-dismiss="modal">Cancelar</button>'
+                        '<button type="button" class="btn btn-amarillo" data-id="'+tanque_id+'" id="btn-insertar-tanque-clientediferente" >Aceptar</button>'+
+                        '<button class="btn btn-amarillo ml-2" data-dismiss="modal">Cancelar</button>'
                     );
 
                     $("#modal_generico").css("width", "60%");

@@ -71,10 +71,10 @@ class TanqueController extends Controller
                 };
                 return  $pruebaH->ph;
             })                                                               
-            ->addColumn( 'btnHistory', '<a class="btn btn-sm btn-grisclaro btn-xs" href="{{route(\'tanques.history\', $id)}}" title="Historial"><span class="fas fa-history"></span></a>')
-            ->addColumn( 'btnShow', '<button class="btn btn-sm btn-grisclaro btn-show-modal btn-xs" data-id="{{$id}}" title="Información"><span class="far fa-eye"></span></button>')
-            ->addColumn( 'btnEdit', '<button class="btn btn-sm btn-grisclaro btn-edit-modal btn-xs" data-id="{{$id}}" title="Editar"><span class="far fa-edit"></span></button>')
-            ->addColumn( 'btnBaja', '<button class="btn btn-sm btn-grisclaro btn-delete-modal btn-xs" data-id="{{$id}}" title="Baja"><span class="fas fa-trash"></span></button>')
+            ->addColumn( 'btnHistory', '<a class="btn btn-sm btn-verde btn-xs" href="{{route(\'tanques.history\', $id)}}" title="Historial"><span class="fas fa-history"></span></a>')
+            ->addColumn( 'btnShow', '<button class="btn btn-sm btn-verde btn-show-modal btn-xs" data-id="{{$id}}" title="Información"><span class="far fa-eye"></span></button>')
+            ->addColumn( 'btnEdit', '<button class="btn btn-sm btn-verde btn-edit-modal btn-xs" data-id="{{$id}}" title="Editar"><span class="far fa-edit"></span></button>')
+            ->addColumn( 'btnBaja', '<button class="btn btn-sm btn-verde btn-delete-modal btn-xs" data-id="{{$id}}" title="Baja"><span class="fas fa-trash"></span></button>')
             ->rawColumns(['btnHistory','btnShow','btnEdit','btnBaja','ph'])
             ->toJson();
         }
@@ -217,9 +217,9 @@ class TanqueController extends Controller
             return DataTables::of(
                 $tanques
             )             
-            ->addColumn( 'btnRestablecer', '<button class="btn btn-sm btn-grisclaro btn-restore" data-id="{{$id}}" title="Restablecer"><i class="fas fa-trash-restore-alt"></i></button>')
-            ->addColumn( 'btnHistory', '<a class="btn btn-sm btn-grisclaro" href="{{route(\'tanques.history\', $id)}}" title="Historial"><span class="fas fa-history"></span></a>')
-            ->addColumn( 'btnDelete', '<button class="btn btn-sm btn-grisclaro btn-delete" data-id="{{$id}}" title="Eliminar"><i class="fas fa-trash-alt"></i></button>')
+            ->addColumn( 'btnRestablecer', '<button class="btn btn-sm btn-verde btn-restore" data-id="{{$id}}" title="Restablecer"><i class="fas fa-trash-restore-alt"></i></button>')
+            ->addColumn( 'btnHistory', '<a class="btn btn-sm btn-verde" href="{{route(\'tanques.history\', $id)}}" title="Historial"><span class="fas fa-history"></span></a>')
+            ->addColumn( 'btnDelete', '<button class="btn btn-sm btn-verde btn-delete" data-id="{{$id}}" title="Eliminar"><i class="fas fa-trash-alt"></i></button>')
             ->rawColumns(['btnHistory','btnRestablecer', 'btnDelete'])
             ->toJson();
         }
@@ -314,8 +314,8 @@ class TanqueController extends Controller
             return DataTables::of(
                 $tanques
             )                                                               
-            ->addColumn( 'btnHistory', '<a class="btn btn-sm btn-grisclaro btn-xs" href="{{route(\'tanques.history\', $tanque_id)}}" title="Historial"><span class="fas fa-history"></span></a>')
-            ->addColumn( 'btbEliminar', '<button class="btn btn-sm btn-grisclaro btn-eliminar btn-xs" data-id="{{$reporte_id}}" title="Baja"><span class="fas fa-trash"></span></button>')
+            ->addColumn( 'btnHistory', '<a class="btn btn-sm btn-verde btn-xs" href="{{route(\'tanques.history\', $tanque_id)}}" title="Historial"><span class="fas fa-history"></span></a>')
+            ->addColumn( 'btbEliminar', '<button class="btn btn-sm btn-verde btn-eliminar btn-xs" data-id="{{$reporte_id}}" title="Baja"><span class="fas fa-trash"></span></button>')
             ->addColumn('descripcion', function ($tanques) {
                 return "PH: ".$tanques->ph.", ".$tanques->fabricante.", ".$tanques->material.", ".$tanques->tipo_tanque;
             })

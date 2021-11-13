@@ -1,57 +1,92 @@
 
     /* TABLA */
         thead{
-            background: #587377;
+            background: #329F5B;
             color: #fff;
         }
 
+    /*navbar*/
+    #menu-navbar li.active {
+        background: #329F5B;
+        color: #fff;
+        font-size: 15px;
+        
+    }
+    #menu-navbar li {
+        color: #A3BDCD;
+        font-size: 13px;
+        margin: auto;
+    }
+
+    .navbar-nav {
+        float:none;
+        margin:0 auto;
+        text-align: center;
+    } /*para centrar navbar*/
+
+
+    /*CARD*/
+    .card-header{
+        background: #2F4858;
+        color: #fff;
+    }
+
+    /*MODAL */
+    .modal-header{
+        background: #2F4858;
+        color: #fff;
+    }
     /* Botenes */
         /* verde */
         .bg-verde, .btn-verde{
-            background: #5cdb94;
+            background: #329F5B;
             color: #fff;
         }
         .btn-verde:hover{
-            background: #5cdb94;
-            border: 2px solid #587377;
+            background: #267745;
             color: #fff;
-        }
-
-        /* morado */
-        .bg-morado, .btn-morado{
-            color: #fff;
-            background: #461220 ;
-        }
-        .btn-morado:hover{
-            color: #fff;
-            background: #461220;
-            border: 2px solid #587377;
-        }
-
-        /* gris*/
-        .bg-gray, .btn-gray{
-            color: #fff;
-            background: #587377 ;
-        }
-        .btn-gray:hover{
-            color: #fff;
-            background: #587377;
-            border: 2px solid #461220;
         }
 
         /* Amarillo */
         .bg-amarillo, .btn-amarillo{
-            color: #461220;
-            background: #f9c846 ;
-        }
-        .btn-amarillo:hover{
-            background: #f9c846;
-            color: #461220;
-            border: 2px solid #587377;
+            color: #2F4858;
+            background: #F9C846 ;
         }
 
+        .btn-amarillo:hover{
+            background: #F9C846;
+            color: #2F4858;
+        }
+
+        /* Gris */
+        .bg-gris, .btn-gris{
+            color: #fff;
+            background: #2F4858 ;
+        }
+
+        .btn-gris:hover{
+            background: #2F4858;
+            color: #fff;
+        }
+
+        /* grisclaro */
+        /* .bg-grisclaro, .btn-verde{
+            color: #fff;
+            background: #8A8E97 ;
+        }
+        .btn-verde:hover{
+            background: #f9c846;
+            color: #461220;
+            
+        }
+        .btn-verde:active{
+            background: #515358;
+            color: #fff;
+            
+        } */
+
         /* Anaranjado */
-        .bg-naranja, .btn-naranja{
+        /* .bg-naranja, .btn-naranja{
             color: #fff;
             background: #F96E46 ;
         }
@@ -59,34 +94,24 @@
             background: #F96E46;
             color: #fff;
             border: 2px solid #587377;
-        }
+        } */
 
-        /* grisclaro */
-        .bg-grisclaro, .btn-grisclaro{
-            color: #fff;
-            background: #8A8E97 ;
-        }
-        .btn-grisclaro:hover{
-            background: #f9c846;
-            color: #461220;
-            
-        }
-        .btn-grisclaro:active{
-            background: #515358;
-            color: #fff;
-            
-        }
+        
 
         /* boton menu */
         
-        .btn-menu:hover{
-            background: #cfd6ea;
-            color: #fff;
-        }
+        
 
-        .navbar-nav {
-            float:none;
-            margin:0 auto;
-            /* display: block; */
-            text-align: center;
+        
+
+
+        /* gris*/
+        /* .bg-gray, .btn-amarillo{
+            color: #fff;
+            background: #2F4858 ;
         }
+        .btn-amarillo:hover{
+            color: #fff;
+            background: #2F4858;
+            border: 2px solid #461220;
+        } */

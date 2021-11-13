@@ -15,7 +15,7 @@
                         <h5>TANQUES CON REPORTE</h5>
                     </div>
                     <div class="col text-right">
-                        <a type="button" class="btn btn-sm btn-gray" href="{{ url('/tanque/reportados/create') }}">
+                        <a type="button" class="btn btn-sm btn-amarillo" href="{{ url('/tanque/reportados/create') }}">
                             <span class="fas fa-plus"></span>
                             Nuevo Reporte
                         </a>
@@ -51,8 +51,7 @@
     <script src="{{ asset('js/tanque/reportes.js') }}"></script>
     <script>
         $(document).ready(function () {
-            $("#id-menu-reportes").removeClass('btn-outline-success');
-            $("#id-menu-reportes").addClass('btn-success');
+            $("#id-menu-reportes").addClass('active');
         });
     </script>
 <!--Fin Scripts-->

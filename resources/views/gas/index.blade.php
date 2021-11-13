@@ -25,7 +25,7 @@
                         <h5>CATALOGO DE GASES</h5>
                     </div>
                     <div class="col text-right">
-                        <button type="button" class="btn  btn-sm btn-gray" data-toggle="modal" data-target="#modal-tanque">
+                        <button type="button" class="btn  btn-sm btn-amarillo" data-toggle="modal" data-target="#modal-tanque">
                             <span class="fas fa-plus"></span>
                             Agregar
                         </button>
@@ -67,10 +67,10 @@
             <!-- botones Aceptar y cancelar-->
             <div class="row justify-content-center" >
                 <div class="btn-group col-auto"  >
-                <button type="button" class="btn  btn-sm btn-gray" id="btnaccept">Aceptar</button>
+                <button type="button" class="btn  btn-sm btn-amarillo" id="btnaccept">Aceptar</button>
                 </div>
                 <div class="btn-group col-auto" >
-                <button  class="btn  btn-sm btn-gray" data-dismiss="modal">Cancelar</button>
+                <button  class="btn  btn-sm btn-amarillo" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
             </div>
@@ -95,10 +95,10 @@
             <!-- botones Aceptar y cancelar-->
             <div class="row justify-content-center" >
                 <div class="btn-group col-auto "  >
-                <button type="button" class="btn btn-sm btn-gray form-control" id="btnactualizar">Actualizar</button>
+                <button type="button" class="btn btn-sm btn-amarillo form-control" id="btnactualizar">Actualizar</button>
                 </div>
                 <div class="btn-group col-auto" >
-                <button type="reset" class="btn  btn-sm btn-gray form-control" data-dismiss="modal">Cancelar</button>
+                <button type="reset" class="btn  btn-sm btn-amarillo form-control" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
             </div>
@@ -116,3 +116,9 @@
 <!--Scripts-->
 <script src="{{ asset('js/cruds/gas.js') }}"></script>
 <!--Fin Scripts-->
+
+<script>
+    $(document).ready(function () {
+        $("#id-menu-gas").addClass('active');
+    });
+</script>

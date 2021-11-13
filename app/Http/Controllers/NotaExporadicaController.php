@@ -65,6 +65,7 @@ class NotaExporadicaController extends Controller
                     $venta->total = $request->input('input-total');
                     $venta->metodo_pago = $request->metodo_pago;
                     $venta->fecha = $fechaactual;
+                    $venta->user_id = auth()->user()->id;
                     
                         if($venta->save()){
                             //Guardar tanques Entrada
@@ -81,6 +82,7 @@ class NotaExporadicaController extends Controller
                                     $historytanques->num_serie = $request->inputNumSerie_entrada[$entrada];
                                     $historytanques->estatus = 'VACIO-ALMACEN';
                                     $historytanques->observaciones = 'Entrada venta exporadica. Nota id:'. $venta->id;
+                                    $historytanques->user_id = auth()->user()->id;
                                     $historytanques->save();
                                 }else{
                                     //Si no existe registrar
@@ -102,6 +104,7 @@ class NotaExporadicaController extends Controller
                                     $historytanques->num_serie = $request->inputNumSerie_entrada[$entrada];
                                     $historytanques->estatus = $cadena[4];
                                     $historytanques->observaciones = 'Registro nuevo tanque en venta exporadica. Nota id:'. $venta->id;
+                                    $historytanques->user_id = auth()->user()->id;
                                     $historytanques->save();
                                 }
                                 
@@ -123,6 +126,7 @@ class NotaExporadicaController extends Controller
                                 $historytanques->num_serie = $request->inputNumSerie[$salid];
                                 $historytanques->estatus = 'VENTA-EXPORADICA';
                                 $historytanques->observaciones = 'Salida de tanque en venta exporadica. Nota id:'. $venta->id;
+                                $historytanques->user_id = auth()->user()->id;
                                 $historytanques->save();
     
                                 $ventatanque=new VentaTanque();

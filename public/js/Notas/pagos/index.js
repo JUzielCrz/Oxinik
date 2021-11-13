@@ -40,12 +40,13 @@ $(document).ready(function () {
             data: {
                 '_token': $('input[name=_token]').val(),
                 'monto_pago': $('#monto_pago').val(),
-                'tipo_gas': $('#metodo_pago').val(),
+                'metodo_pago': $('#metodo_pago').val(),
                 'nota_id': $('#nota_id').val(),
                 },
         }).done(function(msg){
             // limpiar_campos();
-            mensaje('success','Exito','Registro creado correctamente', 1500);
+            mensaje('success','Exito','Registro creado correctamente', 1500, 'modal-create');
+            // location.reload();
         })
     }
 

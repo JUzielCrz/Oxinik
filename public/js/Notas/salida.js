@@ -79,7 +79,7 @@ $(document).ready(function () {
                     value.tapa_tanque+'</td><td>'+
                     value.fecha+ '</td><td>' +
                     value.nota_id+'</td><td>'+
-                    '<a type="button" href="/pdf/nota/'+value.nota_id+'" target="_blank" class="btn btn-sm btn-grisclaro btn-nota-id" ><i class="fas fa-sticky-note"></i></a></td></tr>';
+                    '<a type="button" href="/pdf/nota/'+value.nota_id+'" target="_blank" class="btn btn-sm btn-verde btn-nota-id" ><i class="fas fa-sticky-note"></i></a></td></tr>';
                 });
                 $('.class-tanques-nota').remove();
                 $('#'+tbody).append(columnas);

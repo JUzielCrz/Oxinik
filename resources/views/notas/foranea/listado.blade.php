@@ -14,7 +14,7 @@
                     <h5>Notas Foraneas</h5>
                 </div>
                 <div class="col text-right">
-                        <a type="button" class="btn btn-sm btn-gray"  href="{{ url('/nota/foranea/create') }}">
+                        <a type="button" class="btn btn-sm btn-amarillo"  href="{{ url('/nota/foranea/create') }}">
                             <span class="fas fa-plus"></span>
                             Agregar
                         </a>
@@ -48,8 +48,7 @@
 <script src="{{ asset('js/notas/foranea/listado.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $("#id-menu-foranea").removeClass('btn-outline-success');
-        $("#id-menu-foranea").addClass('btn-success');
+        $("#id-menu-foranea").addClass('active');
     });
 </script>
 <!--Fin Scripts-->

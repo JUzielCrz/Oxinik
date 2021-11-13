@@ -18,7 +18,7 @@
                     <div class="card-header">
                         <div class="row m-0 p-0">
                             <div class="col-md-2 ">
-                                <button class="btn btn-gray btn-block " onclick="return window.history.back();"><span class="fas fa-arrow-circle-left"></span></button>
+                                <button class="btn btn-amarillo btn-block " onclick="return window.history.back();"><span class="fas fa-arrow-circle-left"></span></button>
                             </div>
                             <div class="col m-0">
                                 <strong>REGISTRO DE SALIDA</strong>
@@ -137,7 +137,7 @@
                             </div>
 
                             <div class="col">
-                                <button type="button" class="btn btn-grisclaro btn-sm" id="btn-insert-fila-entrada"> <span class="fas fa-plus"></span>Add</button>
+                                <button type="button" class="btn btn-verde btn-sm" id="btn-insert-fila-entrada"> <span class="fas fa-plus"></span>Add</button>
                             </div> 
                         </div>
                         <div class="table-responsive ">
@@ -255,9 +255,9 @@
                         <hr>
 
                         <div class="row justify-content-center">
-                            <button type="button" class="btn btn-grisclaro" id="btnCancelar">Cancelar</button>
-                            <button type="button" class="btn btn-grisclaro ml-2" id="guardar-nota">Guardar</button>
-                            {{-- <button type="button" class="btn btn-gray" id="btn-pdf-nota"> Nota de remision</button> --}}
+                            <button type="button" class="btn btn-verde" id="btnCancelar">Cancelar</button>
+                            <button type="button" class="btn btn-verde ml-2" id="guardar-nota">Guardar</button>
+                            {{-- <button type="button" class="btn btn-amarillo" id="btn-pdf-nota"> Nota de remision</button> --}}
                         </div>
                     </div>
                 </div>
@@ -287,10 +287,10 @@
                     <!-- botones Aceptar y cancelar-->
                     <div class="row justify-content-center" >
                         <div class="btn-group col-auto" style="margin:10px" >
-                        <button type="button" class="btn btn-gray" id="btn-registrar-tanque">Aceptar</button>
+                        <button type="button" class="btn btn-amarillo" id="btn-registrar-tanque">Aceptar</button>
                         </div>
                         <div class="btn-group col-auto" style="margin:10px">
-                        <button  class="btn btn-gray" data-dismiss="modal">Cancelar</button>
+                        <button  class="btn btn-amarillo" data-dismiss="modal">Cancelar</button>
                         </div>
                     </div>
                 </div>
@@ -307,8 +307,7 @@
 <script src="{{ asset('js/notas/foranea/entrada.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $("#id-menu-foranea").removeClass('btn-outline-success');
-        $("#id-menu-foranea").addClass('btn-success');
+        $("#id-menu-foranea").addClass('active');
     });
 </script>
 <!--Fin Scripts-->

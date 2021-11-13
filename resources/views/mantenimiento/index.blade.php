@@ -38,3 +38,8 @@
 <!--Scripts-->
 <script src="{{ asset('js/mantenimiento/index.js') }}"></script>
 <!--Fin Scripts-->
+<script>
+    $(document).ready(function () {
+        $("#id-menu-index").addClass('active');
+    });
+</script>

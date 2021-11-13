@@ -18,8 +18,8 @@
                             <h2>CONTROL DE TANQUES EN INFRA</h2>
                         </div>
                         <div class="col-md-3 text-right" >
-                            <button type="button" id="btn-SaveAll" class="btn btn-gray btn-md"> <span class="fas fa-save fa-2x mr-2"></span> GUARDAR</button>
-                            <a href={{ url('/infra')}} class="btn btn-gray btn-md"> <span class="fas fa-sticky-note fa-2x"></span></a>
+                            <button type="button" id="btn-SaveAll" class="btn btn-amarillo btn-md"> <span class="fas fa-save fa-2x mr-2"></span> GUARDAR</button>
+                            <a href={{ url('/infra')}} class="btn btn-amarillo btn-md"> <span class="fas fa-sticky-note fa-2x"></span></a>
                         </div>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                             <span class="text-danger" id="serie_tanqueError"></span>
                         </div>
                         <div class="form-group col-md-6">
-                            <button type="button" class="btn btn-gray" id="btn-InsertFila"><span class="fas fa-plus mr-2"></span> Agredar</button>
+                            <button type="button" class="btn btn-amarillo" id="btn-InsertFila"><span class="fas fa-plus mr-2"></span> Agredar</button>
                         </div>
                     </div>
                 </div>

@@ -21,6 +21,8 @@ class CreateNotaAsignacionTable extends Migration
                 ->onDelete('cascade');
             $table->date('fecha');
             $table->enum('incidencia',['AUMENTO', 'DISMINUCION','INICIO-CONTRATO']);
+            $table->float('deposito_garantia')->default(0)->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
         });
     }

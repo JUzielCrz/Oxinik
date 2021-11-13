@@ -34,9 +34,12 @@ class AsignacionController extends Controller
     }
 
     public function asignacion_plus(Request $request, $contrato_id){
+        
         if($this->slug_permiso('asignacion_aumento')){
             //valiodacion para que los campos no vengan vacios
+            $suma_variante=0;
             foreach( $request->asignacion_variante AS $valid => $g){
+                $suma_variante=$suma_variante+$request->asignacion_variante[$valid];
                 if($request->asignacion_variante[$valid] < 0 || 
                     $request->asignacion_gas[$valid] == '' ||
                     $request->asignacion_tipo_tanque[$valid] == '' || 
@@ -46,6 +49,9 @@ class AsignacionController extends Controller
                     ){
                     return response()->json(['alert'=>'alert-danger', 'mensaje'=>'Faltan campos por rellenar o existen valores incorrectos']);
                 }
+            }
+            if($suma_variante <= 0){
+                return response()->json(['alert'=>'alert-danger', 'mensaje'=>'Debes realizar al menos 1 cambio']);
             }
             //verificar que no existan repeticiones
             foreach( $request->asignacion_gas AS $search => $g){
@@ -92,6 +98,8 @@ class AsignacionController extends Controller
                 $newNota->contrato_id = $contrato_id;
                 $newNota->fecha=$fechaactual;
                 $newNota->incidencia= 'aumento';
+                $newNota->deposito_garantia= $request->deposito_garantia;
+                $newNota->user_id= auth()->user()->id;
                 $newNota->save();
 
                 foreach( $request->asignacion_gas AS $detalle => $g){
@@ -168,6 +176,7 @@ class AsignacionController extends Controller
             $newNota->contrato_id = $contrato_id;
             $newNota->fecha=$fechaactual;
             $newNota->incidencia= 'disminucion';
+            $newNota->user_id= auth()->user()->id;
             $newNota->save();
 
             foreach( $request->asignacion_gas AS $detalle => $g){

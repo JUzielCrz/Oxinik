@@ -11,7 +11,7 @@
         @csrf
         <input type="hidden" name="incidencia" id="incidencia"  value="ENTRADA">
         <div class="card">
-            <div class="card-header p-2 bg-dark text-white">
+            <div class="card-header p-2 bg-gris text-white">
                 <div class="row">
                     <div class="col-md-9">
                         <h5 class="ml-3"> INFORMACIÓN NOTA <strong>INFRA. </strong></h5>

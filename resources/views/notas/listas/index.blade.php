@@ -12,11 +12,11 @@
             <div class="row justify-content-center">
                 <div class="col-md-3">
                     <div class="card">
-                        <div class="card-body bg-info border-dark text-white text-center  p-2" >
-                            <i class="fas fa-sticky-note"></i> Entradas
+                        <div class="card-body bg-verde border-dark text-white text-center  p-2" >
+                            <i class="fas fa-sticky-note"></i> Entradas-Contrato
                         </div>
                         <a href="#" id="btn-entradas">
-                            <div class="card-footer bg-dark text-white text-center p-1 " style="font-size:14px">
+                            <div class="card-footer bg-gris text-white text-center p-1 " style="font-size:14px">
                                 Listar <i class="fas fa-angle-double-right"></i>
                             </div>
                         </a>
@@ -24,11 +24,11 @@
                 </div>
                 <div class="col-md-3">
                     <div class="card">
-                        <div class="card-body bg-info border-dark text-white text-center  p-2" >
-                            <i class="fas fa-sticky-note"></i> Salidas
+                        <div class="card-body bg-verde border-dark text-white text-center  p-2" >
+                            <i class="fas fa-sticky-note"></i> Salidas-Contrato
                         </div>
                         <a href="#" id="btn-salidas">
-                            <div class="card-footer bg-dark text-white text-center p-1 " style="font-size:14px">
+                            <div class="card-footer bg-gris text-white text-center p-1 " style="font-size:14px">
                                 Listar <i class="fas fa-angle-double-right"></i>
                             </div>
                         </a>
@@ -36,11 +36,11 @@
                 </div>
                 <div class="col-md-3">
                     <div class="card">
-                        <div class="card-body bg-info border-dark text-white text-center  p-2" >
+                        <div class="card-body bg-verde border-dark text-white text-center  p-2" >
                             <i class="fas fa-sticky-note"></i> Esporádica
                         </div>
                         <a href="#" id="btn-exporadicas">
-                            <div class="card-footer bg-dark text-white text-center p-1 " style="font-size:14px">
+                            <div class="card-footer bg-gris text-white text-center p-1 " style="font-size:14px">
                                 Listar <i class="fas fa-angle-double-right"></i>
                             </div>
                         </a>
@@ -48,11 +48,11 @@
                 </div>
                 <div class="col-md-3">
                     <div class="card">
-                        <div class="card-body bg-info border-dark text-white text-center  p-2" >
+                        <div class="card-body bg-verde border-dark text-white text-center  p-2" >
                             <i class="fas fa-sticky-note"></i> Sin Pagar
                         </div>
                         <a href="#" id="btn-adeudos">
-                            <div class="card-footer bg-dark text-white text-center p-1 " style="font-size:14px">
+                            <div class="card-footer bg-gris text-white text-center p-1 " style="font-size:14px">
                                 Listar <i class="fas fa-angle-double-right"></i>
                             </div>
                         </a>
@@ -77,4 +77,9 @@
 @include('layouts.scripts')
 <!--Scripts-->
 <script src="{{ asset('js/notas/listas/index.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        $("#id-menu-notas").addClass('active');
+    });
+</script>
 <!--Fin Scripts-->

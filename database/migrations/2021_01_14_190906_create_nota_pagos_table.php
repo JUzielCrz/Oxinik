@@ -21,6 +21,7 @@ class CreateNotaPagosTable extends Migration
                 ->onDelete('cascade');
             $table->float('monto_pago');
             $table->string('metodo_pago');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
         });
     }

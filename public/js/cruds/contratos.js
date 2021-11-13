@@ -466,7 +466,14 @@ $(document).ready(function () {
         // limpiarasignacion();
         $(".trasignacion").remove();
         getAsignaciones();
-
+        $("#div-garantia").replaceWith(
+            '<div id="div-garantia" class="row">'+
+                '<div class="col-md-6">'+
+                    '<label for="">Depósito de garantia:</label>'+
+                    '<input type="number" name="deposito_garantia" id="deposito_garantia" class="form-control form-control-sm">'+
+                '</div>'+
+            '</div>'
+        );
         $('#columnaopcion').replaceWith('<div id="columnaopcion">AUMENTOS</div>');
         $('#td-btn-anadir').replaceWith('<td id="td-btn-anadir" colspan="7" class="text-right"> <button type="button" class="btn btn-amarillo btn-sm" id="btn-anadir-asignacion"><span class="fas fa-plus"></span>Añadir</button></td>');
         $("#h5-title-modal").replaceWith('<h5 class="modal-title" id="h5-title-modal">Aumento</h5>');
@@ -482,6 +489,7 @@ $(document).ready(function () {
         $(".trasignacion").remove();
         getAsignaciones();
 
+        $("#div-garantia").empty();
         $('#columnaopcion').replaceWith('<div id="columnaopcion">DISMINUCIÓN</div>');
         $('#td-btn-anadir').replaceWith('<td id="td-btn-anadir"></td>');
         $("#h5-title-modal").replaceWith('<h5 class="modal-title" id="h5-title-modal">Disminución</h5>');
@@ -513,10 +521,8 @@ $(document).ready(function () {
 
 
     function save_asignacion(){
-
         // &&falta validar que los campos no esten vacios al enviarlo y cuando regresen limpiar los campos
         $.ajax({
-            
             method: "post",
             url: "/asignaciones/"+$('#incidencia-asignacion').val()+"/"+$('#idShow').val(),
             // url: "/notasalida/save_edit_asignacion/"+$('#idShow').val(),

@@ -65,7 +65,7 @@
                 <button type="submit" class="btn btn-naranja" id="btneliminar">Restablecer</button>
                 </div>
                 <div class="btn-group col-auto" style="margin:10px">
-                <button type="reset" class="btn btn-gray" data-dismiss="modal">Cancelar</button>
+                <button type="reset" class="btn btn-amarillo" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
             </div>
@@ -81,3 +81,8 @@
 <!--Scripts-->
 <script src="{{ asset('js/tanque/bajas.js') }}"></script>
 <!--Fin Scripts-->
+<script>
+    $(document).ready(function () {
+        $("#id-menu-bajas").addClass('active');
+    });
+</script>

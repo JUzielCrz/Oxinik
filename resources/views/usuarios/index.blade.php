@@ -21,7 +21,7 @@
                     </div>
         
                     <div class="col-md-5 text-right">
-                        <button type="button" class="btn btn-sm btn-gray" data-toggle="modal" data-target="#modalinsertar">
+                        <button type="button" class="btn btn-sm btn-amarillo" data-toggle="modal" data-target="#modalinsertar">
                             <span class="fas fa-plus"></span>
                             Agregar
                         </button>

@@ -37,10 +37,10 @@ class ClienteController extends Controller
             return DataTables::of(
                 $clientes
             )
-            ->addColumn( 'btnContrato', '<a class="btn btn-sm btn-grisclaro" href="{{route(\'contrato.index\', $id)}}" data-toggle="tooltip" data-placement="top" title="Contrato"><span class="fas fa-clipboard"></span></a>')
-            ->addColumn( 'btnShow',     '<button class="btn btn-sm btn-grisclaro btn-show-modal" data-id="{{$id}}" data-toggle="tooltip" data-placement="top" title="Ver"><span class="far fa-eye"></span></button>')
-            ->addColumn( 'btnEdit',     '<button class="btn btn-sm btn-grisclaro btn-edit-modal" data-id="{{$id}}" data-toggle="tooltip" data-placement="top" title="Editar"><span class="far fa-edit"></span></button>')
-            ->addColumn( 'btnDelete',   '<button class="btn btn-sm btn-grisclaro btn-delete-modal" data-id="{{$id}}" data-toggle="tooltip" data-placement="top" title="Eliminar"><span class="fas fa-trash"></span></button>')
+            ->addColumn( 'btnContrato', '<a class="btn btn-sm btn-verde" href="{{route(\'contrato.index\', $id)}}" data-toggle="tooltip" data-placement="top" title="Contrato"><span class="fas fa-clipboard"></span></a>')
+            ->addColumn( 'btnShow',     '<button class="btn btn-sm btn-verde btn-show-modal" data-id="{{$id}}" data-toggle="tooltip" data-placement="top" title="Ver"><span class="far fa-eye"></span></button>')
+            ->addColumn( 'btnEdit',     '<button class="btn btn-sm btn-verde btn-edit-modal" data-id="{{$id}}" data-toggle="tooltip" data-placement="top" title="Editar"><span class="far fa-edit"></span></button>')
+            ->addColumn( 'btnDelete',   '<button class="btn btn-sm btn-verde btn-delete-modal" data-id="{{$id}}" data-toggle="tooltip" data-placement="top" title="Eliminar"><span class="fas fa-trash"></span></button>')
             ->rawColumns(['btnContrato','btnShow','btnEdit','btnDelete'])
             ->toJson();
         }

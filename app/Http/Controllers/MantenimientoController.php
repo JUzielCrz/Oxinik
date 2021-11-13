@@ -39,7 +39,7 @@ class MantenimientoController extends Controller
                 $mantenimiento
             )
             ->addColumn( 'btnShow', '<button class="btn btn-morado btn-show btn-sm" data-id="{{$id}}"><span class="far fa-eye"></span></button>')
-            ->addColumn( 'btnPDF', '<a class="btn btn-grisclaro btn-sm" href="{{route(\'pdf.mantenimiento_nota\', $id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Nota PDF"><i class="fas fa-file-pdf"></i></a>')
+            ->addColumn( 'btnPDF', '<a class="btn btn-verde btn-sm" href="{{route(\'pdf.mantenimiento_nota\', $id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Nota PDF"><i class="fas fa-file-pdf"></i></a>')
             ->rawColumns(['btnShow', 'btnPDF'])
             ->toJson();
         }
@@ -74,6 +74,7 @@ class MantenimientoController extends Controller
             $mantenimiento->cantidad= $request->cantidad;
             $mantenimiento->fecha= $fechaactual;
             $mantenimiento->incidencia= $request->incidencia;
+            $mantenimiento->user_id=auth()->user()->id;
 
             if($mantenimiento->save()){
                 if($mantenimiento->incidencia=='ENTRADA'){

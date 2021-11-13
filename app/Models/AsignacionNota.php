@@ -8,6 +8,6 @@ class AsignacionNota extends Model
 {
     protected $table = 'nota_asignacion';
     public $timestamps =  true;
-    protected $fillable = ['id','contratos_id', 'fecha','incidencia'];
+    protected $fillable = ['id','contratos_id', 'fecha','incidencia', 'deposito_garantia'];
     public $incrementing = true;
 }

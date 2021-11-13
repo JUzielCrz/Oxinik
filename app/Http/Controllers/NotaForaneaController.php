@@ -50,7 +50,7 @@ class NotaForaneaController extends Controller
                 $nombre=User::select('name')->where('id', $user->user_id)->first();
                 return $nombre->name;
             })
-            ->addColumn( 'btnEdit', '<a class="btn btn-sm btn-grisclaro" href="{{route(\'nota.foranea.edit\', $id)}}" data-toggle="tooltip" data-placement="top" title="Contrato"><span class="fas fa-edit"></span></a>')
+            ->addColumn( 'btnEdit', '<a class="btn btn-sm btn-verde" href="{{route(\'nota.foranea.edit\', $id)}}" data-toggle="tooltip" data-placement="top" title="Contrato"><span class="fas fa-edit"></span></a>')
             ->rawColumns(['btnEdit'])
             ->toJson();
         }
@@ -133,6 +133,7 @@ class NotaForaneaController extends Controller
                         $historytanques->num_serie = $request->inputNumSerie[$salid];
                         $historytanques->estatus = 'VENTA-FORANEA';
                         $historytanques->observaciones = 'Salida de tanque en venta foranea. Nota id:'. $venta->id;
+                        $historytanques->user_id = auth()->user()->id;
                         $historytanques->save();
     
                         $ventatanque=new NotaForaneaTanque();
@@ -194,6 +195,7 @@ class NotaForaneaController extends Controller
                                     $historytanques->num_serie = $request->inputNumSerie_entrada[$entrada];
                                     $historytanques->estatus = 'VACIO-ALMACEN';
                                     $historytanques->observaciones = 'Entrada venta foranea. Nota id:'. $venta->id;
+                                    $historytanques->user_id = auth()->user()->id;
                                     $historytanques->save();
                                 }else{
                                     //Si no existe registrar
@@ -215,6 +217,7 @@ class NotaForaneaController extends Controller
                                     $historytanques->num_serie = $request->inputNumSerie_entrada[$entrada];
                                     $historytanques->estatus = $cadena[4];
                                     $historytanques->observaciones = 'Registro nuevo tanque en venta foranea. Nota id:'. $venta->id;
+                                    $historytanques->user_id = auth()->user()->id;
                                     $historytanques->save();
                                 }
                                 

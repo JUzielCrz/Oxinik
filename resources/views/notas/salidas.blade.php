@@ -46,7 +46,7 @@
                                 <span  id="precio_unitarioError" class="text-danger"></span>
                             </div>
                             <div class="col align-self-end">
-                                <button type="button" class="btn btn-grisclaro" id="btnInsertFila"> <span class="fas fa-plus"></span>Add</button>
+                                <button type="button" class="btn btn-verde" id="btnInsertFila"> <span class="fas fa-plus"></span>Add</button>
                             </div> 
                         </div>
                         <span  id="serie_tanqueError" class="text-danger"></span>
@@ -292,9 +292,9 @@
                         <hr>
 
                         <div class="row justify-content-center">
-                            <button type="button" class="btn btn-grisclaro" id="btnCancelar">Cancelar</button>
-                            <button type="button" class="btn btn-grisclaro ml-2" id="btn-pagar-nota">Continuar</button>
-                            {{-- <button type="button" class="btn btn-gray" id="btn-pdf-nota"> Nota de remision</button> --}}
+                            <button type="button" class="btn btn-verde" id="btnCancelar">Cancelar</button>
+                            <button type="button" class="btn btn-verde ml-2" id="btn-pagar-nota">Continuar</button>
+                            {{-- <button type="button" class="btn btn-amarillo" id="btn-pdf-nota"> Nota de remision</button> --}}
                         </div>
                     </div>
                 </div>
@@ -340,7 +340,7 @@
                     
                 </div>
                 <div class="modal-footer">
-                {{-- <button type="button" class="btn btn-grisclaro" data-dismiss="modal">Cancelar</button> --}}
+                {{-- <button type="button" class="btn btn-verde" data-dismiss="modal">Cancelar</button> --}}
                 <button id="guardar-nota" type="button" class="btn btn-verde">Guardar</button>
                 </div>
             </div>
@@ -366,7 +366,7 @@
                     @include('notas.editenvio')
                 </div>
                 <div class="modal-footer">
-                {{-- <button type="button" class="btn btn-grisclaro" data-dismiss="modal">Cancelar</button> --}}
+                {{-- <button type="button" class="btn btn-verde" data-dismiss="modal">Cancelar</button> --}}
                 <button id="btn-save-envio" type="button" class="btn btn-verde">Guardar</button>
                 </div>
             </div>
@@ -402,8 +402,7 @@
 <script src="{{ asset('js/notas/salida.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $("#id-menu-salida").removeClass('btn-outline-success');
-        $("#id-menu-salida").addClass('btn-success');
+        $("#id-menu-contrato").addClass('active');
     });
 </script>
 <!--Fin Scripts-->

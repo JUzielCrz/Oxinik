@@ -103,7 +103,7 @@
                         <span  id="tapa_tanqueError" class="text-danger"></span>
                     </div>  
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-grisclaro m-auto" id="btnInsertFila"> <span class="fas fa-plus"></span>Agregar</button>
+                        <button type="button" class="btn btn-verde m-auto" id="btnInsertFila"> <span class="fas fa-plus"></span>Agregar</button>
                     </div> 
                 </div>
             </div>
@@ -165,8 +165,8 @@
         <div class="card ">
             <div class="card-body ">
                 <div class="row justify-content-center">
-                        <button class="btn btn-grisclaro" id="btnCancelar">Cancelar</button>
-                        <button class="btn btn-grisclaro ml-2" id="btnGuardar">Guardar</button>
+                        <button class="btn btn-verde" id="btnCancelar">Cancelar</button>
+                        <button class="btn btn-verde ml-2" id="btnGuardar">Guardar</button>
                 </div>
             </div>
         </div>

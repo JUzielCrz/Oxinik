@@ -37,19 +37,24 @@ class NotaListasController extends Controller
                     'contratos.num_contrato',
                     'notas.fecha',
                     'notas.pago_cubierto',
-                    'notas.observaciones');
+                    'notas.observaciones',
+                    'notas.user_id');
             return DataTables::of(
                 $nota_entrada
-            )                                                               
-            ->addColumn( 'btnNota', '<a class="btn btn-sm btn-grisclaro btn-xs" target="_blank" href="{{route(\'pdf.nota_salida\', $nota_id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
-            ->rawColumns(['btnNota'])
-            ->editColumn('pago_cubierto', function ($user) {
-                if($user->pago_cubierto== true){
+            )                                       
+            ->editColumn('pago_cubierto', function ($nota) {
+                if($nota->pago_cubierto== true){
                     return 'Pagado';
                 }else{
                     return 'Adeuda';
                 }
             })
+            ->editColumn('user_name', function ($nota) {
+                $usuario=User::select('name')->where('id', $nota->user_id)->first();
+                return $usuario->name;
+            })
+            ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_salida\', $nota_id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
+            ->rawColumns(['btnNota'])
             ->toJson();
         }
         return view('home');
@@ -61,7 +66,11 @@ class NotaListasController extends Controller
             return DataTables::of(
                 $nota_entrada
             )                                                               
-            ->addColumn( 'btnNota', '<a class="btn btn-sm btn-grisclaro btn-xs" target="_blank" href="{{route(\'pdf.nota_exporadica\', $id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
+            ->editColumn('user_name', function ($nota) {
+                $usuario=User::select('name')->where('id', $nota->user_id)->first();;
+                return $usuario->name;
+            })
+            ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_exporadica\', $id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
             ->rawColumns(['btnNota'])
             ->toJson();
         }
@@ -76,13 +85,18 @@ class NotaListasController extends Controller
                     'contratos.num_contrato',
                     'notas.fecha',
                     'notas.pago_cubierto',
-                    'notas.observaciones')
+                    'notas.observaciones',
+                    'notas.user_id')
             ->where('notas.pago_cubierto', false);
             return DataTables::of(
                 $nota_entrada
-            )                                                             
-            ->addColumn( 'btnNota', '<a class="btn btn-sm btn-grisclaro btn-xs" target="_blank" href="{{route(\'pdf.nota_salida\', $nota_id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
-            ->addColumn( 'btnShow', '<a class="btn btn-sm btn-grisclaro btn-xs" target="_blank" href="{{route(\'nota.pagos.index\', $nota_id)}}" title="Nota"><i class="far fa-eye"></i></a>')
+            )
+            ->editColumn('user_name', function ($nota) {
+                $usuario=User::select('name')->where('id', $nota->user_id)->first();;
+                return $usuario->name;
+            })                                                             
+            ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_salida\', $nota_id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
+            ->addColumn( 'btnShow', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'nota.pagos.index\', $nota_id)}}" title="Nota"><i class="far fa-eye"></i></a>')
             ->rawColumns(['btnNota','btnShow'])
             ->editColumn('pago_cubierto', function ($user) {
                 if($user->pago_cubierto== true){
@@ -105,8 +119,12 @@ class NotaListasController extends Controller
                     'notas_entrada.*',);
             return DataTables::of(
                 $nota_entrada
-            )                                                               
-            ->addColumn( 'btnNota', '<a class="btn btn-sm btn-grisclaro btn-xs" target="_blank" href="#" title="Nota"><i class="fas fa-sticky-note"></i></a>')
+            )
+            ->editColumn('user_name', function ($nota) {
+                $usuario=User::select('name')->where('id', $nota->user_id)->first();;
+                return $usuario->name;
+            })                                                                  
+            ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="#" title="Nota"><i class="fas fa-sticky-note"></i></a>')
             ->rawColumns(['btnNota'])
             ->toJson();
         }

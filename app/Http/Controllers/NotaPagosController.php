@@ -26,10 +26,22 @@ class NotaPagosController extends Controller
     }
 
     public function create(Request $request){
-            $pago = new NotaTanque;
+            $pago = new NotaPagos();
             $pago->monto_pago = $request->monto_pago;
-            $pago->tipo_gas = $request->tipo_gas;
+            $pago->metodo_pago = $request->metodo_pago;
             $pago->nota_id = $request->nota_id;
+            $pago->user_id = auth()->user()->id;
             $pago->save();
+            
+            $notaPagos= NotaPagos::where('nota_id',$request->nota_id);
+            $sumpaPagos=$notaPagos->sum('monto_pago');
+            $nota=Nota::find($request->nota_id);
+            
+            if($sumpaPagos >= $nota->total){
+                $nota->pago_cubierto = true;
+                $nota->save();
+            }else{
+                return response()->json(['mensaje'=>'Aun con adeudo']);
+            }
     }
 }

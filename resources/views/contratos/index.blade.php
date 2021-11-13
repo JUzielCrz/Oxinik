@@ -1,8 +1,8 @@
 @extends('layouts.sidebar')
 
 @section('menu-navbar') 
-    <li class="nav-item">
-        <a class="btn btn-sm btn-success mr-1" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i> Atras</a>
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i> Atras</a>
     </li>
     {{-- <li class="nav-item">
         <a class="btn btn-sm btn-outline-success" href="{{ url('/nota/entrada') }}"><i class="fas fa-sign-in-alt"></i> Entrada</a>
@@ -205,10 +205,10 @@
             <!-- botones Aceptar y cancelar-->
             <div class="row justify-content-center" >
                 <div class="btn-group col-auto" style="margin:10px" >
-                <button type="submit" class="btn btn-gray" id="btnaccept">Aceptar</button>
+                <button type="submit" class="btn btn-amarillo" id="btnaccept">Aceptar</button>
                 </div>
                 <div class="btn-group col-auto" style="margin:10px">
-                <button  class="btn btn-gray" data-dismiss="modal">Cancelar</button>
+                <button  class="btn btn-amarillo" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
             </div>
@@ -232,10 +232,10 @@
             <!-- botones Aceptar y cancelar-->
             <div class="row justify-content-center" >
                 <div class="btn-group col-auto " style="margin:10px" >
-                <button type="submit" class="btn btn-gray form-control" id="btnactualizar">Actualizar</button>
+                <button type="submit" class="btn btn-amarillo form-control" id="btnactualizar">Actualizar</button>
                 </div>
                 <div class="btn-group col-auto" style="margin:10px">
-                <button type="reset" class="btn btn-gray form-control" data-dismiss="modal">Cancelar</button>
+                <button type="reset" class="btn btn-amarillo form-control" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
             </div>
@@ -266,7 +266,7 @@
                 <button type="submit" class="btn btn-naranja" id="btneliminar">Eliminar</button>
                 </div>
                 <div class="btn-group col-auto" style="margin:10px">
-                <button type="reset" class="btn btn-gray" data-dismiss="modal">Cancelar</button>
+                <button type="reset" class="btn btn-amarillo" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
             </div>
@@ -298,7 +298,7 @@
                 <button type="submit" class="btn btn-naranja" id="btneliminar">Eliminar</button>
                 </div>
                 <div class="btn-group col-auto" style="margin:10px">
-                <button type="reset" class="btn btn-gray" data-dismiss="modal">Cancelar</button>
+                <button type="reset" class="btn btn-amarillo" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
             </div>
@@ -313,16 +313,16 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="h5-title-modal"></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+                <h5 class="modal-title" id="h5-title-modal"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 @include('contratos.asignaciontanques')
             </div>
             <div class="modal-footer">
-            {{-- <button type="button" class="btn btn-grisclaro" data-dismiss="modal">Cancelar</button> --}}
+            {{-- <button type="button" class="btn btn-verde" data-dismiss="modal">Cancelar</button> --}}
             <button id="btn-save-asignacion" type="button" class="btn btn-verde">Guardar</button>
             </div>
         </div>

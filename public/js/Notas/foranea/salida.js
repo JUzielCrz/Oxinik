@@ -140,7 +140,7 @@ $(document).ready(function () {
         //Insertar button
         $('#datosfacturacion').append(
             "<div class='form-row justify-content-end' id='filaFacturacion'>"+
-                "<button type='button' class='btn btn-sm btn-gray' id='btnFacturacion'>"+
+                "<button type='button' class='btn btn-sm btn-amarillo' id='btnFacturacion'>"+
                     "<span class='fas fa-plus'></span>Datos Facturacion"+
                 "</button>"+
             "</div>"
@@ -240,7 +240,7 @@ $(document).ready(function () {
         $('#input-group-envio').remove();
         $('#row-envio').append(
             '<div id="div-btn-modal-envio" class="form-row justify-content-end">'+
-                '<button id="btn-modal-envio" type="button" class="btn btn-sm btn-gray" data-toggle="modal" data-target="#modal-envio"> <span class="fas fa-plus"></span> Agregar Envio</button>'+
+                '<button id="btn-modal-envio" type="button" class="btn btn-sm btn-amarillo" data-toggle="modal" data-target="#modal-envio"> <span class="fas fa-plus"></span> Agregar Envio</button>'+
             '</div>'
         )
         $('#label-precio-envio').replaceWith( 

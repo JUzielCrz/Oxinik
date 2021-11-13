@@ -130,6 +130,7 @@ class ContratoController extends Controller
                 $notaAsig->contrato_id=$contratos->id;
                 $notaAsig->fecha=date("Y")."-" . date("m")."-".date("d");
                 $notaAsig->incidencia= 'INICIO-CONTRATO';
+                $notaAsig->user_id= auth()->user()->id;
                 $notaAsig->save();
 
                 foreach( $request->tipo_gascreate AS $typeG => $g){
@@ -233,7 +234,7 @@ class ContratoController extends Controller
                 ->first();
                 return $cliente->nombre." ".$cliente->apPaterno." ".$cliente->apMaterno;
             })
-            ->addColumn( 'btnShow', '<a class="btn btn-sm btn-grisclaro btn-xs" href="{{route(\'contrato.index\', $cliente_id)}}" title="Información"><span class="far fa-eye"></span></a>')
+            ->addColumn( 'btnShow', '<a class="btn btn-sm btn-verde btn-xs" href="{{route(\'contrato.index\', $cliente_id)}}" title="Información"><span class="far fa-eye"></span></a>')
             ->rawColumns(['btnShow'])
             ->toJson();
         }

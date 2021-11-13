@@ -42,8 +42,8 @@ class InfraController extends Controller
             ->editColumn('created_at', function ($infra) {
                 return $infra->created_at->format('H:i:s A - d/m/Y');
             })
-            ->addColumn( 'btnShow', '<button class="btn btn-grisclaro btn-show btn-sm" data-id="{{$id}}"><span class="far fa-eye"></span></button>')
-            ->addColumn( 'btnPDF', '<a class="btn btn-grisclaro btn-sm" href="{{route(\'pdf.infra_nota\', $id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Nota PDF"><i class="fas fa-file-pdf"></i></a>')
+            ->addColumn( 'btnShow', '<button class="btn btn-verde btn-show btn-sm" data-id="{{$id}}"><span class="far fa-eye"></span></button>')
+            ->addColumn( 'btnPDF', '<a class="btn btn-verde btn-sm" href="{{route(\'pdf.infra_nota\', $id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Nota PDF"><i class="fas fa-file-pdf"></i></a>')
             ->rawColumns(['btnShow','btnPDF'])
             ->toJson();
         }
@@ -78,6 +78,8 @@ class InfraController extends Controller
             $infra->cantidad= $request->cantidad;
             $infra->fecha= $fechaactual;
             $infra->incidencia= $request->incidencia;
+            $infra->user_id=auth()->user()->id;
+
 
             if($infra->save()){
                 if($infra->incidencia=='ENTRADA'){

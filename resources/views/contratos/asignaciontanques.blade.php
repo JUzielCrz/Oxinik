@@ -32,9 +32,9 @@
             </tr>
         </tbody>
     </table>
-    <div class="row justify-content-end mr-4">
-       
-    </div>
+
+    <hr>
+    <div id="div-garantia"></div>
 </form>
 
 <script>

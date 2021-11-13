@@ -16,7 +16,7 @@
                         <h5>Roles</h5>
                     </div>
                     <div class="col-md-5 text-right">
-                        <button type="button" class="btn btn-gray" data-toggle="modal" data-target="#modalinsertar">
+                        <button type="button" class="btn btn-amarillo" data-toggle="modal" data-target="#modalinsertar">
                             <span class="fas fa-plus"></span>
                             Agregar
                         </button>

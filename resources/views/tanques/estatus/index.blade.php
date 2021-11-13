@@ -65,4 +65,9 @@
 @include('layouts.scripts')
 <!--Scripts-->
     <script src="{{ asset('js/tanque/listar_estatus.js') }}"></script>
-<!--Fin Scripts-->
+    <script>
+        $(document).ready(function () {
+            $("#id-menu-estatus").addClass('active');
+        });
+    </script>
+    <!--Fin Scripts-->

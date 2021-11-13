@@ -33,7 +33,7 @@
                             </div>
 
                             <div class="col align-self-end">
-                                <button type="button" class="btn btn-grisclaro" id="btn-insert-fila-entrada"> <span class="fas fa-plus"></span>Add</button>
+                                <button type="button" class="btn btn-verde" id="btn-insert-fila-entrada"> <span class="fas fa-plus"></span>Add</button>
                             </div> 
                         </div>
                         
@@ -99,7 +99,7 @@
                             </div>
                             
                             <div class="col align-self-end">
-                                <button type="button" class="btn btn-grisclaro" id="btn-insert-fila-salida"> <span class="fas fa-plus"></span>Add</button>
+                                <button type="button" class="btn btn-verde" id="btn-insert-fila-salida"> <span class="fas fa-plus"></span>Add</button>
                             </div> 
                         </div>
                         <span  id="serie_tanqueError" class="text-danger"></span>
@@ -192,7 +192,7 @@
                         
                         <div id="datosfacturacion">
                             <div class="form-row justify-content-end" id="filaFacturacion">
-                                <button type="button" class="btn btn-sm btn-gray" id="btnFacturacion"><span class="fas fa-plus"></span>Datos Facturacion</button>
+                                <button type="button" class="btn btn-sm btn-amarillo" id="btnFacturacion"><span class="fas fa-plus"></span>Datos Facturacion</button>
                             </div>
         
                             <div class="collapse" id="myCollapsible">
@@ -232,7 +232,7 @@
 
                                 <div class='row'>
                                     <div class='col text-right'>
-                                        <button type='button' class='btn btn-sm btn-gray' id='btnFacturacionCancelar'><span class='fas fa-minus mr-2'></span>Cancelar Facturación</button>
+                                        <button type='button' class='btn btn-sm btn-amarillo' id='btnFacturacionCancelar'><span class='fas fa-minus mr-2'></span>Cancelar Facturación</button>
                                     </div>
                                 </div>
                             </div>
@@ -245,7 +245,7 @@
                         </center>
                         <div id="row-envio" >
                             <div id="div-btn-modal-envio" class="form-row justify-content-end">
-                                <button id="btn-modal-envio" type="button" class="btn btn-sm btn-gray" data-toggle="modal" data-target="#modal-envio"> <span class="fas fa-plus"></span> Agregar Envío</button>
+                                <button id="btn-modal-envio" type="button" class="btn btn-sm btn-amarillo" data-toggle="modal" data-target="#modal-envio"> <span class="fas fa-plus"></span> Agregar Envío</button>
                             </div>
                         </div>
 
@@ -336,9 +336,9 @@
                         <hr>
 
                         <div class="row justify-content-center">
-                            <button type="button" class="btn btn-grisclaro" id="btnCancelar">Cancelar</button>
-                            <button type="button" class="btn btn-grisclaro ml-2" id="btn-pagar-nota">Pagar</button>
-                            {{-- <button type="button" class="btn btn-gray" id="btn-pdf-nota"> Nota de remision</button> --}}
+                            <button type="button" class="btn btn-verde" id="btnCancelar">Cancelar</button>
+                            <button type="button" class="btn btn-verde ml-2" id="btn-pagar-nota">Pagar</button>
+                            {{-- <button type="button" class="btn btn-amarillo" id="btn-pdf-nota"> Nota de remision</button> --}}
                         </div>
                     </div>
                 </div>
@@ -369,10 +369,10 @@
                     <!-- botones Aceptar y cancelar-->
                     <div class="row justify-content-center" >
                         <div class="btn-group col-auto" style="margin:10px" >
-                        <button type="button" class="btn btn-gray" id="btn-registrar-tanque">Aceptar</button>
+                        <button type="button" class="btn btn-amarillo" id="btn-registrar-tanque">Aceptar</button>
                         </div>
                         <div class="btn-group col-auto" style="margin:10px">
-                        <button  class="btn btn-gray" data-dismiss="modal">Cancelar</button>
+                        <button  class="btn btn-amarillo" data-dismiss="modal">Cancelar</button>
                         </div>
                     </div>
                 </div>
@@ -422,10 +422,10 @@
                         <!-- botones Aceptar y cancelar-->
                         <div class="row justify-content-center" >
                             <div class="btn-group col-auto" style="margin:10px" >
-                                <button type="button" class="btn btn-gray" id="btn-add-envio">Aceptar</button>
+                                <button type="button" class="btn btn-amarillo" id="btn-add-envio">Aceptar</button>
                             </div>
                             <div class="btn-group col-auto" style="margin:10px">
-                                <button  class="btn btn-gray" data-dismiss="modal">Cancelar</button>
+                                <button  class="btn btn-amarillo" data-dismiss="modal">Cancelar</button>
                             </div>
                         </div>
                     </form>
@@ -462,7 +462,7 @@
                 
             </div>
             <div class="modal-footer">
-            {{-- <button type="button" class="btn btn-grisclaro" data-dismiss="modal">Cancelar</button> --}}
+            {{-- <button type="button" class="btn btn-verde" data-dismiss="modal">Cancelar</button> --}}
             <button id="guardar-nota" type="button" class="btn btn-verde">Guardar</button>
             </div>
         </div>
@@ -476,8 +476,7 @@
 <script src="{{ asset('js/notas/exporadica/index.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $("#id-menu-exporadica").removeClass('btn-outline-success');
-        $("#id-menu-exporadica").addClass('btn-success');
+        $("#id-menu-mostrador").addClass('active');
     });
 </script>
 <!--Fin Scripts-->

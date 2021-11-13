@@ -11,7 +11,7 @@
         @csrf
         <input type="hidden" name="incidencia" id="incidencia" value="SALIDA">
         <div class="card">
-            <div class="card-header p-2 bg-dark text-white">
+            <div class="card-header p-2 bg-gris text-white">
                 <h5 >SALIDA TANQUES <strong>INFRA</strong></h5>
             </div>
         </div>
@@ -25,7 +25,7 @@
                                     <div class="input-group mb-3">
                                         <input type="text" name="serie_tanque" id="serie_tanque" class="form-control form-control-sm" placeholder="#Serie" >
                                         <div class="input-group-append">
-                                            <button type="button" class="btn btn-sm btn-gray" id="btn-InsertFila"><span class="fas fa-plus"></span> Agredar</button>
+                                            <button type="button" class="btn btn-sm btn-amarillo" id="btn-InsertFila"><span class="fas fa-plus"></span> Agredar</button>
                                         </div>
                                     </div>
                                 </div>
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                             <hr>
-                            <button type="button" id="btn-save" class="btn btn-sm btn-block btn-gray "> <span class="fas fa-save"></span> GUARDAR</button>
+                            <button type="button" id="btn-save" class="btn btn-sm btn-block btn-amarillo "> <span class="fas fa-save"></span> GUARDAR</button>
                         </div>
                     </div>
                 </div>
@@ -82,16 +82,7 @@
 <script src="{{ asset('js/infra/registro.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $("#id-menu-salida").removeClass('btn-outline-success');
-        $("#id-menu-salida").addClass('btn-success');
-
+        $("#id-menu-salida").addClass('active');
     });
-
-    // function pulsar(e) {
-    //     if (e.keyCode === 13 && !e.shiftKey) {
-    //         e.preventDefault();
-    //         insert_fila();
-    //     }
-    // }
 </script>
 <!--Fin Scripts-->

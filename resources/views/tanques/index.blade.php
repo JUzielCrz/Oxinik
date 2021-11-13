@@ -18,7 +18,7 @@
                         <div class="input-group m-0 p-0">
                             <input type="text" name="serie_tanque" id="serie_tanque" class="form-control form-control-sm" placeholder="#Serie" >
                             <div class="input-group-append">
-                                <button type="button" class="btn btn-sm btn-gray" id="add-cilindro">
+                                <button type="button" class="btn btn-sm btn-amarillo" id="add-cilindro">
                                     <span class="fas fa-plus"></span>
                                     Agregar
                                 </button>
@@ -67,10 +67,10 @@
             <!-- botones Aceptar y cancelar-->
             <div class="row justify-content-center" >
                 <div class="btn-group col-auto" style="margin:10px" >
-                <button type="button" class="btn btn-gray" id="btnaccept">Aceptar</button>
+                <button type="button" class="btn btn-amarillo" id="btnaccept">Aceptar</button>
                 </div>
                 <div class="btn-group col-auto" style="margin:10px">
-                <button  class="btn btn-gray" data-dismiss="modal">Cancelar</button>
+                <button  class="btn btn-amarillo" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
             </div>
@@ -94,7 +94,7 @@
             <!-- botones Aceptar y cancelar-->
             <div class="row justify-content-center" >
                 <div class="btn-group col-auto" style="margin:10px">
-                <button type="reset" class="btn btn-gray" data-dismiss="modal">Aceptar</button>
+                <button type="reset" class="btn btn-amarillo" data-dismiss="modal">Aceptar</button>
                 </div>
             </div>
             </div>
@@ -118,10 +118,10 @@
             <!-- botones Aceptar y cancelar-->
             <div class="row justify-content-center" >
                 <div class="btn-group col-auto " style="margin:10px" >
-                <button type="button" class="btn btn-gray form-control" id="btnactualizar">Actualizar</button>
+                <button type="button" class="btn btn-amarillo form-control" id="btnactualizar">Actualizar</button>
                 </div>
                 <div class="btn-group col-auto" style="margin:10px">
-                <button type="reset" class="btn btn-gray form-control" data-dismiss="modal">Cancelar</button>
+                <button type="reset" class="btn btn-amarillo form-control" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
             </div>
@@ -154,7 +154,7 @@
                 <button type="submit" class="btn btn-naranja" id="btneliminar">Eliminar</button>
                 </div>
                 <div class="btn-group col-auto" style="margin:10px">
-                <button type="reset" class="btn btn-gray" data-dismiss="modal">Cancelar</button>
+                <button type="reset" class="btn btn-amarillo" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
             </div>
@@ -170,3 +170,9 @@
 <!--Scripts-->
 <script src="{{ asset('js/tanque/index.js') }}"></script>
 <!--Fin Scripts-->
+
+<script>
+    $(document).ready(function () {
+        $("#id-menu-index").addClass('active');
+    });
+</script>

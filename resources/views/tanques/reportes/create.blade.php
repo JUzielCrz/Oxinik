@@ -34,10 +34,10 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col text-right">
-                        <button type="button" class="btn btn-sm btn-gray" id="btn-save-reporte" data-toggle="modal" data-target="#modal-tanque">
+                        <button type="button" class="btn btn-sm btn-amarillo" id="btn-save-reporte" data-toggle="modal" data-target="#modal-tanque">
                             Guardar
                         </button>
-                        <button type="button" class="btn btn-sm btn-gray" id="btn-cancelar" data-toggle="modal" data-target="#modal-tanque">
+                        <button type="button" class="btn btn-sm btn-amarillo" id="btn-cancelar" data-toggle="modal" data-target="#modal-tanque">
                             Cancelar
                         </button>
                     </div>
@@ -56,8 +56,7 @@
     <script src="{{ asset('js/tanque/reportes.js') }}"></script>
     <script>
         $(document).ready(function () {
-            $("#id-menu-reportes").removeClass('btn-outline-success');
-            $("#id-menu-reportes").addClass('btn-success');
+            $("#id-menu-reportes").addClass('active');
         });
     </script>
 <!--Fin Scripts-->

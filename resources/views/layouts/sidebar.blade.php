@@ -83,9 +83,9 @@
             </ul>
 
             <ul class="list-unstyled CTAs">
-                <li>
+                {{-- <li>
                     <a href="#" class="download">Download source</a>
-                </li>
+                </li> --}}
                 <li>
                     <a href="{{ route('logout') }}" 
                     onclick="event.preventDefault();
@@ -100,9 +100,9 @@
         <!-- Page Content  -->
         <div id="content">
 
-            <nav class="navbar navbar-expand-sm navbar-light bg-light p-2">
+            <nav class="navbar navbar-expand-sm pt-0 pb-0 ">
                 {{-- BOTON PARA MENU LATERAL (SIDEBAR) --}}
-                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                <button type="button" id="sidebarCollapse" class="btn btn-verde " >
                     <i class="fas fa-align-left"></i>   
                 </button>
 
@@ -111,10 +111,27 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>     
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ">
+                    <ul class="navbar-nav" id="menu-navbar">
                         @yield('menu-navbar')
                     </ul>
+                    
                 </div>
+
+                {{-- cERRAR SESION --}}
+                <div class="btn-group">
+                    <a type="button" class="btn btn-verde text-white" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user"></i> <i class="fas fa-angle-down"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" style="font-size: 13px">
+                        <a  href="{{ route('logout') }}" class="dropdown-item" type="button" onclick="event.preventDefault(); document.getElementById('logout-form1').submit();" class="article">
+                            <i class="fas fa-sign-out-alt"></i> Cerar Sesión
+                        </a>
+                        <form id="logout-form1" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </div>
+                </div>
+                
             </nav>
 
             @yield('content-sidebar')

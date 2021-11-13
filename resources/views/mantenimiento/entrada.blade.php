@@ -11,13 +11,13 @@
         @csrf
         <input type="hidden" name="incidencia" id="incidencia"  value="ENTRADA">
         <div class="card">
-            <div class="card-header p-2 bg-dark text-white">
+            <div class="card-header p-2 bg-gris text-white">
                 <div class="row">
                     <div class="col-md-9">
                         <h5 >ENTRADA TANQUES <strong>MANTENIMIENTO</strong></h5>
                     </div>
                     <div class="col-md-3 text-right" >
-                        <button type="button" id="btn-SaveAll" class="btn btn-sm btn-gray "> <span class="fas fa-save"></span> GUARDAR</button>
+                        <button type="button" id="btn-SaveAll" class="btn btn-sm btn-amarillo "> <span class="fas fa-save"></span> GUARDAR</button>
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                                     <span  id="phError" class="text-danger"></span>
                                 </div>
                                 <div class="col text-right align-self-end">
-                                    <button type="button" class="btn btn-sm btn-gray" id="btn-InsertFila"><span class="fas fa-plus"></span> Agredar</button>
+                                    <button type="button" class="btn btn-sm btn-amarillo" id="btn-InsertFila"><span class="fas fa-plus"></span> Agredar</button>
                                 </div>
                             </div>
                             
@@ -97,7 +97,7 @@
                                 </div>
                             </div>
                             <hr>
-                            <button type="button" id="btn-save" class="btn btn-sm btn-block btn-gray "> <span class="fas fa-save"></span> GUARDAR</button>
+                            <button type="button" id="btn-save" class="btn btn-sm btn-block btn-amarillo "> <span class="fas fa-save"></span> GUARDAR</button>
                         </div>
                     </div>
                 </div>
@@ -115,8 +115,7 @@
 <script src="{{ asset('js/mantenimiento/registro.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $("#id-menu-entrada").removeClass('btn-outline-success');
-        $("#id-menu-entrada").addClass('btn-success');
+        $("#id-menu-entrada").addClass('active');
     });
 </script>
 <!--Fin Scripts-->
