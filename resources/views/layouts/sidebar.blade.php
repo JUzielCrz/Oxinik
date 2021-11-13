@@ -12,8 +12,10 @@
         <!-- Sidebar  -->
         <nav id="sidebar" class="active">
             <div class="sidebar-header">
-                <h3>OXINIK</h3>
-                <strong>OX</strong>
+                <a href="{{URL('/home')}}">
+                    <h3>OXINIK</h3>
+                    <strong>OX</strong>
+                </a>
             </div>
 
             <ul class="list-unstyled components">
@@ -31,7 +33,8 @@
 
                 {{-- Nota --}}
                     @if($user->permiso_con_admin('nota_salida') ||  $user->permiso_con_admin('nota_entrada') )
-                        <li id="nav-ico-notas"><a @if ($user->permiso_con_admin('nota_salida') )
+                        <li id="nav-ico-notas"><a 
+                            @if ($user->permiso_con_admin('nota_salida') )
                             href="{{ url('/nota/salida') }}"
                             @else
                             href="{{ url('/nota/entrada') }}"
