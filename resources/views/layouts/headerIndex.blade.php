@@ -15,6 +15,7 @@
         <link href="{{asset('css/misestilos.css')}}" rel="stylesheet">
 
         <!----Para SIDBAR----->
+        <link href="{{asset('css/misestilos.css')}}" rel="stylesheet">
         <link href="{{asset('css/sidebar-menu.css')}}" rel="stylesheet"> 
 
         {{-- archivos para datatables --}}

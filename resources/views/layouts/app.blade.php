@@ -20,6 +20,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('css/misestilos.css')}}" rel="stylesheet">
+    
 
     {{-- archivos para datatables --}}
     <link href="{{asset('datatables/datatables.min.css')}}" rel="stylesheet"> 
