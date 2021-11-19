@@ -11,6 +11,14 @@ $(document).ready(function () {
     $(document).on("click","#guardar-nota", guardar_nota);
 
 
+    $('#serie_tanque_entrada').keypress(function (event) {
+        // console.log(event.charCode);
+        if (event.charCode == 13 ){
+            event.preventDefault();
+            insert_fila();
+        } 
+    });
+
     if($(".tr-cilindros-entrada").length == $(".classfilatanque_entrada").length){
         $('#guardar-nota').prop('disabled', true);
     }

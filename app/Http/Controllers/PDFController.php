@@ -19,6 +19,8 @@ use App\Models\MantenimientoTanque;
 use App\Models\NotaForanea;
 use App\Models\NotaForaneaTanque;
 use App\Models\NotaPagos;
+use App\Models\NotaTalon;
+use App\Models\NotaTalonTanque;
 use App\Models\VentaExporadica;
 use App\Models\VentaTanque;
 
@@ -136,4 +138,19 @@ class PDFController extends Controller
         return $pdf->stream('nota_foranea_'.$nota->folio_nota.'.pdf');
         return $pdf->dowload('name.pdf');
     }
+
+    public function pdf_nota_talon($idnota){
+        $nota=NotaTalon::find($idnota);
+        $tanques=NotaTalonTanque::
+        join('tanques', 'tanques.num_serie','=','nota_talontanque.num_serie' )
+        ->where('nota_talon_id', $nota->id)->get();
+        
+        $data=['nota'=>$nota,'tanques'=>$tanques];
+        $pdf = PDF::loadView('pdf.nota_talon', $data);
+    
+        return $pdf->stream('nota_talon_'.$nota->folio_nota.'.pdf');
+        return $pdf->dowload('name.pdf');
+    }
 }
+
+

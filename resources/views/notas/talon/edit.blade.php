@@ -75,71 +75,7 @@
                         </div>
                     
                         <hr>
-                        <strong>TANQUES ENTREGADOS</strong>
-                        <div class="table-responsive mt-3">
-                            <table class="table table-sm table-hover table-bordered" >
-                                <thead >
-                                    <tr style="font-size: 13px">
-                                        <th scope="col">#SERIE</th>
-                                        <th scope="col">TAPA</th>
-                                        <th scope="col">CANTIDAD</th>
-                                        <th scope="col">U. M.</th>
-                                        <th scope="col">P. U.</th>
-                                        <th scope="col">IMPORTE</th>
-                                        <th scope="col">IVA 16%</th>
-                                    </tr>
-                                </thead>
-                                
-                                <tbody style="font-size: 13px">
-                                    @foreach ($tanques as $tanque)
-                                        <tr class="tr-cilindros-entrada">
-                                            <td class="p-0 text-center">{{$tanque->num_serie}}</td> <input type="hidden" name="inputNumSerie[]" value={{$tanque->num_serie}}>
-                                            <td class="p-0 text-center">{{$tanque->tapa_tanque}}</td>
-                                            <td class="p-0 text-center">{{$tanque->cantidad}}</td>
-                                            <td class="p-0 text-center">{{$tanque->unidad_medida}}</td>
-                                            <td class="p-0 text-center">$ {{$tanque->precio_unitario}}</td>
-                                            <td class="p-0 text-center">$ {{$tanque->importe}}</td>
-                                            <td class="p-0 text-center">$ {{$tanque->iva_particular}}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-            
-                            </table>
-                        </div>
-                    </div>
-                    {{-- TANQUES DE ENTRADA --}}
-                    <div class="card-header pb-0">
-                        <p class="mb-0 pb-0 mt-2"><strong>REGISTRA TANQUES DE ENTRADA</strong></p>
-                    </div>
-                    <div class="card-body">
-                        <div class="row justify-content-center">
-                            <div class="col">
-                                <div class="input-group input-group-sm mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroup-sizing-sm"># Serie:</span>
-                                    </div>
-                                    <input type="text" name="serie_tanque_entrada" id="serie_tanque_entrada" class="form-control form-control-sm" placeholder="#Serie" >
-                                </div>
-                                <span  id="serie_tanque_entradaError" class="text-danger"></span>
-                            </div>
-                            <div class="col">
-                                <div class="input-group input-group-sm mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroup-sizing-sm"># Tapa:</span>
-                                    </div>
-                                    <select name="tapa_tanque_entrada" id="tapa_tanque_entrada" class="form-control form-control-sm">
-                                        <option value="">Selecciona</option>
-                                        <option value="SI">SI</option>
-                                        <option value="NO">NO</option>
-                                    </select>
-                                </div>
-                                <span  id="tapa_tanque_entradaError" class="text-danger"></span>
-                            </div>
-
-                            <div class="col">
-                                <button type="button" class="btn btn-verde btn-sm" id="btn-insert-fila-entrada"> <span class="fas fa-plus"></span>Add</button>
-                            </div> 
-                        </div>
+                        <strong>TANQUES ENTRADA</strong>
                         <div class="table-responsive ">
                             <table class="table table-sm table-hover table-bordered">
                                 <thead>
@@ -148,18 +84,21 @@
                                         <th scope="col">DESCRIPCIÓN</th>
                                         <th scope="col">PH</th>
                                         <th scope="col">TAPA</th>
-                                        
-                                        <th scope="col"></th>
+                                        <th scope="col">CANTIDAD</th>
+                                        <th scope="col">P.U.</th>
+                                        <th scope="col">IMPORTE</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($tanquesEntrada as $tanq)
                                         <tr class='classfilatanque_entrada' style="font-size: 13px">
-                                            <td>{{$tanq->num_serie}}</td>
-                                            <td>{{$tanq->material}}, {{$tanq->fabricante}}, {{$tanq->capacidad}}, {{$tanq->tipo_tanque}}</td>
+                                            <td>{{$tanq->num_serie}}</td><input type="hidden" name="inputNumSerie_entrada[]" value={{$tanq->num_serie}}>
+                                            <td>{{$tanq->material}}, {{$tanq->fabricante}}, {{$tanq->tipo_tanque}}</td>
                                             <td>{{$tanq->ph}}</td>
                                             <td>{{$tanq->tapa_tanque}}</td>
-                                            <td></td>
+                                            <td>{{$tanq->cantidad}} {{$tanq->unidad_medida}}</td>
+                                            <td>{{$tanq->precio_unitario}}</td>
+                                            <td>{{$tanq->importe}}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -168,8 +107,68 @@
             
                             </table>
                         </div>
+                    </div>
+                    {{-- TANQUES DE ENTRADA --}}
+                    <div class="card-header pb-0">
+                        <p class="mb-0 pb-0 mt-2"><strong>REGISTRA SALIDA DE TANQUES</strong></p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row justify-content-center">
+                            <div class="col">
+                                <div class="input-group input-group-sm mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">Serie:</span>
+                                    </div>
+                                    <input type="text" name="serie_tanque" id="serie_tanque" class="form-control form-control-sm" placeholder="#" required>
+                                </div>                                
+                            </div>
+                            <div class="col ">
+                                <div class="input-group input-group-sm mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">Tapa:</span>
+                                    </div>
+                                    <select name="tapa_tanque" id="tapa_tanque" class="form-control form-control-sm">
+                                        <option value="">SELECCIONA</option>
+                                        <option value="SI">SI</option>
+                                        <option value="NO">NO</option>
+                                    </select>
+                                </div>   
+                                <span  id="tapa_tanqueError" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="col">
+                                <button type="button" class="btn btn-sm btn-verde" id="btn-insert-fila-salida"> <span class="fas fa-plus"></span>Add</button>
+                            </div> 
+                        </div>
+                        <span  id="serie_tanqueError" class="text-danger"></span>
+                        <div class="table-responsive ">
+                            <table class="table table-sm table-hover table-bordered" >
+                                <thead >
+                                    <tr style="font-size: 13px">
+                                        <th scope="col">#SERIE</th>
+                                        <th scope="col">TAPA</th>
+                                        <th scope="col">DESCRIPCIÓN</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size: 13px">
+                                    @foreach ($tanques as $tanque)
+                                        <tr class="classfilatanque_salida">
+                                            <td>{{$tanque->num_serie}}</td> 
+                                            {{-- <input type="hidden" name="inputNumSerie_salida[]" value={{$tanque->num_serie}}> --}}
+                                            <td>{{$tanque->tapa_tanque}}</td>
+                                            <td>{{$tanq->material}}, {{$tanq->fabricante}}, {{$tanq->tipo_tanque}}, PH: {{$tanque->ph}}</td>
+                                            <td></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                                <tbody id="tablelistaTanques">
+                                </tbody>
+            
+                            </table>
+                        </div>
                         <center>
-                            <div id="msg-tanques-entrada" style="display:none" class="alert" role="alert">
+                            <div id="msg-tanques-salida" style="display:none" class="alert" role="alert">
                             </div>
                         </center>
                     </div>
@@ -268,46 +267,17 @@
     </form>
 
 
-    <!-- Modal registrar tanque-->
-    <div class="modal fade bd-example-modal-lg" id="modal-registrar-tanque" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-onix">
-                    <h4 class="modal-title" id="modalinsertarTitle">Registrar Tanque</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
-                        <span aria-hidden="true" class="fas fa-times"></span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                        {{-- input --}}
-                        
-                        @include('tanques.create')
-                        
-                        {{-- endinputs --}}
-                    <!-- botones Aceptar y cancelar-->
-                    <div class="row justify-content-center" >
-                        <div class="btn-group col-auto" style="margin:10px" >
-                        <button type="button" class="btn btn-amarillo" id="btn-registrar-tanque">Aceptar</button>
-                        </div>
-                        <div class="btn-group col-auto" style="margin:10px">
-                        <button  class="btn btn-amarillo" data-dismiss="modal">Cancelar</button>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-    </div>
+
 
 
 @endsection
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/notas/foranea/entrada.js') }}"></script>
+<script src="{{ asset('js/notas/talon/edit.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $("#id-menu-foranea").addClass('active');
+        $("#id-menu-talon").addClass('active');
     });
 </script>
 <!--Fin Scripts-->

@@ -1,4 +1,3 @@
-
     <li class="nav-item dropdown" id="id-menu-contrato" >
         <a class="nav-link " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
             C/Contrato <i class="fas fa-angle-down"></i>
@@ -14,9 +13,10 @@
     <li class="nav-item" id="id-menu-foranea">
         <a class="nav-link"  href="{{ url('/nota/foranea/index') }}"><i class="fas fa-tasks"></i> Foraneas</a>
     </li>
+    <li class="nav-item" id="id-menu-talon">
+        <a class="nav-link"  href="{{ url('/nota/talon/index') }}"><i class="fas fa-tasks"></i> Talones</a>
+    </li>
     <li class="nav-item" id="id-menu-notas">
         <a class="nav-link"  href="{{ url('/nota/listar/index') }}"><i class="fas fa-tasks"></i> Notas</a>
     </li>
-
     
-

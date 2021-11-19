@@ -45,6 +45,13 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/nota/foranea/edit/{id}', 'NotaForaneaController@edit')->name('nota.foranea.edit');
     Route::post('/nota/foranea/salida/save', 'NotaForaneaController@salida_save');
     Route::post('/nota/foranea/entrada/save/{id}', 'NotaForaneaController@entrada_save');
+    // nota talon
+    Route::get('/nota/talon/index', 'NotaTalonController@index');
+    Route::get('/nota/talon/data', 'NotaTalonController@data');
+    Route::get('/nota/talon/create', 'NotaTalonController@create');
+    Route::post('/nota/talon/create/save', 'NotaTalonController@create_save');
+    Route::get('/nota/talon/edit/{id}', 'NotaTalonController@edit')->name('nota.talon.edit');
+    Route::post('/nota/talon/edit/save/{id}', 'NotaTalonController@edit_save');
     
     ///* Listar notas */
     Route::get('/nota/listar/index', 'NotaListasController@index');
@@ -133,6 +140,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/pdf/generar_contrato/{idcontrato}', 'PDFController@generar_contrato')->name('pdf.contrato'); 
     Route::get('/pdf/nota/exporadica/{idnota}', 'PDFController@pdf_nota_exporadica')->name('pdf.nota_exporadica'); 
     Route::get('/pdf/nota/foranea/{idnota}', 'PDFController@pdf_nota_foranea')->name('pdf.nota_foranea'); 
+    Route::get('/pdf/nota/talon/{idnota}', 'PDFController@pdf_nota_talon')->name('pdf.nota_talon'); 
     Route::get('/pdf/infra/nota/{idnota}', 'PDFController@infra_nota')->name('pdf.infra_nota'); 
     Route::get('/pdf/mantenimiento/nota/{idnota}', 'PDFController@mantenimiento_nota')->name('pdf.mantenimiento_nota');
 

@@ -58,6 +58,14 @@ class TanqueController extends Controller
             return DataTables::of(
                 $tanques
             )
+            ->editColumn('user_name', function ($user) {
+                if($user->user_id == null){
+                    return null;
+                }else{
+                    $nombre=User::select('name')->where('id', $user->user_id)->first();
+                    return $nombre->name;
+                }
+            })
             ->editColumn('ph', function ($pruebaH) {
                 $fechaactual=new DateTime(date("Y")."-" . date("m")."-".date("d"));
                 $fechaPh=new DateTime($pruebaH->ph);
@@ -117,6 +125,7 @@ class TanqueController extends Controller
             $tanques->tipo_gas = $request->input('tipo_gas');
             $tanques->estatus = $request->input('estatus');
             $tanques->tipo_tanque = $request->input('tipo_tanque');
+            $tanques->user_id = auth()->user()->id;
             
 
             if($tanques->save()){

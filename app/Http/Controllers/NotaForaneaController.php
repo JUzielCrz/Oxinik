@@ -46,9 +46,13 @@ class NotaForaneaController extends Controller
             return DataTables::of(
                 $notas
             )
-            ->editColumn('usuario', function ($user) {
-                $nombre=User::select('name')->where('id', $user->user_id)->first();
-                return $nombre->name;
+            ->editColumn('user_name', function ($user) {
+                if($user->user_id == null){
+                    return null;
+                }else{
+                    $nombre=User::select('name')->where('id', $user->user_id)->first();
+                    return $nombre->name;
+                }
             })
             ->addColumn( 'btnEdit', '<a class="btn btn-sm btn-verde" href="{{route(\'nota.foranea.edit\', $id)}}" data-toggle="tooltip" data-placement="top" title="Contrato"><span class="fas fa-edit"></span></a>')
             ->rawColumns(['btnEdit'])
@@ -211,6 +215,7 @@ class NotaForaneaController extends Controller
                                     $newTanque->estatus = $cadena[4];
                                     $cadeGas =explode(' ',$cadena[5]);
                                     $newTanque->tipo_gas = $cadeGas[0];
+                                    $newTanque->user_id = auth()->user()->id;
                                     $newTanque->save();
     
                                     $historytanques=new TanqueHistorial();
@@ -227,7 +232,6 @@ class NotaForaneaController extends Controller
                                 $ventatanque->tapa_tanque = $request->inputTapa_entrada[$entrada];
                                 $ventatanque->insidencia = 'ENTRADA';
                                 $ventatanque->save();
-    
                             }
     
                             return response()->json(['alert'=>'success', 'notaId'=>$request->idnota]);

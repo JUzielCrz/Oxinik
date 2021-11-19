@@ -307,6 +307,7 @@ class NotaController extends Controller
                             $newTanque->estatus = $cadena[4];
                             $cadenaGas=explode(' ', $cadena[5]);
                             $newTanque->tipo_gas = $cadenaGas[0];
+                            $newTanque->user_id = auth()->user()->id;
                             $newTanque->save();
 
                             $history2=new TanqueHistorial;

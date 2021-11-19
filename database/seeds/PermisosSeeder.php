@@ -136,6 +136,11 @@ class PermisosSeeder extends Seeder
             'slug'=>'nota_foranea',
             'description'=>'Acceso a notas foraneas',
         ]);
+        Permissions::create([
+            'name'=>'Talones',
+            'slug'=>'talon',
+            'description'=>'Acceso a Talones',
+        ]);
         
 
         //Notas exporadicas

@@ -50,8 +50,12 @@ class NotaListasController extends Controller
                 }
             })
             ->editColumn('user_name', function ($nota) {
-                $usuario=User::select('name')->where('id', $nota->user_id)->first();
-                return $usuario->name;
+                if($nota->user_id == null){
+                    return null;
+                }else{
+                    $usuario=User::select('name')->where('id', $nota->user_id)->first();
+                    return $usuario->name;
+                }
             })
             ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_salida\', $nota_id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
             ->rawColumns(['btnNota'])
@@ -67,8 +71,12 @@ class NotaListasController extends Controller
                 $nota_entrada
             )                                                               
             ->editColumn('user_name', function ($nota) {
-                $usuario=User::select('name')->where('id', $nota->user_id)->first();;
-                return $usuario->name;
+                if($nota->user_id == null){
+                    return null;
+                }else{
+                    $usuario=User::select('name')->where('id', $nota->user_id)->first();
+                    return $usuario->name;
+                }
             })
             ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_exporadica\', $id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
             ->rawColumns(['btnNota'])
@@ -92,8 +100,12 @@ class NotaListasController extends Controller
                 $nota_entrada
             )
             ->editColumn('user_name', function ($nota) {
-                $usuario=User::select('name')->where('id', $nota->user_id)->first();;
-                return $usuario->name;
+                if($nota->user_id == null){
+                    return null;
+                }else{
+                    $usuario=User::select('name')->where('id', $nota->user_id)->first();
+                    return $usuario->name;
+                }
             })                                                             
             ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_salida\', $nota_id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
             ->addColumn( 'btnShow', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'nota.pagos.index\', $nota_id)}}" title="Nota"><i class="far fa-eye"></i></a>')
@@ -121,8 +133,12 @@ class NotaListasController extends Controller
                 $nota_entrada
             )
             ->editColumn('user_name', function ($nota) {
-                $usuario=User::select('name')->where('id', $nota->user_id)->first();;
-                return $usuario->name;
+                if($nota->user_id == null){
+                    return null;
+                }else{
+                    $usuario=User::select('name')->where('id', $nota->user_id)->first();
+                    return $usuario->name;
+                }
             })                                                                  
             ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="#" title="Nota"><i class="fas fa-sticky-note"></i></a>')
             ->rawColumns(['btnNota'])
