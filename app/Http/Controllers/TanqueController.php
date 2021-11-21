@@ -57,6 +57,14 @@ class TanqueController extends Controller
             return DataTables::of(
                 $tanques
             )
+            ->editColumn('user_name', function ($user) {
+                if($user->user_id == null){
+                    return null;
+                }else{
+                    $nombre=User::select('name')->where('id', $user->user_id)->first();
+                    return $nombre->name;
+                }
+            })
             ->editColumn('ph', function ($pruebaH) {
                 $fechaactual=new DateTime(date("Y")."-" . date("m")."-".date("d"));
                 $fechaPh=new DateTime($pruebaH->ph);
@@ -70,10 +78,10 @@ class TanqueController extends Controller
                 };
                 return  $pruebaH->ph;
             })                                                               
-            ->addColumn( 'btnHistory', '<a class="btn btn-sm btn-verde btn-xs" href="{{route(\'tanques.history\', $id)}}" title="Historial"><span class="fas fa-history"></span></a>')
-            ->addColumn( 'btnShow', '<button class="btn btn-sm btn-verde btn-show-modal btn-xs" data-id="{{$id}}" title="Información"><span class="far fa-eye"></span></button>')
-            ->addColumn( 'btnEdit', '<button class="btn btn-sm btn-verde btn-edit-modal btn-xs" data-id="{{$id}}" title="Editar"><span class="far fa-edit"></span></button>')
-            ->addColumn( 'btnBaja', '<button class="btn btn-sm btn-verde btn-delete-modal btn-xs" data-id="{{$id}}" title="Baja"><span class="fas fa-trash"></span></button>')
+            ->addColumn( 'btnHistory', '<a class="btn btn-sm btn-verde " href="{{route(\'tanques.history\', $id)}}" title="Historial"><span class="fas fa-history"></span></a>')
+            ->addColumn( 'btnShow', '<button class="btn btn-sm btn-verde btn-show-modal " data-id="{{$id}}" title="Información"><span class="far fa-eye"></span></button>')
+            ->addColumn( 'btnEdit', '<button class="btn btn-sm btn-verde btn-edit-modal " data-id="{{$id}}" title="Editar"><span class="far fa-edit"></span></button>')
+            ->addColumn( 'btnBaja', '<button class="btn btn-sm btn-verde btn-delete-modal " data-id="{{$id}}" title="Baja"><span class="fas fa-trash"></span></button>')
             ->rawColumns(['btnHistory','btnShow','btnEdit','btnBaja','ph'])
             ->toJson();
         }
@@ -116,6 +124,7 @@ class TanqueController extends Controller
             $tanques->tipo_gas = $request->input('tipo_gas');
             $tanques->estatus = $request->input('estatus');
             $tanques->tipo_tanque = $request->input('tipo_tanque');
+            $tanques->user_id = auth()->user()->id;
             
 
             if($tanques->save()){
@@ -313,8 +322,8 @@ class TanqueController extends Controller
             return DataTables::of(
                 $tanques
             )                                                               
-            ->addColumn( 'btnHistory', '<a class="btn btn-sm btn-verde btn-xs" href="{{route(\'tanques.history\', $tanque_id)}}" title="Historial"><span class="fas fa-history"></span></a>')
-            ->addColumn( 'btbEliminar', '<button class="btn btn-sm btn-verde btn-eliminar btn-xs" data-id="{{$reporte_id}}" title="Baja"><span class="fas fa-trash"></span></button>')
+            ->addColumn( 'btnHistory', '<a class="btn btn-sm btn-verde " href="{{route(\'tanques.history\', $tanque_id)}}" title="Historial"><span class="fas fa-history"></span></a>')
+            ->addColumn( 'btbEliminar', '<button class="btn btn-sm btn-verde btn-eliminar " data-id="{{$reporte_id}}" title="Baja"><span class="fas fa-trash"></span></button>')
             ->addColumn('descripcion', function ($tanques) {
                 return "PH: ".$tanques->ph.", ".$tanques->fabricante.", ".$tanques->material.", ".$tanques->tipo_tanque;
             })

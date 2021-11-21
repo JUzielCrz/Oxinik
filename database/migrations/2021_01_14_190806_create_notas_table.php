@@ -29,6 +29,7 @@ class CreateNotasTable extends Migration
             $table->boolean('pago_cubierto');
             $table->string('observaciones')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->enum('estatus', ['ACTIVA', 'CANCELADA'])->default('ACTIVA');
             $table->timestamps();
         });
     }

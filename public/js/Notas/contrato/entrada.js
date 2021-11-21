@@ -24,7 +24,7 @@ $(document).ready(function () {
             {
                 $.ajax({
                     method: "POST",
-                    url:"/nota/salida/search_contrato",
+                    url:"/nota/contrato/salida/search_contrato",
                     data:{'query':query,'_token': $('input[name=_token]').val(),},
                     success:function(data){
 
@@ -69,7 +69,7 @@ $(document).ready(function () {
     ///FUNCIONES PARA INSERTAR TABLAS
     function show_nota_lista_tanques(contrato_id, tbody) {
             
-        $.get('/nota/entrada/tanques_pendientes/' + contrato_id, function(data) {
+        $.get('/nota/contrato/entrada/tanques_pendientes/' + contrato_id, function(data) {
             var columnas='';
             $.each(data, function (key, value) {
                 columnas+='<tr class="class-tanques-nota"><td>'+
@@ -259,7 +259,7 @@ $(document).ready(function () {
         $('#modal_general_contenido').empty();
         $('#modal_general_botones').empty();
 
-        $.get('/nota/entrada/tanques_pendientes/' + $('#contrato_id').val(), function(data) {
+        $.get('/nota/contrato/entrada/tanques_pendientes/' + $('#contrato_id').val(), function(data) {
 
             var radiobuttons='';
 
@@ -663,7 +663,7 @@ $(document).ready(function () {
         $('#modal_general_contenido').empty();
         $('#modal_general_botones').empty();
 
-        $.get('/nota/entrada/tanques_pendientes/' + $('#contrato_id').val(), function(data) {
+        $.get('/nota/contrato/entrada/tanques_pendientes/' + $('#contrato_id').val(), function(data) {
 
             var radiobuttons='';
 
@@ -940,7 +940,7 @@ $(document).ready(function () {
         // envio al controlador
         $.ajax({
             method: "post",
-            url: "/nota/entrada/save",
+            url: "/nota/contrato/entrada/save",
             data: $("#form-entrada-nota").serialize(), 
         }).done(function(msg){
             location.reload();

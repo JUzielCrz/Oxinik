@@ -38,6 +38,7 @@
                             <th class="text-center">Fabricante</th>
                             <th class="text-center">Material</th>
                             <th class="text-center">Estatus</th>
+                            <th class="text-center">Usuarios</th>
                             <th class="text-center"></th>
                             <th class="text-center"></th> 
                             <th class="text-center"></th>

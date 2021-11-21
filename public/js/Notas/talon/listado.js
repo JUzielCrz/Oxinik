@@ -24,7 +24,7 @@ $(document).ready(function () {
         },
         processing: true,
         serverSider: true,
-        ajax: '/nota/foranea/data',
+        ajax: '/nota/talon/data',
         columns:[
             {data: 'id'},   
             {data: 'nombre_cliente'},

@@ -30,7 +30,7 @@ class NotaExporadicaController extends Controller
         if($this->slug_permiso('nota_exporadica')){
             $catalogo = CatalogoGas::pluck('nombre','id');
             $data= ['catalogo' => $catalogo];
-            return view('notas.exporadica', $data);
+            return view('notas.mostrador.exporadica', $data);
         }
         return view('home');
     }
@@ -98,6 +98,7 @@ class NotaExporadicaController extends Controller
                                     $newTanque->estatus = $cadena[4];
                                     $cadeGas =explode(' ',$cadena[5]);
                                     $newTanque->tipo_gas = $cadeGas[0];
+                                    $newTanque->user_id = auth()->user()->id;
                                     $newTanque->save();
     
                                     $historytanques=new TanqueHistorial();

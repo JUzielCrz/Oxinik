@@ -8,24 +8,16 @@
 
 <div class="container">
     <div class="card">
+        <div class="card-header">
+            <h5>NOTAS CON CONTRATO</h5>
+        </div>
         <div class="card-body">
             <div class="row justify-content-center">
+                
                 <div class="col-md-3">
                     <div class="card">
                         <div class="card-body bg-verde border-dark text-white text-center  p-2" >
-                            <i class="fas fa-sticky-note"></i> Entradas-Contrato
-                        </div>
-                        <a href="#" id="btn-entradas">
-                            <div class="card-footer bg-gris text-white text-center p-1 " style="font-size:14px">
-                                Listar <i class="fas fa-angle-double-right"></i>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-body bg-verde border-dark text-white text-center  p-2" >
-                            <i class="fas fa-sticky-note"></i> Salidas-Contrato
+                            <i class="fas fa-sticky-note"></i> Salidas
                         </div>
                         <a href="#" id="btn-salidas">
                             <div class="card-footer bg-gris text-white text-center p-1 " style="font-size:14px">
@@ -37,9 +29,9 @@
                 <div class="col-md-3">
                     <div class="card">
                         <div class="card-body bg-verde border-dark text-white text-center  p-2" >
-                            <i class="fas fa-sticky-note"></i> Esporádica
+                            <i class="fas fa-sticky-note"></i> Entradas
                         </div>
-                        <a href="#" id="btn-exporadicas">
+                        <a href="#" id="btn-entradas">
                             <div class="card-footer bg-gris text-white text-center p-1 " style="font-size:14px">
                                 Listar <i class="fas fa-angle-double-right"></i>
                             </div>
@@ -62,11 +54,10 @@
         </div>
     </div>
 
-    <div class="card mt-3">
-        <div class="card-header">
-            <h5 id="titulo-table"></h5>
-        </div>
+    <div class="card mt-1">
         <div class="card-body" id="card-contenido">
+            <h5 id="titulo-table"></h5>
+            <hr>    
             <div id="insert-table"></div>
         </div>
     </div>
@@ -76,10 +67,11 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/notas/listas/index.js') }}"></script>
+<script src="{{ asset('js/notas/contrato/listar.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $("#id-menu-notas").addClass('active');
+        $("#id-menu-contrato").addClass('active');
+        
     });
 </script>
 <!--Fin Scripts-->
