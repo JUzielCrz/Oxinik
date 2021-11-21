@@ -11,8 +11,7 @@ use App\User;
 
 class NotaListasController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('auth');
     }
 
@@ -24,7 +23,7 @@ class NotaListasController extends Controller
     
     public function index(){
         if($this->slug_permiso('nota_show')){
-            return view('notas.listas.index');
+            return view('notas.contrato.listar');
         }
         return view('home');
     }
@@ -38,7 +37,8 @@ class NotaListasController extends Controller
                     'notas.fecha',
                     'notas.pago_cubierto',
                     'notas.observaciones',
-                    'notas.user_id');
+                    'notas.user_id',
+                    'notas.estatus');
             return DataTables::of(
                 $nota_entrada
             )                                       
@@ -57,29 +57,10 @@ class NotaListasController extends Controller
                     return $usuario->name;
                 }
             })
+            ->addColumn( 'btnShow', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'nota.contrato.salida.show\', $nota_id)}}" title="Nota"><i class="far fa-eye"></i></a>')
             ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_salida\', $nota_id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
-            ->rawColumns(['btnNota'])
-            ->toJson();
-        }
-        return view('home');
-    }
-
-    public function exporadica_data(){
-        if($this->slug_permiso('nota_show')){
-            $nota_entrada=VentaExporadica::all();
-            return DataTables::of(
-                $nota_entrada
-            )                                                               
-            ->editColumn('user_name', function ($nota) {
-                if($nota->user_id == null){
-                    return null;
-                }else{
-                    $usuario=User::select('name')->where('id', $nota->user_id)->first();
-                    return $usuario->name;
-                }
-            })
-            ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_exporadica\', $id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
-            ->rawColumns(['btnNota'])
+            ->addColumn( 'btnCancelar', '<button class="btn btn-sm btn-verde btn-cancelar-salida" data-id="{{$nota_id}}" title="Cancelar"><span class="fas fa-trash"></span></button>')
+            ->rawColumns(['btnNota','btnShow', 'btnCancelar'])
             ->toJson();
         }
         return view('home');
@@ -95,7 +76,8 @@ class NotaListasController extends Controller
                     'notas.pago_cubierto',
                     'notas.observaciones',
                     'notas.user_id')
-            ->where('notas.pago_cubierto', false);
+            ->where('notas.pago_cubierto', false)
+            ->where('notas.estatus', 'ACTIVA');
             return DataTables::of(
                 $nota_entrada
             )
@@ -141,6 +123,27 @@ class NotaListasController extends Controller
                 }
             })                                                                  
             ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="#" title="Nota"><i class="fas fa-sticky-note"></i></a>')
+            ->rawColumns(['btnNota'])
+            ->toJson();
+        }
+        return view('home');
+    }
+
+    public function exporadica_data(){
+        if($this->slug_permiso('nota_show')){
+            $nota_entrada=VentaExporadica::all();
+            return DataTables::of(
+                $nota_entrada
+            )                                                               
+            ->editColumn('user_name', function ($nota) {
+                if($nota->user_id == null){
+                    return null;
+                }else{
+                    $usuario=User::select('name')->where('id', $nota->user_id)->first();
+                    return $usuario->name;
+                }
+            })
+            ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_exporadica\', $id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
             ->rawColumns(['btnNota'])
             ->toJson();
         }

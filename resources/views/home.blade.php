@@ -42,9 +42,9 @@
                         @if($user->permiso_con_admin('nota_salida') ||  $user->permiso_con_admin('nota_entrada') )
                             <div class="card text-center mr-2" style="width: 13rem">
                                 <a  @if ($user->permiso_con_admin('nota_salida') )
-                                    href="{{ url('/nota/salida') }}"
+                                    href="{{ url('/nota/contrato/salida') }}"
                                     @else
-                                    href="{{ url('/nota/entrada') }}"
+                                    href="{{ url('/nota/contrato/entrada') }}"
                                     @endif>
                                     <img src="{{asset('/img/home/notas_venta.svg')}}" width="100" height="80" class="d-inline-block align-top mt-2" alt="">
                                     <hr class="mb-1">

@@ -20,32 +20,41 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
   /* Notas */
-    Route::get('/nota/salida', 'NotaController@salidas');
-    Route::post('/nota/salida/search_contrato', 'NotaController@search_contrato');
+    // CON CONTRATO
+    Route::get('/nota/contrato/salida', 'NotaController@salidas');
+    Route::post('/nota/contrato/salida/search_contrato', 'NotaController@search_contrato');
+    Route::post('/nota/contrato/salida/validar_tanqueasignacion', 'NotaController@salida_validar_tanqueasignacion');
+    Route::post('/nota/contrato/salida/save_envio/{num_contrato}', 'NotaController@save_envio');
+    Route::post('/nota/contrato/salida/save', 'NotaController@salida_save');
+    Route::get('/nota/contrato/salida/show/{nota_id}', 'NotaController@salida_show')->name('nota.contrato.salida.show');
+    Route::get('/nota/contrato/salida/cancelar/{nota_id}', 'NotaController@salida_cancelar');
+
     Route::post('/nota/data_contrato/{num_contrato}', 'NotaController@data_contrato'); //url para buscar contrato en nota salida
     Route::get('/nota/data/{contrato_id}', 'NotaController@nota_data');
-    Route::post('/nota/salida/validar_tanqueasignacion', 'NotaController@salida_validar_tanqueasignacion');
-    Route::post('nota/salida/save', 'NotaController@salida_save');
-    Route::post('/nota/salida/save_envio/{num_contrato}', 'NotaController@save_envio');
 
-    // nota entrada
-    Route::get('/nota/entrada', 'NotaController@entradas');
-    Route::get('/nota/entrada/tanques_pendientes/{contrato_id}', 'NotaController@tanques_pendientes');
-    Route::post('/nota/entrada/adeudos_tanques', 'NotaController@adeudos_tanques');
-    Route::post('/nota/entrada/save', 'NotaController@save_entrada');
+    Route::get('/nota/contrato/entrada', 'NotaController@entradas');
+    Route::get('/nota/contrato/entrada/tanques_pendientes/{contrato_id}', 'NotaController@tanques_pendientes');
+    Route::post('/nota/contrato/entrada/adeudos_tanques', 'NotaController@adeudos_tanques');
+    Route::post('/nota/contrato/entrada/save', 'NotaController@save_entrada');
+    
+    Route::get('/nota/contrato/listar/index', 'NotaListasController@index');
+    Route::get('/nota/contrato/listar/salidas/data', 'NotaListasController@salidas_data');
+    Route::get('/nota/contrato/listar/adeudos/data', 'NotaListasController@adeudos_data');
+    Route::get('/nota/contrato/listar/entradas/data', 'NotaListasController@entradas_data');
 
-    // nota exporadica
+    // EXPORADICA/MOSTRADOR
     Route::get('/nota/exporadica', 'NotaExporadicaController@index');
     Route::post('/nota/exporadica/save', 'NotaExporadicaController@save');
 
-    // nota foranea
+    //FORANEA
     Route::get('/nota/foranea/index', 'NotaForaneaController@index');
     Route::get('/nota/foranea/create', 'NotaForaneaController@create');
     Route::get('/nota/foranea/data', 'NotaForaneaController@data');
     Route::get('/nota/foranea/edit/{id}', 'NotaForaneaController@edit')->name('nota.foranea.edit');
     Route::post('/nota/foranea/salida/save', 'NotaForaneaController@salida_save');
     Route::post('/nota/foranea/entrada/save/{id}', 'NotaForaneaController@entrada_save');
-    // nota talon
+
+    // TALON
     Route::get('/nota/talon/index', 'NotaTalonController@index');
     Route::get('/nota/talon/data', 'NotaTalonController@data');
     Route::get('/nota/talon/create', 'NotaTalonController@create');
@@ -54,11 +63,11 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/nota/talon/edit/save/{id}', 'NotaTalonController@edit_save');
     
     ///* Listar notas */
-    Route::get('/nota/listar/index', 'NotaListasController@index');
-    Route::get('/nota/listar/salidas/data', 'NotaListasController@salidas_data');
-    Route::get('/nota/listar/exporadica/data', 'NotaListasController@exporadica_data');
-    Route::get('/nota/listar/adeudos/data', 'NotaListasController@adeudos_data');
-    Route::get('/nota/listar/entradas/data', 'NotaListasController@entradas_data');
+    // Route::get('/nota/listar/salidas/data', 'NotaListasController@salidas_data');
+    // Route::get('/nota/listar/adeudos/data', 'NotaListasController@adeudos_data');
+    // Route::get('/nota/listar/entradas/data', 'NotaListasController@entradas_data');
+    
+    // Route::get('/nota/listar/exporadica/data', 'NotaListasController@exporadica_data');
 
     ///* Pago notas */
     Route::get('/nota/pagos/index/{not_id}', 'NotaPagosController@index')->name('nota.pagos.index');

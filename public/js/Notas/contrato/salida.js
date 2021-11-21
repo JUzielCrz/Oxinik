@@ -23,7 +23,7 @@ $(document).ready(function () {
             {
                 $.ajax({
                     method: "POST",
-                    url:"/nota/salida/search_contrato",
+                    url:"/nota/contrato/salida/search_contrato",
                     data:{'query':query,'_token': $('input[name=_token]').val(),},
                     success:function(data){
                         $('#listarcontratos').fadeIn();  
@@ -70,7 +70,7 @@ $(document).ready(function () {
 
         function show_nota_lista_tanques(contrato_id, tbody) {
             
-            $.get('/nota/entrada/tanques_pendientes/' + contrato_id, function(data) {
+            $.get('/nota/contrato/entrada/tanques_pendientes/' + contrato_id, function(data) {
                 var columnas='';
                 $.each(data, function (key, value) {
                     columnas+='<tr class="class-tanques-nota"><td>'+
@@ -157,7 +157,7 @@ $(document).ready(function () {
                         if(msg.estatus == 'LLENO-ALMACEN'){
                             $.ajax({
                                 method: "post",
-                                url: "/nota/salida/validar_tanqueasignacion",
+                                url: "/nota/contrato/salida/validar_tanqueasignacion",
                                 data: {
                                     '_token': $('input[name=_token]').val(),
                                     'contrato_id': $('#contrato_id').val(),
@@ -344,7 +344,7 @@ $(document).ready(function () {
 
         $.ajax({
             method: "post",
-            url: "/nota/salida/save_envio/"+$('#num_contrato').val(),
+            url: "/nota/contrato/salida/save_envio/"+$('#num_contrato').val(),
             data: $('#form-edit-envio').serialize(),
         }).done(function(msg){
             $('#precio_envio').val(msg.precio_transporte);
@@ -443,7 +443,7 @@ $(document).ready(function () {
         // envio al controlador
         $.ajax({
             method: "post",
-            url: "/nota/salida/save",
+            url: "/nota/contrato/salida/save",
             data: $("#form-salida-nota").serialize(), 
         }).done(function(msg){
             window.open("/pdf/nota/"+ msg.notaId, '_blank');

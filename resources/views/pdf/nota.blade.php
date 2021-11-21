@@ -77,19 +77,14 @@
                             <th scope="col">U. M.</th>
                             <th scope="col">GAS</th>
                             <th scope="col">TAPA</th>
-                            {{-- <th scope="col">DESCRIPCIÓN</th> --}}
                             <th scope="col">PRECIO UNITARIO</th>
                             <th scope="col">IMPORTE</th>
                             <th scope="col">IVA</th>
-                            {{-- <th scope="col">TOTAL</th> --}}
                         </tr>
                     </thead>
 
                     <tbody id="tablelistaTanques" >
                         @foreach ($tanques as $tanq)
-                            {{-- @php
-                                $subtotal=$subtotal+$tanq->precio;  
-                            @endphp --}}
                             <tr>
                                 <td>{{$tanq->num_serie}}</td>
                                 <td>{{$tanq->cantidad}}</td>
@@ -103,7 +98,6 @@
                             </tr>
                         @endforeach
                     </tbody>
-
             </table>
 
             
@@ -111,9 +105,6 @@
             <table class="table table-bordered">
                 <tbody >
                     <tr>
-                        {{-- @php
-                            $subtotl= $nota->subtotal-($nota->subtotal * 0.16);
-                        @endphp --}}
                         <td>SUBTOTAL: <br>$ {{number_format($nota->subtotal, 2, '.', ',')}}</td>
                         <td>ENVÍO: <br>$ {{number_format($nota->envio,2)}}</td>
                         <td>TASA 16% IVA: <br>$ {{number_format($nota->iva_general,2)}}</td>
@@ -130,14 +121,6 @@
                         </tr>  
                     </tbody>
                 </table>
-            {{-- @else
-            <table class="table table-bordered mt-2">
-                <tbody  >
-                    <tr>
-                        <td>PAGO CUBIERTO</td>
-                    </tr>  
-                </tbody>
-            </table> --}}
             @endif
             
             <table class="table table-sm table-bordered mt-2">

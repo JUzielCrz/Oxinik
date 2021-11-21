@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asignacion;
+use App\Models\Cliente;
 use App\Models\Contrato; 
 use App\Models\Nota;
 use App\Models\NotaEntrada;
@@ -19,8 +20,7 @@ use Illuminate\Support\Facades\DB;
 
 class NotaController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('auth');
     }
 
@@ -33,11 +33,44 @@ class NotaController extends Controller
 
     public function salidas(){
         if($this->slug_permiso('nota_salida')){
-            return view('notas.salidas');
+            return view('notas.contrato.salidas');
         }
         return view('home');
     }
 
+    public function salida_show ($nota_id){
+        if($this->slug_permiso('nota_salida')){
+            $nota=Nota::find($nota_id);
+            $tanques=NotaTanque::
+            join('tanques', 'tanques.num_serie','=','nota_tanque.num_serie' )
+            ->where('nota_id', $nota->id)->get();
+            $contrato=Contrato::where('id', $nota->contrato_id)->first();
+            $cliente=Cliente::where('id', $contrato->cliente_id)->first();
+            $pagos=NotaPagos::where('nota_id',$nota_id)->get();
+
+        $data=['nota'=>$nota,'tanques'=>$tanques, 'contrato'=>$contrato, 'cliente'=>$cliente, 'pagos'=>$pagos];
+        return view('notas.contrato.salida_show', $data);
+        }
+        return response()->json(['mensaje'=>'Sin permisos']);
+    }
+
+    public function salida_cancelar ($nota_id){
+        if($this->slug_permiso('nota_salida')){
+            $nota=Nota::find($nota_id);
+            $nota->estatus = 'CANCELADA';
+            $nota->save();
+            $tanques=NotaTanque::where('nota_id', $nota->id)->get();
+
+            foreach( $tanques AS $indice => $cilindro){
+                $tanq = Tanque::where('num_serie',$cilindro->num_serie)->first();
+                $tanq->estatus = 'LLENO-ALMACEN';
+                $tanq->save();
+            }
+            
+            return response()->json(['mensaje'=>'success']);
+        }
+        return response()->json(['mensaje'=>'Sin permisos']);
+    }
 
     public function search_contrato(Request $request){
         if($request->get('query')){
@@ -182,7 +215,7 @@ class NotaController extends Controller
     public function entradas(){
         
         if($this->slug_permiso('nota_entrada')){
-            return view('notas.entrada');
+            return view('notas.contrato.entrada');
         }
         return view('home');
     }
@@ -204,9 +237,6 @@ class NotaController extends Controller
 
         return  $notatanque;
     }
-
-    
-
 
     public function save_entrada(Request $request){
 

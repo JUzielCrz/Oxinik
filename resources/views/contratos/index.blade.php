@@ -5,7 +5,7 @@
         <a class="nav-link" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i> Atras</a>
     </li>
     {{-- <li class="nav-item">
-        <a class="btn btn-sm btn-outline-success" href="{{ url('/nota/entrada') }}"><i class="fas fa-sign-in-alt"></i> Entrada</a>
+        <a class="btn btn-sm btn-outline-success" href="{{ url('/nota/contrato/entrada') }}"><i class="fas fa-sign-in-alt"></i> Entrada</a>
     </li> --}}
 @endsection
 

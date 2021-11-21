@@ -30,7 +30,7 @@ class NotaExporadicaController extends Controller
         if($this->slug_permiso('nota_exporadica')){
             $catalogo = CatalogoGas::pluck('nombre','id');
             $data= ['catalogo' => $catalogo];
-            return view('notas.exporadica', $data);
+            return view('notas.mostrador.exporadica', $data);
         }
         return view('home');
     }

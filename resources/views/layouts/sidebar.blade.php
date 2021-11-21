@@ -7,7 +7,6 @@
     @endphp
 
 <!--Container Main end-->
-
     <div class="wrapper">
         <!-- Sidebar  -->
         <nav id="sidebar" class="active">
@@ -35,11 +34,12 @@
                     @if($user->permiso_con_admin('nota_salida') ||  $user->permiso_con_admin('nota_entrada') )
                         <li id="nav-ico-notas"><a 
                             @if ($user->permiso_con_admin('nota_salida') )
-                            href="{{ url('/nota/salida') }}"
+                            href="{{ url('/nota/contrato/salida') }}"
                             @else
-                            href="{{ url('/nota/entrada') }}"
+                            href="{{ url('/nota/contrato/entrada') }}"
                             @endif
-                            ><i class="fas fa-clipboard"></i> Notas</a></li>
+                            ><i class="fas fa-clipboard"></i> Notas</a>
+                        </li>
                     @endif
                 {{-- Clientes --}}
                     @if($user->permiso_con_admin('cliente_show'))    
@@ -108,6 +108,7 @@
                 <button type="button" id="sidebarCollapse" class="btn btn-verde " >
                     <i class="fas fa-align-left"></i>   
                 </button>
+                <button class="btn btn-sm btn-verde ml-2" onclick="return window.history.back();"><span class="fas fa-arrow-circle-left"></span></button>
 
                 {{-- MENU del NVAR--}}
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
