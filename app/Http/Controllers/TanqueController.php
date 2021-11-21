@@ -53,7 +53,6 @@ class TanqueController extends Controller
             $tanques=Tanque::
             select('tanques.*')
             ->where('estatus',"!=","BAJA-TANQUE")
-            ->where('estatus',"!=","TANQUE-CAMBIADO")
             ->where('estatus',"!=","TANQUE-REPORTADO");
             return DataTables::of(
                 $tanques
