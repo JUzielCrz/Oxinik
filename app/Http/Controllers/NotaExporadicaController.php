@@ -155,4 +155,72 @@ class NotaExporadicaController extends Controller
         return view('home');
     }
 
+
+    public function listar(){
+        if($this->slug_permiso('nota_exporadica')){
+            return view('notas.mostrador.listar');
+        }
+        return view('home');
+    }
+
+    public function data(){
+        if($this->slug_permiso('nota_exporadica')){
+            $nota_entrada=VentaExporadica::all();
+            return DataTables::of(
+                $nota_entrada
+            )                                                               
+            ->editColumn('user_name', function ($nota) {
+                if($nota->user_id == null){
+                    return null;
+                }else{
+                    $usuario=User::select('name')->where('id', $nota->user_id)->first();
+                    return $usuario->name;
+                }
+            })
+            ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_exporadica\', $id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
+            ->addColumn( 'btnShow', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'nota.exporadica.show\', $nota_id)}}" title="Nota"><i class="far fa-eye"></i></a>')
+            ->addColumn( 'btnCancelar', '<button class="btn btn-sm btn-verde btn-cancelar-salida" data-id="{{$id}}" title="Cancelar"><span class="fas fa-trash"></span></button>')
+            ->rawColumns(['btnNota', 'btnCancelar'])
+            ->toJson();
+        }
+        return view('home');
+    }
+
+    public function show ($id){
+        if($this->slug_permiso('nota_salida')){
+            $nota=VentaExporadica::find($id);
+            $tanques=VentaTanque::
+            join('tanques', 'tanques.num_serie','=','nota_tanque.num_serie' )
+            ->where('id', $nota->id)->get();
+
+        $data=['nota'=>$nota,'tanques'=>$tanques];
+        return view('notas.mostrador.show', $data);
+        }
+        return response()->json(['mensaje'=>'Sin permisos']);
+    }
+
+    public function salida_cancelar ($nota_id){
+        if($this->slug_permiso('nota_salida')){
+            $nota=VentaExporadica::find($nota_id);
+            $nota->estatus = 'CANCELADA';
+            $nota->save();
+            $tanques=VentaTanque::where('nota_id', $nota->id)->get();
+
+            foreach( $tanques AS $indice1 => $cilindro_ent){
+                $tanq = Tanque::where('num_serie',$cilindro_ent->num_serie)->where('insidencia','ENTRADA')->first();
+                $tanq->estatus = 'VENTA-EXPORADICA';
+                $tanq->save();
+            }
+
+            foreach( $tanques AS $indice2 => $cilindro_sal){
+                $tanq = Tanque::where('num_serie',$cilindro_sal->num_serie)->where('insidencia','SALIDA')->first();
+                $tanq->estatus = 'LLENO-ALMACEN';
+                $tanq->save();
+            }
+            
+            return response()->json(['mensaje'=>'success']);
+        }
+        return response()->json(['mensaje'=>'Sin permisos']);
+    }
+
 }

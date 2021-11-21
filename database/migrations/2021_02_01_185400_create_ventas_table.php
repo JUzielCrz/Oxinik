@@ -34,7 +34,7 @@ class CreateVentasTable extends Migration
 
             $table->string('metodo_pago')->nullable();
             $table->date('fecha');
-
+            $table->enum('estatus', ['ACTIVA', 'CANCELADA'])->default('ACTIVA');
             $table->unsignedBigInteger('user_id')->nullable();
 
             $table->timestamps();

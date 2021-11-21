@@ -20,7 +20,7 @@ class NotaListasController extends Controller
         $user=User::find($idauth);
         return $user->permiso_con_admin($slug_permiso);
     }
-    
+
     public function index(){
         if($this->slug_permiso('nota_show')){
             return view('notas.contrato.listar');
@@ -129,25 +129,6 @@ class NotaListasController extends Controller
         return view('home');
     }
 
-    public function exporadica_data(){
-        if($this->slug_permiso('nota_show')){
-            $nota_entrada=VentaExporadica::all();
-            return DataTables::of(
-                $nota_entrada
-            )                                                               
-            ->editColumn('user_name', function ($nota) {
-                if($nota->user_id == null){
-                    return null;
-                }else{
-                    $usuario=User::select('name')->where('id', $nota->user_id)->first();
-                    return $usuario->name;
-                }
-            })
-            ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_exporadica\', $id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
-            ->rawColumns(['btnNota'])
-            ->toJson();
-        }
-        return view('home');
-    }
+
 
 }

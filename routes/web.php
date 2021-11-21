@@ -45,7 +45,11 @@ Route::get('/home', 'HomeController@index')->name('home');
     // EXPORADICA/MOSTRADOR
     Route::get('/nota/exporadica', 'NotaExporadicaController@index');
     Route::post('/nota/exporadica/save', 'NotaExporadicaController@save');
-
+    Route::get('/nota/exporadica/listar', 'NotaExporadicaController@listar');
+    Route::get('/nota/exporadica/data', 'NotaExporadicaController@data');
+    Route::get('/nota/exporadica/show/{nota_id}', 'NotaExporadicaController@show')->name('nota.exporadica.show');
+    Route::get('/nota/exporadica/cancelar/{nota_id}', 'NotaExporadicaController@cancelar');
+    
     //FORANEA
     Route::get('/nota/foranea/index', 'NotaForaneaController@index');
     Route::get('/nota/foranea/create', 'NotaForaneaController@create');
@@ -61,13 +65,6 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/nota/talon/create/save', 'NotaTalonController@create_save');
     Route::get('/nota/talon/edit/{id}', 'NotaTalonController@edit')->name('nota.talon.edit');
     Route::post('/nota/talon/edit/save/{id}', 'NotaTalonController@edit_save');
-    
-    ///* Listar notas */
-    // Route::get('/nota/listar/salidas/data', 'NotaListasController@salidas_data');
-    // Route::get('/nota/listar/adeudos/data', 'NotaListasController@adeudos_data');
-    // Route::get('/nota/listar/entradas/data', 'NotaListasController@entradas_data');
-    
-    // Route::get('/nota/listar/exporadica/data', 'NotaListasController@exporadica_data');
 
     ///* Pago notas */
     Route::get('/nota/pagos/index/{not_id}', 'NotaPagosController@index')->name('nota.pagos.index');

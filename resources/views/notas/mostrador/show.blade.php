@@ -22,36 +22,14 @@
                                     <td class="pl-3 p-0">Nota id: </td>
                                     <td class="pl-3 p-0">{{$nota->id}}</td>
                                 </tr>
-                                @if ($cliente->empresa != null)
-                                <tr>
-                                    <td class="pl-3 p-0">Empresa: </td>
-                                    <td class="pl-3 p-0">{{$cliente->empresa}}</td>
-                                </tr>
-                                <tr>
-                                    <td class="pl-3 p-0">Representante: </td>
-                                    <td class="pl-3 p-0">{{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}</td>
-                                </tr>
-                                @else
                                 <tr>
                                     <td class="pl-3 p-0">Cliente: </td>
-                                    <td class="pl-3 p-0">{{$cliente->nombre}} {{$cliente->apPaterno}}  {{$cliente->apMaterno}}</td>
+                                    <td class="pl-3 p-0">{{$nota->nombre}}</td>
                                 </tr>
                                 @endif
                                 <tr>
-                                    <td class="pl-3 p-0">Contrato: </td>
-                                    <td class="pl-3 p-0">{{$contrato->num_contrato}}</td>
-                                </tr>
-                                <tr>
-                                    <td class="pl-3 p-0">Tipo: </td>
-                                    <td class="pl-3 p-0">{{$contrato->tipo_contrato}}</td>
-                                </tr>
-                                <tr>
-                                    <td class="pl-3 p-0">1° Telefono: </td>
-                                    <td class="pl-3 p-0">{{$cliente->telefono}}</td>
-                                </tr>
-                                <tr>
-                                    <td class="pl-3 p-0">2° Telefono: </td>
-                                    <td class="pl-3 p-0">{{$cliente->telefonorespaldo}}</td>
+                                    <td class="pl-3 p-0">Telefono:</td>
+                                    <td class="pl-3 p-0">{{$nota->telefono}}</td>
                                 </tr>
                                 <tr>
                                 </tr>
@@ -62,10 +40,10 @@
                         <table class="table table-sm mt-1" style="font-size: 13px">
                             <tbody>
                                 <tr>
-                                    <td>Entregar en: <br> {{$contrato->direccion}} </td>
+                                    <td>Entregar en: <br> {{$nota->direccion_envio}} </td>
                                 </tr>
                                 <tr>
-                                    <td>Referencia: <br> {{$contrato->referencia}} </td>
+                                    <td>Referencia: <br> {{$nota->referencia_envio}} </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -73,7 +51,7 @@
                         <table class="table table-sm mt-1" style="font-size: 13px">
                             <tbody>
                                 <tr>
-                                    <td>{{$nota->obaservaciones}} </td>
+                                    <td>{{$nota->observaciones}} </td>
                                 </tr>
                             </tbody>
                         </table>
