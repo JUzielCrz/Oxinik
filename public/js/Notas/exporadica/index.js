@@ -111,7 +111,7 @@ $(document).ready(function () {
                 $('#material').val(),// 3
                 $('#tipo_tanque').val(),// 4
                 $('#estatus').val(),// 5
-                $('#ph_anio').val(),// 6
+                $('#ph_anio').val()+'-',// 6
                 $('#ph_mes').val(),// 7
                 $("#tipo_gas").val()+" "+$("#tipo_gas option:selected").text(),// 8
                 fabri//9
@@ -135,12 +135,12 @@ $(document).ready(function () {
 
         var capacidad=valorcampo[2]+' '+ valorcampo[1];
         var descrp= capacidad+", "+valorcampo[3]+", "+valorcampo[9]+", "+valorcampo[4]+", "+valorcampo[5]+", "+valorcampo[8];
-        var pruebah= valorcampo[6]+'-'+valorcampo[7];
+        var pruebah= valorcampo[6]+valorcampo[7];
         var tapaTanque=$('#tapa_tanque_entrada').val();
 
-        
+        console.log(pruebah);
         $.get('/tanque/validar_ph/' + pruebah, function(respuesta) {
-            console.log( tapaTanque);
+            
             var tdph;
             if(respuesta.alert){
                 tdph="<td class='table-danger'>"+pruebah +"</td>"
