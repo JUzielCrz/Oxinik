@@ -702,11 +702,13 @@ $(document).ready(function () {
             url: "/nota/exporadica/save",
             data: $("#idFormNewVenta").serialize(), 
         }).done(function(msg){
-            if(msg.mensaje =='Registro-Correcto'){
+            if(msg.alert =='success'){
                 window.open("/pdf/nota/exporadica/"+ msg.notaId, '_blank');
                 location.reload();
             }
-            
+            if(msg.alert =='error'){
+                mensaje('error', 'Error', msg.mensaje, null, null);
+            }
         })
         .fail(function (jqXHR, textStatus) {
             //Si existe algun error entra aqui

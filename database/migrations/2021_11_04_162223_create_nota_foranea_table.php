@@ -31,6 +31,8 @@ class CreateNotaForaneaTable extends Migration
             $table->float('subtotal');
             $table->float('iva_general')->nullable();
             $table->float('total');
+            $table->boolean('pago_cubierto')->default(true);
+            $table->boolean('tanques_devueltos')->default(false);
 
             $table->string('metodo_pago')->nullable();
             $table->date('fecha');

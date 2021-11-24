@@ -22,6 +22,16 @@
             </div>
         </div>
         <div class="card-body">
+            {{-- <div class="row">
+                <div class="col">
+                    <label for="">Filtro: </label>
+                    <select name="" id="Credito" class="form-control form-control-sm">
+                        <option value= ''>Credito</option>
+                        <option value= 'true'>Pagado</option>
+                        <option value= 'false'>Adeuda</option>
+                    </select>
+                </div>
+            </div> --}}
             <div class="table-responsive" style="font-size:13px">
                 <table id="tablecruddata" class="table table-sm " style="font-size:13px">
                     <thead>
@@ -31,7 +41,10 @@
                         <th scope="col">Fecha</th>
                         <th scope="col">Total</th>
                         <th scope="col">Telefono</th>
+                        <th scope="col">Pago Cubierto</th>
+                        <th scope="col">Tanques Devueltos</th>
                         <th scope="col">Usuario</th>
+                        <th scope="col"></th>
                         <th scope="col"></th>
                         </tr>
                     </thead>

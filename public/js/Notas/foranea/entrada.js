@@ -19,9 +19,9 @@ $(document).ready(function () {
         } 
     });
 
-    if($(".tr-cilindros-entrada").length == $(".classfilatanque_entrada").length){
-        $('#guardar-nota').prop('disabled', true);
-    }
+    // if($(".tr-cilindros-entrada").length == $(".classfilatanque_entrada").length){
+    //     $('#guardar-nota').prop('disabled', true);
+    // }
 
     //FUNCIONES INSERTAR FILA ENTRADA
     function validar_fila_entrada(event) {
@@ -275,10 +275,11 @@ $(document).ready(function () {
 
         
         //SI no hay tanques agregados en entrada manda error
-        if($('#idInputNumSerie_entrada').length === 0) {
-            mensaje('error','Error', 'No hay registro de tanques de entrada', null, null);
-            return false;
-        }
+        // if($('#idInputNumSerie_entrada').length === 0) {
+        //     mensaje('error','Error', 'No hay registro de tanques de entrada', null, null);
+        //     return false;
+        // }
+        
 
         // if($('#idInputNumSerie_salida').length != $('#idInputNumSerie_entrada').length) {
         //     mensaje('error','Error', 'La cantidad de tanques de entrada deben ser igual a los de salida', null, null);
@@ -292,11 +293,10 @@ $(document).ready(function () {
             data: $("#idFormNewVenta").serialize(), 
         }).done(function(msg){
             if(msg.alert =='success'){  
-                window.open("/pdf/nota/foranea/"+ msg.notaId, '_blank');
-                location.reload();
+                window.location = '/nota/foranea/index' 
             }
             if(msg.alert =='error'){  
-               mensaje('error','Error', msg.mensaje , null, null);
+                mensaje('error','Error', msg.mensaje , null, null);
             }
             
         })

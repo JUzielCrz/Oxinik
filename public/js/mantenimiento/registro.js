@@ -42,7 +42,7 @@ $(document).ready(function () {
 
         var valdiar_estatus="";
         if($("#incidencia").val() == 'ENTRADA'){
-            valdiar_estatus='MANTENIMIENTO'
+            valdiar_estatus='MANTENIMIENTO';
             if($("#ph_anio").val() == "" || $("#ph_mes").val() == ""){
                 $("#phError").text('Campo Obligatorio');
                 return false;
@@ -53,11 +53,18 @@ $(document).ready(function () {
         
 
         $.get('/tanque/show_numserie/'+numserie, function(msg) {
+            var nuevo_ph='';
+
             if(msg==''){
                 $('#serie_tanqueError').text('Error, No exite registro de tanque con este número de serie');
                 return false;
             }
-            var nuevo_ph=$("#ph_anio").val()+"-"+$("#ph_mes").val();
+            if($("#incidencia").val() == 'ENTRADA'){
+                nuevo_ph=$("#ph_anio").val()+"-"+$("#ph_mes").val();
+            }else{
+                nuevo_ph=msg.ph;
+            }
+
             if(msg.estatus==valdiar_estatus){
                 $("#tbodyfilaTanques").append(
                     "<tr class='trFilaTanque'>"+

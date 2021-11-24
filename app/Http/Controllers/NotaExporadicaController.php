@@ -143,12 +143,12 @@ class NotaExporadicaController extends Controller
                                 $ventatanque->save();
                             }
     
-                            return response()->json(['mensaje'=>'Registro-Correcto', 'notaId'=>$venta->id]);
+                            return response()->json(['alert'=>'success', 'notaId'=>$venta->id]);
                         }
                 }
-                return response()->json(['mensaje'=>'Error, No hay tanques que registrar']);
+                return response()->json(['alert'=>'error', 'mensaje'=>'No hay tanques que registrar']);
             }
-            return response()->json(['mensaje'=>'Error, La cantidad de tanques de entrada deben ser igual a los de salida']);
+            return response()->json(['alert'=>'error', 'mensaje'=>'La cantidad de tanques de entrada deben ser igual a los de salida']);
             
             
         }
@@ -178,9 +178,9 @@ class NotaExporadicaController extends Controller
                 }
             })
             ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_exporadica\', $id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
-            ->addColumn( 'btnShow', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'nota.exporadica.show\', $nota_id)}}" title="Nota"><i class="far fa-eye"></i></a>')
+            ->addColumn( 'btnShow', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'nota.exporadica.show\', $id)}}" title="Nota"><i class="far fa-eye"></i></a>')
             ->addColumn( 'btnCancelar', '<button class="btn btn-sm btn-verde btn-cancelar-salida" data-id="{{$id}}" title="Cancelar"><span class="fas fa-trash"></span></button>')
-            ->rawColumns(['btnNota', 'btnCancelar'])
+            ->rawColumns(['btnNota', 'btnShow', 'btnCancelar'])
             ->toJson();
         }
         return view('home');
@@ -188,11 +188,13 @@ class NotaExporadicaController extends Controller
 
     public function show ($id){
         if($this->slug_permiso('nota_salida')){
+            
             $nota=VentaExporadica::find($id);
             $tanques=VentaTanque::
-            join('tanques', 'tanques.num_serie','=','nota_tanque.num_serie' )
-            ->where('id', $nota->id)->get();
-
+            join('tanques', 'tanques.num_serie','=','venta_tanque.num_serie' )
+            ->select('venta_tanque.id as nota_id', 'venta_tanque.*', 'tanques.*')
+            ->where('venta_tanque.venta_id', $nota->id)->get();
+            
         $data=['nota'=>$nota,'tanques'=>$tanques];
         return view('notas.mostrador.show', $data);
         }

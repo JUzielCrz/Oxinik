@@ -251,6 +251,21 @@
                             </div>
                             <span id="metodo_pagoError" class="alert-danger  mb-3"></span>
                         </div> 
+                        @if ($nota->metodo_pago == 'Credito')
+                        
+                        <div class="form-row">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Pago Cubierto:</span>
+                                </div>
+                                <select name="pago_cubierto" id="pago_cubierto" class="form-control form-control-sm">
+                                    <option value=1 @if ($nota->pago_cubierto == true) selected  @endif>Pagado</option>
+                                    <option value=0 @if ($nota->pago_cubierto == false) selected  @endif>Adeuda</option>
+                                </select>
+                            </div>
+                            <span id="metodo_pagoError" class="alert-danger  mb-3"></span>
+                        </div> 
+                        @endif
                         
                         <hr>
 

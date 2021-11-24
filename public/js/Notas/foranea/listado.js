@@ -31,8 +31,11 @@ $(document).ready(function () {
             {data: 'fecha'},
             {data: 'total'},
             {data: 'telefono'},
+            {data: 'pago_cubierto'},
+            {data: 'tanques_devueltos'},
             {data: 'user_name'},
             {data: 'btnEdit'},
+            {data: 'btnPDF'},
         ]
     });
 
