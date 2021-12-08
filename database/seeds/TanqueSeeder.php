@@ -20,7 +20,7 @@ class TanqueSeeder extends Seeder
             'fabricante'=>'Praxair',
             'tipo_gas'=>'1',
             'tipo_tanque'=>'Industrial',
-            'estatus'=>'LLENO-ALMACEN',
+            'estatus'=>'VENTA-EXPORADICA',
         ]);
 
         Tanque::create([
@@ -31,7 +31,7 @@ class TanqueSeeder extends Seeder
             'fabricante'=>'Infra',
             'tipo_gas'=>'2',
             'tipo_tanque'=>'Industrial',
-            'estatus'=>'LLENO-ALMACEN',
+            'estatus'=>'VENTA-EXPORADICA',
         ]);
 
         Tanque::create([

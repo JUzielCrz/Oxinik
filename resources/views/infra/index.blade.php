@@ -19,9 +19,11 @@
                         <thead class="text-center">
                             <tr >
                             <th>ID</th>
-                            <th>INCIDENCIA</th>
-                            <th>CANTIDAD</th>
+                            <th>SALIDA</th>
+                            <th>ENTRADA</th>
+                            <th>PENDIENTES</th>
                             <th>FECHA</th>
+                            <th>REG-ENTRADA</th>
                             <th></th>
                             <th></th>
                             </tr>

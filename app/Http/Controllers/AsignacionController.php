@@ -45,7 +45,8 @@ class AsignacionController extends Controller
                     $request->asignacion_tipo_tanque[$valid] == '' || 
                     $request->asignacion_material[$valid] == '' || 
                     $request->asignacion_precio_unitario[$valid] < 0 || 
-                    $request->asignacion_unidad_medida[$valid] == ''
+                    $request->asignacion_unidad_medida[$valid] == ''||
+                    $request->asignacion_capacidad[$valid] < 0 
                     ){
                     return response()->json(['alert'=>'alert-danger', 'mensaje'=>'Faltan campos por rellenar o existen valores incorrectos']);
                 }
@@ -55,10 +56,10 @@ class AsignacionController extends Controller
             }
             //verificar que no existan repeticiones
             foreach( $request->asignacion_gas AS $search => $g){
-                $buscarrepetido=$request->asignacion_gas[$search]. $request->asignacion_tipo_tanque[$search].$request->asignacion_material[$search];
+                $buscarrepetido=$request->asignacion_gas[$search].$request->asignacion_tipo_tanque[$search].$request->asignacion_material[$search].$request->asignacion_capacidad[$search].$request->asignacion_unidad_medida[$search];
                 foreach( $request->asignacion_gas AS $rep => $g){
                     if($search != $rep){
-                        if($buscarrepetido == $request->asignacion_gas[$rep]. $request->asignacion_tipo_tanque[$rep].$request->asignacion_material[$rep]){
+                        if($buscarrepetido == $request->asignacion_gas[$rep].$request->asignacion_tipo_tanque[$rep].$request->asignacion_material[$rep].$request->asignacion_capacidad[$rep].$request->asignacion_unidad_medida[$rep]){
                             return response()->json(['alert'=>'alert-danger', 'mensaje'=>'Asignación de tanques repetidos']);
                         }
                     }
@@ -76,6 +77,8 @@ class AsignacionController extends Controller
                     ->where('tipo_gas', $request->asignacion_gas[$inci])
                     ->where('tipo_tanque', $request->asignacion_tipo_tanque[$inci])
                     ->where('material', $request->asignacion_material[$inci])
+                    ->where('capacidad', $request->asignacion_capacidad[$inci])
+                    ->where('unidad_medida', $request->asignacion_unidad_medida[$inci])
                     ->first();
 
                     if($asignaciontanque != null){
@@ -90,6 +93,7 @@ class AsignacionController extends Controller
                         $newAsignacionTanque->material= $request->asignacion_material[$inci];
                         $newAsignacionTanque->precio_unitario= $request->asignacion_precio_unitario[$inci];
                         $newAsignacionTanque->unidad_medida= $request->asignacion_unidad_medida[$inci];
+                        $newAsignacionTanque->capacidad= $request->asignacion_capacidad[$inci];
                         $newAsignacionTanque->save();  
                     }
                 }   
@@ -123,6 +127,7 @@ class AsignacionController extends Controller
                             $newDetalle->tipo_tanque= $request->asignacion_tipo_tanque[$detalle];
                             $newDetalle->material= $request->asignacion_material[$detalle];
                             $newDetalle->unidad_medida= $request->asignacion_unidad_medida[$detalle];
+                            $newDetalle->capacidad= $request->asignacion_capacidad[$detalle];
                             $newDetalle->save();     
                         }
                     }
@@ -139,11 +144,12 @@ class AsignacionController extends Controller
         if($this->slug_permiso('asignacion_disminucion')){
             //valiodacion para que los campos no vengan vacios
             foreach( $request->asignacion_variante AS $valid => $g){
-                if($request->asignacion_variante[$valid] < 0 || 
-                    $request->asignacion_gas[$valid] == '' ||
-                    $request->asignacion_tipo_tanque[$valid] == '' || 
-                    $request->asignacion_material[$valid] == '' || 
-                    $request->asignacion_unidad_medida[$valid] == ''
+                if($request->asignacion_variante[$valid] < 0 
+                // || 
+                //     $request->asignacion_gas[$valid] == '' ||
+                //     $request->asignacion_tipo_tanque[$valid] == '' || 
+                //     $request->asignacion_material[$valid] == '' || 
+                //     $request->asignacion_unidad_medida[$valid] == ''
                     ){
                     return response()->json(['alert'=>'alert-danger', 'mensaje'=>'Faltan campos por rellenar o existen valores incorrectos']);
                 }
@@ -199,6 +205,7 @@ class AsignacionController extends Controller
                     $newDetalle->tipo_tanque= $request->asignacion_tipo_tanque[$detalle];
                     $newDetalle->material= $request->asignacion_material[$detalle];
                     $newDetalle->unidad_medida= $request->asignacion_unidad_medida[$detalle];
+                    $newDetalle->capacidad= $request->asignacion_capacidad[$detalle];
                     $newDetalle->save();     
                 }
             }

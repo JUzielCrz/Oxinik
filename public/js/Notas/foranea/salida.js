@@ -3,20 +3,23 @@ $(document).ready(function () {
     $(document).on("click","#btn-insert-fila-salida", insertar_fila_salida);
     $(document).on("click","#btnEliminarFila", eliminarFila);
 
-    
-
-    //Datos Facturacion 
-    $(document).on("click","#btnFacturacion", datosfacturacion);
-    $(document).on("click","#btnFacturacionCancelar", datosfacturacioncancelar);
-
-    //datos envio
-    $(document).on("click","#btn-add-envio", addenvio);
-    $(document).on("click","#btn-remove-envio", removeenvio);
 
     //Nota General
     $(document).on("click","#btn-pagar-nota", pagar_nota);
     $(document).on("click","#btnCancelar", cancelarnota);
     $(document).on("click","#guardar-nota", guardar_nota);
+
+    //Añadir envio a nota
+    $(document).on("click","#btn-addEnvio", addenvio);
+    $(document).on("click","#btn-remove-envio", removeenvio);
+
+    //Editar Cliente
+    $(document).on("click","#btn-editar-cliente", editar_show);
+    $(document).on("click","#btn-cliente-edit-save", editar_save);
+
+    //Editar Cliente
+    $(document).on("click","#btn-cliente-create-save", create_save);
+
 
     $('#serie_tanque').keypress(function (event) {
         if (event.charCode == 13 ){
@@ -24,6 +27,116 @@ $(document).ready(function () {
             insertar_fila_salida();
         } 
     });
+
+    //BUSCAR CLIENTE Y RELLENAR CAMPOS SHOW
+    $('#search_cliente').keyup(function(){ 
+        var query = $(this).val();
+        if(query != '')
+        {
+            $.ajax({
+                method: "POST",
+                url:"/clientes_sc/search",
+                data:{'query':query,'_token': $('input[name=_token]').val(),},
+                success:function(data){
+                    $('#listarclientes').fadeIn();  
+                    $('#listarclientes').html(data);
+                }
+            });
+        }
+    });
+
+    $(document).on('click', 'li', function(){  
+        $('#listarclientes').fadeOut();  
+        const clientes_sc = $(this).text().split(', ');
+        show_datos(clientes_sc[0]);
+        $("#search_cliente").val("")
+        
+    }); 
+
+    function show_datos(id) {
+        $.ajax({
+            method: "get",
+            url: "/clientes_sc/show/"+id,
+            data: {'_token': $('input[name=_token]').val(),},
+        })
+        .done(function(msg) {
+            $.each(msg, function(index, value){
+                $("#"+index+"_show").val(value);
+            });
+        })
+        if($("#input-group-envio").length){
+            removeenvio(); 
+        }
+    }
+
+    //CREATE CLIENTE
+    function create_save() {
+        $.ajax({
+            method: "POST",
+            url: "/clientes_sc/create",
+            data: $("#form-cliente-sc").serialize(),
+        })
+        .done(function (msg) {
+            show_datos(msg.cliente_id);
+            mensaje('success','Exito', "Guardado Correctamente", 1500,'#modal-create-cliente')
+        })
+        .fail(function (jqXHR, textStatus) {
+            
+            var status = jqXHR.status;
+            if (status === 422) {
+                $.each(jqXHR.responseJSON.errors, function (key, value) {
+                    var idError = "#" + key ;
+                    $(idError).addClass('is-invalid');
+                });
+            }
+
+            mensaje("error","Error", "Error al actualizar, verifique sus datos.", null, null);
+        });
+    }
+
+    //EDITAR CLIENTE
+    function editar_show() {
+        $.get('/clientes_sc/show/' + $("#id_show").val(), function(data) {
+            $.each(data, function (key, value) {
+                var variable = "#" + key + "_edit";
+                $(variable).val(value);
+                
+            });
+            $("#nombre_edit").removeClass("is-invalid");
+            $("#apPaterno_edit").removeClass("is-invalid");
+            $("#apMaterno_edit").removeClass("is-invalid");
+
+            const nombre_separado = data.nombre.split(' ');
+            $("#nombre_edit").val(nombre_separado[0]);
+            $("#apPaterno_edit").val(nombre_separado[1]);
+            $("#apMaterno_edit").val(nombre_separado[2]);
+            $("#modalmostrar").modal("show");
+        })
+        
+    }
+    function editar_save() {
+        $.ajax({
+            method: "POST",
+            url: "/clientes_sc/update/"+$("#id_edit"),
+            data: $("#form-cliente-sc-edit").serialize(),
+        })
+        .done(function (msg) {
+            show_datos(msg.cliente_id);
+            mensaje('success','Exito', "Guardado Correctamente", 1500,'#modal-editar-cliente')
+        })
+        .fail(function (jqXHR, textStatus) {
+            
+            var status = jqXHR.status;
+            if (status === 422) {
+                $.each(jqXHR.responseJSON.errors, function (key, value) {
+                    var idError = "#" + key ;
+                    $(idError).addClass('is-invalid');
+                });
+            }
+
+            mensaje("error","Error", "Error al actualizar, verifique sus datos.", null, null);
+        });
+    }
 
     //FUNCIONES INSERTAR FILA SALDIA
     function insertar_fila_salida() {
@@ -128,218 +241,6 @@ $(document).ready(function () {
         $("#iva").val("");
     }
 
-
-    //Datos facturacion
-    function datosfacturacion(){
-        $('#myCollapsible').collapse('toggle');
-        $('#filaFacturacion').remove();  
-    }
-
-    function datosfacturacioncancelar(){
-        
-        $('#myCollapsible').collapse('toggle');
-        //Limpiar inputs
-        $('#rfc').val('');
-        $('#cfdi').val('');
-        $('#metodo_pago').val('');
-        $('#direccion_factura').val('');
-        //Insertar button
-        $('#datosfacturacion').append(
-            "<div class='form-row justify-content-end' id='filaFacturacion'>"+
-                "<button type='button' class='btn btn-sm btn-amarillo' id='btnFacturacion'>"+
-                    "<span class='fas fa-plus'></span>Datos Facturacion"+
-                "</button>"+
-            "</div>"
-        );
-    }
-    //fin Datos facturacion
-
-    //Funciones Envio
-    function addenvio(){
-
-        var campo= ['direccion_modal','referencia_modal','precio_modal', 'link_ubicacion_modal'];
-        var campovacio = [];
-
-        $.each(campo, function(index){
-            $('#'+campo[index]+'Error').empty();
-            $('#'+campo[index]).removeClass('is-invalid');
-        });
-
-        $.each(campo, function(index){
-            if($("#"+campo[index]).val()=='' || $("#"+campo[index]).val()<=0    ){
-                campovacio.push(campo[index]);
-            }
-        });
-
-        if(campovacio.length != 0){
-            $.each(campovacio, function(index){
-                $("#"+campovacio[index]).addClass('is-invalid');
-                $("#"+campovacio[index]+'Error').text('Necesario');
-            });
-            return false;
-        }
-
-
-        if( $("#precio_envio_modal").val() < 0 ){
-            mensaje('error','Error', 'Precio no puede ser menor a 0', null, null)
-            return false;
-        }
-
-        $('#div-btn-modal-envio').remove();
-        $('#modal-envio').modal('hide');
-
-        $('#row-envio').append(
-            '<div id="input-group-envio">'+
-                '<div class="form-row mb-3">'+
-                    '<div class="col">'+
-                        '<span class="ml-2"><strong>Datos Envio:</strong></span>'+
-                    '</div>'+
-                    '<div class="col text-right">'+
-                        '<button id="btn-remove-envio" class="btn btn-sm btn-amarillo" type="button"><span class="fas fa-trash-alt"></span></button>'+
-                    '</div>'+
-                '</div>'+
-
-                '<div class="form-row">'+
-                    '<div class="input-group input-group-sm mb-3">'+
-                        '<div class="input-group-prepend">'+
-                            '<span class="input-group-text" id="inputGroup-sizing-sm">Dirección:</span>'+
-                        '</div>'+
-                        '<textarea name="direccion_envio" id="direccion_envio" class="form-control"  rows="2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" readonly>'+$("#direccion_modal").val()+'</textarea>'+
-                    '</div>'+
-                '</div>'+
-                '<div class="form-row">'+
-                    '<div class="input-group input-group-sm mb-3">'+
-                        '<div class="input-group-prepend">'+
-                            '<span class="input-group-text" id="inputGroup-sizing-sm">Referencias:</span>'+
-                        '</div>'+
-                        '<textarea name="referencia_envio" id="referencia_envio" class="form-control" rows="2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" readonly>'+$("#referencia_modal").val()+'</textarea>'+
-                    '</div>'+
-                '</div>'+
-                '<div class="form-row">'+
-                    '<div class="input-group input-group-sm mb-3">'+
-                        '<div class="input-group-prepend">'+
-                            '<span class="input-group-text" id="inputGroup-sizing-sm">Link Ubicación:</span>'+
-                        '</div>'+
-                        '<textarea name="link_ubicacion_envio" id="link_ubicacion_envio" class="form-control" rows="2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" readonly>'+$("#link_ubicacion_modal").val()+'</textarea>'+
-                    '</div>'+
-                '</div>'+
-                '<div class="form-row">'+
-                    '<div class="input-group input-group-sm mb-3">'+
-                        '<div class="input-group-prepend">'+
-                            '<span class="input-group-text" id="inputGroup-sizing-sm">Precio Envio:</span>'+
-                        '</div>'+
-                        '<input id="precio_envio_temporal" type="number" value="'+$("#precio_modal").val()+'" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" readonly>'+
-                    '</div>'+
-                '</div>'+
-            '</div>'
-        )
-
-        $('#label-precio-envio').replaceWith( 
-            "<label id='label-precio-envio'>$ "+Intl.NumberFormat('es-MX').format($("#precio_modal").val()) +"</label>"
-        );
-        $('#precio_envio').val($("#precio_modal").val());
-        actualizar_total();
-
-    }
-
-    function removeenvio(){
-        $('#input-group-envio').remove();
-        $('#row-envio').append(
-            '<div id="div-btn-modal-envio" class="form-row justify-content-end">'+
-                '<button id="btn-modal-envio" type="button" class="btn btn-sm btn-amarillo" data-toggle="modal" data-target="#modal-envio"> <span class="fas fa-plus"></span> Agregar Envio</button>'+
-            '</div>'
-        )
-        $('#label-precio-envio').replaceWith( 
-            "<label id='label-precio-envio'>"+Intl.NumberFormat('es-MX').format(0) +"</label>"
-        );
-        
-        $('#precio_envio').val(0);
-
-        actualizar_total();
-    }
-
-    //funciones generales
-    function mensaje(icono,titulo, mensaje, timer, modal){
-        $(modal).modal("hide");
-        Swal.fire({
-            icon: icono,
-            title: titulo,
-            text: mensaje,
-            timer: timer,
-            width: 300,
-        })
-    }
-
-    function eliminarFila(){
-        $(this).closest('tr').remove();
-        actualizar_subtotal();
-    }
-
-    $("#metodo_pago").change( function() {
-        if ($(this).val() == "Efectivo") {
-            $("#ingreso-efectivo").prop("disabled", false);
-
-        }else{
-            $("#ingreso-efectivo").prop("disabled", true);
-            $("#ingreso-efectivo").val(0);
-
-        } 
-    });
-
-    $('.numero-entero-positivo').keypress(function (event) {
-        // console.log(event.charCode);
-        if (
-            event.charCode == 43 || //+
-            event.charCode == 45 || //-
-            event.charCode == 69 || //E
-            event.charCode == 101|| //e
-            event.charCode == 46    //.
-            ){
-            return false;
-        } 
-        return true;
-    });
-
-    $('.numero-decimal-positivo').keypress(function (event) {
-        // console.log(event.charCode);
-        if (
-            event.charCode == 43 || //+
-            event.charCode == 45 || //-
-            event.charCode == 69 || //E
-            event.charCode == 101 //e
-            ){
-            return false;
-        } 
-        return true;
-    });
-
-    $('.solo-texto').keypress(function (event) {
-        // console.log(event.charCode);
-        if (event.charCode >= 65 && event.charCode <= 90 || event.charCode >= 97 && event.charCode <= 122 || 
-            event.charCode ==  32 ||
-            event.charCode == 193 || 
-            event.charCode == 201 ||
-            event.charCode == 205 || 
-            event.charCode == 211 || 
-            event.charCode == 218 || 
-            event.charCode == 225 || 
-            event.charCode == 233 ||
-            event.charCode == 237 || 
-            event.charCode == 243 ||
-            event.charCode == 250 ||
-            event.charCode == 241 ||
-            event.charCode == 209  ){
-            return true;
-        } 
-        return false;
-    });
-
-    $('.lenght-telefono').keypress(function (event) {
-        if (this.value.length === 10) {
-            return false;
-        }
-    });
-
     //aritmeticas
     function actualizar_subtotal(){
 
@@ -381,12 +282,55 @@ $(document).ready(function () {
             importe=importe+parseFloat(preciotanque);
         })
 
-        var total=parseFloat($("#precio_envio").val()) + importe;
+        var total=parseFloat($("#precio_envio_nota").val()) + importe;
         $('#label-total').replaceWith( 
             "<label id='label-total'>"+Intl.NumberFormat('es-MX').format(total) +"</label>"
         );
         $('#input-total').val(total);
         $("#monto_pago").val(total);
+    }
+
+
+    // FUNCIONES DE ENVIO
+    function addenvio(){
+        
+        if($('#num_contrato').val() == ''){
+            return false;
+        }
+        $('#btn-addEnvio').remove()
+        $('#row-envio').append(
+            '<div class="row mr-3" id="input-group-envio">'+
+                '<div class="col-auto mr-auto">'+
+                    '<div  class="input-group input-group-sm  mb-3">'+
+                        '<div class="input-group-prepend ">'+
+                            '<button id="btn-remove-envio" class="btn btn-sm btn-amarillo" type="button"><span class="fas fa-minus"></span></button>'+
+                        '</div>'+
+                        '<div class="input-group-append">'+
+                            '<label class="ml-2">Envío: </label>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>'+
+                '<div class="col-auto">'+
+                    '<div  class="input-group input-group-sm  mb-3">'+
+                        '<div class="input-group-prepend ">'+
+                            '<label id="label_precio_envio">$ '+ Intl.NumberFormat('es-MX').format($('#precio_envio_show').val()) +'</label>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>'+
+            '</div>'
+        )
+        $('#precio_envio_nota').val($('#precio_envio_show').val());
+        actualizar_total();
+        
+    }
+
+    function removeenvio(){
+        $('#input-group-envio').remove();
+        $('#row-envio').append(
+            '<button id="btn-addEnvio" type="button" class="btn btn-sm btn-amarillo" > <span class="fas fa-plus"></span> Agregar Envio</button>'
+        )
+        $('#precio_envio_nota').val(0);
+        actualizar_total();
     }
 
 
@@ -489,6 +433,87 @@ $(document).ready(function () {
     }
 
 
+     //funciones generales
+    function mensaje(icono,titulo, mensaje, timer, modal){
+        $(modal).modal("hide");
+        Swal.fire({
+            icon: icono,
+            title: titulo,
+            text: mensaje,
+            timer: timer,
+            width: 300,
+        })
+    }
+
+    function eliminarFila(){
+        $(this).closest('tr').remove();
+        actualizar_subtotal();
+    }
+
+    $("#metodo_pago").change( function() {
+        if ($(this).val() == "Efectivo") {
+            $("#ingreso-efectivo").prop("disabled", false);
+
+        }else{
+            $("#ingreso-efectivo").prop("disabled", true);
+            $("#ingreso-efectivo").val(0);
+
+        } 
+    });
+
+    $('.numero-entero-positivo').keypress(function (event) {
+        // console.log(event.charCode);
+        if (
+            event.charCode == 43 || //+
+            event.charCode == 45 || //-
+            event.charCode == 69 || //E
+            event.charCode == 101|| //e
+            event.charCode == 46    //.
+            ){
+            return false;
+        } 
+        return true;
+    });
+
+    $('.numero-decimal-positivo').keypress(function (event) {
+        // console.log(event.charCode);
+        if (
+            event.charCode == 43 || //+
+            event.charCode == 45 || //-
+            event.charCode == 69 || //E
+            event.charCode == 101 //e
+            ){
+            return false;
+        } 
+        return true;
+    });
+
+    $('.solo-texto').keypress(function (event) {
+        // console.log(event.charCode);
+        if (event.charCode >= 65 && event.charCode <= 90 || event.charCode >= 97 && event.charCode <= 122 || 
+            event.charCode ==  32 ||
+            event.charCode == 193 || 
+            event.charCode == 201 ||
+            event.charCode == 205 || 
+            event.charCode == 211 || 
+            event.charCode == 218 || 
+            event.charCode == 225 || 
+            event.charCode == 233 ||
+            event.charCode == 237 || 
+            event.charCode == 243 ||
+            event.charCode == 250 ||
+            event.charCode == 241 ||
+            event.charCode == 209  ){
+            return true;
+        } 
+        return false;
+    });
+
+    $('.lenght-telefono').keypress(function (event) {
+        if (this.value.length === 10) {
+            return false;
+        }
+    });
     
     //Para Validar Campos
 

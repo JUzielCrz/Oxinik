@@ -31,19 +31,19 @@
                                 </tr>
                                 <tr>
                                     <td class="pl-3 p-0"> <strong>Cliente: </strong></td>
-                                    <td class="pl-3 p-0"> {{$nota->nombre_cliente}}</td>
+                                    <td class="pl-3 p-0"> {{$cliente->nombre}}</td>
                                 </tr>
                                 <tr>
                                     <td class="pl-3 p-0"> <strong>Telefono: </strong></td>
-                                    <td class="pl-3 p-0"> {{$nota->telefono}}</td>
+                                    <td class="pl-3 p-0"> {{$cliente->telefono}}</td>
                                 </tr>
                                 <tr>
                                     <td class="pl-3 p-0"> <strong>Correo: </strong></td>
-                                    <td class="pl-3 p-0"> {{$nota->email}}</td>
+                                    <td class="pl-3 p-0"> {{$cliente->email}}</td>
                                 </tr>
                                 <tr>
                                     <td class="pl-3 p-0"> <strong>Direccion: </strong></td>
-                                    <td class="pl-3 p-0"> {{$nota->direccion}}</td>
+                                    <td class="pl-3 p-0"> {{$cliente->direccion}}</td>
                                 </tr>
                             </tbody>
 
@@ -52,10 +52,10 @@
                         <table class="table table-sm mt-1" style="font-size: 13px">
                             <tbody>
                                 <tr>
-                                    <td class="pl-3 p-0"> <strong>Entregar en: </strong><br> {{$nota->direccion_envio}} </td>
+                                    <td class="pl-3 p-0"> <strong>Entregar en: </strong><br> {{$cliente->direccion_envio}} </td>
                                 </tr>
                                 <tr>
-                                    <td class="pl-3 p-0"> <strong>Referencia:</strong> <br> {{$nota->referencia_envio}} </td>
+                                    <td class="pl-3 p-0"> <strong>Referencia:</strong> <br> {{$cliente->referencia_envio}} </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -64,13 +64,13 @@
                         <table class="table table-sm mt-1" style="font-size: 13px">
                             <tbody>
                                 <tr>
-                                    <td class="pl-3 p-0"> <strong>Dirección: </strong>{{$nota->direccion_factura}} </td>
+                                    <td class="pl-3 p-0"> <strong>Dirección: </strong>{{$cliente->direccion_factura}} </td>
                                 </tr>
                                 <tr>
-                                    <td class="pl-3 p-0"> <strong>RFC: </strong>{{$nota->rfc}} </td>
+                                    <td class="pl-3 p-0"> <strong>RFC: </strong>{{$cliente->rfc}} </td>
                                 </tr>
                                 <tr>
-                                    <td class="pl-3 p-0"> <strong>CFDI: </strong>{{$nota->rfc}} </td>
+                                    <td class="pl-3 p-0"> <strong>CFDI: </strong>{{$cliente->cfdi}} </td>
                                 </tr>
                             </tbody>
                         </table>

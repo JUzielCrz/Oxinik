@@ -24,6 +24,7 @@ class CreateDetalleNotaAsignacionTable extends Migration
             $table->string('tipo_tanque');
             $table->string('material');
             $table->string('unidad_medida');
+            $table->integer('capacidad');
             $table->timestamps();
         });
     }

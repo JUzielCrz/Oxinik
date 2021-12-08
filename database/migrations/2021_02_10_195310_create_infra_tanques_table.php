@@ -21,6 +21,7 @@ class CreateInfraTanquesTable extends Migration
                 ->on('infra_llenado')
                 ->onDelete('cascade');
             $table->string('num_serie');
+            $table->enum('incidencia',['ENTRADA','SALIDA']);
             $table->timestamps();
         });
     }

@@ -15,9 +15,11 @@ class CreateInfraLlenadoTable extends Migration
     {
         Schema::create('infra_llenado', function (Blueprint $table) {
             $table->id();
-            $table->date('fecha');
-            $table->integer('cantidad');
-            $table->enum('incidencia', ['ENTRADA', 'SALIDA']);
+            $table->integer('cantidad_salida');
+            $table->integer('cantidad_entrada')->nullable();
+            $table->integer('cantidad_diferencia')->default(0);
+            $table->boolean('pendiente')->default(true)->nullable();
+            $table->string('observaciones')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
         });

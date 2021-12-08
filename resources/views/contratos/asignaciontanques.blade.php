@@ -1,6 +1,10 @@
-
+<style>
+    .tdWidth{
+        width: 60px;
+        overflow: auto;
+    }
+</style>
 <div id="show-asignaciones">
-    
 </div>
 
 <form id="form-edit-asignacion">
@@ -11,27 +15,30 @@
 
     @csrf
     <input type="hidden" name="incidencia-asignacion" id="incidencia-asignacion">
-    <table class="table table-sm" id="table-asignaciones">
-        <thead>
-            <tr>
-                <th>CILINDROS</th>
-                <th><div id="columnaopcion"></div></th>
-                <th>GAS</th>
-                <th>TIPO</th>
-                <th>MATERIAL</th>
-                <th>P.U.</th>
-                <th>U.M.</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody id="tbody-tr-asignacion">
-        </tbody>
-        <tbody>
-            <tr>
-                <td id="td-btn-anadir"></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-sm" id="table-asignaciones" style="font-size: 13px">
+            <thead>
+                <tr>
+                    <th>CILINDROS</th>
+                    <th><div id="columnaopcion"></div></th>
+                    <th>GAS</th>
+                    <th>TIPO</th>
+                    <th>MATERIAL</th>
+                    <th>PRECIO</th>
+                    <th>CAPACIDAD</th>
+                    <th>U.M.</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tbody-tr-asignacion">
+            </tbody>
+            <tbody>
+                <tr>
+                    <td id="td-btn-anadir"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <hr>
     <div id="div-garantia"></div>
@@ -75,13 +82,14 @@
             });
 
             $('#tbody-tr-asignacion').append(
-                '<tr class="trasignacion"><td>'+
-                '<input type="number" class="form-control form-control-sm" value="0" disabled></td><td>'+
-                '<input name="asignacion_variante[]" id="asignacion_variante" type="number" class="form-control form-control-sm  numero-entero-positivo" ></td><td>'+
+                '<tr class="trasignacion"><td class="tdWidth">'+
+                '<input type="number" class="form-control form-control-sm" value="0" disabled></td><td class="tdWidth">'+
+                '<input name="asignacion_variante[]" id="asignacion_variante" type="number" class="form-control form-control-sm  numero-entero-positivo" ></td><td style="width: 120px;">'+
                 '<select name="asignacion_gas[]" id="asignacion_gas" class="form-control form-control-sm select-search">'+opcionesGas+'</select></td><td>'+
                 '<select name="asignacion_tipo_tanque[]" id="asignacion_tipo_tanque" class="form-control form-control-sm select-search">'+opcionesContrato+'</select></td><td>'+
                 '<select name="asignacion_material[]" id="asignacion_material" class="form-control form-control-sm select-search"><option value="Acero">Acero</option><option value="Aluminio">Aluminio</option></select></td><td>'+
-                '<input name="asignacion_precio_unitario[]" id="asignacion_precio_unitario" type="number" class="form-control form-control-sm numero-decimal-positivo" placeholder="$0.0"></td><td>'+
+                '<input name="asignacion_precio_unitario[]" id="asignacion_precio_unitario" type="number" class="form-control form-control-sm numero-decimal-positivo" placeholder="$0.0"></td><td class="tdWidth">'+
+                '<input name="asignacion_capacidad[]" id="asignacion_capacidad" type="number" class="form-control form-control-sm numero-entero-positivo" placeholder="0"></td><td>'+
                 '<select name="asignacion_unidad_medida[]" id="asignacion_unidad_medida" class="form-control form-control-sm select-search">'+
                     '<option value="" selected>Selecciona</option>'+
                     '<option value="Carga">Carga</option>'+

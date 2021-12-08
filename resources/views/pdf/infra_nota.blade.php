@@ -75,7 +75,7 @@
                             <p>
                                 INCIDENCIA: <strong>{{$nota->incidencia}} DE TANQUES</strong><br> 
                                 FECHA Y HORA: <strong>{{$nota->created_at}}</strong><br>
-                                TOTAL CILINDROS: <strong>{{$nota->cantidad}}</strong>
+                                TOTAL CILINDROS: <strong>{{$nota->cantidad_salida}}</strong>
                             </p>
                         </td>
                     </tr>

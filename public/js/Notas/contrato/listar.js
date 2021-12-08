@@ -34,7 +34,7 @@ $(document).ready(function () {
             {data: 'recargos'},
             {data: 'observaciones'},
             {data: 'user_name'},
-            {data: 'btnNota'}
+            {data: 'btnShow'}
         ];
             
         var link_data="/nota/contrato/listar/entradas/data";

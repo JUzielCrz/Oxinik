@@ -15,19 +15,11 @@ class CreateVentasTable extends Migration
     {
         Schema::create('ventas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre_cliente');
-            $table->string('telefono')->nullable();
-            $table->string('email')->nullable();
-            $table->string('direccion')->nullable();
-            $table->string('rfc')->nullable();
-            $table->string('cfdi')->nullable();
-            $table->string('direccion_factura')->nullable();
-
-            $table->string('direccion_envio')->nullable();
-            $table->string('referencia_envio')->nullable();
-            $table->string('link_ubicacion_envio')->nullable();
-            $table->float('precio_envio')->nullable();
-            
+            $table->unsignedBigInteger('cliente_id')->unsigned()->nullable();
+            $table->foreign('cliente_id')->references('id')
+                ->on('clientes_sin_contrato')
+                ->onDelete('set null');
+            $table->float('precio_envio');
             $table->float('subtotal');
             $table->float('iva_general')->nullable();
             $table->float('total');

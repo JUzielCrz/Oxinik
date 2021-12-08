@@ -87,6 +87,7 @@
                         <th style="padding: 0">GAS</th>
                         <th style="padding: 0">TIPO</th>
                         <th style="padding: 0">MATERIAL</th>
+                        <th style="padding: 0">CAPACIDAD</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -97,6 +98,7 @@
                                 <td style="padding: 0">{{$tanques->nombre}}</td>
                                 <td style="padding: 0">{{$tanques->tipo_tanque}}</td>
                                 <td style="padding: 0">{{$tanques->material}}</td>
+                                <td style="padding: 0">{{$tanques->capacidad}} {{$tanques->unidad_medida}}</td>
                             </tr>
                         @endif            
                     @endforeach
@@ -112,6 +114,7 @@
                         <th style="padding: 0">GAS</th>
                         <th style="padding: 0">TIPO</th>
                         <th style="padding: 0">MATERIAL</th>
+                        <th style="padding: 0">CAPACIDAD</th>
                     </tr>
                 </thead>
                 <tbody >
@@ -122,6 +125,7 @@
                                 <td style="padding: 0">{{$tanque->nombre}}</td>
                                 <td style="padding: 0">{{$tanque->tipo_tanque}}</td>
                                 <td style="padding: 0">{{$tanque->material}}</td>
+                                <td style="padding: 0">{{$tanque->capacidad}} {{$tanque->unidad_medida}}</td>
                             </tr>
                         @endif            
                     @endforeach

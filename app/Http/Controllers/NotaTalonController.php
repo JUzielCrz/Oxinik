@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CatalogoGas;
+use App\Models\ClienteSinContrato;
 use App\Models\NotaTalon;
 use App\Models\NotaTalonTanque;
 use App\Models\Tanque;
@@ -38,9 +39,13 @@ class NotaTalonController extends Controller
         if($this->slug_permiso('nota_talon')){
 
             if($user->soloParaUnRol('admin')){
-                $notas=NotaTalon::all();
+                $notas=NotaTalon::
+                join('clientes_sin_contrato', 'nota_talon.cliente_id','=', 'clientes_sin_contrato.id');
+
             }else{
-                $notas=NotaTalon::where('user_id', auth()->user()->id);
+                $notas=NotaTalon::
+                join('clientes_sin_contrato', 'nota_talon.cliente_id','=', 'clientes_sin_contrato.id')
+                ->where('user_id', auth()->user()->id);
             }
 
             return DataTables::of(
@@ -75,7 +80,7 @@ class NotaTalonController extends Controller
 
         if($this->slug_permiso('nota_talon')){
             $request->validate([
-                'nombre_cliente' => ['required', 'string', 'max:255'],
+                'id_show' => ['required', 'numeric'],
                 'metodo_pago' => ['required', 'string', 'max:255'],
                 'input-subtotal' => ['required', 'numeric'],
                 'input-total' => ['required', 'numeric'],
@@ -86,17 +91,8 @@ class NotaTalonController extends Controller
                 if(count($request->inputNumSerie_entrada) > 0 ){ ///validar si hay tanques en la lista
                     //Nota venta de envio
                     $venta= new NotaTalon;
-                    $venta->nombre_cliente = $request->nombre_cliente;
-                    $venta->telefono = $request->telefono;
-                    $venta->email = $request->email;
-                    $venta->direccion = $request->direccion;
-                    $venta->rfc = $request->rfc;
-                    $venta->cfdi = $request->cfdi;
-                    $venta->direccion_factura = $request->direccion_factura;
-                    $venta->direccion_envio = $request->direccion_envio;
-                    $venta->referencia_envio = $request->referencia_envio;
-                    $venta->link_ubicacion_envio = $request->link_ubicacion_envio;
-                    $venta->precio_envio = $request->precio_envio;
+                    $venta->cliente_id = $request->id_show;
+                    $venta->precio_envio=$request->precio_envio_nota;
                     $venta->subtotal =  $request->input('input-subtotal');
                     $venta->iva_general = $request->input('input-ivaGen');;
                     $venta->total = $request->input('input-total');
@@ -113,13 +109,6 @@ class NotaTalonController extends Controller
                             //si existe cambiar estatus del tanque 
                             $searhTanque->estatus='VACIO-ALMACEN';
                             $searhTanque->save();
-                            
-                            $historytanques=new TanqueHistorial();
-                            $historytanques->num_serie = $request->inputNumSerie_entrada[$entrada];
-                            $historytanques->estatus = 'VACIO-ALMACEN';
-                            $historytanques->observaciones = 'Entrada venta talon. Nota id:'. $venta->id;
-                            $historytanques->user_id = auth()->user()->id;
-                            $historytanques->save();
                         }else{
                             //Si no existe registrar
                             //	1 Carga, Acero, Praxair, Industrial, LLENO-ALMACEN, 2 ACETILENO
@@ -136,13 +125,6 @@ class NotaTalonController extends Controller
                             $newTanque->tipo_gas = $cadeGas[0];
                             $newTanque->user_id = auth()->user()->id;
                             $newTanque->save();
-
-                            $historytanques=new TanqueHistorial();
-                            $historytanques->num_serie = $request->inputNumSerie_entrada[$entrada];
-                            $historytanques->estatus = $cadena[4];
-                            $historytanques->observaciones = 'Registro nuevo tanque en talon. Nota id:'. $venta->id;
-                            $historytanques->user_id = auth()->user()->id;
-                            $historytanques->save();
                         }
                         
                         $ventatanque=new NotaTalonTanque();
@@ -179,8 +161,9 @@ class NotaTalonController extends Controller
                 $tanquesEntrada= NotaTalonTanque::
                 leftjoin('tanques','tanques.num_serie','=','nota_talontanque.num_serie')
                 ->where('nota_talon_id', $id)->where('insidencia','ENTRADA')->get();
+                $cliente=ClienteSinContrato::find($nota->cliente_id);
     
-                $data= ['tanques' =>$tanques, 'tanquesEntrada' =>$tanquesEntrada, 'nota'=> $nota];
+                $data= ['tanques' =>$tanques, 'tanquesEntrada' =>$tanquesEntrada, 'nota'=> $nota,'cliente'=> $cliente];
                 return view('notas.talon.edit', $data);
             }
             return view('notas.talon.listado');
@@ -202,39 +185,32 @@ class NotaTalonController extends Controller
                 if(count($request->inputNumSerie_salida) > 0 || count($request->inputNumSerie_entrada) > 0 ){ ///validar si hay tanques en la lista
                     //Nota venta de envio
                     $venta= NotaTalon::find($request->idnota);
-                    $venta->telefono = $request->telefono;
-                    $venta->email = $request->email;
-                    $venta->direccion = $request->direccion;
-                    $venta->rfc = $request->rfc;
-                    $venta->cfdi = $request->cfdi;
-                    $venta->direccion_factura = $request->direccion_factura;
+                    $client= ClienteSinContrato::find($venta->cliente_id);
+                    $client->telefono = $request->telefono;
+                    $client->email = $request->email;
+                    $client->direccion = $request->direccion;
+                    $client->rfc = $request->rfc;
+                    $client->cfdi = $request->cfdi;
+                    $client->direccion_factura = $request->direccion_factura;
+                    $client->save();
 
-                    
-                        if($venta->save()){
-                            //Guardar tanques salida
-                            foreach( $request->inputNumSerie_salida AS $salid => $ent){
-                                //Cambiar estatus tanque
-                                $searhTanque =Tanque::where('num_serie', $request->inputNumSerie_salida[$salid])->first(); 
-                                $searhTanque->estatus='VENTA-TALON';
-                                $searhTanque->save();
+                    //Guardar tanques salida
+                    foreach( $request->inputNumSerie_salida AS $salid => $ent){
+                        //Cambiar estatus tanque
+                        $searhTanque =Tanque::where('num_serie', $request->inputNumSerie_salida[$salid])->first(); 
+                        $searhTanque->estatus='VENTA-TALON';
+                        $searhTanque->save();
 
-                                $historytanques=new TanqueHistorial();
-                                $historytanques->num_serie = $request->inputNumSerie_salida[$salid];
-                                $historytanques->estatus = 'VENTA-TALON';
-                                $historytanques->observaciones = 'Salida de tanque en venta talon. Nota id:'. $venta->id;
-                                $historytanques->user_id = auth()->user()->id;
-                                $historytanques->save();
-            
-                                $ventatanque=new NotaTalonTanque();
-                                $ventatanque->nota_talon_id = $venta->id;
-                                $ventatanque->num_serie = $request->inputNumSerie_salida[$salid];
-                                $ventatanque->tapa_tanque = $request->inputTapa[$salid];
-                                $ventatanque->insidencia = 'SALIDA';
-                                $ventatanque->save();
-                            }
+                        $ventatanque=new NotaTalonTanque();
+                        $ventatanque->nota_talon_id = $venta->id;
+                        $ventatanque->num_serie = $request->inputNumSerie_salida[$salid];
+                        $ventatanque->tapa_tanque = $request->inputTapa[$salid];
+                        $ventatanque->insidencia = 'SALIDA';
+                        $ventatanque->save();
+                    }
     
-                            return response()->json(['alert'=>'success', 'notaId'=>$request->idnota]);
-                        }
+                    return response()->json(['alert'=>'success', 'notaId'=>$request->idnota]);
+                        
                 }
                 return response()->json(['alert'=>'error', 'mensaje'=>'No hay tanques que registrar']);
             }

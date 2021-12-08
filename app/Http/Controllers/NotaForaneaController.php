@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\CatalogoGas;
+use App\Models\ClienteSinContrato;
 use App\Models\Tanque;
 use App\Models\TanqueHistorial;
 use App\Models\NotaForanea;
@@ -38,9 +39,12 @@ class NotaForaneaController extends Controller
         if($this->slug_permiso('nota_foranea')){
 
             if($user->soloParaUnRol('admin')){
-                $notas=NotaForanea::all();
+                $notas=NotaForanea::
+                join('clientes_sin_contrato', 'nota_foranea.cliente_id','=', 'clientes_sin_contrato.id');
             }else{
-                $notas=NotaForanea::where('user_id', auth()->user()->id);
+                $notas=NotaForanea::
+                join('clientes_sin_contrato', 'nota_foranea.cliente_id','=', 'clientes_sin_contrato.id')
+                ->where('user_id', auth()->user()->id);
             }
 
             return DataTables::of(
@@ -100,8 +104,10 @@ class NotaForaneaController extends Controller
                 $tanquesEntrada= NotaForaneaTanque::
                 leftjoin('tanques','tanques.num_serie','=','notaforanea_tanque.num_serie')
                 ->where('nota_foranea_id', $id)->where('insidencia','ENTRADA')->get();
+
+                $cliente=ClienteSinContrato::find($nota->cliente_id);
     
-                $data= ['catalogo' => $catalogo, 'tanques' =>$tanques, 'tanquesEntrada' =>$tanquesEntrada, 'nota'=> $nota];
+                $data= ['catalogo' => $catalogo, 'tanques' =>$tanques, 'tanquesEntrada' =>$tanquesEntrada, 'nota'=> $nota, 'cliente'=> $cliente];
                 return view('notas.foranea.edit', $data);
             }
             return view('notas.foranea.listado');
@@ -112,7 +118,7 @@ class NotaForaneaController extends Controller
     public function salida_save(Request $request){
         if($this->slug_permiso('nota_foranea')){
             $request->validate([
-                'nombre_cliente' => ['required', 'string', 'max:255'],
+                'id_show' => ['required', 'numeric'],
                 'metodo_pago' => ['required', 'string', 'max:255'],
                 'input-subtotal' => ['required', 'numeric'],
                 'input-total' => ['required', 'numeric'],
@@ -123,17 +129,8 @@ class NotaForaneaController extends Controller
                 if(count($request->inputNumSerie) > 0 ){ ///validar si hay tanques en la lista
                     //Nota venta de envio
                     $venta= new NotaForanea;
-                    $venta->nombre_cliente = $request->nombre_cliente;
-                    $venta->telefono = $request->telefono;
-                    $venta->email = $request->email;
-                    $venta->direccion = $request->direccion;
-                    $venta->rfc = $request->rfc;
-                    $venta->cfdi = $request->cfdi;
-                    $venta->direccion_factura = $request->direccion_factura;
-                    $venta->direccion_envio = $request->direccion_envio;
-                    $venta->referencia_envio = $request->referencia_envio;
-                    $venta->link_ubicacion_envio = $request->link_ubicacion_envio;
-                    $venta->precio_envio = $request->precio_envio;
+                    $venta->cliente_id = $request->id_show;
+                    $venta->precio_envio=$request->precio_envio_nota;
                     $venta->subtotal =  $request->input('input-subtotal');
                     $venta->iva_general = $request->input('input-ivaGen');;
                     $venta->total = $request->input('input-total');
@@ -146,17 +143,10 @@ class NotaForaneaController extends Controller
                     $venta->save();
 
                     foreach( $request->inputNumSerie AS $salid => $ent){
-                                //Cambiar estatus tanque
+                        //Cambiar estatus tanque
                         $searhTanque =Tanque::where('num_serie', $request->inputNumSerie[$salid])->first(); 
                         $searhTanque->estatus='VENTA-FORANEA';
                         $searhTanque->save();
-
-                        $historytanques=new TanqueHistorial();
-                        $historytanques->num_serie = $request->inputNumSerie[$salid];
-                        $historytanques->estatus = 'VENTA-FORANEA';
-                        $historytanques->observaciones = 'Salida de tanque en venta foranea. Nota id:'. $venta->id;
-                        $historytanques->user_id = auth()->user()->id;
-                        $historytanques->save();
     
                         $ventatanque=new NotaForaneaTanque();
                         $ventatanque->nota_foranea_id = $venta->id;
@@ -182,15 +172,18 @@ class NotaForaneaController extends Controller
 
     public function entrada_save(Request $request){
         if($this->slug_permiso('nota_foranea')){
+            if($request->pago_cubierto == null){$pago=true;}else{$pago=$request->pago_cubierto;}
             $venta= NotaForanea::find($request->idnota);
-            $venta->telefono = $request->telefono;
-            $venta->email = $request->email;
-            $venta->direccion = $request->direccion;
-            $venta->rfc = $request->rfc;
-            $venta->cfdi = $request->cfdi;
-            $venta->direccion_factura = $request->direccion_factura;
-            $venta->pago_cubierto = $request->pago_cubierto;
+            $venta->pago_cubierto = $pago;
             $venta->save();
+            $client= ClienteSinContrato::find($venta->cliente_id);
+            $client->telefono = $request->telefono;
+            $client->email = $request->email;
+            $client->direccion = $request->direccion;
+            $client->rfc = $request->rfc;
+            $client->cfdi = $request->cfdi;
+            $client->direccion_factura = $request->direccion_factura;
+            $client->save();
 
             if($request->inputNumSerie_entrada){
                 $searchRep = $request->inputNumSerie_entrada;
@@ -212,13 +205,7 @@ class NotaForaneaController extends Controller
                             //si existe cambiar estatus del tanque 
                             $searhTanque->estatus='VACIO-ALMACEN';
                             $searhTanque->save();
-    
-                            $historytanques=new TanqueHistorial();
-                            $historytanques->num_serie = $request->inputNumSerie_entrada[$entrada];
-                            $historytanques->estatus = 'VACIO-ALMACEN';
-                            $historytanques->observaciones = 'Entrada venta foranea. Nota id:'. $venta->id;
-                            $historytanques->user_id = auth()->user()->id;
-                            $historytanques->save();
+
                         }else{
                             //Si no existe registrar
                             $cadena=explode(', ', $request->inputDescripcion_entrada[$entrada]);
@@ -234,13 +221,6 @@ class NotaForaneaController extends Controller
                             $newTanque->tipo_gas = $cadeGas[0];
                             $newTanque->user_id = auth()->user()->id;
                             $newTanque->save();
-        
-                            $historytanques=new TanqueHistorial();
-                            $historytanques->num_serie = $request->inputNumSerie_entrada[$entrada];
-                            $historytanques->estatus = $cadena[4];
-                            $historytanques->observaciones = 'Registro nuevo tanque en venta foranea. Nota id:'. $venta->id;
-                            $historytanques->user_id = auth()->user()->id;
-                            $historytanques->save();
                         }
                         $ventatanque=new NotaForaneaTanque();
                         $ventatanque->nota_foranea_id = $request->idnota;

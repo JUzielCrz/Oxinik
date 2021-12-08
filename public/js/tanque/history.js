@@ -28,9 +28,10 @@ $(document).ready(function () {
             ajax: '/tanque/history/data/'+$('#serietanque').val(),
             columns:[
                 {data: 'num_serie'},
-                {data: 'estatus'},
-                {data: 'observaciones'},
+                {data: 'Nota Mostrador'},
+                {data: 'user_id'},
                 {data: 'created_at'},
+                {data: 'btnNote'},
                 // {data: 'btnShow'},
                 
             ]

@@ -503,13 +503,14 @@ $(document).ready(function () {
         $.get('/asignaciones/show/' + contrato_id, function(data) {
             var columnas='';
             $.each(data.asigTanques, function (key, value) {
-                columnas+='<tr class="trasignacion"><td>'+
-                '<input name="asignacion_cilindros[]" id="asignacion_cilindros" type="number" class="form-control form-control-sm" value="'+value.cilindros+'" readonly></td><td>'+
-                '<input name="asignacion_variante[]" id="asignacion_variante" type="number" class="form-control form-control-sm" value=0></td><td>'+
+                columnas+='<tr class="trasignacion"><td class="tdWidth">'+
+                '<input name="asignacion_cilindros[]" id="asignacion_cilindros" type="number" class="form-control form-control-sm" value="'+value.cilindros+'" readonly></td><td class="tdWidth">'+
+                '<input name="asignacion_variante[]" id="asignacion_variante" type="number" class="form-control form-control-sm" value=0></td><td style="width: 120px;">'+
                 '<select name="asignacion_gas[]" id="asignacion_gas" class="form-control form-control-sm select-search"><option value="'+value.idGas+'">'+ value.nombreGas +'</option></select></td><td>'+
                 '<input name="asignacion_tipo_tanque[]" id="asignacion_tipo_tanque" type="text" class="form-control form-control-sm" value="'+value.tipo_tanque+'" readonly></td><td>'+
                 '<input name="asignacion_material[]" id="asignacion_material" type="text" class="form-control form-control-sm" value="'+value.material+'" readonly></td><td>'+
-                '<input name="asignacion_precio_unitario[]" id="asignacion_precio_unitario" type="number" class="form-control form-control-sm" value="'+value.precio_unitario+'" readonly></td><td>'+
+                '<input name="asignacion_precio_unitario[]" id="asignacion_precio_unitario" type="number" class="form-control form-control-sm" value="'+value.precio_unitario+'" readonly></td><td class="tdWidth">'+
+                '<input name="asignacion_capacidad[]" id="asignacion_capacidad" type="number" class="form-control form-control-sm" value="'+value.capacidad+'" readonly></td><td>'+
                 '<input name="asignacion_unidad_medida[]" id="asignacion_unidad_medida" type="text" class="form-control form-control-sm" value="'+value.unidad_medida+'" readonly></td><td>'+
                 '</td></tr>';
             });
@@ -544,7 +545,7 @@ $(document).ready(function () {
         $.get('/asignaciones/show/' + contrato_id, function(data) {
             var columnas='';
             $.each(data.asigTanques, function (key, value) {
-                columnas+='<tr><td>'+value.cilindros+'</td><td>'+value.nombreGas+'</td><td>'+value.tipo_tanque+'</td><td>'+value.precio_unitario+'</td><td>'+value.unidad_medida+'</td></tr>';
+                columnas+='<tr><td>'+value.cilindros+'</td><td>'+value.nombreGas+'</td><td>'+value.tipo_tanque+'</td><td>'+value.precio_unitario+'</td><td>'+value.capacidad+" "+value.unidad_medida+'</td></tr>';
             });
 
             $('#'+idTabla).remove();
@@ -556,7 +557,7 @@ $(document).ready(function () {
                             '<th>Gas</th>'+
                             '<th>tipo</th>'+
                             '<th>P.U.</th>'+
-                            '<th>U.M.</th>'+
+                            '<th>Capacidad</th>'+
                         '</tr></thead>'+
                         '<tbody>'+
                             columnas+

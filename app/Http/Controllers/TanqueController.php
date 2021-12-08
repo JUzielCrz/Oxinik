@@ -3,15 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\CatalogoGas;
+use App\Models\InfraTanque;
+use App\Models\MantenimientoTanque;
+use App\Models\NotaEntradaTanque;
+use App\Models\NotaForaneaTanque;
+use App\Models\NotaTalonTanque;
+use App\Models\NotaTanque;
 use App\Models\Tanque;
-use App\Models\TanqueHistorial;
+// use App\Models\TanqueHistorial;
 use App\Models\TanqueReportado;
+use App\Models\VentaTanque;
 use App\User;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
 
 class TanqueController extends Controller
 {
@@ -125,16 +133,15 @@ class TanqueController extends Controller
             $tanques->estatus = $request->input('estatus');
             $tanques->tipo_tanque = $request->input('tipo_tanque');
             $tanques->user_id = auth()->user()->id;
+            $tanques->save();
             
-
-            if($tanques->save()){
-                $historytanques=new TanqueHistorial;
-                $historytanques->num_serie = $request->input('num_serie');
-                $historytanques->estatus = $request->input('estatus');
-                $historytanques->observaciones ='Registro del tanque';
-                $historytanques->save();
-                return response()->json(['mensaje'=>' Registrado Correctamente']);
-            }
+                // $historytanques=new TanqueHistorial;
+                // $historytanques->num_serie = $request->input('num_serie');
+                // $historytanques->estatus = $request->input('estatus');
+                // $historytanques->observaciones ='Registro del tanque';
+                // $historytanques->save();
+            return response()->json(['mensaje'=>' Registrado Correctamente']);
+            
             return response()->json(['mensaje'=>'No registrado']);
         }
         return response()->json(['mensaje'=>'Sin permisos']);
@@ -145,7 +152,8 @@ class TanqueController extends Controller
     }
 
     public function show_numserie($num_serie){
-            $tanque=Tanque::where('num_serie',$num_serie)->first();
+            $tanque=Tanque::
+            join('catalogo_gases', 'catalogo_gases.id', 'tanques.tipo_gas')->select('catalogo_gases.nombre as gas_nombre', 'tanques.*')->where('num_serie',$num_serie)->first();
             return $tanque;
     }
 
@@ -162,16 +170,17 @@ class TanqueController extends Controller
             $tanques->tipo_gas = $request->input('tipo_gas');
             $tanques->estatus = $request->input('estatus');
             $tanques->tipo_tanque = $request->input('tipo_tanque');
-
-            if($tanques->save()){
-                $historytanques=new TanqueHistorial;
-                $historytanques->num_serie = $request->input('num_serie');
-                $historytanques->estatus = $request->input('estatus');
-                $historytanques->observaciones ='Edición de los datos del tanque';
-                $historytanques->save();
-                return response()->json(['mensaje'=>' Editado Correctamente']);
-            }
-            return response()->json(['mensaje'=>'No Editado']);
+            $tanques->save();
+            return response()->json(['mensaje'=>' Editado Correctamente']);
+            // if(){
+            //     $historytanques=new TanqueHistorial;
+            //     $historytanques->num_serie = $request->input('num_serie');
+            //     $historytanques->estatus = $request->input('estatus');
+            //     $historytanques->observaciones ='Edición de los datos del tanque';
+            //     $historytanques->save();
+                
+            // }
+            // return response()->json(['mensaje'=>'No Editado']);
         }
         return response()->json(['mensaje'=>'Sin permisos']);
     }
@@ -194,16 +203,80 @@ class TanqueController extends Controller
         return view('home');
     }
 
+    // public function history_data($serietanque){
+    //     if($this->slug_permiso('tanque_history')){
+    //         $tanques=TanqueHistorial::
+    //         select('tanque_historial.*')->where('num_serie',$serietanque);
+    //         return DataTables::of(
+    //             $tanques
+    //         )
+    //         ->editColumn('created_at', function ($user) {
+    //             return $user->created_at->format('H:i:s A - d/m/Y');
+    //         })
+    //         ->toJson();
+    //     }
+    //     return view('home');
+    // }
+
     public function history_data($serietanque){
         if($this->slug_permiso('tanque_history')){
-            $tanques=TanqueHistorial::
-            select('tanque_historial.*')->where('num_serie',$serietanque);
+            $tanques_created=Tanque::select( DB::raw(" num_serie, created_at, user_id, 'Tanque Creado', '#' "))
+            ->where('num_serie',$serietanque);
+            
+            $tanques_updated=Tanque::select( DB::raw(" num_serie, updated_at, user_id, 'Tanque Actualizado', '#'"))
+            ->where('num_serie',$serietanque)
+            ->union($tanques_created);
+
+            $infra=InfraTanque::select( DB::raw("num_serie, infra_llenado.created_at, user_id, CONCAT('INFRA ', incidencia), CONCAT('/infra/show/', infra_llenado.id)"))
+            ->join('infra_llenado', 'infra_llenado.id','=','infra_tanques.infrallenado_id')
+            ->where('num_serie',$serietanque)
+            ->union($tanques_updated);
+
+            $mantenimiento=MantenimientoTanque::select( DB::raw("num_serie, mantenimiento_llenado.created_at, user_id, CONCAT('MANTENIMIENTO ', incidencia), CONCAT('/mantenimiento/show/', mantenimiento_llenado.id) "))
+            ->join('mantenimiento_llenado', 'mantenimiento_llenado.id','=','mantenimiento_tanques.mantenimientollenado_id')
+            ->where('num_serie',$serietanque)
+            ->union($infra);
+
+            $nota_foranea=NotaForaneaTanque::select( DB::raw("num_serie, notaforanea_tanque.created_at, user_id,'Nota Foranea', CONCAT('/nota/foranea/edit/', nota_foranea.id) "))
+            ->join('nota_foranea', 'nota_foranea.id','=','notaforanea_tanque.nota_foranea_id')
+            ->where('num_serie',$serietanque)
+            ->union($mantenimiento); 
+
+            $nota_contrato_salida=NotaTanque::select( DB::raw("num_serie, nota_tanque.created_at, user_id,'Nota Contrato Salida', CONCAT('/nota/contrato/salida/show/', notas.id)"))
+            ->join('notas', 'notas.id','=','nota_tanque.nota_id')
+            ->where('num_serie',$serietanque)
+            ->union($nota_foranea); 
+
+            $nota_contrato_entrada=NotaEntradaTanque::select( DB::raw("num_serie, notas_entrada_tanque.created_at, user_id,'Nota Contrato Entrada', CONCAT('/nota/contrato/entrada/show/', notas_entrada.id)"))
+            ->join('notas_entrada', 'notas_entrada.id','=','notas_entrada_tanque.nota_id')
+            ->where('num_serie',$serietanque)
+            ->union($nota_contrato_salida);
+
+            $nota_talon=NotaTalonTanque::select( DB::raw("num_serie, nota_talontanque.created_at, user_id,'Nota Talon', CONCAT('/nota/talon/edit/', nota_talon.id) "))
+            ->join('nota_talon', 'nota_talon.id','=','nota_talontanque.nota_talon_id')
+            ->where('num_serie',$serietanque)
+            ->union($nota_contrato_entrada);
+
+            $venta_mostrador=VentaTanque::select( DB::raw("num_serie, venta_tanque.created_at, user_id,'Nota Mostrador', CONCAT('/nota/exporadica/show/', ventas.id) as nota"))
+            ->join('ventas', 'ventas.id','=','venta_tanque.venta_id')
+            ->where('num_serie',$serietanque)
+            ->union($nota_talon);
+            
             return DataTables::of(
-                $tanques
+                $venta_mostrador
             )
-            ->editColumn('created_at', function ($user) {
-                return $user->created_at->format('H:i:s A - d/m/Y');
+            ->editColumn('created_at', function ($venta_mostrador) {
+                return $venta_mostrador->created_at->format('H:i:s A - d/m/Y');
             })
+            ->editColumn('user_id', function ($venta_mostrador) {
+                if($venta_mostrador->user_id != null){
+                    $name_usuario=User::find($venta_mostrador->user_id);
+                    return $name_usuario->name;
+                }
+                return null;
+            })
+            ->addColumn( 'btnNote', '<a class="btn btn-verde btn-sm" href="{{ url("$nota") }}" title="Nota"><i class="fas fa-sticky-note"></i> Ver Nota</a>')
+            ->rawColumns(['btnNote'])
             ->toJson();
         }
         return view('home');
@@ -239,11 +312,11 @@ class TanqueController extends Controller
             $id->estatus = "BAJA-TANQUE";
             $id->save();
 
-            $historytanques=new TanqueHistorial;
-            $historytanques->num_serie = $id->num_serie;
-            $historytanques->estatus = $id->estatus;
-            $historytanques->observaciones ='Tanque dado de baja';
-            $historytanques->save();
+            // $historytanques=new TanqueHistorial;
+            // $historytanques->num_serie = $id->num_serie;
+            // $historytanques->estatus = $id->estatus;
+            // $historytanques->observaciones ='Tanque dado de baja';
+            // $historytanques->save();
 
             return response()->json(['mensaje'=>'Eliminado Correctamente']);
             
@@ -256,11 +329,11 @@ class TanqueController extends Controller
             $id->estatus = "VACIO-ALMACEN";
 
             if($id->save()){
-                $historytanques=new TanqueHistorial;
-            $historytanques->num_serie = $id->num_serie;
-            $historytanques->estatus = $id->estatus;
-            $historytanques->observaciones ='Tanque restablecido como vacio en almacen';
-            $historytanques->save();
+            // $historytanques=new TanqueHistorial;
+            // $historytanques->num_serie = $id->num_serie;
+            // $historytanques->estatus = $id->estatus;
+            // $historytanques->observaciones ='Tanque restablecido como vacio en almacen';
+            // $historytanques->save();
                 return response()->json(['mensaje'=>'Eliminado Correctamente']);
             }else{
                 return response()->json(['mensaje'=>'Error al Eliminar']);
@@ -354,11 +427,11 @@ class TanqueController extends Controller
                 $tanque->estatus='TANQUE-REPORTADO';
                 $tanque->save();
                 
-                $historytanques=new TanqueHistorial;
-                $historytanques->num_serie = $request->num_serie;
-                $historytanques->estatus = $tanque->estatus;
-                $historytanques->observaciones ='tanque reportado, #num. de reporte: '. $report->id;
-                $historytanques->save();    
+                // $historytanques=new TanqueHistorial;
+                // $historytanques->num_serie = $request->num_serie;
+                // $historytanques->estatus = $tanque->estatus;
+                // $historytanques->observaciones ='tanque reportado, #num. de reporte: '. $report->id;
+                // $historytanques->save();    
 
                 return response()->json(['mensaje'=>true]);
             }
@@ -376,11 +449,11 @@ class TanqueController extends Controller
                 $tanque->estatus='VACIO-ALMACEN';
                 $tanque->save();
 
-                $historytanques=new TanqueHistorial;
-                $historytanques->num_serie = $tanque->num_serie;
-                $historytanques->estatus = $tanque->estatus;
-                $historytanques->observaciones ='Reporte Eliminado, el tanque cambio a estatus: VACIO-ALMACEN';
-                $historytanques->save();
+                // $historytanques=new TanqueHistorial;
+                // $historytanques->num_serie = $tanque->num_serie;
+                // $historytanques->estatus = $tanque->estatus;
+                // $historytanques->observaciones ='Reporte Eliminado, el tanque cambio a estatus: VACIO-ALMACEN';
+                // $historytanques->save();
                 return response()->json(['mensaje'=>true]);
             }else{
                 $reporte->delete();

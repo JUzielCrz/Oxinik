@@ -39,30 +39,24 @@
                 </tbody>
             </table>
 
-                    <table class="mb-3">
-                        <tbody>
-                            <tr>
-                                <td style="width: 2rem"><strong>Cliente:</strong> </td>
-                                <td style="width: 15rem">{{$nota->nombre_cliente}}</td>
-                                <td rowspan="4"><p><strong>Entregar en: </strong> <br> {{$nota->direccion_envio}} <br> <strong>Referencia: </strong> <br> {{$nota->referencia_envio}}</p></td>
-                            </tr>
-                            <tr>
-                                <td style="width: 2rem"><strong>Telefono: </strong></td>
-                                <td>{{$nota->telefono}}</td>
-                                <td >{{$nota->direccion_envio}} </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 2rem"><strong>Correo: </strong></td>
-                                <td>{{$nota->email}} </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 2rem"><strong>Direccion: </strong></td>
-                                <td>{{$nota->direccion}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <table class="table mt-1 mb-3">
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>Cliente:</strong> {{$cliente->nombre}} <br>
+                            <strong>Telefono: </strong> {{$cliente->telefono}} <br>
+                            <strong>Correo: </strong> {{$cliente->email}} <br>
+                            <strong>Direccion: </strong> {{$cliente->direccion}} 
+                        </td>
+                        <td >
+                            <p><strong>Entregar en: </strong> <br> {{$cliente->direccion_envio}} <br> 
+                                <strong>Referencia: </strong> <br> {{$cliente->referencia_envio}}
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
             
             @inject('tipoeva','App\Http\Controllers\CatalogoGasController')
 

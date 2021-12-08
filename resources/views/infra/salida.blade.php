@@ -9,7 +9,6 @@
 <div class="container">
     <form id="formCreateInfra">
         @csrf
-        <input type="hidden" name="incidencia" id="incidencia" value="SALIDA">
         <div class="card">
             <div class="card-header p-2 bg-gris text-white">
                 <h5 >SALIDA TANQUES <strong>INFRA</strong></h5>
@@ -64,6 +63,17 @@
                                 </div>
                             </div>
                             <hr>
+                                <table class="table table-sm" style="font-size: 12px">
+                                    <tbody>
+                                        <tr class="bg-gris">
+                                            <th class="text-center">SERIE</th>
+                                            <th class="text-center">ERROR</th>
+                                        </tr>
+                                    </tbody>
+                                    <tbody id="tbody_errores">
+                                    </tbody>
+                                </table>
+                            <hr>
                             <button type="button" id="btn-save" class="btn btn-sm btn-block btn-amarillo "> <span class="fas fa-save"></span> GUARDAR</button>
                         </div>
                     </div>
@@ -79,7 +89,7 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/infra/registro.js') }}"></script>
+<script src="{{ asset('js/infra/salida.js') }}"></script>
 <script>
     $(document).ready(function () {
         $("#id-menu-salida").addClass('active');

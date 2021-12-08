@@ -62,11 +62,7 @@
                 {{-- Infra --}}
                     @if($user->permiso_con_admin('infra_salida') || $user->permiso_con_admin('infra_entrada'))    
                         <li id="nav-ico-infra" ><a 
-                            @if ($user->permiso_con_admin('infra_salida'))
-                                href="{{ url('/infra/salida') }}"
-                            @else
-                                href="{{ url('/infra/entrada') }}"
-                            @endif ><i class="fas fa-building"></i>Infra</a></li>
+                                href="{{ url('/infra/index') }}"><i class="fas fa-building"></i>Infra</a></li>
                     @endif
                 {{-- Mantenimiento --}}
                     @if($user->permiso_con_admin('mantenimiento_salida') || $user->permiso_con_admin('mantenimiento_entrada'))    

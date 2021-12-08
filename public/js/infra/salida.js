@@ -20,10 +20,11 @@ $(document).ready(function () {
         
         $('#serie_tanqueError').empty();
 
-        var numserie= $('#serie_tanque').val().replace(/ /g,'');
+        var numserie= $('#serie_tanque').val().replace(/ /g,'').toUpperCase();
 
         if(numserie ==''){
             $('#serie_tanqueError').text('Número de serie obligatorio');
+            $('#serie_tanque').val('');
             return false;
         }
 
@@ -36,23 +37,19 @@ $(document).ready(function () {
         })
         if(boolRepetido){
             $("#serie_tanqueError").text('Número de serie ya agregado a lista');
+            $("#tbody_errores").append('<tr><td>'+$("#serie_tanque").val()+'</td><td>Repetido</td></tr>');
+            $('#serie_tanque').val('');
             return false;
         }
-
-        var valdiar_estatus="";
-        if($("#incidencia").val() == 'ENTRADA'){
-            valdiar_estatus='INFRA'
-        }else{
-            valdiar_estatus='VACIO-ALMACEN'
-        }
-        
 
         $.get('/tanque/show_numserie/'+numserie, function(msg) {
             if(msg==''){
                 $('#serie_tanqueError').text('Error, No exite registro de tanque con este número de serie');
+                $("#tbody_errores").append('<tr><td>'+$("#serie_tanque").val()+'</td><td>Sin Registrar</td></tr>');
+                $('#serie_tanque').val('');
                 return false;
             }
-            if(msg.estatus==valdiar_estatus){
+            if(msg.estatus=='VACIO-ALMACEN'){
                 $("#tbodyfilaTanques").append(
                     "<tr class='trFilaTanque'>"+
                         "<td>"+msg.num_serie+"</td>"+"<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie +"'></input>"+
@@ -72,6 +69,8 @@ $(document).ready(function () {
                 $('#serie_tanque').val('');
             }else{
                 $('#serie_tanqueError').text('Error, estatus tanque: '+ msg.estatus);
+                $("#tbody_errores").append('<tr><td>'+$("#serie_tanque").val()+'</td><td>Estatus: '+msg.estatus+'</td></tr>');
+                $('#serie_tanque').val('');
                 return false;
             }
         });
@@ -99,7 +98,7 @@ $(document).ready(function () {
 
         $.ajax({
             method: "post",
-            url: "/infra/registro_save",
+            url: "/infra/salida_save",
             data: dataForm,
         }).done(function(msg){
             limpiar_campos();
@@ -139,6 +138,7 @@ $(document).ready(function () {
         $("#contador").replaceWith(
             "<h1 id='contador' class='display-1' style='font-size: 6rem;'>"+ contador+"</h1>"
         );
+        $('#tbody_errores').empty();
     }
 
 });

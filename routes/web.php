@@ -36,6 +36,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/nota/contrato/entrada/tanques_pendientes/{contrato_id}', 'NotaController@tanques_pendientes');
     Route::post('/nota/contrato/entrada/adeudos_tanques', 'NotaController@adeudos_tanques');
     Route::post('/nota/contrato/entrada/save', 'NotaController@save_entrada');
+    Route::get('/nota/contrato/entrada/show/{nota_id}', 'NotaController@entrada_show')->name('nota.contrato.entrada.show');
     
     Route::get('/nota/contrato/listar/index', 'NotaListasController@index');
     Route::get('/nota/contrato/listar/salidas/data', 'NotaListasController@salidas_data');
@@ -77,9 +78,12 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/cliente/show/{id}', 'clienteController@show');
     Route::post('/cliente/update/{id}', 'clienteController@update');
     Route::get('/cliente/delete/{id}', 'clienteController@destroy');
-// // DataTables 
-    
 
+    /* Clientes Sin Contrato*/
+    Route::post('/clientes_sc/search', 'ClienteSinContratoController@search');
+    Route::get('/clientes_sc/show/{id}', 'ClienteSinContratoController@show');
+    Route::post('/clientes_sc/create', 'ClienteSinContratoController@create');
+    Route::post('/clientes_sc/update/{id}', 'ClienteSinContratoController@update');
   /* Contratos */
     Route::get('/contrato/index/{id}', 'ContratoController@index')->name('contrato.index');
     Route::post('/contrato/create', 'ContratoController@create');
@@ -154,9 +158,10 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/infra/index', 'InfraController@index');
     Route::get('/infra/data', 'InfraController@data');
     Route::get('/infra/show/{id}', 'InfraController@show');
-    Route::get('/infra/entrada', 'InfraController@entrada');
+    Route::get('/infra/entrada/{id}', 'InfraController@entrada')->name('infra.entrada');
     Route::get('/infra/salida', 'InfraController@salida');
-    Route::post('/infra/registro_save', 'InfraController@registro_save');
+    Route::post('/infra/salida_save', 'InfraController@salida_save');
+    Route::post('/infra/entrada_save', 'InfraController@entrada_save');
     // Route::get('editinfra/{id}', 'InfraController@edit');
 
 //   Route::get('/deleteinfra/{id}', 'InfraController@delete');

@@ -97,7 +97,7 @@ $(document).ready(function () {
                 value.tipo_tanque+'</td><td>'+
                 value.material+'</td><td> $'+
                 value.precio_unitario+'</td><td>'+
-                value.unidad_medida+'</td></tr>';
+                value.capacidad+" "+value.unidad_medida+'</td></tr>';
             });
 
             $('#'+idTabla).remove();

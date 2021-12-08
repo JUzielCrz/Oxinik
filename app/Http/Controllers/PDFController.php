@@ -12,6 +12,7 @@ use App\Models\NotaTanque;
 use Barryvdh\DomPDF\Facade as PDF;
 // use App\Funciones\ConvertNumber;
 use App\Http\Controllers\ConvertNumber;
+use App\Models\ClienteSinContrato;
 use App\Models\InfraLLenado;
 use App\Models\InfraTanque;
 use App\Models\MantenimientoLLenado;
@@ -52,7 +53,9 @@ class PDFController extends Controller
         join('tanques', 'tanques.num_serie','=','venta_tanque.num_serie' )
         ->where('venta_id', $nota->id)->get();
         
-        $data=['nota'=>$nota,'tanques'=>$tanques];
+        $cliente=ClienteSinContrato::find($nota->cliente_id);
+        
+        $data=['nota'=>$nota,'tanques'=>$tanques,  'cliente' => $cliente];
  
         $pdf = PDF::loadView('pdf.nota_exporadica', $data);
 
@@ -71,7 +74,8 @@ class PDFController extends Controller
         join('catalogo_gases','catalogo_gases.id','=','detalle_nota_asignacion.tipo_gas')
         ->where('detalle_nota_asignacion.nota_asignacion_id', $nota_id)->get();
 
-        $asignaciones_all=Asignacion::where('contratos_id',$nota->contrato_id)->get();
+        $asignaciones_all=Asignacion::join('catalogo_gases','catalogo_gases.id','=','asignacion.tipo_gas')
+        ->where('contratos_id',$nota->contrato_id)->get();
 
         
         $data=['detalleNota'=>$detalleNota, 'nota'=>$nota, 'contrato'=>$contrato, 'cliente'=>$cliente, 'asignaciones_all'=>$asignaciones_all];
@@ -131,8 +135,10 @@ class PDFController extends Controller
         $tanques=NotaForaneaTanque::
         join('tanques', 'tanques.num_serie','=','notaforanea_tanque.num_serie' )
         ->where('nota_foranea_id', $nota->id)->get();
+
+        $cliente=ClienteSinContrato::find($nota->cliente_id);
         
-        $data=['nota'=>$nota,'tanques'=>$tanques];
+        $data=['nota'=>$nota,'tanques'=>$tanques,'cliente' => $cliente];
         $pdf = PDF::loadView('pdf.nota_foranea', $data);
 
         return $pdf->stream('nota_foranea_'.$nota->folio_nota.'.pdf');
@@ -144,8 +150,9 @@ class PDFController extends Controller
         $tanques=NotaTalonTanque::
         join('tanques', 'tanques.num_serie','=','nota_talontanque.num_serie' )
         ->where('nota_talon_id', $nota->id)->get();
+        $cliente=ClienteSinContrato::find($nota->cliente_id);
         
-        $data=['nota'=>$nota,'tanques'=>$tanques];
+        $data=['nota'=>$nota,'tanques'=>$tanques,'cliente' => $cliente];
         $pdf = PDF::loadView('pdf.nota_talon', $data);
     
         return $pdf->stream('nota_talon_'.$nota->folio_nota.'.pdf');

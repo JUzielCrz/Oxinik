@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\CatalogoGas;
+use App\Models\ClienteSinContrato;
 use App\Models\Tanque;
-use App\Models\TanqueHistorial;
+// use App\Models\TanqueHistorial;
 use App\Models\VentaExporadica;
 use App\Models\VentaTanque;
 use Illuminate\Http\Request;
@@ -36,9 +37,10 @@ class NotaExporadicaController extends Controller
     }
 
     public function save(Request $request){
+
         if($this->slug_permiso('nota_exporadica')){
             $request->validate([
-                'nombre_cliente' => ['required', 'string', 'max:255'],
+                'id_show' => ['required', 'numeric'],
                 'metodo_pago' => ['required', 'string', 'max:255'],
                 'input-subtotal' => ['required', 'numeric'],
                 'input-total' => ['required', 'numeric'],
@@ -49,19 +51,10 @@ class NotaExporadicaController extends Controller
                 if(count($request->inputNumSerie_entrada) > 0 || count($request->inputNumSerie) > 0 ){ ///validar si hay tanques en la lista
                     //Nota venta de envio
                     $venta= new VentaExporadica;
-                    $venta->nombre_cliente = $request->nombre_cliente;
-                    $venta->telefono = $request->telefono;
-                    $venta->email = $request->email;
-                    $venta->direccion = $request->direccion;
-                    $venta->rfc = $request->rfc;
-                    $venta->cfdi = $request->cfdi;
-                    $venta->direccion_factura = $request->direccion_factura;
-                    $venta->direccion_envio = $request->direccion_envio;
-                    $venta->referencia_envio = $request->referencia_envio;
-                    $venta->link_ubicacion_envio = $request->link_ubicacion_envio;
-                    $venta->precio_envio = $request->precio_envio;
+                    $venta->cliente_id = $request->id_show;
+                    $venta->precio_envio=$request->precio_envio_nota;
                     $venta->subtotal =  $request->input('input-subtotal');
-                    $venta->iva_general = $request->input('input-ivaGen');;
+                    $venta->iva_general = $request->input('input-ivaGen');
                     $venta->total = $request->input('input-total');
                     $venta->metodo_pago = $request->metodo_pago;
                     $venta->fecha = $fechaactual;
@@ -77,13 +70,7 @@ class NotaExporadicaController extends Controller
                                     //si existe cambiar estatus del tanque 
                                     $searhTanque->estatus='VACIO-ALMACEN';
                                     $searhTanque->save();
-                                    
-                                    $historytanques=new TanqueHistorial();
-                                    $historytanques->num_serie = $request->inputNumSerie_entrada[$entrada];
-                                    $historytanques->estatus = 'VACIO-ALMACEN';
-                                    $historytanques->observaciones = 'Entrada venta exporadica. Nota id:'. $venta->id;
-                                    $historytanques->user_id = auth()->user()->id;
-                                    $historytanques->save();
+
                                 }else{
                                     //Si no existe registrar
                                     //	1 Carga, Acero, Praxair, Industrial, LLENO-ALMACEN, 2 ACETILENO
@@ -100,13 +87,6 @@ class NotaExporadicaController extends Controller
                                     $newTanque->tipo_gas = $cadeGas[0];
                                     $newTanque->user_id = auth()->user()->id;
                                     $newTanque->save();
-    
-                                    $historytanques=new TanqueHistorial();
-                                    $historytanques->num_serie = $request->inputNumSerie_entrada[$entrada];
-                                    $historytanques->estatus = $cadena[4];
-                                    $historytanques->observaciones = 'Registro nuevo tanque en venta exporadica. Nota id:'. $venta->id;
-                                    $historytanques->user_id = auth()->user()->id;
-                                    $historytanques->save();
                                 }
                                 
                                 $ventatanque=new VentaTanque();
@@ -122,13 +102,6 @@ class NotaExporadicaController extends Controller
                                 $searhTanque =Tanque::where('num_serie', $request->inputNumSerie[$salid])->first(); 
                                 $searhTanque->estatus='VENTA-EXPORADICA';
                                 $searhTanque->save();
-    
-                                $historytanques=new TanqueHistorial();
-                                $historytanques->num_serie = $request->inputNumSerie[$salid];
-                                $historytanques->estatus = 'VENTA-EXPORADICA';
-                                $historytanques->observaciones = 'Salida de tanque en venta exporadica. Nota id:'. $venta->id;
-                                $historytanques->user_id = auth()->user()->id;
-                                $historytanques->save();
     
                                 $ventatanque=new VentaTanque();
                                 $ventatanque->venta_id = $venta->id;
@@ -190,12 +163,13 @@ class NotaExporadicaController extends Controller
         if($this->slug_permiso('nota_salida')){
             
             $nota=VentaExporadica::find($id);
+            $cliente=ClienteSinContrato::find($nota->cliente_id);
             $tanques=VentaTanque::
             join('tanques', 'tanques.num_serie','=','venta_tanque.num_serie' )
             ->select('venta_tanque.id as nota_id', 'venta_tanque.*', 'tanques.*')
             ->where('venta_tanque.venta_id', $nota->id)->get();
             
-        $data=['nota'=>$nota,'tanques'=>$tanques];
+        $data=['nota'=>$nota,'tanques'=>$tanques, 'cliente'=>$cliente];
         return view('notas.mostrador.show', $data);
         }
         return response()->json(['mensaje'=>'Sin permisos']);

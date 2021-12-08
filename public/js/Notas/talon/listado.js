@@ -27,7 +27,7 @@ $(document).ready(function () {
         ajax: '/nota/talon/data',
         columns:[
             {data: 'id'},   
-            {data: 'nombre_cliente'},
+            {data: 'nombre'},
             {data: 'fecha'},
             {data: 'total'},
             {data: 'telefono'},

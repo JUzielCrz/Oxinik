@@ -58,7 +58,7 @@ class NotaListasController extends Controller
                 }
             })
             ->addColumn( 'btnShow', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'nota.contrato.salida.show\', $nota_id)}}" title="Nota"><i class="far fa-eye"></i></a>')
-            ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_salida\', $nota_id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
+            ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_salida\', $nota_id)}}" title="Nota"><i class="fas fa-file-pdf"></i></a>')
             ->addColumn( 'btnCancelar', '<button class="btn btn-sm btn-verde btn-cancelar-salida" data-id="{{$nota_id}}" title="Cancelar"><span class="fas fa-trash"></span></button>')
             ->rawColumns(['btnNota','btnShow', 'btnCancelar'])
             ->toJson();
@@ -122,8 +122,8 @@ class NotaListasController extends Controller
                     return $usuario->name;
                 }
             })                                                                  
-            ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="#" title="Nota"><i class="fas fa-sticky-note"></i></a>')
-            ->rawColumns(['btnNota'])
+            ->addColumn( 'btnShow', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'nota.contrato.entrada.show\', $nota_id)}}" title="Nota"><i class="far fa-eye"></i></a>')
+            ->rawColumns(['btnShow'])
             ->toJson();
         }
         return view('home');

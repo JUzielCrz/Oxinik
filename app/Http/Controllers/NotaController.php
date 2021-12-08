@@ -366,4 +366,19 @@ class NotaController extends Controller
         }
         return response()->json(['mensaje'=>'Sin permisos']);
     }
+
+    public function entrada_show ($nota_id){
+        if($this->slug_permiso('nota_entrada')){
+            $nota=NotaEntrada::find($nota_id);
+            $tanques=NotaEntradaTanque::
+            join('tanques', 'tanques.num_serie','=','notas_entrada_tanque.num_serie' )
+            ->where('nota_id', $nota->id)->get();
+            $contrato=Contrato::where('id', $nota->contrato_id)->first();
+            $cliente=Cliente::where('id', $contrato->cliente_id)->first();
+            $pagos=NotaPagos::where('nota_id',$nota_id)->get();
+        $data=['nota'=>$nota,'tanques'=>$tanques, 'contrato'=>$contrato, 'cliente'=>$cliente, 'pagos'=>$pagos];
+        return view('notas.contrato.entrada_show', $data);
+        }
+        return response()->json(['mensaje'=>'Sin permisos']);
+    }
 }

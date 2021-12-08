@@ -33,22 +33,22 @@
                         <div class="form-row" style="font-size: 13px">
                             <div class="col">
                                 <label for="">Cliente:</label>
-                                <input name="nombre_cliente" id="nombre_cliente" type="text" value="{{$nota->nombre_cliente}}" class="form-control form-control-sm solo-texto" disabled>
+                                <input name="nombre_cliente" id="nombre_cliente" type="text" value="{{$cliente->nombre}}" class="form-control form-control-sm solo-texto" disabled>
                             </div>
                             <div class="col">
                                 <label for="">Telefono:</label>
-                                <input name="telefono" id="telefono" type="number" value="{{$nota->telefono}}" class="form-control form-control-sm numero-entero-positivo lenght-telefono" >
+                                <input name="telefono" id="telefono" type="number" value="{{$cliente->telefono}}" class="form-control form-control-sm numero-entero-positivo lenght-telefono" >
                                 <span  id="telefonoError" class="text-danger"></span>
                             </div>
                             <div class="col">
                                 <label for="">Correo:</label>
-                                <input name="email" id="email" type="email" class="form-control form-control-sm" value="{{$nota->email}}" >
+                                <input name="email" id="email" type="email" class="form-control form-control-sm" value="{{$cliente->email}}" >
                                 <span id="emailError" class="text-danger"></span>
                             </div>
                             <!-- RFC-->
                             <div class="col">
                                 <label>RFC</label>
-                                <input name="rfc" id="rfc" type="text" value="{{$nota->rfc}}" class="form-control form-control-sm" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                <input name="rfc" id="rfc" type="text" value="{{$cliente->rfc}}" class="form-control form-control-sm" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                 <span id="rfcError" class="text-danger"></span>
                             </div>
                         </div>  
@@ -56,20 +56,20 @@
                             <!-- CFDI-->
                             <div class="col">
                                 <label for="">CFDI: </label>
-                                <input name="cfdi" id="cfdi" type="text" value="{{$nota->cfdi}}" class="form-control form-control-sm" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                <input name="cfdi" id="cfdi" type="text" value="{{$cliente->cfdi}}" class="form-control form-control-sm" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                 <span id="cfdiError" class="text-danger"></span>
                             </div>
 
                             <!-- direccion factura-->
                             <div class="col">
                                 <label for="">Direccion Factura:</label>
-                                <textarea name="direccion_factura" id="direccion_factura" cols="30" rows="1" class="form-control form-control-sm"> {{$nota->direccion_factura}}</textarea>
+                                <textarea name="direccion_factura" id="direccion_factura" cols="30" rows="1" class="form-control form-control-sm"> {{$cliente->direccion_factura}}</textarea>
                                 <span id="direccion_facturaError" class="text-danger"></span>
                             </div>
                             <!-- Direccion-->
                             <div class="col">
                                 <label for="">Dirección Cliente:</label>
-                                <textarea name="direccion" id="direccion" cols="30" rows="1" class="form-control form-control-sm" > {{$nota->direccion}}</textarea>
+                                <textarea name="direccion" id="direccion" cols="30" rows="1" class="form-control form-control-sm" > {{$cliente->direccion}}</textarea>
                                 <span id="direccionError" class="text-danger"></span>
                             </div>
                         </div>
@@ -182,9 +182,9 @@
                         <span class="ml-2 "><strong>DATOS DE ENVIO:</strong></span>
                         <hr class="mt-0">
                         <p>
-                            <strong>Dirección: </strong> {{$nota->direccion_envio}} <br>
-                            <strong>Referencia: </strong> {{$nota->referencia_envio}} <br>
-                            <strong>Link Ubicacion: </strong> <a target="_blank" class="btn-link" href={{$nota->link_ubicacion_envio}}>{{$nota->link_ubicacion_envio}} </a><br>
+                            <strong>Dirección: </strong> {{$cliente->direccion_envio}} <br>
+                            <strong>Referencia: </strong> {{$cliente->referencia_envio}} <br>
+                            <strong>Link Ubicacion: </strong> <a target="_blank" class="btn-link" href={{$cliente->link_ubicacion_envio}}>{{$cliente->link_ubicacion_envio}} </a><br>
                         </p>
                     </div>
                 </div>

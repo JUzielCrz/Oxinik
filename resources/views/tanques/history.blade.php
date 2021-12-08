@@ -35,9 +35,10 @@
                         <thead>
                             <tr>
                             <th scope="col">#Serie</th>
-                            <th scope="col">Estatus</th>
-                            <th scope="col">Folios</th>
+                            <th scope="col">Descripcion</th>
+                            <th scope="col">Usuario</th>
                             <th scope="col">Fecha</th>
+                            <th scope="col">Nota</th>
                             <th scope="col"></th>
                             </tr>
                         </thead>

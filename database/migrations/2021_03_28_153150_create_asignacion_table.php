@@ -25,6 +25,7 @@ class CreateAsignacionTable extends Migration
             $table->string('material');
             $table->float('precio_unitario');
             $table->string('unidad_medida');
+            $table->integer('capacidad');
             $table->timestamps();
         });
     }
