@@ -123,7 +123,8 @@ class NotaListasController extends Controller
                 }
             })                                                                  
             ->addColumn( 'btnShow', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'nota.contrato.entrada.show\', $nota_id)}}" title="Nota"><i class="far fa-eye"></i></a>')
-            ->rawColumns(['btnShow'])
+            ->addColumn( 'btnCancelar', '<button class="btn btn-sm btn-verde btn-cancelar-entrada" data-id="{{$nota_id}}" title="Cancelar"><span class="fas fa-trash"></span></button>')
+            ->rawColumns(['btnShow', 'btnCancelar'])
             ->toJson();
         }
         return view('home');

@@ -10,6 +10,7 @@ $(document).ready(function () {
     $(document).on("click","#btn-adeudos", adeudos);
 
     $(document).on("click",".btn-cancelar-salida", cancelar_salida);
+    $(document).on("click",".btn-cancelar-entrada", cancelar_entrada);
 
     salidas();
     
@@ -22,8 +23,9 @@ $(document).ready(function () {
                 "<th>FECHA</th>"+
                 "<th>METODO DE PAGO</th>"+
                 "<th>RECARGOS</th>"+
-                "<th>OBSERVACIONES</th>"+
+                "<th>ESTATUS</th>"+
                 "<th>USUARIO</th>"+
+                "<th></th>"+
                 "<th></th>"+
             "</tr></thead>";
         var contenido_columnas=
@@ -32,9 +34,10 @@ $(document).ready(function () {
             {data: 'fecha'},
             {data: 'metodo_pago'},
             {data: 'recargos'},
-            {data: 'observaciones'},
+            {data: 'estatus'},
             {data: 'user_name'},
-            {data: 'btnShow'}
+            {data: 'btnShow'},
+            {data: 'btnCancelar'},
         ];
             
         var link_data="/nota/contrato/listar/entradas/data";
@@ -101,32 +104,7 @@ $(document).ready(function () {
     }
 
 
-    // function exporadicas(){
-    //     var titulo_table="Notas Ventas Exporadicas"; 
-    //     var titulo_columnas=
-    //         "<thead><tr>"+
-    //             "<th>ID</th>"+
-    //             "<th>CLIENTE</th>"+
-    //             "<th>FECHA</th>"+
-    //             "<th>TELEFONO</th>"+
-    //             "<th>TOTAL</th>"+
-    //             "<th>USUARIO</th>"+
-    //             "<th></th>"+
-    //         "</tr></thead>";
-    //     var contenido_columnas=
-    //         [{data: 'id'},
-    //         {data: 'nombre_cliente'},
-    //         {data: 'fecha'},
-    //         {data: 'telefono'},
-    //         {data: 'total'},
-    //         {data: 'user_name'},
-    //         {data: 'btnNota'}];
-    //     var link_data="/nota/listar/exporadica/data";
-        
-    //     insertar_tabla(titulo_table,titulo_columnas,contenido_columnas, link_data);
-    // }
-
-
+    var listtabla=''; 
     function insertar_tabla(titulo_table, titulo_columnas,contenido_columnas, link_data){
         
         $("#titulo-table").replaceWith("<h5 id='titulo-table'>"+titulo_table+"</h5>")
@@ -140,7 +118,7 @@ $(document).ready(function () {
         );
 
         // Data Tables
-        var listtabla = $('#table-data').DataTable({
+        listtabla = $('#table-data').DataTable({
             language: {
                 "decimal": "",
                 "emptyTable": "No hay información",
@@ -184,6 +162,43 @@ $(document).ready(function () {
                 $.ajax({
                     method: "get",
                     url: "/nota/contrato/salida/cancelar/"+$(this).data('id'),
+                }).done(function (msg) {
+                    if(msg.mensaje == 'Sin permisos'){
+                        mensaje("error","Sin permisos", "No tienes los permisos suficientes para hacer este cambio", null, null);
+                        return false;
+                    }
+                    Swal.fire(
+                        'Exito',
+                        'Eliminado correctamente.',
+                        'success'
+                    )
+                    listtabla.ajax.reload(null,false);
+                }).fail(function (){
+                    Swal.fire(
+                        'Error',
+                        'Verifica tus datos',
+                        'error'
+                    )
+                });
+            }
+        })
+    }
+
+    function cancelar_entrada() {
+        Swal.fire({
+            title: '¿Estas seguro?',
+            text: "Se cambiaran los estatus de los cilindros a ENTREGADOS A CLIENTE",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#F9C846',
+            cancelButtonColor: '#329F5B',
+            confirmButtonText: 'Si, eliminar!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    method: "get",
+                    url: "/nota/contrato/entrada/cancelar/"+$(this).data('id'),
                 }).done(function (msg) {
                     if(msg.mensaje == 'Sin permisos'){
                         mensaje("error","Sin permisos", "No tienes los permisos suficientes para hacer este cambio", null, null);

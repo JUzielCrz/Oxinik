@@ -10,7 +10,6 @@ use App\Models\NotaForaneaTanque;
 use App\Models\NotaTalonTanque;
 use App\Models\NotaTanque;
 use App\Models\Tanque;
-// use App\Models\TanqueHistorial;
 use App\Models\TanqueReportado;
 use App\Models\VentaTanque;
 use App\User;
@@ -100,14 +99,19 @@ class TanqueController extends Controller
         $fechaactual=new DateTime(date("Y")."-" . date("m")."-".date("d"));
         $fechaPh=new DateTime($pruebaH);
         $diferencia = $fechaactual->diff($fechaPh);
+        $mesesdiferencia= 12-$diferencia->m;
+            
+            if( $diferencia->y >= 10){
+                return response()->json(['alert'=>'vencido', 'mensaje'=>'Prueba hidroestatica vencida']);
+            };
 
             if( $diferencia->y >= 9 &&  $diferencia->m >= 10 || $diferencia->y >= 10){
-                return response()->json(['alert'=>true, 'mensaje'=>'Prueba hidroestatica 3 meses a vencer o vencido']);
+
+                return response()->json(['alert'=>true, 'mensaje'=>'Prueba hidroestatica '.$mesesdiferencia.' meses a vencer']);
             };
             if( $diferencia->y >= 9 &&  $diferencia->m >= 7 ){
-                return response()->json(['alert'=>true, 'mensaje'=>'Prueba hidroestatica 6 meses a vencer']);
+                return response()->json(['alert'=>true, 'mensaje'=>'Prueba hidroestatica '.$mesesdiferencia.' meses a vencer']);
             };
-        
         return response()->json(['alert'=>false]);
     }
 
@@ -134,12 +138,7 @@ class TanqueController extends Controller
             $tanques->tipo_tanque = $request->input('tipo_tanque');
             $tanques->user_id = auth()->user()->id;
             $tanques->save();
-            
-                // $historytanques=new TanqueHistorial;
-                // $historytanques->num_serie = $request->input('num_serie');
-                // $historytanques->estatus = $request->input('estatus');
-                // $historytanques->observaciones ='Registro del tanque';
-                // $historytanques->save();
+
             return response()->json(['mensaje'=>' Registrado Correctamente']);
             
             return response()->json(['mensaje'=>'No registrado']);
@@ -172,15 +171,6 @@ class TanqueController extends Controller
             $tanques->tipo_tanque = $request->input('tipo_tanque');
             $tanques->save();
             return response()->json(['mensaje'=>' Editado Correctamente']);
-            // if(){
-            //     $historytanques=new TanqueHistorial;
-            //     $historytanques->num_serie = $request->input('num_serie');
-            //     $historytanques->estatus = $request->input('estatus');
-            //     $historytanques->observaciones ='Edición de los datos del tanque';
-            //     $historytanques->save();
-                
-            // }
-            // return response()->json(['mensaje'=>'No Editado']);
         }
         return response()->json(['mensaje'=>'Sin permisos']);
     }
@@ -202,21 +192,6 @@ class TanqueController extends Controller
         }
         return view('home');
     }
-
-    // public function history_data($serietanque){
-    //     if($this->slug_permiso('tanque_history')){
-    //         $tanques=TanqueHistorial::
-    //         select('tanque_historial.*')->where('num_serie',$serietanque);
-    //         return DataTables::of(
-    //             $tanques
-    //         )
-    //         ->editColumn('created_at', function ($user) {
-    //             return $user->created_at->format('H:i:s A - d/m/Y');
-    //         })
-    //         ->toJson();
-    //     }
-    //     return view('home');
-    // }
 
     public function history_data($serietanque){
         if($this->slug_permiso('tanque_history')){
@@ -312,12 +287,6 @@ class TanqueController extends Controller
             $id->estatus = "BAJA-TANQUE";
             $id->save();
 
-            // $historytanques=new TanqueHistorial;
-            // $historytanques->num_serie = $id->num_serie;
-            // $historytanques->estatus = $id->estatus;
-            // $historytanques->observaciones ='Tanque dado de baja';
-            // $historytanques->save();
-
             return response()->json(['mensaje'=>'Eliminado Correctamente']);
             
         }
@@ -329,11 +298,6 @@ class TanqueController extends Controller
             $id->estatus = "VACIO-ALMACEN";
 
             if($id->save()){
-            // $historytanques=new TanqueHistorial;
-            // $historytanques->num_serie = $id->num_serie;
-            // $historytanques->estatus = $id->estatus;
-            // $historytanques->observaciones ='Tanque restablecido como vacio en almacen';
-            // $historytanques->save();
                 return response()->json(['mensaje'=>'Eliminado Correctamente']);
             }else{
                 return response()->json(['mensaje'=>'Error al Eliminar']);
@@ -425,14 +389,7 @@ class TanqueController extends Controller
                 $report->save();
 
                 $tanque->estatus='TANQUE-REPORTADO';
-                $tanque->save();
-                
-                // $historytanques=new TanqueHistorial;
-                // $historytanques->num_serie = $request->num_serie;
-                // $historytanques->estatus = $tanque->estatus;
-                // $historytanques->observaciones ='tanque reportado, #num. de reporte: '. $report->id;
-                // $historytanques->save();    
-
+                $tanque->save(); 
                 return response()->json(['mensaje'=>true]);
             }
             return response()->json(['mensaje'=>false]);
@@ -448,12 +405,6 @@ class TanqueController extends Controller
                 $reporte->delete();
                 $tanque->estatus='VACIO-ALMACEN';
                 $tanque->save();
-
-                // $historytanques=new TanqueHistorial;
-                // $historytanques->num_serie = $tanque->num_serie;
-                // $historytanques->estatus = $tanque->estatus;
-                // $historytanques->observaciones ='Reporte Eliminado, el tanque cambio a estatus: VACIO-ALMACEN';
-                // $historytanques->save();
                 return response()->json(['mensaje'=>true]);
             }else{
                 $reporte->delete();

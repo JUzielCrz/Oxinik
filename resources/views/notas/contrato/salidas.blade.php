@@ -122,7 +122,6 @@
             <div class="col-md-4">
                 <div class="card " >
                     <div class="card-body">
-                        
                         @csrf
 
                         <center>
@@ -132,7 +131,7 @@
 
                         <div class="row">
                             <input type="hidden"  name="contrato_id" id="contrato_id">
-                            <div class="input-group input-group-sm mb-3">
+                            <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text fas fa-search" id="inputGroup-sizing-sm"></span>
                                 </div>
@@ -140,8 +139,8 @@
                             </div>
                         </div>
                         <div id="listarcontratos"></div>
-                        
-                        <hr>
+                    </div>
+                    <div class="card-body">
                         {{-- Cliente--}}
                         <div class="form-row">
                             <div class="input-group input-group-sm mb-3">

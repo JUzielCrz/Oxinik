@@ -6,7 +6,6 @@ use App\Models\CatalogoGas;
 use App\Models\InfraLLenado;
 use App\Models\InfraTanque;
 use App\Models\Tanque;
-use App\Models\TanqueHistorial;
 use App\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -90,11 +89,6 @@ class InfraController extends Controller
                     $tanque->estatus = 'INFRA';
                     $tanque->save();
 
-                    $historytanques=new TanqueHistorial;
-                    $historytanques->num_serie = $request->inputNumSerie[$series];
-                    $historytanques->estatus = 'INFRA';
-                    $historytanques->observaciones ='Llevado a INFRA. Nota id: '. $infra->id;
-                    $historytanques->save();
                 }
                 return response()->json(['notaId'=>$infra->id]);
             }

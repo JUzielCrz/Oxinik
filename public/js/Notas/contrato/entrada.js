@@ -162,12 +162,15 @@ $(document).ready(function () {
                 tanque_no_existe();
             }else{//tanque si existe
                 $.get('/tanque/validar_ph/' + msg.ph, function(respuesta) {
-                    if(respuesta.alert){
+                    if(respuesta.alert=='vencido'){
                         //detener 
-                        mensaje("error","PH: "+msg.ph, "Prueba Hidrostática  proximo a VENCER o VENCIDO", null, null);
+                        mensaje("error","PH: "+msg.ph, respuesta.mensaje, null, null);
                         return false;
-                    }else{
-                        var bandera_pendiete=false; //validar si el tanque es de los que adeuda
+                    }
+                    if(respuesta.alert){
+                        mensaje("warning","PH: "+msg.ph, respuesta.mensaje, null, null);
+                    }
+                    var bandera_pendiete=false; //validar si el tanque es de los que adeuda
                         var tapa_tanque_estatus="";
                         $(".class-tanques-nota").each(function(index, value){
                             var tanquePendiente = $(this).find("td")[0].innerHTML;
@@ -212,8 +215,6 @@ $(document).ready(function () {
                                 } 
                             })
                         }
-                    }
-
                 });
                 
             

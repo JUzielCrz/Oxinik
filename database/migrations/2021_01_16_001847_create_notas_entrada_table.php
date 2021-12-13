@@ -24,6 +24,7 @@ class CreateNotasEntradaTable extends Migration
             $table->double('recargos')->default(0)->nullable();
             $table->string('observaciones')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->enum('estatus', ['ACTIVA', 'CANCELADA'])->default('ACTIVA');
             $table->timestamps();
         });
     }

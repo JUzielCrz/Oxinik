@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use App\Models\CatalogoGas;
 use App\Models\ClienteSinContrato;
 use App\Models\Tanque;
-use App\Models\TanqueHistorial;
 use App\Models\NotaForanea;
 use App\Models\NotaForaneaTanque;
 use Illuminate\Http\Request;

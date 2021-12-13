@@ -37,6 +37,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/nota/contrato/entrada/adeudos_tanques', 'NotaController@adeudos_tanques');
     Route::post('/nota/contrato/entrada/save', 'NotaController@save_entrada');
     Route::get('/nota/contrato/entrada/show/{nota_id}', 'NotaController@entrada_show')->name('nota.contrato.entrada.show');
+    Route::get('/nota/contrato/entrada/cancelar/{nota_id}', 'NotaController@entrada_cancelar');
     
     Route::get('/nota/contrato/listar/index', 'NotaListasController@index');
     Route::get('/nota/contrato/listar/salidas/data', 'NotaListasController@salidas_data');

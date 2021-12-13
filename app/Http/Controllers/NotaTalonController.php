@@ -7,7 +7,6 @@ use App\Models\ClienteSinContrato;
 use App\Models\NotaTalon;
 use App\Models\NotaTalonTanque;
 use App\Models\Tanque;
-use App\Models\TanqueHistorial;
 use Illuminate\Http\Request;
 use App\User;
 use Yajra\DataTables\DataTables;

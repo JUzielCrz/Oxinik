@@ -11,7 +11,6 @@ use App\Models\NotaEntradaTanque;
 use App\Models\NotaPagos;
 use App\Models\NotaTanque;
 use App\Models\Tanque;
-use App\Models\TanqueHistorial;
 use App\User;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
@@ -180,13 +179,6 @@ class NotaController extends Controller
                         $notaTanque->importe = $request->input_importe[$series];
                         $notaTanque->save();
 
-                        $historytanques=new TanqueHistorial;
-                        $historytanques->num_serie = $request->inputNumSerie[$series];
-                        $historytanques->estatus = 'ENTREGADO-CLIENTE';
-                        $historytanques->observaciones ='NOTA:'. $notas->id;
-                        $historytanques->user_id = auth()->user()->id;
-                        $historytanques->save();
-
                         $tanque=Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
                         $tanque->estatus = 'ENTREGADO-CLIENTE';
                         $tanque->save();
@@ -272,14 +264,6 @@ class NotaController extends Controller
                             $tanquedevuelto->devuelto=true;
                             $tanquedevuelto->save();
                             
-                            //Crear historial Del tanque
-                            $historytanques=new TanqueHistorial;
-                            $historytanques->num_serie = $request->inputNumSerie[$series];
-                            $historytanques->estatus = 'VACIO-ALMACEN';
-                            $historytanques->observaciones ='ID NOTA ENTRADA: '. $notas->id;
-                            $historytanques->user_id = auth()->user()->id;
-                            $historytanques->save();
- 
                         }
 
                         
@@ -290,13 +274,7 @@ class NotaController extends Controller
                             $intercambiotanq =Tanque::where('num_serie',$request->inputCambio[$series])->first();
                             $intercambiotanq->estatus='TANQUE-CAMBIADO';
                             $intercambiotanq->save();
-                            //Generar historial del tanque que se cambio
-                            $historytanques=new TanqueHistorial;
-                            $historytanques->num_serie = $request->inputCambio[$series];
-                            $historytanques->estatus = 'TANQUE-CAMBIADO';
-                            $historytanques->observaciones ='El tanque con serie: '.$request->inputCambio[$series].' se intercambio por tanque ya registrado en el sistema con serie:'.$request->inputNumSerie[$series].' NOTA ENTRADA:'. $notas->id;
-                            $historytanques->user_id = auth()->user()->id;
-                            $historytanques->save();
+
                             //si existe cambiar estatus del tanque 
                             $searhTanque->estatus='VACIO-ALMACEN';
                             $searhTanque->save();
@@ -304,13 +282,6 @@ class NotaController extends Controller
                             $tanquedevuelto = NotaTanque::where('nota_id',$request->inputIdNota[$series])->where('num_serie',$request->inputCambio[$series])->first();
                             $tanquedevuelto->devuelto=true;
                             $tanquedevuelto->save();
-
-                            $history2=new TanqueHistorial;
-                            $history2->num_serie =  $searhTanque->num_serie;
-                            $history2->estatus = 'VACIO-ALMACEN';
-                            $history2->observaciones ='Cambiado por tanque con serie: '.$request->inputCambio[$series].' En nota salida con id:'. $request->inputIdNota[$series];
-                            $history2->user_id = auth()->user()->id;
-                            $history2->save();
                         }
                         if($searhTanque==null && $request->inputCambio[$series] != 'SN'){
                             
@@ -318,13 +289,6 @@ class NotaController extends Controller
                             $intercambiotanq =Tanque::where('num_serie',$request->inputCambio[$series])->first();
                             $intercambiotanq->estatus='TANQUE-CAMBIADO';
                             $intercambiotanq->save();
-                            //Generar historial del tanque que se cambio
-                            $historytanques=new TanqueHistorial;
-                            $historytanques->num_serie = $request->inputCambio[$series];
-                            $historytanques->estatus = 'TANQUE-CAMBIADO';
-                            $historytanques->observaciones ='El tanque con serie: '.$request->inputCambio[$series].' se intercambio por tanque con serie:'.$request->inputNumSerie[$series].' NOTA ENTRADA:'. $notas->id;
-                            $historytanques->user_id = auth()->user()->id;
-                            $historytanques->save();
                             //Registrar nuevo tanque
                             $cadena=explode(', ', $request->inputDescripcion[$series]);
                             $newTanque = new Tanque;
@@ -339,13 +303,6 @@ class NotaController extends Controller
                             $newTanque->tipo_gas = $cadenaGas[0];
                             $newTanque->user_id = auth()->user()->id;
                             $newTanque->save();
-
-                            $history2=new TanqueHistorial;
-                            $history2->num_serie = $request->inputNumSerie[$series];
-                            $history2->estatus = 'VACIO-ALMACEN';
-                            $history2->observaciones ='Nuevo tanque registrado, cambiado por tanque con serie: '.$request->inputCambio[$series].' NOTA ENTRADA:'. $notas->id;
-                            $history2->user_id = auth()->user()->id;
-                            $history2->save();
 
                             $tanquedevuelto = NotaTanque::where('nota_id',$request->inputIdNota[$series])->where('num_serie',$request->inputCambio[$series])->first();
                             $tanquedevuelto->devuelto=true;
@@ -378,6 +335,24 @@ class NotaController extends Controller
             $pagos=NotaPagos::where('nota_id',$nota_id)->get();
         $data=['nota'=>$nota,'tanques'=>$tanques, 'contrato'=>$contrato, 'cliente'=>$cliente, 'pagos'=>$pagos];
         return view('notas.contrato.entrada_show', $data);
+        }
+        return response()->json(['mensaje'=>'Sin permisos']);
+    }
+
+    public function entrada_cancelar ($nota_id){
+        if($this->slug_permiso('nota_entrada')){
+            $nota=NotaEntrada::find($nota_id);
+            $nota->estatus = 'CANCELADA';
+            $nota->save();
+            $tanques=NotaEntradaTanque::where('nota_id', $nota->id)->get();
+
+            foreach( $tanques AS $indice => $cilindro){
+                $tanq = Tanque::where('num_serie',$cilindro->num_serie)->first();
+                $tanq->estatus = 'ENTREGADO-CLIENTE';
+                $tanq->save();
+            }
+            
+            return response()->json(['mensaje'=>'success']);
         }
         return response()->json(['mensaje'=>'Sin permisos']);
     }

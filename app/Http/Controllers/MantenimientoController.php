@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\MantenimientoLLenado;
 use App\Models\MantenimientoTanque;
 use App\Models\Tanque;
-use App\Models\TanqueHistorial;
 use App\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -94,12 +93,6 @@ class MantenimientoController extends Controller
                     $tanque->estatus = $estatus_tanque;
                     $tanque->ph = $request->idInputPH[$series];
                     $tanque->save();
-
-                    $historytanques=new TanqueHistorial;
-                    $historytanques->num_serie = $request->inputNumSerie[$series];
-                    $historytanques->estatus = $estatus_tanque;
-                    $historytanques->observaciones =$obse_hystory;
-                    $historytanques->save();
                 }
                 return response()->json(['notaId'=>$mantenimiento->id]);
             }

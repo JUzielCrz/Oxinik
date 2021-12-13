@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\CatalogoGas;
 use App\Models\ClienteSinContrato;
 use App\Models\Tanque;
-// use App\Models\TanqueHistorial;
 use App\Models\VentaExporadica;
 use App\Models\VentaTanque;
 use Illuminate\Http\Request;
