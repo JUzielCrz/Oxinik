@@ -64,7 +64,7 @@
                 </div>
         
                 {{-- SALIDA --}}
-                <div class="card mt-3">
+                <div class="card mt-2">
                     <div class="card-header">
                         <h5>TANQUES SALIDA</h5>
                     </div>
@@ -128,6 +128,18 @@
                             <div id="msg-tanques-salida" style="display:none" class="alert" role="alert">
                             </div>
                         </center>
+                    </div>
+                </div>
+
+                {{-- OBSERVACIONES --}}
+                <div class="card mt-2">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label for="">Observaciones Generales</label>
+                                <textarea name="observaciones" id="observaciones" cols="30" rows="1" class="form-control"></textarea>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

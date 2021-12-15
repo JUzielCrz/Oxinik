@@ -48,6 +48,7 @@ class ContratoController extends Controller
     }
 
     public function create(Request $request){
+
         if($this->slug_permiso('contrato_create')){
             $request->validate([
                 'num_contrato' => ['required', 'string', 'max:255', 'unique:contratos,num_contrato'],
@@ -61,8 +62,8 @@ class ContratoController extends Controller
                 return response()->json(['alert'=>'alert-danger', 'mensaje'=>'No puedes introducir valores menor a 0']);
             }
             foreach( $request->cilindroscreate AS $negativo => $g){
-                if($request->cilindroscreate[$negativo] < 1 || $request->precio_unitariocreate[$negativo] < 1){
-                    return response()->json(['alert'=>'alert-danger', 'mensaje'=>'No puedes introducir valores valores menor a 1 en cilindros o P.U.']);
+                if($request->cilindroscreate[$negativo] < 1 || $request->precio_unitariocreate[$negativo] < 1|| $request->capacidadcreate[$negativo] < 1){
+                    return response()->json(['alert'=>'alert-danger', 'mensaje'=>'No puedes introducir valores valores menor a 1 en asignacion de tanques']);
                 }
             }
 
@@ -79,10 +80,10 @@ class ContratoController extends Controller
             }
 
             foreach( $request->tipo_gascreate AS $search => $g){
-                $buscarrepetido=$request->tipo_gascreate[$search]. $request->tipo_tanquecreate[$search]. $request->tipo_contrato.$request->materialcreate[$search];
+                $buscarrepetido=$request->tipo_gascreate[$search]. $request->tipo_tanquecreate[$search]. $request->tipo_contrato.$request->materialcreate[$search].$request->capacidadcreate[$search].$request->unidad_medidacreate[$search];
                 foreach( $request->tipo_gascreate AS $rep => $g){
                     if($search != $rep){
-                        if($buscarrepetido == $request->tipo_gascreate[$rep]. $request->tipo_tanquecreate[$search]. $request->tipo_contrato.$request->materialcreate[$rep]){
+                        if($buscarrepetido == $request->tipo_gascreate[$rep]. $request->tipo_tanquecreate[$search]. $request->tipo_contrato.$request->materialcreate[$rep].$request->capacidadcreate[$rep].$request->unidad_medidacreate[$rep]){
                             return response()->json(['alert'=>'alert-danger', 'mensaje'=>'Asignación de tanques repetidos']);
                         }
                     }
@@ -120,6 +121,7 @@ class ContratoController extends Controller
                         $newAsignacionTanque->tipo_tanque= $request->tipo_tanquecreate[$inci];
                         $newAsignacionTanque->material= $request->materialcreate[$inci];
                         $newAsignacionTanque->precio_unitario= $request->precio_unitariocreate[$inci];
+                        $newAsignacionTanque->capacidad= $request->capacidadcreate[$inci];
                         $newAsignacionTanque->unidad_medida= $request->unidad_medidacreate[$inci];
                         $newAsignacionTanque->save();          
                 }   
@@ -140,6 +142,8 @@ class ContratoController extends Controller
                     ->where('tipo_gas', $request->tipo_gascreate[$typeG])
                     ->where('tipo_tanque', $request->tipo_tanquecreate[$typeG])
                     ->where('material', $request->materialcreate[$typeG])
+                    ->where('capacidad', $request->capacidadcreate[$typeG])
+                    ->where('unidad_medida', $request->unidad_medidacreate[$typeG])
                     ->first();
 
                     if($detalleNota != null){
@@ -151,6 +155,7 @@ class ContratoController extends Controller
                         $newDetalle->cilindros= $request->cilindroscreate[$typeG];
                         $newDetalle->tipo_gas= $request->tipo_gascreate[$typeG];
                         $newDetalle->tipo_tanque= $request->tipo_tanquecreate[$typeG];
+                        $newDetalle->capacidad= $request->capacidadcreate[$typeG];
                         $newDetalle->unidad_medida= $request->unidad_medidacreate[$typeG];
                         $newDetalle->material= $request->materialcreate[$typeG];
                         $newDetalle->save(); 

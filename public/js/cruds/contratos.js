@@ -161,6 +161,14 @@ $(document).ready(function () {
                 $(elemento).removeClass("is-invalid");
             }
         });
+        $("input[name='capacidadcreate[]']").each(function(indice, elemento) {
+            if($(elemento).val()=="" || $(elemento).val() < 1){
+                $(elemento).addClass("is-invalid");
+                banderamensaje=true;
+            }else{
+                $(elemento).removeClass("is-invalid");
+            }
+        });
         $("select[name='unidad_medidacreate[]']").each(function(indice, elemento) {
             if($(elemento).val()==""){
                 $(elemento).addClass("is-invalid");
@@ -273,6 +281,7 @@ $(document).ready(function () {
         $("select[name='tipo_tanquecreate[]']").empty();
         $("select[name='materialcreate[]']").val("");
         $("input[name='precio_unitariocreate[]']").val("");
+        $("select[name='capacidadcreate[]']").val("");
         $("select[name='unidad_medidacreate[]']").val("");
     }
     
