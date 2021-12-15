@@ -32,7 +32,7 @@ $(document).ready(function () {
         columns: 
         [
             {data: 'id'},
-            {data: 'nombre_cliente'},
+            {data: 'nombre'},
             {data: 'fecha'},
             {data: 'telefono'},
             {data: 'total'},

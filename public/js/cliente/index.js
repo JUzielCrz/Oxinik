@@ -294,6 +294,7 @@ $(document).ready(function () {
                         'Eliminado correctamente.',
                         'success'
                     )
+                    listtabla.ajax.reload(null,false);
                 }).fail(function (){
                     Swal.fire(
                         'Error',

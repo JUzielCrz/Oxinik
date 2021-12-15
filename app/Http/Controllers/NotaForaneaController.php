@@ -39,10 +39,12 @@ class NotaForaneaController extends Controller
 
             if($user->soloParaUnRol('admin')){
                 $notas=NotaForanea::
-                join('clientes_sin_contrato', 'nota_foranea.cliente_id','=', 'clientes_sin_contrato.id');
+                join('clientes_sin_contrato', 'nota_foranea.cliente_id','=', 'clientes_sin_contrato.id')
+                ->select('nota_foranea.id as notaf_id', 'nota_foranea.*','clientes_sin_contrato.*');
             }else{
                 $notas=NotaForanea::
                 join('clientes_sin_contrato', 'nota_foranea.cliente_id','=', 'clientes_sin_contrato.id')
+                ->select('nota_foranea.id as notaf_id', 'nota_foranea.*','clientes_sin_contrato.*')
                 ->where('user_id', auth()->user()->id);
             }
 
@@ -71,8 +73,8 @@ class NotaForaneaController extends Controller
                     return 'Pendientes';
                 }
             })
-            ->addColumn( 'btnEdit', '<a class="btn btn-sm btn-verde" href="{{route(\'nota.foranea.edit\', $id)}}" data-toggle="tooltip" data-placement="top" title="Contrato"><span class="fas fa-edit"></span></a>')
-            ->addColumn( 'btnPDF', '<a class="btn btn-verde btn-sm" href="{{route(\'pdf.nota_foranea\', $id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Nota PDF"><i class="fas fa-file-pdf"></i></a>')
+            ->addColumn( 'btnEdit', '<a class="btn btn-sm btn-verde" href="{{route(\'nota.foranea.edit\', $notaf_id)}}" data-toggle="tooltip" data-placement="top" title="Contrato"><span class="fas fa-edit"></span></a>')
+            ->addColumn( 'btnPDF', '<a class="btn btn-verde btn-sm" href="{{route(\'pdf.nota_foranea\', $notaf_id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Nota PDF"><i class="fas fa-file-pdf"></i></a>')
             ->rawColumns(['btnEdit', 'btnPDF'])
             ->toJson();
         }
@@ -91,12 +93,12 @@ class NotaForaneaController extends Controller
         $idauth=auth()->user()->id;
         $user=User::find($idauth);
 
-
         if($this->slug_permiso('nota_foranea') ){
             $catalogo = CatalogoGas::pluck('nombre','id');
 
             //listar tanquiers saldia
             $nota= NotaForanea::where('id', $id)->first();
+
             if($nota->user_id == $idauth || $user->soloParaUnRol('admin')){
                 $tanques= NotaForaneaTanque::
                 where('nota_foranea_id', $id)->where('insidencia','SALIDA')->get();
