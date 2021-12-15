@@ -3,6 +3,13 @@
         </div>
     </center>
 
+    <style>
+        .tdWidth{
+            width: 50px;
+            overflow: auto;
+        }
+    </style>
+
   <form id="idFormContrato" style="font-size: 13px">
     @csrf
         <!-- Nombre Completo-->
@@ -83,6 +90,7 @@
                         <th>TIPO</th>
                         <th>MATERIAL</th>
                         <th>P.U.</th>
+                        <th>CAPACIDAD</th>
                         <th>U.M.</th>
                         <th></th>
                         <th></th>
@@ -91,7 +99,7 @@
                 <div id="msg-alert-asignacion"></div>
                 <tbody>
                     <tr class="trasignacion">
-                        <td style="width: 5rem">
+                        <td class="tdWidth">
                             <input name="cilindroscreate[]" id="cilindroscreate" type="number" class="form-control form-control-sm numero-entero-positivo"  placeholder="#" >
                         </td>
                         <td>
@@ -114,8 +122,11 @@
                                 <option value="Aluminio">Aluminio</option>
                             </select>
                         </td>
-                        <td style="width: 7rem">
+                        <td>
                             <input type="number" name="precio_unitariocreate[]" id="precio_unitariocreate" class="form-control form-control-sm numero-decimal-positivo" placeholder="$0">
+                        </td>
+                        <td class="tdWidth">
+                            <input type="number" name="capacidadcreate[]" id="capacidadcreate" class="form-control form-control-sm numero-entero-positivo" placeholder="0">
                         </td>
                         <td>
                             <select name="unidad_medidacreate[]" id="unidad_medidacreate" class="form-control form-control-sm">
@@ -214,7 +225,7 @@
 
                 $('#tbody-tr-asignacioncreate').append(
                     '<tr class="trasignacion">'+
-                        '<td style="width: 5rem">'+
+                        '<td class="tdWidth">'+
                             '<input name="cilindroscreate[]" id="cilindroscreate" type="number" class="form-control form-control-sm numero-entero-positivo" placeholder="#">'+
                         '</td> '+
                         '<td>'+
@@ -234,8 +245,11 @@
                                 '<option value="Aluminio">Aluminio</option>'+
                             '</select>'+
                         '</td>'+
-                        '<td style="width: 7rem">'+
+                        '<td >'+
                             '<input type="number" name="precio_unitariocreate[]" id="precio_unitariocreate" class="form-control form-control-sm numero-decimal-positivo" placeholder="$0">'+
+                        '</td>'+
+                        '<td class="tdWidth">'+
+                            '<input type="number" name="capacidadcreate[]" id="capacidadcreate"  class="form-control form-control-sm numero-entero-positivo" placeholder="0">'+
                         '</td>'+
                         '<td>'+
                             '<select name="unidad_medidacreate[]" id="unidad_medidacreate" class="form-control form-control-sm">'+

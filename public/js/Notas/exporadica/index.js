@@ -249,7 +249,6 @@ $(document).ready(function () {
         var pruebah= valorcampo[6]+valorcampo[7];
         var tapaTanque=$('#tapa_tanque_entrada').val();
 
-        console.log(pruebah);
         $.get('/tanque/validar_ph/' + pruebah, function(respuesta) {
             
             var tdph;
@@ -707,7 +706,6 @@ $(document).ready(function () {
     });
 
     $('.numero-entero-positivo').keypress(function (event) {
-        // console.log(event.charCode);
         if (
             event.charCode == 43 || //+
             event.charCode == 45 || //-
@@ -721,7 +719,6 @@ $(document).ready(function () {
     });
 
     $('.numero-decimal-positivo').keypress(function (event) {
-        // console.log(event.charCode);
         if (
             event.charCode == 43 || //+
             event.charCode == 45 || //-
@@ -734,7 +731,6 @@ $(document).ready(function () {
     });
 
     $('.solo-texto').keypress(function (event) {
-        // console.log(event.charCode);
         if (event.charCode >= 65 && event.charCode <= 90 || event.charCode >= 97 && event.charCode <= 122 || 
             event.charCode ==  32 ||
             event.charCode == 193 || 
