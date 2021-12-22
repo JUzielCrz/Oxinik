@@ -26,7 +26,7 @@ $(document).ready(function () {
         serverSider: true,
         ajax: '/nota/foranea/data',
         columns:[
-            {data: 'id'},   
+            {data: 'notaf_id'},   
             {data: 'nombre'},
             {data: 'fecha'},
             {data: 'total'},

@@ -137,7 +137,9 @@ class NotaExporadicaController extends Controller
 
     public function data(){
         if($this->slug_permiso('nota_exporadica')){
-            $nota_entrada=VentaExporadica::all();
+            $nota_entrada=VentaExporadica::
+            join('clientes_sin_contrato','clientes_sin_contrato.id','ventas.cliente_id')
+            ->select('clientes_sin_contrato.nombre', 'clientes_sin_contrato.telefono', 'ventas.*');
             return DataTables::of(
                 $nota_entrada
             )                                                               
