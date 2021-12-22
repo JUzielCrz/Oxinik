@@ -6,44 +6,83 @@
 
 @section('content-sidebar')
 
-
+@csrf
 <div class="container">
-    <div class="card">
-        <div class="card-body">
-            <span><strong>Selecciona Estatus</strong></span>
-            <hr>
-            <div class="row" >
-                <div class="col-md-6">  
-                    <table class="table table-sm table-hover" id="table-estatus-1" style="font-size: 13px;">
-                        <thead>
-                            <tr>
-                                <th>Estatus</th>
-                                <th>Cantidad</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-                            <tr><td>VACIO-ALMACEN</td><td><strong>{{$vacioalmacen}} </strong></td></tr>
-                            <tr><td>LLENO-ALMACEN</td><td><strong>{{$llenoalmacen}} </strong></td></tr>
-                            <tr><td>INFRA</td><td><strong>{{$infra}} </strong></td></tr>
-                            <tr><td>MANTENIMIENTO</td><td><strong>{{$mantenimiento}} </strong></td></tr>
-                        </tbody>
-                    </table>
+    <div class="row">
+        <div class="col-md-4" >
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <label for="">Estatus</label>
+                            <select name="estatus" id="estatus" class="form-control form-control-sm">
+                                <option value="">Selecciona</option>
+                                <option value="VACIO-ALMACEN">VACIO-ALMACEN</option>
+                                <option value="LLENO-ALMACEN">LLENO-ALMACEN</option>
+                                <option value="INFRA">INFRA</option>
+                                <option value="MANTENIMIENTO">MANTENIMIENTO</option>
+                                <option value="ENTREGADO-CLIENTE">ENTREGADO-CLIENTE</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="">Gas</label>
+                            <select name="tipo_gas" id="tipo_gas" class="form-control form-control-sm">
+                                <option value=0>ALL</option>
+                                @foreach ($gases as $gas)
+                                    <option value={{$gas->id}}>{{$gas->nombre}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col text-right">
+                            <button class="btn btn-sm btn-verde" type="button" id="btn-listar">Aplicar</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <table class="table table-sm table-hover" id="table-estatus-2" style="font-size: 13px;">
-                        <thead>
-                            <tr>
-                                <th>Estatus</th>
-                                <th>Cantidad</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-                            <tr><td>ENTREGADO-CLIENTE</td> <td> <strong>{{$entregadocliente}} </strong>  </td> </tr>
-                            <tr><td>VENTA-ESPORÁDICA</td> <td> <strong>{{$ventaexporadica}} </strong> </td> </tr>
-                            <tr><td>TANQUE-CAMBIADO</td> <td> <strong>{{$tanquecambiado}} </strong> </td> </tr>
-                        </tbody>
-                    </table>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="row no-gutters">
+                    {{-- <div class="col-md-4">
+                        <div class="card-body p-2">
+                            <div class="card-header text-center p-1"> 
+                                TANQUES
+                            </div>
+                            <div class="card-body text-center p-0">
+                                <h1 id="contador" class="display-1" style="font-size: 5rem;"> 0</h1>
+                            </div>
+                        </div>
+                    </div> --}}
+                    
+                    <div class="col">
+                        <div class="card-body p-2 table-responsive">
+                            <table class="table table-sm " id="table-estatus-1" style="font-size: 13px;">
+                                <thead class="text-center bg-gris">
+                                    <tr>
+                                        <th>ESTATUS</th>
+                                        <th>CANTIDAD</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <tr><td class="p-0">VACIO ALMACEN</td><td class="p-0"><strong>{{$vacioalmacen}} </strong></td></tr>
+                                    <tr><td class="p-0">LLENO ALMACEN</td><td class="p-0"><strong>{{$llenoalmacen}} </strong></td></tr>
+                                    <tr><td class="p-0">INFRA</td><td class="p-0"><strong>{{$infra}} </strong></td></tr>
+                                    <tr><td class="p-0">MANTENIMIENTO</td><td class="p-0"><strong>{{$mantenimiento}} </strong></td></tr>
+                                    <tr><td class="p-0">ENTREGADO CLIENTE</td><td class="p-0"><strong>{{$entregadocliente}} </strong></td></tr>
+                                </tbody>
+                                <tfoot class="text-center bg-gris">
+                                    <tr><td class="p-1">TOTAL</td><td class="p-1"><strong>{{$vacioalmacen+$llenoalmacen+$infra+$mantenimiento+$entregadocliente}} </strong></td></tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+                
+                
             </div>
         </div>
     </div>

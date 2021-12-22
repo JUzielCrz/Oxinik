@@ -31,6 +31,7 @@ class CreateNotaForaneaTable extends Migration
             $table->date('fecha');
 
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('observaciones')->nullable();
 
             $table->timestamps();
         });

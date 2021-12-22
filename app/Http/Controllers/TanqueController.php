@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\CatalogoGas;
+use App\Models\InfraLLenado;
 use App\Models\InfraTanque;
 use App\Models\MantenimientoTanque;
 use App\Models\NotaEntradaTanque;
 use App\Models\NotaForaneaTanque;
+use App\Models\NotaReserva;
 use App\Models\NotaTalonTanque;
 use App\Models\NotaTanque;
 use App\Models\Tanque;
@@ -232,10 +234,15 @@ class TanqueController extends Controller
             ->where('num_serie',$serietanque)
             ->union($nota_contrato_entrada);
 
+            $nota_reserva=NotaReserva::select( DB::raw("num_serie, nota_reserva_tanque.created_at, user_id,CONCAT('Nota Reserva', nota_reserva.incidencia ), CONCAT('/nota/reserva/show_history/', nota_reserva.id) "))
+            ->join('nota_reserva', 'nota_reserva.id','=','nota_reserva_tanque.nota_talon_id')
+            ->where('num_serie',$serietanque)
+            ->union($nota_talon);
+
             $venta_mostrador=VentaTanque::select( DB::raw("num_serie, venta_tanque.created_at, user_id,'Nota Mostrador', CONCAT('/nota/exporadica/show/', ventas.id) as nota"))
             ->join('ventas', 'ventas.id','=','venta_tanque.venta_id')
             ->where('num_serie',$serietanque)
-            ->union($nota_talon);
+            ->union($nota_reserva);
             
             return DataTables::of(
                 $venta_mostrador
@@ -311,34 +318,47 @@ class TanqueController extends Controller
         if($this->slug_permiso('tanque_show')){
             $vacioalmacen= Tanque::where('estatus','VACIO-ALMACEN'); //analizar
             $llenoalmacen= Tanque::where('estatus','LLENO-ALMACEN');
-            $infra= Tanque::where('estatus','INFRA');
             $mantenimiento= Tanque::where('estatus','MANTENIMIENTO');
             $entregadocliente= Tanque::where('estatus','ENTREGADO-CLIENTE');
             $ventaexporadica = Tanque::where('estatus','VENTA-EXPORADICA');
             $tanquecambiado= Tanque::where('estatus','TANQUE-CAMBIADO');
+            $gases=CatalogoGas::all();
+
+            $infra=InfraLLenado::where('pendiente',true)->get();
             
             $data=[
                 'vacioalmacen'=>$vacioalmacen->count(), 
                 'llenoalmacen'=>$llenoalmacen->count(), 
                 'entregadocliente'=>$entregadocliente->count(),
-                'infra'=>$infra->count(),
+                'infra'=>$infra->sum('cantidad_salida')-$infra->sum('cantidad_entrada'),
                 'mantenimiento'=>$mantenimiento->count(),
                 'ventaexporadica'=>$ventaexporadica->count(),
                 'tanquecambiado'=>$tanquecambiado->count(),
+                'gases'=>$gases,
             ];
             return view('tanques.estatus.index', $data);
         }
         return view('home');
     }
-    public function estatus_data($estatus){
-
+    public function estatus_data(Request $request){
+        
         if($this->slug_permiso('tanque_show')){
-            $tanques=Tanque::
-            select('tanques.*')->where('estatus', $estatus);
-
+            if($request->get('gas_id')==0){
+                $tanques=Tanque::
+                select('tanques.*')->where('estatus', $request->get('estatus'));
+            }else{
+                $tanques=Tanque::
+                select('tanques.*')
+                ->where('tipo_gas',$request->get('gas_id'))
+                ->where('estatus', $request->get('estatus'));
+            }
             return DataTables::of(
                 $tanques
             )
+            ->editColumn('tipo_gas', function ($tanque) {
+                $search_gas=CatalogoGas::select('nombre')->where('id',$tanque->tipo_gas)->first();
+                return $search_gas->nombre;
+            })
             ->toJson();
         }
         return view('home');

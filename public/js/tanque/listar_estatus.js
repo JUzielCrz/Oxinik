@@ -1,17 +1,19 @@
 $(document).ready(function () {
 
-    $('#table-estatus-1').on('click','tr', function(evt){
-        var estatus=$(this).find("td")[0].innerHTML;
-        listtanques(estatus);
-    }); 
+    $(document).on("click","#btn-listar", listar_tanques);
 
-    $('#table-estatus-2').on('click','tr', function(evt){
-        var estatus=$(this).find("td")[0].innerHTML;
-        listtanques(estatus);
-    }); 
+    // $('#table-estatus-1').on('click','tr', function(evt){
+    //     var estatus=$(this).find("td")[0].innerHTML;
+    //     listtanques(estatus);
+    // });
 
-    function listtanques(estatus){
-        $("#titulo-table").replaceWith("<h5 id='titulo-table'>"+estatus+"</h5>")
+    function listar_tanques(){
+        if($("#estatus").val()=="INFRA" || $("#estatus").val()==""){
+            $("#titulo-table").replaceWith("<h5 id='titulo-table'></h5>")
+            $("#card-contenido").empty();
+            return false;
+        }
+        $("#titulo-table").replaceWith("<h5 id='titulo-table'>"+$('#estatus').val()+" ("+$("#tipo_gas option:selected").text()+")</h5>")
         $("#card-contenido").empty();
         
 
@@ -54,7 +56,16 @@ $(document).ready(function () {
             },
             processing: true,
             serverSider: true,
-            ajax: '/tanque/estatus/data/'+estatus,
+            ajax:{
+                url : '/tanque/estatus/data',
+                type: "post",
+                data: 
+                    {
+                    '_token': $('input[name=_token]').val(),
+                    'estatus': $('#estatus').val(),
+                    'gas_id': $('#tipo_gas').val(),
+                    }
+            },
             columns:[
                 {data: 'num_serie'},
                 {data: 'ph'},
@@ -65,8 +76,11 @@ $(document).ready(function () {
                 {data: 'tipo_tanque'},
                 {data: 'estatus'},
             ]
+            
         });
+        
     }
+
 
 
 

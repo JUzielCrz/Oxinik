@@ -20,7 +20,7 @@ class CreateNotaforaneaTanqueTable extends Migration
                 ->on('nota_foranea')
                 ->onDelete('cascade');
             $table->string('num_serie');
-            $table->integer('cantidad')->nullable();
+            $table->float('cantidad')->nullable();
             $table->string('unidad_medida')->nullable();
             $table->double('precio_unitario')->nullable();
             $table->enum('tapa_tanque', ['SI', 'NO'])->nullable();

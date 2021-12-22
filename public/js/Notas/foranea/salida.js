@@ -185,7 +185,7 @@ $(document).ready(function () {
 
         $.get('/tanque/show_numserie/' + numserie, function(msg) { 
             if(msg != ''){
-                if(msg.estatus == 'LLENO-ALMACEN'){
+                if(msg.estatus == 'LLENO-ALMACEN' || msg.estatus == 'TANQUE-RESERVA'){
                     var precio_importe= $('#precio_unitario').val() * $('#cantidad').val();
                     var iva =0;
                             

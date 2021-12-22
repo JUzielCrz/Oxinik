@@ -72,6 +72,16 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/nota/pagos/index/{not_id}', 'NotaPagosController@index')->name('nota.pagos.index');
     Route::post('/nota/pagos/create', 'NotaPagosController@create')->name('nota.pagos.create');
 
+    // RESERVA /nota/reserva/index
+    Route::get('/nota/reserva/index', 'NotaReservaController@index');
+    Route::get('/nota/reserva/data', 'NotaReservaController@data');
+    Route::post('/nota/reserva/create', 'NotaReservaController@create');
+    Route::get('/nota/reserva/show/{id}', 'NotaReservaController@show');
+    Route::get('/nota/reserva/delete/{id}', 'NotaReservaController@delete');
+    Route::get('/nota/reserva/tanques_pendientes', 'NotaReservaController@tanques_pendientes');
+    Route::get('/nota/reserva/tanques_data', 'NotaReservaController@tanques_data');
+
+
   /* Clientes */
     Route::get('/cliente/index', 'clienteController@index');
     Route::get('/cliente/data', 'clienteController@data');
@@ -118,7 +128,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
     //tanques por estatus
     Route::get('/tanque/estatus', 'TanqueController@estatus_index');
-    Route::get('/tanque/estatus/data/{estatus}', 'TanqueController@estatus_data');
+    Route::post('/tanque/estatus/data', 'TanqueController@estatus_data');
 
     //tanques por reportados
     Route::get('/tanque/reportados', 'TanqueController@reportados_index');

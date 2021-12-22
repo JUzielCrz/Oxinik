@@ -141,6 +141,16 @@
                     </tr>
                 </tbody>
             </table>
+
+            @if ($nota->observaciones!=null)
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td><strong>Observaciones:</strong> <br>{{$nota->observaciones}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            @endif
             
             <table class="table table-sm table-bordered mt-2">
                 <tbody >

@@ -38,13 +38,13 @@ class NotaTalonController extends Controller
         if($this->slug_permiso('nota_talon')){
 
             if($user->soloParaUnRol('admin')){
-                $notas=NotaTalon::
-                join('clientes_sin_contrato', 'nota_talon.cliente_id','=', 'clientes_sin_contrato.id');
+                $notas=NotaTalon::all();
+                // join('clientes_sin_contrato', 'nota_talon.cliente_id','=', 'clientes_sin_contrato.id');
 
             }else{
                 $notas=NotaTalon::
-                join('clientes_sin_contrato', 'nota_talon.cliente_id','=', 'clientes_sin_contrato.id')
-                ->where('user_id', auth()->user()->id);
+                // join('clientes_sin_contrato', 'nota_talon.cliente_id','=', 'clientes_sin_contrato.id')
+                where('user_id', auth()->user()->id);
             }
 
             return DataTables::of(
@@ -80,24 +80,22 @@ class NotaTalonController extends Controller
         if($this->slug_permiso('nota_talon')){
             $request->validate([
                 'id_show' => ['required', 'numeric'],
-                'metodo_pago' => ['required', 'string', 'max:255'],
-                'input-subtotal' => ['required', 'numeric'],
-                'input-total' => ['required', 'numeric'],
             ]);
 
             $fechaactual=date("Y")."-" . date("m")."-".date("d");
 
                 if(count($request->inputNumSerie_entrada) > 0 ){ ///validar si hay tanques en la lista
+                    $cliente=ClienteSinContrato::find($request->id_show);
                     //Nota venta de envio
                     $venta= new NotaTalon;
-                    $venta->cliente_id = $request->id_show;
-                    $venta->precio_envio=$request->precio_envio_nota;
-                    $venta->subtotal =  $request->input('input-subtotal');
-                    $venta->iva_general = $request->input('input-ivaGen');;
-                    $venta->total = $request->input('input-total');
-                    $venta->metodo_pago = $request->metodo_pago;
+                    $venta->num_cliente = $cliente->id;
+                    $venta->nombre = $cliente->nombre;
+                    $venta->telefono = $cliente->telefono;
+                    $venta->email = $cliente->email;
+                    $venta->direccion = $cliente->direccion;
                     $venta->fecha = $fechaactual;
                     $venta->user_id = auth()->user()->id;
+                    $venta->observaciones = $request->observaciones;
                     $venta->save();
 
                     foreach( $request->inputNumSerie_entrada AS $entrada => $g){
@@ -129,12 +127,7 @@ class NotaTalonController extends Controller
                         $ventatanque=new NotaTalonTanque();
                         $ventatanque->nota_talon_id = $venta->id;
                         $ventatanque->num_serie = $request->inputNumSerie_entrada[$entrada];
-                        $ventatanque->cantidad = $request->inputCantidad[$entrada];
-                        $ventatanque->unidad_medida = $request->inputUnidad_medida[$entrada];
-                        $ventatanque->precio_unitario = $request->inputPrecio_unitario[$entrada];
                         $ventatanque->tapa_tanque = $request->inputTapa_entrada[$entrada];
-                        $ventatanque->iva_particular = $request->input_iva_particular[$entrada];
-                        $ventatanque->importe = $request->input_importe[$entrada];
                         $ventatanque->insidencia = 'ENTRADA';
                         $ventatanque->save();
                     }
@@ -160,7 +153,7 @@ class NotaTalonController extends Controller
                 $tanquesEntrada= NotaTalonTanque::
                 leftjoin('tanques','tanques.num_serie','=','nota_talontanque.num_serie')
                 ->where('nota_talon_id', $id)->where('insidencia','ENTRADA')->get();
-                $cliente=ClienteSinContrato::find($nota->cliente_id);
+                $cliente=ClienteSinContrato::find($nota->num_cliente);
     
                 $data= ['tanques' =>$tanques, 'tanquesEntrada' =>$tanquesEntrada, 'nota'=> $nota,'cliente'=> $cliente];
                 return view('notas.talon.edit', $data);
@@ -171,6 +164,12 @@ class NotaTalonController extends Controller
     }
 
     public function edit_save(Request $request){
+        $request->validate([
+            'id_show' => ['required', 'numeric'],
+            'metodo_pago' => ['required', 'string', 'max:255'],
+            'input-subtotal' => ['required', 'numeric'],
+            'input-total' => ['required', 'numeric'],
+        ]);
         if($this->slug_permiso('nota_talon')){
             //validar que no se encuentren numero de serie repetido
             $searchRep = $request->inputNumSerie_salida;
@@ -179,19 +178,34 @@ class NotaTalonController extends Controller
                 return response()->json([ 'alert'=>'error', 'mensaje'=>'Cilindros repetidos en registro de salida']);
             }
 
-
+            $fechaactual=date("Y")."-" . date("m")."-".date("d");
             if(count($request->inputNumSerie_salida) <= count($request->inputNumSerie_entrada)){
                 if(count($request->inputNumSerie_salida) > 0 || count($request->inputNumSerie_entrada) > 0 ){ ///validar si hay tanques en la lista
+                    $cliente=ClienteSinContrato::find($request->id_show);
                     //Nota venta de envio
                     $venta= NotaTalon::find($request->idnota);
-                    $client= ClienteSinContrato::find($venta->cliente_id);
-                    $client->telefono = $request->telefono;
-                    $client->email = $request->email;
-                    $client->direccion = $request->direccion;
-                    $client->rfc = $request->rfc;
-                    $client->cfdi = $request->cfdi;
-                    $client->direccion_factura = $request->direccion_factura;
-                    $client->save();
+                    $venta->precio_envio=$request->precio_envio_nota;
+                    $venta->subtotal =  $request->input('input-subtotal');
+                    $venta->iva_general = $request->input('input-ivaGen');;
+                    $venta->total = $request->input('input-total');
+                    $venta->metodo_pago = $request->metodo_pago;
+                    //datos cliente
+                    $venta->num_cliente = $cliente->id;
+                    $venta->nombre = $cliente->nombre;
+                    $venta->telefono = $cliente->telefono;
+                    $venta->email = $cliente->email;
+                    $venta->direccion = $cliente->direccion;
+                    $venta->rfc = $cliente->rfc;
+                    $venta->cfdi = $cliente->cfdi;
+                    $venta->direccion_factura = $cliente->direccion_factura;
+                    $venta->direccion_envio = $cliente->direccion_envio;
+                    $venta->referencia_envio = $cliente->referencia_envio;
+                    $venta->link_ubicacion_envio = $cliente->link_ubicacion_envio;
+                    $venta->precio_envio = $cliente->precio_envio;
+                    $venta->fecha = $fechaactual;
+                    $venta->user_id = auth()->user()->id;
+                    $venta->observaciones = $request->observaciones;
+                    $venta->save();
 
                     //Guardar tanques salida
                     foreach( $request->inputNumSerie_salida AS $salid => $ent){
@@ -203,7 +217,14 @@ class NotaTalonController extends Controller
                         $ventatanque=new NotaTalonTanque();
                         $ventatanque->nota_talon_id = $venta->id;
                         $ventatanque->num_serie = $request->inputNumSerie_salida[$salid];
+                        $ventatanque->cantidad = $request->inputCantidad[$salid];
+                        $ventatanque->unidad_medida = $request->inputUnidad_medida[$salid];
+                        $ventatanque->precio_unitario = $request->inputPrecio_unitario[$salid];
                         $ventatanque->tapa_tanque = $request->inputTapa[$salid];
+                        $ventatanque->iva_particular = $request->input_iva_particular[$salid];
+                        $ventatanque->importe = $request->input_importe[$salid];
+
+
                         $ventatanque->insidencia = 'SALIDA';
                         $ventatanque->save();
                     }

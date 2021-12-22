@@ -17,7 +17,8 @@ class NotaForanea extends Model
                         'total',
                         'metodo_pago',
                         'fecha',
-                        'user_id'
+                        'user_id',
+                        'observaciones'
                         ];
     public $incrementing = true;
 }

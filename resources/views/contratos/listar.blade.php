@@ -18,7 +18,7 @@
                             <th class="text-center"># CONTRATO</th>
                             <th class="text-center">CLIENTE</th>
                             <th class="text-center">TIPO</th>
-                            <th class="text-center">OBSERVACIONES</th>
+                            <th class="text-center">DIRECCION</th>
                             <th class="text-center"></th>
                             </tr>
                         </thead>

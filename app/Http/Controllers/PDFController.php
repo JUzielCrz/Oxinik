@@ -150,9 +150,8 @@ class PDFController extends Controller
         $tanques=NotaTalonTanque::
         join('tanques', 'tanques.num_serie','=','nota_talontanque.num_serie' )
         ->where('nota_talon_id', $nota->id)->get();
-        $cliente=ClienteSinContrato::find($nota->cliente_id);
         
-        $data=['nota'=>$nota,'tanques'=>$tanques,'cliente' => $cliente];
+        $data=['nota'=>$nota,'tanques'=>$tanques];
         $pdf = PDF::loadView('pdf.nota_talon', $data);
     
         return $pdf->stream('nota_talon_'.$nota->folio_nota.'.pdf');

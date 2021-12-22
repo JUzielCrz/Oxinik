@@ -29,6 +29,8 @@ class CreateVentasTable extends Migration
             $table->enum('estatus', ['ACTIVA', 'CANCELADA'])->default('ACTIVA');
             $table->unsignedBigInteger('user_id')->nullable();
 
+            $table->string('observaciones')->nullable();
+
             $table->timestamps();
         });
     }

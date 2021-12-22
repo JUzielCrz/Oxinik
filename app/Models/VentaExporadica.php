@@ -16,7 +16,8 @@ class VentaExporadica extends Model
                         'iva_general',
                         'total',
                         'metodo_pago',
-                        'fecha'
+                        'fecha',
+                        'observaciones'
                         ];
     public $incrementing = true;
 }

@@ -36,7 +36,6 @@ class NotaExporadicaController extends Controller
     }
 
     public function save(Request $request){
-
         if($this->slug_permiso('nota_exporadica')){
             $request->validate([
                 'id_show' => ['required', 'numeric'],
@@ -57,6 +56,7 @@ class NotaExporadicaController extends Controller
                     $venta->total = $request->input('input-total');
                     $venta->metodo_pago = $request->metodo_pago;
                     $venta->fecha = $fechaactual;
+                    $venta->observaciones = $request->observaciones;
                     $venta->user_id = auth()->user()->id;
                     
                         if($venta->save()){

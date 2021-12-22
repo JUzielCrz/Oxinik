@@ -7,19 +7,14 @@ $(document).ready(function () {
     $(document).on("click","#btn-registrar-tanque", validar_tanque);
 
     //Nota General
-    $(document).on("click","#btn-pagar-nota", pagar_nota);
+    $(document).on("click","#btn-guardar-nota", guardar_nota);
     $(document).on("click","#btnCancelar", cancelarnota);
-    $(document).on("click","#guardar-nota", guardar_nota);
-
-    //Añadir envio a nota
-    $(document).on("click","#btn-addEnvio", addenvio);
-    $(document).on("click","#btn-remove-envio", removeenvio);
 
     //Editar Cliente
     $(document).on("click","#btn-editar-cliente", editar_show);
     $(document).on("click","#btn-cliente-edit-save", editar_save);
 
-    //Editar Cliente
+    //Crear Cliente
     $(document).on("click","#btn-cliente-create-save", create_save);
 
     $('#serie_tanque_entrada').keypress(function (event) {
@@ -141,14 +136,12 @@ $(document).ready(function () {
         }
 
     //FUNCIONES INSERTAR FILA entrada
-    function validar_fila_entrada(event) {
-
-
+    function validar_fila_entrada() {
         //Eliminar espacios
         var numserie= $('#serie_tanque_entrada').val().replace(/ /g,'');
 
         //validar campos no vacios
-        var campo= ['serie_tanque_entrada','cantidad','unidad_medida','precio_unitario','tapa_tanque','iva_particular'];
+        var campo= ['serie_tanque_entrada','tapa_tanque'];
         var campovacio = [];
 
         $.each(campo, function(index){
@@ -264,15 +257,6 @@ $(document).ready(function () {
         var descrp= capacidad+", "+valorcampo[3]+", "+valorcampo[9]+", "+valorcampo[4]+", "+valorcampo[5]+", "+valorcampo[8];
         
         var tapaTanque=$('#tapa_tanque').val();
-        var unidad_medida=$('#unidad_medida').val();
-        var cantidad=$('#cantidad').val();
-        var precio_unitario=$('#precio_unitario').val();
-
-        var precio_importe= $('#precio_unitario').val() * $('#cantidad').val();
-        var iva =0;
-        if( valorcampo[4] == 'Industrial'){
-            iva = precio_importe * 0.16;
-        }
 
         $.get('/tanque/validar_ph/' + pruebah, function(respuesta) {
             var tdph;
@@ -281,17 +265,14 @@ $(document).ready(function () {
             }else{
                 tdph="<td>"+pruebah +"</td>"
             }
+            var serie_cilindro=valorcampo[0];
+            var serie_limpiado=serie_cilindro.replace(/ /g,'').toUpperCase();
             $('#tbody-tanques-entrada').append(
                 "<tr class='classfilatanque'>"+
-                "<td>"+valorcampo[0] +"</td>"+ "<input type='hidden' name='inputNumSerie_entrada[]' id='idInputNumSerie_entrada' value='"+valorcampo[0] +"'></input>"+
+                "<td>"+serie_limpiado +"</td>"+ "<input type='hidden' name='inputNumSerie_entrada[]' id='idInputNumSerie_entrada' value='"+serie_limpiado +"'></input>"+
                 "<td>"+descrp+"</td>"+"<input type='hidden' name='inputDescripcion_entrada[]' value='"+descrp +"'></input>"+
                 tdph+ "<input type='hidden' name='inputPh_entrada[]' value='"+pruebah +"'></input>"+
                 "<td>"+tapaTanque+"</td>"+ "<input type='hidden' name='inputTapa_entrada[]' value='"+tapaTanque +"'></input>"+
-                "<td>"+cantidad+"</td>"+ "<input type='hidden' name='inputCantidad[]' value='"+cantidad +"'></input>"+
-                "<td>"+unidad_medida+"</td>"+ "<input type='hidden' name='inputUnidad_medida[]' value='"+unidad_medida +"'></input>"+
-                "<td>"+precio_unitario+"</td>"+ "<input type='hidden' name='inputPrecio_unitario[]' value='"+precio_unitario +"'></input>"+
-                "<td>"+precio_importe +"</td>"+ "<input type='hidden' name='input_importe[]' value='"+precio_importe +"'></input>"+
-                "<td>"+iva.toFixed(2) +"</td>"+ "<input type='hidden' name='input_iva_particular[]' value='"+iva.toFixed(2) +"'></input>"+
                 "<input type='hidden' name='inputRegistro[]' value="+inputRegistro+"></input>"+
                 "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
                 "</tr>"
@@ -299,7 +280,6 @@ $(document).ready(function () {
 
             mensaje("success","Exito", "Agregado Correctamente" , 1500, "#modal-registrar-tanque");
             limpiar_campos();
-            actualizar_subtotal();
         });
     }
 
@@ -416,102 +396,10 @@ $(document).ready(function () {
         $("#iva").val("");
     }
 
-      // FUNCIONES DE ENVIO
-    function addenvio(){
-        
-        if($('#num_contrato').val() == ''){
-            return false;
-        }
-        $('#btn-addEnvio').remove()
-        $('#row-envio').append(
-            '<div class="row mr-3" id="input-group-envio">'+
-                '<div class="col-auto mr-auto">'+
-                    '<div  class="input-group input-group-sm  mb-3">'+
-                        '<div class="input-group-prepend ">'+
-                            '<button id="btn-remove-envio" class="btn btn-sm btn-amarillo" type="button"><span class="fas fa-minus"></span></button>'+
-                        '</div>'+
-                        '<div class="input-group-append">'+
-                            '<label class="ml-2">Envío: </label>'+
-                        '</div>'+
-                    '</div>'+
-                '</div>'+
-                '<div class="col-auto">'+
-                    '<div  class="input-group input-group-sm  mb-3">'+
-                        '<div class="input-group-prepend ">'+
-                            '<label id="label_precio_envio">$ '+ Intl.NumberFormat('es-MX').format($('#precio_envio_show').val()) +'</label>'+
-                        '</div>'+
-                    '</div>'+
-                '</div>'+
-            '</div>'
-        )
-        $('#precio_envio_nota').val($('#precio_envio_show').val());
-        actualizar_total();
-        
-    }
-
-    function removeenvio(){
-        $('#input-group-envio').remove();
-        $('#row-envio').append(
-            '<button id="btn-addEnvio" type="button" class="btn btn-sm btn-amarillo" > <span class="fas fa-plus"></span> Agregar Envio</button>'
-        )
-        $('#precio_envio_nota').val(0);
-        actualizar_total();
-    }
-
-
-    //aritmeticas
-    function actualizar_subtotal(){
-        
-        var importe = 0;
-
-        $(".classfilatanque").each(function(){
-            var preciotanque=$(this).find("td")[7].innerHTML;
-            importe=importe+parseFloat(preciotanque);
-        })
-        actualizar_ivageneral();
-
-        var subtotal = importe -  $('#input-ivaGen').val();
-        $('#label-subtotal').replaceWith( 
-            "<label id='label-subtotal'>"+Intl.NumberFormat('es-MX').format(subtotal) +"</label>"
-        );
-        $('#input-subtotal').val(subtotal   );
-
-        actualizar_total();
-    }
-
-    function actualizar_ivageneral(){
-
-        var ivaGen = 0;
-        $(".classfilatanque").each(function(){
-            var preciotanque=$(this).find("td")[8].innerHTML;
-            ivaGen=ivaGen+parseFloat(preciotanque);
-        })
-        $('#label-ivaGen').replaceWith( 
-            "<label id='label-ivaGen'>"+Intl.NumberFormat('es-MX').format(ivaGen) +"</label>"
-        );
-        $('#input-ivaGen').val(ivaGen);
-    }
-
-    function actualizar_total(){
-        var importe = 0;
-
-        $(".classfilatanque").each(function(){
-            var preciotanque=$(this).find("td")[7].innerHTML;
-            importe=importe+parseFloat(preciotanque);
-        })
-
-        var total=parseFloat($("#precio_envio_nota").val()) + importe;
-        $('#label-total').replaceWith( 
-            "<label id='label-total'>"+Intl.NumberFormat('es-MX').format(total) +"</label>"
-        );
-        $('#input-total').val(total);
-        $("#monto_pago").val(total);
-    }
-
 
     //Funciones finales de Nota General
-
-    function pagar_nota(){
+    function guardar_nota(){
+        //validaciones
         $("#id_show").removeClass('is-invalid');
         if($("#id_show").val() == ''){
             $("#id_show").addClass('is-invalid');
@@ -524,46 +412,7 @@ $(document).ready(function () {
             mensaje('error','Error', 'No hay registro de tanques', null, null);
             return false;
         }
-
-        //Si Metodo de pago esta vacio mandar error
-        if($("#metodo_pago").val()==''){
-            $("#metodo_pago").addClass('is-invalid');
-            $("#metodo_pagoError").text('Selecciona un metodo de pago');
-            return false;
-        }else{
-            $("#metodo_pago").removeClass('is-invalid');
-            $("#metodo_pagoError").empty();
-        }
-
-        //si metodo de pago es iguala efectivo checar error
-        $("#ingreso-efectivoError").empty();
-        if($("#metodo_pago").val()=='Efectivo'){
-            if($("#ingreso-efectivo").val() == 0){
-                $("#ingreso-efectivoError").text('Campo ingreso de efectivo obligatorio');
-                return false;
-            }
-            
-            if($("#ingreso-efectivo").val() < parseFloat($("#input-total").val())){
-                $("#ingreso-efectivoError").text('ingreso efectivo no puede ser menor a total a pagar');
-                return false;
-            }
-        }
-
-
-        $('#static-modal-pago').modal("show");
-
-        var cambio = parseFloat($("#ingreso-efectivo").val())-parseFloat($("#input-total").val());
-
-
-        if($("#metodo_pago").val() == "Efectivo"){
-            $("#label-cambio").replaceWith(
-                "<label id='label-cambio'>"+Intl.NumberFormat('es-MX').format(cambio)+"</label>"
-            );
-        }
-
-    }
-
-    function guardar_nota(){
+        
         // envio al controlador
         $.ajax({
             method: "post",
@@ -621,7 +470,6 @@ $(document).ready(function () {
 
     function eliminarFila(){
         $(this).closest('tr').remove();
-        actualizar_subtotal();
     }
 
     $("#metodo_pago").change( function() {

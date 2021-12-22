@@ -139,6 +139,7 @@ class NotaForaneaController extends Controller
                     }
                     $venta->fecha = $fechaactual;
                     $venta->user_id = auth()->user()->id;
+                    $venta->observaciones = $request->observaciones;
                     $venta->save();
 
                     foreach( $request->inputNumSerie AS $salid => $ent){
@@ -174,6 +175,7 @@ class NotaForaneaController extends Controller
             if($request->pago_cubierto == null){$pago=true;}else{$pago=$request->pago_cubierto;}
             $venta= NotaForanea::find($request->idnota);
             $venta->pago_cubierto = $pago;
+            $venta->observaciones = $request->observaciones;
             $venta->save();
             $client= ClienteSinContrato::find($venta->cliente_id);
             $client->telefono = $request->telefono;

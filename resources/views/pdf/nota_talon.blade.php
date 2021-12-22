@@ -43,14 +43,14 @@
                 <tbody>
                     <tr>
                         <td>
-                            <strong>Cliente:</strong> {{$cliente->nombre}} <br>
-                            <strong>Telefono: </strong> {{$cliente->telefono}} <br>
-                            <strong>Correo: </strong> {{$cliente->email}} <br>
-                            <strong>Direccion: </strong> {{$cliente->direccion}} 
+                            <strong>Cliente:</strong> {{$nota->nombre}} <br>
+                            <strong>Telefono: </strong> {{$nota->telefono}} <br>
+                            <strong>Correo: </strong> {{$nota->email}} <br>
+                            <strong>Direccion: </strong> {{$nota->direccion}} 
                         </td>
                         <td >
-                            <p><strong>Entregar en: </strong> <br> {{$cliente->direccion_envio}} <br> 
-                                <strong>Referencia: </strong> <br> {{$cliente->referencia_envio}}
+                            <p><strong>Entregar en: </strong> <br> {{$nota->direccion_envio}} <br> 
+                                <strong>Referencia: </strong> <br> {{$nota->referencia_envio}}
                             </p>
                         </td>
                     </tr>
@@ -65,14 +65,8 @@
                     <thead >
                         <tr >
                             <th scope="col">#SERIE</th>
-                            <th scope="col">CANT.</th>
-                            <th scope="col">U. M.</th>
-                            <th scope="col">GAS</th>
-                            <th scope="col">TAPA</th>
                             <th scope="col">DESCRIPCIÓN</th>
-                            <th scope="col">P.U.</th>
-                            <th scope="col">IVA</th>
-                            <th scope="col">IMPORTE</th>
+                            <th scope="col">GAS</th>
                         </tr>
                     </thead>
 
@@ -81,14 +75,27 @@
                             @if ($tanq->insidencia=='ENTRADA')
                                 <tr>
                                     <td>{{$tanq->num_serie}}</td>
-                                    <td>{{$tanq->cantidad}}</td>
-                                    <td>{{$tanq->unidad_medida}}</td>
+                                    <td>{{$tanq->material}}, {{$tanq->tipo_tanque}},  PH: {{$tanq->ph}}, {{$tanq->fabricante}}</td>
+                                    <td>{{$tipoeva->nombre_gas($tanq->tipo_gas)}}</td>
+                                    {{-- <td>{{$tanq->num_serie}}</td>
+                                    
                                     <td>{{$tipoeva->nombre_gas($tanq->tipo_gas)}} </td>
                                     <td>{{$tanq->tapa_tanque}}</td>
                                     <td>PH: {{$tanq->ph}}, {{$tanq->material}}, {{$tanq->fabricante}}, {{$tanq->tipo_tanque}}</td>
+                                    @if ($tanq->precio_unitario == null)
+                                    <td>--</td>
+                                    <td>--</td>
+                                    <td>--</td>
+                                    <td>--</td>
+                                    <td>--</td>
+                                    @else
+                                    <td>{{$tanq->cantidad}}</td>
+                                    <td>{{$tanq->unidad_medida}}</td>
                                     <td>$ {{number_format($tanq->precio_unitario,2)}}</td>
                                     <td>$ {{number_format($tanq->iva_particular,2)}}</td>
                                     <td>$ {{number_format($tanq->importe,2)}}</td>
+                                    @endif --}}
+                                    
                                 </tr>
                             @endif
                         @endforeach
@@ -102,8 +109,14 @@
                     <thead >
                         <tr >
                             <th scope="col">#SERIE</th>
-                            <th scope="col">DESCRIPCIÓN</th>
                             <th scope="col">GAS</th>
+                            <th scope="col">TAPA</th>
+                            <th scope="col">DESCRIPCIÓN</th>
+                            <th scope="col">CANT.</th>
+                            <th scope="col">U. M.</th>
+                            <th scope="col">P.U.</th>
+                            <th scope="col">IVA</th>
+                            <th scope="col">IMPORTE</th>
                         </tr>
                     </thead>
 
@@ -113,8 +126,15 @@
                             @if ($tanq->insidencia=='SALIDA')
                                 <tr>
                                     <td>{{$tanq->num_serie}}</td>
-                                    <td>{{$tanq->material}}, {{$tanq->tipo_tanque}},  PH: {{$tanq->ph}}, {{$tanq->fabricante}}</td>
-                                    <td>{{$tipoeva->nombre_gas($tanq->tipo_gas)}}</td>
+                                    
+                                    <td>{{$tipoeva->nombre_gas($tanq->tipo_gas)}} </td>
+                                    <td>{{$tanq->tapa_tanque}}</td>
+                                    <td>PH: {{$tanq->ph}}, {{$tanq->material}}, {{$tanq->fabricante}}, {{$tanq->tipo_tanque}}</td>
+                                    <td>{{$tanq->cantidad}}</td>
+                                    <td>{{$tanq->unidad_medida}}</td>
+                                    <td>$ {{number_format($tanq->precio_unitario,2)}}</td>
+                                    <td>$ {{number_format($tanq->iva_particular,2)}}</td>
+                                    <td>$ {{number_format($tanq->importe,2)}}</td>
                                 </tr>
                             @endif
                         @endforeach
@@ -124,13 +144,26 @@
             <table class="table table-bordered">
                 <tbody >
                     <tr>
-                        <td>SUBTOTAL: <br>$ {{number_format($nota->subtotal, 2)}}</td>
-                        <td>TASA 16% IVA: <br>$ {{number_format($nota->iva_general,2)}}</td>
-                        <td>ENVÍO: <br>$ {{number_format($nota->precio_envio,2)}}</td>
-                        <td>TOTAL: <br> $ {{number_format($nota->total,2)}}</td>
+                        @if ($nota->total != null)
+                            <td>SUBTOTAL: <br>$ {{number_format($nota->subtotal, 2)}}</td>
+                            <td>TASA 16% IVA: <br>$ {{number_format($nota->iva_general,2)}}</td>
+                            <td>ENVÍO: <br>$ {{number_format($nota->precio_envio,2)}}</td>
+                            <td>TOTAL: <br> $ {{number_format($nota->total,2)}}</td>
+                        @endif
+                        
                     </tr>
                 </tbody>
             </table>
+
+            @if ($nota->observaciones!=null)
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td><strong>Observaciones:</strong> <br>{{$nota->observaciones}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            @endif
             
             <table class="table table-sm table-bordered mt-2">
                 <tbody >

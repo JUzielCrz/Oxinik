@@ -157,7 +157,7 @@ $(document).ready(function () {
                     if(respuesta.alert){
                         mensaje("warning","PH: "+msg.ph, respuesta.mensaje, null, null);
                     }
-                    if(msg.estatus == 'LLENO-ALMACEN'){
+                    if(msg.estatus == 'LLENO-ALMACEN' || msg.estatus == 'TANQUE-RESERVA'){
                         $.ajax({
                             method: "post",
                             url: "/nota/contrato/salida/validar_tanqueasignacion",

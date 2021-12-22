@@ -29,7 +29,7 @@ $(document).ready(function () {
                 {data: 'num_contrato', className: "text-center"},
                 {data: 'cliente', className: "text-center"},
                 {data: 'tipo_contrato', className: "text-center"},
-                {data: 'observaciones', className: "text-center"}, //aqui va estatus
+                {data: 'direccion', className: "text-center"}, //aqui va estatus
                 {data: 'btnShow'},
             ]
         });
