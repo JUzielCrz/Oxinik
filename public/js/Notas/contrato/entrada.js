@@ -119,7 +119,7 @@ $(document).ready(function () {
     //FUNCIONES INSERTAR FILA 
     function validar_fila(evnt) {
         evnt.preventDefault();
-        var numserie= $('#serie_tanque').val().replace(/ /g,'');
+        var numserie= $('#serie_tanque').val().replace(/ /g,'').toUpperCase();
 
         if($(".class-tanques-nota").length == 0) {
             mensaje_error('Cliente no adeuda mas tanques');
@@ -299,8 +299,9 @@ $(document).ready(function () {
                         optiongases += '<option value="'+value.id+'">'+value.nombre+'</option>'
                     });
 
+                    var numserie =  $('#serie_tanque').val().replace(/ /g,'').toUpperCase();
                     $('#modal_general_contenido').append(
-                        '<h5 style="font-size:13px">Tanque con #serie: <strong>'+$('#serie_tanque').val()+'</strong> no existe en inventario</h5>'+
+                        '<h5 style="font-size:13px">Tanque con #serie: <strong>'+numserie+'</strong> no existe en inventario</h5>'+
                         '<hr>'+
                         '<h5 style="font-size:13px">Seleccione por que tanque se intercambiara:</h5>'+
                         '<div class="row ml-3" style="font-size:13px">'+radiobuttons+'</div>'+
@@ -309,7 +310,7 @@ $(document).ready(function () {
                         '<div class="form-row">'+
                             '<div class="form-group col-md-4">'+
                                 '<label for="">#Serie</label>'+
-                                '<input type="text" name="num_serie" id="num_serie" value="'+$('#serie_tanque').val()+'" class="form-control form-control-sm" placeholder="#" readonly required>'+
+                                '<input type="text" name="num_serie" id="num_serie" value="'+numserie+'" class="form-control form-control-sm" placeholder="#" readonly required>'+
                                 '<span  id="num_serieError" class="text-danger"></span>'+
                             '</div>'+
         
@@ -642,10 +643,10 @@ $(document).ready(function () {
                 mensaje_error("Id de nota no encontrado");
                 return false;
             };
-
+            var numserie =  $('#serie_tanque').val().replace(/ /g,'').toUpperCase();
             $('#tablelistaTanques').append(
                 "<tr class='classfilatanque'>"+
-                    "<td>"+$('#serie_tanque').val() +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+$('#serie_tanque').val() +"'></input>"+
+                    "<td>"+numserie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+numserie +"'></input>"+
                     "<td>"+descrp+"</td>"+"<input type='hidden' name='inputDescripcion[]' value='"+descrp +"'></input>"+
                     "<td>"+$('#ph_anio').val()+'-'+$('#ph_mes').val()+"</td>"+  "<input type='hidden' name='inputPh[]' value='"+$('#ph_anio').val()+'-'+$('#ph_mes').val()+"'></input>"+
                     "<td>"+$('#tapa_tanque').val() +"</td>"+ "<input type='hidden' name='inputTapa[]' value='"+$('#tapa_tanque').val() +"'></input>"+
@@ -699,9 +700,9 @@ $(document).ready(function () {
             if(radiobuttons==""){
                 mensaje_error("Este cliente no adeuda mas tanques")
             }else{
-
+                var numserie =  $('#serie_tanque').val().replace(/ /g,'').toUpperCase();
                     $('#modal_general_contenido').append(
-                        '<h5 style="font-size:13px">Tanque - #serie: <strong>'+$('#serie_tanque').val()+'</strong> </h5>'+
+                        '<h5 style="font-size:13px">Tanque - #serie: <strong>'+numserie+'</strong> </h5>'+
                         '<hr>'+
                         '<h5 style="font-size:13px">Seleccione por que tanque se intercambiara:</h5>'+
                         '<div class="row ml-3" style="font-size:13px">'+radiobuttons+'</div>'+

@@ -60,7 +60,8 @@ class TanqueController extends Controller
     public function tanques_data(){
         if($this->slug_permiso('tanque_show')){
             $tanques=Tanque::
-            select('tanques.*')
+            join('catalogo_gases','catalogo_gases.id','=','tanques.tipo_gas')
+            ->select('catalogo_gases.nombre as gas_nombre','tanques.*')
             ->where('estatus',"!=","BAJA-TANQUE")
             ->where('estatus',"!=","TANQUE-REPORTADO");
             return DataTables::of(

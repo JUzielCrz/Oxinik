@@ -1,5 +1,10 @@
 @extends('layouts.sidebar')
 
+@section('menu-navbar') 
+    @include('clientes.submenu_navbar')
+@endsection
+
+
 @section('content-sidebar')
 
 @php
@@ -18,7 +23,7 @@ $user=App\User::find($idauth);
             <div class="card-header">
                 <div class="row ">
                     <div class="col">
-                        <h5>Clientes</h5>
+                        <h5 id="titulo-tabla">Clientes</h5>
                     </div>
                     <div class="col text-right">
                         @if($user->permiso_con_admin('cliente_create')) 
@@ -31,23 +36,7 @@ $user=App\User::find($idauth);
                 </div>
             </div>
             <div class="card-body">
-                <div class="table-responsive" style="font-size:13px">
-                    <table id="tablecruddata" class="table table-sm " style="font-size:13px">
-                        <thead>
-                            <tr >
-                            <th scope="col">#ID</th>
-                            <th scope="col">Ap. Paterno</th>
-                            <th scope="col">Ap. Materno</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Empresa</th>
-                            <th scope="col">Direccion</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            </tr>
-                        </thead>
-                    </table>
+                <div id="insert-table" class="table-responsive">
                 </div>
             </div>
         </div>

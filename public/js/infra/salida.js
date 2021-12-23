@@ -37,7 +37,7 @@ $(document).ready(function () {
         })
         if(boolRepetido){
             $("#serie_tanqueError").text('Número de serie ya agregado a lista');
-            $("#tbody_errores").append('<tr><td>'+$("#serie_tanque").val()+'</td><td>Repetido</td></tr>');
+            $("#tbody_errores").append('<tr><td>'+numserie+'</td><td>Repetido</td></tr>');
             $('#serie_tanque').val('');
             return false;
         }
@@ -45,7 +45,7 @@ $(document).ready(function () {
         $.get('/tanque/show_numserie/'+numserie, function(msg) {
             if(msg==''){
                 $('#serie_tanqueError').text('Error, No exite registro de tanque con este número de serie');
-                $("#tbody_errores").append('<tr><td>'+$("#serie_tanque").val()+'</td><td>Sin Registrar</td></tr>');
+                $("#tbody_errores").append('<tr><td>'+numserie+'</td><td>Sin Registrar</td></tr>');
                 $('#serie_tanque').val('');
                 return false;
             }
@@ -65,11 +65,11 @@ $(document).ready(function () {
                 $("#contador").replaceWith(
                     "<h1 id='contador' class='display-1' style='font-size: 6rem;'>"+ contador+"</h1>"
                 );
-                
+
                 $('#serie_tanque').val('');
             }else{
                 $('#serie_tanqueError').text('Error, estatus tanque: '+ msg.estatus);
-                $("#tbody_errores").append('<tr><td>'+$("#serie_tanque").val()+'</td><td>Estatus: '+msg.estatus+'</td></tr>');
+                $("#tbody_errores").append('<tr><td>'+numserie+'</td><td>Estatus: '+msg.estatus+'</td></tr>');
                 $('#serie_tanque').val('');
                 return false;
             }

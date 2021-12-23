@@ -11,31 +11,36 @@
         <div class="card-header">
             <div class="row ">
                 <div class="col">
-                    <h5>TALONES</h5>
+                    <h5 id="titulo-tabla">TALONES</h5>
                 </div>
                 <div class="col text-right">
-                        <a type="button" class="btn btn-sm btn-amarillo"  href="{{ url('/nota/talon/create') }}">
-                            <span class="fas fa-plus"></span>
-                            Agregar
-                        </a>
+                    <a type="button" class="btn btn-sm btn-amarillo"  href="{{ url('/nota/talon/create') }}">
+                        <span class="fas fa-plus"></span>
+                        Agregar
+                    </a>
                 </div>
             </div>
         </div>
         <div class="card-body">
-            <div class="table-responsive" style="font-size:13px">
-                <table id="tablecruddata" class="table table-sm " style="font-size:13px">
-                    <thead>
-                        <tr >
-                        <th scope="col">#ID</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Total</th>
-                        <th scope="col">Telefono</th>
-                        <th scope="col">Usuario</th>
-                        <th scope="col"></th>
-                        </tr>
-                    </thead>
-                </table>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="input-group input-group-sm">
+                        @csrf
+                        <select name="estatus" id="estatus" class="form-control form-control-sm">
+                            <option value="ALL">GENERAL</option>
+                            <option value=1>PENDIENTES</option>
+                            <option value=0>CERRADOS</option>
+                        </select>
+                        <div class="input-group-prepend">
+                            <button class="btn btn-amarillo" id="btn-estatus"> Aplicar</button>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            <hr>
+            <div id="insert-table" class="table-responsive ">
             </div>
         </div>
     </div>

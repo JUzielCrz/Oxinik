@@ -8,15 +8,15 @@
         <!-- icon -->
     </head>
 
-    <body style="font-size: 11px">
+    <body style="font-size: 12px">
         <main>
-            <table class="table table-borderless">
+            <table class="table table-borderless m-0">
                 <tbody>
                     <tr id="tablaencabezado">
-                        <td class="text-center">
+                        <td class="text-center p-0">
                             <img src="img/logo.svg" style="width: 200px" alt=""></td>
-                        <td>
-                            <p>
+                        <td class="p-0">
+                            <p class="p-0">
                                 Calle Ignacio Zaragoza 213 A <br> 
                                 Col. Fernando Gómez Sandoval. <br>
                                 Santa Lucia del Camino, Oaxaca. <br>
@@ -29,10 +29,10 @@
 
                 <tbody>
                     <tr>
-                        <td  class="text-right">
+                        <td  class="text-right p-0">
                             Fecha: {{$nota->fecha}}
                         </td>
-                        <td  class="text-right" >
+                        <td  class="text-right p-0" >
                             Folio: <span style="color: red">{{$nota->id}}</span>
                         </td>
                     </tr>
@@ -165,38 +165,28 @@
             </table>
             @endif
             
-            <table class="table table-sm table-bordered mt-2">
-                <tbody >
-                    <tr style="background: black">
-                        <td colspan="2"><div class="text-center text-white" > CUENTAS BANCARIAS PARA TRANSFERENCIAS</div></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p class="p-0 m-0">
-                                DENOMINACIÓN : <strong>JUAN MANUEL CONTRERAS GÓMEZ </strong> <br>
-                                BANCO: <strong>BANORTE</strong> <br>
-                                RFC: <strong>COGJ940414C74</strong> <br>
-                                # CUENTA: <strong>1159955737</strong> <br>
-                                CLABE: <strong>072610011599557374</strong> <br>
-                                # SUCURSAL: <strong>_2376</strong> <br>
-                                
-                            </p>
-                        </td>
-                        <td>
-                            <p class="p-0 m-0">
-                                ASÍ MISMO SE LES PIDE ENVIAR COMPROBANTE DE PAGO AL SIGUIENTE CORREO: <strong>sge.oxinik@gmail.com</strong><br>
-                                HACIENDO REFERENCIA EN CONCEPTO ALGUNO DE LOS SIGUIENTES:<br>
-                                    * FOLIO DE FACTURA<br>
-                                    * NÚMERO DE VALE O TICKET DE VENTA<br>
-                                    * NÚMERO DE FOLIO DE HOJA DE CONTRATO.<br>
-                                ESTAMOS A SUS ORDENES
-                            </p>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <hr>
+            <p style="text-align: justify">
+                En cumplimiento a lo dispuesto en la norma internacional 
+                <u>ISO 9001:2015 8.5.3 Propiedad perteneciente a los clientes o proveedores externo</u>  
+                y la norma mexicana NMX-H-156-NORMEX-<u>VIGENTE</u>, por este medio autorizo a OXINIK GASES ESPECIALES a destruir el envase de mi propiedad (aplastamiento para cilindros y tachados de los datos de ojiva en acumuladores), en caso de que no aprobara la 
+                <u>prueba de recalificación</u> (Prueba hidrostática/Revisión General ó la inspección visual 
+                externa/<u>interna ó Prueba de corriente de Eddy</u>) a la que fuese sometido.
+            </p>
+            <p style="text-align: justify">
+                <u>De igual manera estoy informado que la OXINIK GASES ESPECIALES entregará vacío sin ninguna responsabilidad, los cilindros autorizados para el llenado que no aprueben el seguimiento y medición de los productos e las diversas etapas de sus procesos (previo, durante y final del llenado y almacenamiento).</u>
+                Así mismo, autorizo a OXINIK GASES ESPECIALES a desechar el cilindro dado de baja si en un plazo de 60 días no acudo a recibirlo.
+            </p>
+            <p>
+                Nombre:  &nbsp; <strong>{{$nota->nombre}}</strong>  <br>
+                Fecha: &nbsp; <strong>{{$nota->fecha}} </strong>  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Firma: _____________________ <br>
+                No. Del recibido de envases para mantenimiento:  <strong>{{$nota->id}}</strong>	
+            </p>	     
             
 
+            <p style="text-align: center; font-size: 10px">
+                “Todo cilindro que regrese a uso es debido a que sus parámetros están dentro de los límites establecidos en las especificaciones (CFR, CGA, DOT, ISO, NMX-H-156), por lo que se autoriza que continúen en servicio por el periodo correspondiente de 5 años ó 10 años posteriores a su fecha de recalificación estampada, dependiendo de la especificación correspondiente del cilindro; esta vigencia serpa válido en el entendimiento que deberán perseverarse las condiciones previas de funcionamiento bajo las cuáles operó cada cilindro”
+            </p>
 
 
 

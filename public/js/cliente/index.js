@@ -1,7 +1,44 @@
 $(document).ready(function () {
     
-    // Data Tables
-        var listtabla = $('#tablecruddata').DataTable({
+    $(document).on("click","#btn-activo", function () {
+        estatus('ACTIVO');
+        $("#id-menu-activo").addClass('active');
+        $("#id-menu-inactivo").removeClass('active');
+    });
+    $(document).on("click","#btn-inactivo", function () {
+        estatus('INACTIVO');
+        $("#id-menu-inactivo").addClass('active');
+        $("#id-menu-activo").removeClass('active');
+    });
+    var listtabla='';
+    estatus('ACTIVO');
+
+    
+
+    function estatus(estatus) {
+        $("#titulo-tabla").replaceWith('<h5 id="titulo-tabla">CLIENTES '+estatus+'S</h5>');
+        $("#insert-table").empty();
+        $("#insert-table").append(
+            '<table id="tablecruddata" class="table table-sm" style="font-size: 13px">'+
+                '<thead>'+
+                '<tr>'+
+                    '<th scope="col">#ID</th>'+
+                    '<th scope="col">Ap. Paterno</th>'+
+                    '<th scope="col">Ap. Materno</th>'+
+                    '<th scope="col">Nombre</th>'+
+                    '<th scope="col">Empresa</th>'+
+                    '<th scope="col">Direccion</th>'+
+                    '<th scope="col"></th>'+
+                    '<th scope="col"></th>'+
+                   '<th scope="col"></th>'+
+                    '<th scope="col"></th>'+
+                '</tr>'+
+                '</thead>'+
+            '</table>'
+        );
+
+        // Data Tables
+        listtabla = $('#tablecruddata').DataTable({
             language: {
                 "decimal": "",
                 "emptyTable": "No hay información",
@@ -24,7 +61,7 @@ $(document).ready(function () {
             },
             processing: true,
             serverSider: true,
-            ajax: '/cliente/data',
+            ajax: '/cliente/data/'+estatus,
             columns:[
                 {data: 'id'},
                 {data: 'apPaterno'},
@@ -40,18 +77,10 @@ $(document).ready(function () {
         });
     
     // CRUD
+    }
 
     metodo_limpiar_span("Error");
 
-    // $("input").focusout(function () {
-    //     var value = $(this).val();
-    //     if (value.length == 0) {
-    //         $(this).addClass("is-invalid");
-    //     } else {
-    //         $(this).removeClass("is-invalid");
-    //     }
-    // });
-    
 
     $(document).on("click","#btnaccept",metodo_insertar);
     $(document).on("click",".btn-show-modal",metodo_detalle);

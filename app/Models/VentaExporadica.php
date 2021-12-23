@@ -10,7 +10,17 @@ class VentaExporadica extends Model
     public $timestamps =  true;
     protected $fillable = [
                         'id',
-                        'cliente_id',
+                        'num_cliente',
+                        'nombre',
+                        'telefono',
+                        'email',
+                        'direccion',
+                        'rfc',
+                        'cfdi',
+                        'direccion_factura',
+                        'direccion_envio',
+                        'referencia_envio',
+                        'link_ubicacion_envio',
                         'precio_envio',
                         'subtotal',
                         'iva_general',

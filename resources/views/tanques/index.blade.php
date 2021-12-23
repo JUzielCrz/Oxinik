@@ -33,7 +33,8 @@
                     <table id="tablecruddata" class="table table-sm" style="font-size: 13px">
                         <thead>
                             <tr>
-                            <th class="text-center">N. Serie</th>
+                            <th class="text-center">#Serie</th>
+                            <th class="text-center">Gas</th>
                             <th class="text-center">P.Hidrostática</th>
                             <th class="text-center">Fabricante</th>
                             <th class="text-center">Material</th>

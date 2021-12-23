@@ -62,7 +62,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
     // TALON
     Route::get('/nota/talon/index', 'NotaTalonController@index');
-    Route::get('/nota/talon/data', 'NotaTalonController@data');
+    Route::post('/nota/talon/data', 'NotaTalonController@data');
     Route::get('/nota/talon/create', 'NotaTalonController@create');
     Route::post('/nota/talon/create/save', 'NotaTalonController@create_save');
     Route::get('/nota/talon/edit/{id}', 'NotaTalonController@edit')->name('nota.talon.edit');
@@ -84,7 +84,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
   /* Clientes */
     Route::get('/cliente/index', 'clienteController@index');
-    Route::get('/cliente/data', 'clienteController@data');
+    Route::get('/cliente/data/{estatus}', 'clienteController@data');
     Route::post('/cliente/create', 'clienteController@create');
     Route::get('/cliente/show/{id}', 'clienteController@show');
     Route::post('/cliente/update/{id}', 'clienteController@update');
@@ -102,7 +102,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/contrato/destroy/{id}', 'ContratoController@destroy');
     Route::get('/contrato/show/{contrato_id}', 'ContratoController@show');
     Route::get('/contrato/listar', 'ContratoController@contratos_listar');
-    Route::get('/contrato/listar/data', 'ContratoController@listar_data');
+    Route::post('/contrato/listar/data', 'ContratoController@listar_data');
     
     Route::get('/contrato/envio/show/{contrato_id}', 'ContratoController@envio_show');
 

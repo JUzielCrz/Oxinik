@@ -29,11 +29,11 @@ class ClienteController extends Controller
         return view('home');
     }
 
-    public function data(){
+    public function data($estatus){
         // dump('pasas');
         if($this->slug_permiso('cliente_show')){
             $clientes=Cliente::
-            select('clientes.*');
+            where('estatus', $estatus);
             return DataTables::of(
                 $clientes
             )

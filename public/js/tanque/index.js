@@ -27,6 +27,7 @@ $(document).ready(function () {
             ajax: '/tanque/data',
             columns:[
                 {data: 'num_serie', className: "text-center"},
+                {data: 'gas_nombre', className: "text-center"},
                 {data: 'ph', className: "text-center"},
                 {data: 'fabricante', className: "text-center"},
                 {data: 'material', className: "text-center"},
@@ -90,11 +91,11 @@ $(document).ready(function () {
     });
 
     function nuevo_cilindro() {
-        var numserie= $('#serie_tanque').val().replace(/ /g,'');
+        var numserie= $('#serie_tanque').val().replace(/ /g,'').toUpperCase();
 
         $("#serie_tanque").removeClass('is-invalid');
         $("#serie_tanqueError").empty();
-        if($("#serie_tanque").val()==""){
+        if(numserie==""){
             $("#serie_tanque").addClass('is-invalid');
             $("#serie_tanqueError").text('Campo número de serie necesario');
             return false;
@@ -178,7 +179,7 @@ $(document).ready(function () {
             return false;
         }
 
-        var numserie= $('#num_serie'+clave).val().replace(/ /g,'');
+        var numserie= $('#num_serie'+clave).val().replace(/ /g,'').toUpperCase();
 
         var url_link="";
         if(accion=="update"){

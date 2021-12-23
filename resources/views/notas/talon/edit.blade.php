@@ -31,6 +31,7 @@
                     </div>
                     <div class="card-body" >
                         <strong>TANQUES ENTRADA</strong>
+                        <input type="hidden" name="pendiente" id="pendiente" value=1>
                         <div class="table-responsive ">
                             <table class="table table-sm table-hover table-bordered">
                                 <thead>

@@ -47,10 +47,23 @@ class NotaExporadicaController extends Controller
             $fechaactual=date("Y")."-" . date("m")."-".date("d");
             if(count($request->inputNumSerie_entrada) == count($request->inputNumSerie)){
                 if(count($request->inputNumSerie_entrada) > 0 || count($request->inputNumSerie) > 0 ){ ///validar si hay tanques en la lista
-                    //Nota venta de envio
+                    //Nota
+                    $cliente=ClienteSinContrato::find($request->id_show);
                     $venta= new VentaExporadica;
-                    $venta->cliente_id = $request->id_show;
-                    $venta->precio_envio=$request->precio_envio_nota;
+                     //datos cliente
+                    $venta->num_cliente = $cliente->id;
+                    $venta->nombre = $cliente->nombre;
+                    $venta->telefono = $cliente->telefono;
+                    $venta->email = $cliente->email;
+                    $venta->direccion = $cliente->direccion;
+                    $venta->rfc = $cliente->rfc;
+                    $venta->cfdi = $cliente->cfdi;
+                    $venta->direccion_factura = $cliente->direccion_factura;
+                    $venta->direccion_envio = $cliente->direccion_envio;
+                    $venta->referencia_envio = $cliente->referencia_envio;
+                    $venta->link_ubicacion_envio = $cliente->link_ubicacion_envio;
+                    $venta->precio_envio = $cliente->precio_envio;
+
                     $venta->subtotal =  $request->input('input-subtotal');
                     $venta->iva_general = $request->input('input-ivaGen');
                     $venta->total = $request->input('input-total');
@@ -137,9 +150,7 @@ class NotaExporadicaController extends Controller
 
     public function data(){
         if($this->slug_permiso('nota_exporadica')){
-            $nota_entrada=VentaExporadica::
-            join('clientes_sin_contrato','clientes_sin_contrato.id','ventas.cliente_id')
-            ->select('clientes_sin_contrato.nombre', 'clientes_sin_contrato.telefono', 'ventas.*');
+            $nota_entrada=VentaExporadica::all();
             return DataTables::of(
                 $nota_entrada
             )                                                               

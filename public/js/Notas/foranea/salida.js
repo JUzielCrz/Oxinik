@@ -141,7 +141,7 @@ $(document).ready(function () {
     //FUNCIONES INSERTAR FILA SALDIA
     function insertar_fila_salida() {
         
-        var numserie= $('#serie_tanque').val().replace(/ /g,'');//eliminar espacios
+        var numserie= $('#serie_tanque').val().replace(/ /g,'').toUpperCase();;//eliminar espacios
 
         //validar campos no vacios
         var campo = ['serie_tanque','cantidad','unidad_medida','precio_unitario','tapa_tanque','iva_particular'];

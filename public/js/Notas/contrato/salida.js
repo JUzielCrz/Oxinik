@@ -105,7 +105,7 @@ $(document).ready(function () {
 
     function insertfila() {
 
-        var numserie= $('#serie_tanque').val().replace(/ /g,'');
+        var numserie= $('#serie_tanque').val().replace(/ /g,'').toUpperCase();
 
         var campo= ['serie_tanque','cantidad','unidad_medida','precio_unitario','tapa_tanque'];
         var campovacio = [];
@@ -164,7 +164,7 @@ $(document).ready(function () {
                             data: {
                                 '_token': $('input[name=_token]').val(),
                                 'contrato_id': $('#contrato_id').val(),
-                                'num_serie': $('#serie_tanque').val(),
+                                'num_serie': numserie,
                                 },
                         })
                         .done(function(msgasignacion){

@@ -22,7 +22,7 @@ $(document).ready(function () {
         
         $('#serie_tanqueError').empty();
 
-        var numserie= $('#serie_tanque').val().replace(/ /g,'');
+        var numserie= $('#serie_tanque').val().replace(/ /g,'').toUpperCase();
 
         if(numserie ==''){
             $('#serie_tanqueError').text('Número de serie obligatorio');
@@ -39,7 +39,7 @@ $(document).ready(function () {
         })
         if(boolRepetido){
             $("#serie_tanqueError").text('Número de serie ya agregado a lista');
-            $("#tbody_errores").append('<tr><td>'+$("#serie_tanque").val()+'</td><td>Repetido</td></tr>');
+            $("#tbody_errores").append('<tr><td>'+numserie+'</td><td>Repetido</td></tr>');
             $('#serie_tanque').val('');
             return false;
         }
@@ -47,14 +47,12 @@ $(document).ready(function () {
 
         $.get('/tanque/show_numserie/'+numserie, function(msg) {
             if(msg==''){
-                // $('#serie_tanqueError').text('Error, No exite registro de tanque con este número de serie');
-                // $("#tbody_errores").append('<tr><td>'+$("#serie_tanque").val()+'</td><td>Sin Registrar</td></tr>');
                 $("#modal-registrar-tanque").modal('show');
-                $("#num_serie").val();
                 $('#num_serie').val(numserie);
                 $("#num_serie").prop("disabled", true);
                 $('#estatus').val('INFRA');
                 $("#estatus").prop("disabled", true);
+                $('#serie_tanque').val('');
                 return false;
             }
             if(msg.estatus=='INFRA'){
@@ -74,7 +72,7 @@ $(document).ready(function () {
                 $('#serie_tanque').val('');
             }else{
                 $('#serie_tanqueError').text('Error, estatus tanque: '+ msg.estatus);
-                $("#tbody_errores").append('<tr><td>'+$("#serie_tanque").val()+'</td><td>Estatus: '+msg.estatus+'</td></tr>');
+                $("#tbody_errores").append('<tr><td>'+numserie+'</td><td>Estatus: '+msg.estatus+'</td></tr>');
                 $('#serie_tanque').val('');
                 return false;
             }

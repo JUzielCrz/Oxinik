@@ -39,12 +39,10 @@ class NotaForaneaController extends Controller
 
             if($user->soloParaUnRol('admin')){
                 $notas=NotaForanea::
-                join('clientes_sin_contrato', 'nota_foranea.cliente_id','=', 'clientes_sin_contrato.id')
-                ->select('nota_foranea.id as notaf_id', 'nota_foranea.*','clientes_sin_contrato.*');
+                select('nota_foranea.id as notaf_id', 'nota_foranea.*');
             }else{
                 $notas=NotaForanea::
-                join('clientes_sin_contrato', 'nota_foranea.cliente_id','=', 'clientes_sin_contrato.id')
-                ->select('nota_foranea.id as notaf_id', 'nota_foranea.*','clientes_sin_contrato.*')
+                select('nota_foranea.id as notaf_id', 'nota_foranea.*')
                 ->where('user_id', auth()->user()->id);
             }
 
@@ -106,9 +104,9 @@ class NotaForaneaController extends Controller
                 leftjoin('tanques','tanques.num_serie','=','notaforanea_tanque.num_serie')
                 ->where('nota_foranea_id', $id)->where('insidencia','ENTRADA')->get();
 
-                $cliente=ClienteSinContrato::find($nota->cliente_id);
+                // $cliente=ClienteSinContrato::find($nota->cliente_id);
     
-                $data= ['catalogo' => $catalogo, 'tanques' =>$tanques, 'tanquesEntrada' =>$tanquesEntrada, 'nota'=> $nota, 'cliente'=> $cliente];
+                $data= ['catalogo' => $catalogo, 'tanques' =>$tanques, 'tanquesEntrada' =>$tanquesEntrada, 'nota'=> $nota];
                 return view('notas.foranea.edit', $data);
             }
             return view('notas.foranea.listado');
@@ -128,10 +126,23 @@ class NotaForaneaController extends Controller
             $fechaactual=date("Y")."-" . date("m")."-".date("d");
 
                 if(count($request->inputNumSerie) > 0 ){ ///validar si hay tanques en la lista
-                    //Nota venta de envio
+                    //Nota
+                    $cliente=ClienteSinContrato::find($request->id_show);
+                    //datos cliente
                     $venta= new NotaForanea;
-                    $venta->cliente_id = $request->id_show;
-                    $venta->precio_envio=$request->precio_envio_nota;
+                    $venta->num_cliente = $cliente->id;
+                    $venta->nombre = $cliente->nombre;
+                    $venta->telefono = $cliente->telefono;
+                    $venta->email = $cliente->email;
+                    $venta->direccion = $cliente->direccion;
+                    $venta->rfc = $cliente->rfc;
+                    $venta->cfdi = $cliente->cfdi;
+                    $venta->direccion_factura = $cliente->direccion_factura;
+                    $venta->direccion_envio = $cliente->direccion_envio;
+                    $venta->referencia_envio = $cliente->referencia_envio;
+                    $venta->link_ubicacion_envio = $cliente->link_ubicacion_envio;
+                    $venta->precio_envio = $cliente->precio_envio;
+
                     $venta->subtotal =  $request->input('input-subtotal');
                     $venta->iva_general = $request->input('input-ivaGen');;
                     $venta->total = $request->input('input-total');
@@ -175,6 +186,7 @@ class NotaForaneaController extends Controller
     public function entrada_save(Request $request){
         if($this->slug_permiso('nota_foranea')){
             if($request->pago_cubierto == null){$pago=true;}else{$pago=$request->pago_cubierto;}
+            
             $venta= NotaForanea::find($request->idnota);
             $venta->pago_cubierto = $pago;
             $venta->observaciones = $request->observaciones;

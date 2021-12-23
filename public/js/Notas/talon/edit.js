@@ -30,6 +30,7 @@ $(document).ready(function () {
 
     if($(".tr-tanques-salida").length == $(".classfilatanque_entrada").length){
         $('.bool_disabled').prop('disabled', true);
+        $("#pendiente").val(false);
     }
 
     //FUNCIONES INSERTAR FILA SALIDA
@@ -87,11 +88,6 @@ $(document).ready(function () {
             $("#serie_tanqueError").text('Tanque no pertenece a cliente');
             return false;
         }
-
-        // if($(".tr-tanques-salida").length == $(".classfilatanque_entrada").length){
-        //     $("#serie_tanqueError").text('No puedes revasar cantidad de cilindros');
-        //     return false;
-        // }
 
         $.get('/tanque/show_numserie/' + numserie, function(msg) { 
             if(msg != ''){
@@ -163,6 +159,7 @@ $(document).ready(function () {
 
     //CREATE CLIENTE
     function create_save() {
+
         $.ajax({
             method: "POST",
             url: "/clientes_sc/create",
@@ -328,6 +325,9 @@ $(document).ready(function () {
 
     function guardar_nota(){
 
+        if($(".tr-tanques-salida").length == $(".classfilatanque_entrada").length){
+            $("#pendiente").val(0);
+        }
         // envio al controlador
         $.ajax({
             method: "post",

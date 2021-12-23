@@ -139,7 +139,7 @@ $(document).ready(function () {
         $('#serie_tanque_entradaError').empty();
         $('#tapa_tanque_entradaError').empty();
         //Eliminar espacios
-        var numserie= $('#serie_tanque_entrada').val().replace(/ /g,'');
+        var numserie= $('#serie_tanque_entrada').val().replace(/ /g,'').toUpperCase();
         //validar campos vacios
         if(numserie == ''){
             $('#serie_tanque_entrada').addClass('is-invalid');
@@ -173,7 +173,7 @@ $(document).ready(function () {
         }).done(function(msg){
 
             if(msg == ""){// entra si no existe tanque
-                $('#num_serie').val($("#serie_tanque_entrada").val().replace(/ /g,''));
+                $('#num_serie').val(numserie);
                 $('#num_serie').prop("disabled", true);
                 $("#modal-registrar-tanque").modal('show');
             }else{
@@ -375,7 +375,7 @@ $(document).ready(function () {
     //FUNCIONES INSERTAR FILA SALDIA
     function insertar_fila_salida() {
         
-        var numserie= $('#serie_tanque').val().replace(/ /g,'');//eliminar espacios
+        var numserie= $('#serie_tanque').val().replace(/ /g,'').toUpperCase();//eliminar espacios
 
         //validar campos no vacios
         var campo= ['serie_tanque','cantidad','unidad_medida','precio_unitario','tapa_tanque','iva_particular'];

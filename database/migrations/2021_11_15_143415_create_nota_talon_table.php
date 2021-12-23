@@ -30,7 +30,8 @@ class CreateNotaTalonTable extends Migration
             $table->string('link_ubicacion_envio')->nullable();
             $table->float('precio_envio')->default(0)->nullable();
             //fin add
-            
+            $table->boolean('pendiente')->default(true);
+
             $table->float('subtotal')->nullable();
             $table->float('iva_general')->nullable();
             $table->float('total')->nullable();

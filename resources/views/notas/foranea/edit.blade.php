@@ -30,51 +30,7 @@
                         </div>
                     </div>
                     <div class="card-body" >
-                        <div class="form-row" style="font-size: 13px">
-                            <div class="col">
-                                <label for="">Cliente:</label>
-                                <input name="nombre_cliente" id="nombre_cliente" type="text" value="{{$cliente->nombre}}" class="form-control form-control-sm solo-texto" disabled>
-                            </div>
-                            <div class="col">
-                                <label for="">Telefono:</label>
-                                <input name="telefono" id="telefono" type="number" value="{{$cliente->telefono}}" class="form-control form-control-sm numero-entero-positivo lenght-telefono" >
-                                <span  id="telefonoError" class="text-danger"></span>
-                            </div>
-                            <div class="col">
-                                <label for="">Correo:</label>
-                                <input name="email" id="email" type="email" class="form-control form-control-sm" value="{{$cliente->email}}" >
-                                <span id="emailError" class="text-danger"></span>
-                            </div>
-                            <!-- RFC-->
-                            <div class="col">
-                                <label>RFC</label>
-                                <input name="rfc" id="rfc" type="text" value="{{$cliente->rfc}}" class="form-control form-control-sm" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                                <span id="rfcError" class="text-danger"></span>
-                            </div>
-                        </div>  
-                        <div class="form-row mt-2" style="font-size: 13px">
-                            <!-- CFDI-->
-                            <div class="col">
-                                <label for="">CFDI: </label>
-                                <input name="cfdi" id="cfdi" type="text" value="{{$cliente->cfdi}}" class="form-control form-control-sm" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                                <span id="cfdiError" class="text-danger"></span>
-                            </div>
 
-                            <!-- direccion factura-->
-                            <div class="col">
-                                <label for="">Direccion Factura:</label>
-                                <textarea name="direccion_factura" id="direccion_factura" cols="30" rows="1" class="form-control form-control-sm"> {{$cliente->direccion_factura}}</textarea>
-                                <span id="direccion_facturaError" class="text-danger"></span>
-                            </div>
-                            <!-- Direccion-->
-                            <div class="col">
-                                <label for="">Dirección Cliente:</label>
-                                <textarea name="direccion" id="direccion" cols="30" rows="1" class="form-control form-control-sm" > {{$cliente->direccion}}</textarea>
-                                <span id="direccionError" class="text-danger"></span>
-                            </div>
-                        </div>
-                    
-                        <hr>
                         <strong>TANQUES ENTREGADOS</strong>
                         <div class="table-responsive mt-3">
                             <table class="table table-sm table-hover table-bordered" >
@@ -92,7 +48,7 @@
                                 
                                 <tbody style="font-size: 13px">
                                     @foreach ($tanques as $tanque)
-                                        <tr class="tr-cilindros-entrada">
+                                        <tr class="tr-cilindros-salida">
                                             <td class="p-0 text-center">{{$tanque->num_serie}}</td> <input type="hidden" name="inputNumSerie[]" value={{$tanque->num_serie}}>
                                             <td class="p-0 text-center">{{$tanque->tapa_tanque}}</td>
                                             <td class="p-0 text-center">{{$tanque->cantidad}}</td>
@@ -118,7 +74,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="inputGroup-sizing-sm"># Serie:</span>
                                     </div>
-                                    <input type="text" name="serie_tanque_entrada" id="serie_tanque_entrada" class="form-control form-control-sm" placeholder="#Serie" >
+                                    <input type="text" name="serie_tanque_entrada" id="serie_tanque_entrada" class="form-control form-control-sm bool_disabled" placeholder="#Serie" >
                                 </div>
                                 <span  id="serie_tanque_entradaError" class="text-danger"></span>
                             </div>
@@ -127,7 +83,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="inputGroup-sizing-sm"># Tapa:</span>
                                     </div>
-                                    <select name="tapa_tanque_entrada" id="tapa_tanque_entrada" class="form-control form-control-sm">
+                                    <select name="tapa_tanque_entrada" id="tapa_tanque_entrada" class="form-control form-control-sm bool_disabled">
                                         <option value="">Selecciona</option>
                                         <option value="SI">SI</option>
                                         <option value="NO">NO</option>
@@ -137,7 +93,7 @@
                             </div>
 
                             <div class="col">
-                                <button type="button" class="btn btn-verde btn-sm" id="btn-insert-fila-entrada"> <span class="fas fa-plus"></span>Add</button>
+                                <button type="button" class="btn btn-verde btn-sm bool_disabled" id="btn-insert-fila-entrada"> <span class="fas fa-plus"></span>Add</button>
                             </div> 
                         </div>
                         <div class="table-responsive ">
@@ -154,7 +110,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($tanquesEntrada as $tanq)
-                                        <tr class='classfilatanque_entrada' style="font-size: 13px">
+                                        <tr class='tr-cilindros-entrada' style="font-size: 13px">
                                             <td>{{$tanq->num_serie}}</td>
                                             <td>{{$tanq->material}}, {{$tanq->fabricante}}, {{$tanq->capacidad}}, {{$tanq->tipo_tanque}}</td>
                                             <td>{{$tanq->ph}}</td>
@@ -180,7 +136,7 @@
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <label for="">Observaciones Generales</label>
-                                <textarea name="observaciones" id="observaciones" cols="30" rows="1" class="form-control"> {{$nota->observaciones}}</textarea>
+                                <textarea name="observaciones" id="observaciones" cols="30" rows="1" class="form-control bool_disabled"> {{$nota->observaciones}}</textarea>
                             </div>
                         </div>
                     </div>
@@ -188,15 +144,154 @@
                 
             </div>
             <div class="col-md-4">
-                <div class="card" >
-                    <div class="card-body" style="font-size: 13px">
-                        <span class="ml-2 "><strong>DATOS DE ENVIO:</strong></span>
-                        <hr class="mt-0">
-                        <p>
-                            <strong>Dirección: </strong> {{$cliente->direccion_envio}} <br>
-                            <strong>Referencia: </strong> {{$cliente->referencia_envio}} <br>
-                            <strong>Link Ubicacion: </strong> <a target="_blank" class="btn-link" href={{$cliente->link_ubicacion_envio}}>{{$cliente->link_ubicacion_envio}} </a><br>
-                        </p>
+                {{-- DATOS  CLIENTE --}}
+                <div class="card mt-2">
+                    <div class="card-header p-2" >
+                        <div class="form-row">
+                            <div class="col">
+                                DATOS CLIENTE
+                            </div>
+                        </div>
+                            
+                    </div>
+                    <div class="card-body ">
+                            <!-- Nombre Completo-->
+                            <div class="form-row">
+                                <div class="input-group input-group-sm mb-2">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">Num. Cliente:</span>
+                                    </div>
+                                    <input id="id_show" name="id_show" value="{{$nota->num_cliente}}" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" readonly>
+                                </div>
+                            </div>
+                            <!-- Nombre Completo-->
+                            <div class="form-row">
+                                <div class="input-group input-group-sm mb-2">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">Nombre:</span>
+                                    </div>
+                                    <input name="nombre_show" id="nombre_show" value="{{$nota->nombre}}" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled>
+                                </div>
+                            </div>
+
+                            <!-- Telefono-->
+                            <div class="form-row">
+                                <div class="input-group input-group-sm mb-2">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">Telefono:</span>
+                                    </div>
+                                    <input id="telefono_show" value="{{$nota->telefono}}" type="number" class="form-control form-control-sm lenght-telefono" placeholder="#" disabled>
+                                </div>
+                            </div>
+
+                            <!-- Correo-->
+                            <div class="form-row">
+                                <div class="input-group input-group-sm mb-2">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">Correo:</span>
+                                    </div>
+                                    <input id="email_show" value="{{$nota->email}}" type="email" class="form-control form-control-sm" placeholder="ejemplo@gmail.com" disabled>
+                                </div>
+                            </div>
+                            <!-- Direccion-->
+                            <div class="form-row">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">Dirección:</span>
+                                    </div>
+                                    <textarea id="direccion_show" cols="30" rows="3" class="form-control" disabled>{{$nota->direccion}}</textarea>
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="accordion" id="accordionExample">
+                        {{-- DATOS FACTURACIÓN --}}
+                        <div class="card mr-2 ml-2">
+                            <div class="card-header p-2 bg-secondary" id="headingOne">
+                                <button class="btn btn-link btn-block text-left text-white p-0" style="font-size: 13px" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                                    DATOS FACTURACIÓN<i class="fas fa-caret-down ml-2"></i></i>
+                                </button>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <!-- RFC-->
+                                    <div class="form-row">
+                                        <div class="input-group input-group-sm mb-2">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroup-sizing-sm">RFC:</span>
+                                            </div>
+                                            <input id="rfc_show" value="{{$nota->rfc}}" type="text" class="form-control form-control-sm" placeholder="texto" disabled>
+                                        </div>
+                                    </div>
+    
+                                    <!-- CFDI-->
+                                    <div class="form-row">
+                                        <div class="input-group input-group-sm mb-2">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroup-sizing-sm">CFDI:</span>
+                                            </div>
+                                            <input id="cfdi_show" value="{{$nota->cfdi}}" type="text" class="form-control form-control-sm" placeholder="texto" disabled>
+                                        </div>
+                                    </div>
+    
+                                    <!-- direccion factura-->
+                                    <div class="form-row">
+                                        <div class="input-group input-group-sm mb-2">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroup-sizing-sm">Direccion Factura:</span>
+                                            </div>
+                                            <textarea id="direccion_factura_show" class="form-control form-control-sm" cols="30" rows="2" disabled> {{$nota->direccion_factura}}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- DATOS ENVÍO --}}
+                        <div class="card mr-2 ml-2 mb-2">
+                            <div class="card-header p-2 bg-secondary" id="headingThree">
+                                <button class="btn btn-link btn-block text-left text-white p-0"  style="font-size: 13px" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseOne">
+                                    DATOS ENVÍO <i class="fas fa-caret-down ml-2"></i></i>
+                                </button>
+                            </div>
+                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <div class="form-row">
+                                        <div class="input-group input-group-sm mb-2">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroup-sizing-sm">Dirección:</span>
+                                            </div>
+                                            <textarea id="direccion_envio_show" class="form-control form-control-sm" cols="30" rows="2" disabled>{{$nota->direccion_envio}}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="input-group input-group-sm mb-2">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroup-sizing-sm">Referencias:</span>
+                                            </div>
+                                            <textarea id="referencia_envio_show" class="form-control form-control-sm" cols="30" rows="2" disabled>{{$nota->referencia_envio}}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <a href="{{$nota->link_ubicacion_envio}}">
+                                            <div class="input-group input-group-sm mb-2">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Link Ubicación:</span>
+                                                </div>
+                                                <textarea id="link_ubicacion_envio_show" class="form-control form-control-sm" cols="30" rows="2" disabled>{{$nota->link_ubicacion_envio}}</textarea>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="input-group input-group-sm mb-2">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroup-sizing-sm">Precio Envio:</span>
+                                            </div>
+                                            <input id="precio_envio_show" value="{{$nota->precio_envio}}" type="number" value=0 class="form-control form-control-sm numero-decimal-positivo" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card mt-2">
@@ -280,8 +375,8 @@
                         <hr>
 
                         <div class="row justify-content-center">
-                            <button type="button" class="btn btn-verde" id="btnCancelar">Cancelar</button>
-                            <button type="button" class="btn btn-verde ml-2" id="guardar-nota">Guardar</button>
+                            <button type="button" class="btn btn-verde bool_disabled" id="btnCancelar">Cancelar</button>
+                            <button type="button" class="btn btn-verde ml-2 bool_disabled" id="guardar-nota">Guardar</button>
                             {{-- <button type="button" class="btn btn-amarillo" id="btn-pdf-nota"> Nota de remision</button> --}}
                         </div>
                     </div>

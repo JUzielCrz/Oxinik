@@ -30,22 +30,27 @@ class NotaTalonController extends Controller
         }
         return view('home');
     }
-    public function data(){
+    public function data(Request $request){
         $idauth=auth()->user()->id;
         $user=User::find($idauth);
         
 
         if($this->slug_permiso('nota_talon')){
 
-            if($user->soloParaUnRol('admin')){
+            if($request->estatus == "ALL"){
                 $notas=NotaTalon::all();
-                // join('clientes_sin_contrato', 'nota_talon.cliente_id','=', 'clientes_sin_contrato.id');
-
             }else{
                 $notas=NotaTalon::
-                // join('clientes_sin_contrato', 'nota_talon.cliente_id','=', 'clientes_sin_contrato.id')
-                where('user_id', auth()->user()->id);
+                where('pendiente', $request->estatus);
             }
+
+            // if($user->soloParaUnRol('admin')){
+            //     $notas=NotaTalon::all();
+
+            // }else{
+            //     $notas=NotaTalon::
+            //     where('user_id', auth()->user()->id);
+            // }
 
             return DataTables::of(
                 $notas
@@ -58,8 +63,16 @@ class NotaTalonController extends Controller
                     return $nombre->name;
                 }
             })
+            ->editColumn('pendiente', function ($nota) {
+                if($nota->pendiente == true){
+                    return "SI";
+                }else{
+                    return "NO";
+                }
+            })
             ->addColumn( 'btnEdit', '<a class="btn btn-sm btn-verde" href="{{route(\'nota.talon.edit\', $id)}}" data-toggle="tooltip" data-placement="top" title="Contrato"><span class="fas fa-edit"></span></a>')
-            ->rawColumns(['btnEdit'])
+            ->addColumn( 'btnPDF', '<a class="btn btn-sm btn-verde" href="{{route(\'pdf.nota_talon\', $id)}}" data-toggle="tooltip" data-placement="top" title="PDF"><i class="fas fa-file-pdf"></i></a>')
+            ->rawColumns(['btnEdit', 'btnPDF'])
             ->toJson();
         }
         return view('home');
@@ -76,7 +89,6 @@ class NotaTalonController extends Controller
     }
 
     public function create_save(Request $request){
-
         if($this->slug_permiso('nota_talon')){
             $request->validate([
                 'id_show' => ['required', 'numeric'],
@@ -205,6 +217,7 @@ class NotaTalonController extends Controller
                     $venta->fecha = $fechaactual;
                     $venta->user_id = auth()->user()->id;
                     $venta->observaciones = $request->observaciones;
+                    $venta->pendiente = $request->pendiente;
                     $venta->save();
 
                     //Guardar tanques salida

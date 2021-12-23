@@ -226,9 +226,19 @@ class ContratoController extends Controller
         return view('home');
     }
 
-    public function listar_data(){
+    public function listar_data(Request $request){
         if($this->slug_permiso('contrato_show')){
-            $contrato=Contrato::all();
+            if($request->tipo_contrato == "ALL"){
+                $contrato=Contrato::
+                join('clientes','clientes.id',"=", 'contratos.cliente_id')
+                ->where('clientes.estatus',$request->estatus);
+            }else{
+                $contrato=Contrato::
+                join('clientes','clientes.id',"=", 'contratos.cliente_id')
+                ->where('clientes.estatus',$request->estatus)
+                ->where('contratos.tipo_contrato', $request->tipo_contrato);
+            }
+            
             return DataTables::of(
                 $contrato
             )

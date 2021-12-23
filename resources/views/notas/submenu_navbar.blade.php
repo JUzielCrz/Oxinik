@@ -1,6 +1,6 @@
     <li class="nav-item dropdown" id="id-menu-contrato" >
         <a class="nav-link " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-            C/Contrato <i class="fas fa-angle-down"></i>
+            <i class="fas fa-clipboard"></i>  C/Contrato |<i class="fas fa-angle-down"></i>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="font-size: 13px">
             <a class="dropdown-item" href="{{ url('/nota/contrato/salida') }}"> <i class="fas fa-sign-out-alt"></i> Salida</a>

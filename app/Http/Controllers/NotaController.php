@@ -76,6 +76,7 @@ class NotaController extends Controller
             $query = $request->get('query');
             $data=Contrato::
             join('clientes','clientes.id','=','contratos.cliente_id')
+            ->where('clientes.estatus', 'ACTIVO')
             ->where('num_contrato', 'LIKE', "%{$query}%")
             ->orWhere(DB::raw("CONCAT(clientes.nombre,' ', clientes.apPaterno,' ', clientes.apMaterno )"),'LIKE', "%{$query}%")
             ->orWhere('clientes.empresa', 'LIKE', "%{$query}%")

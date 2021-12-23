@@ -52,10 +52,8 @@ class PDFController extends Controller
         $tanques=VentaTanque::
         join('tanques', 'tanques.num_serie','=','venta_tanque.num_serie' )
         ->where('venta_id', $nota->id)->get();
-        
-        $cliente=ClienteSinContrato::find($nota->cliente_id);
-        
-        $data=['nota'=>$nota,'tanques'=>$tanques,  'cliente' => $cliente];
+
+        $data=['nota'=>$nota,'tanques'=>$tanques];
  
         $pdf = PDF::loadView('pdf.nota_exporadica', $data);
 

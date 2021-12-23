@@ -46,7 +46,7 @@
                             </div>  
                             <div class="col">
                                 {!! Form::label('cantidad') !!}
-                                {!! Form::number('cantidad', null, ['id'=>'cantidad', 'class' => 'form-control form-control-sm numero-entero-positivo', 'placeholder'=>'0', 'required', 'readonly' ]) !!}
+                                {!! Form::number('cantidad', null, ['id'=>'cantidad', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'0', 'required', 'readonly' ]) !!}
                                 <span  id="cantidadError" class="text-danger"></span>
                             </div>
                             

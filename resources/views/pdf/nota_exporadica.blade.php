@@ -43,14 +43,14 @@
                 <tbody>
                     <tr>
                         <td>
-                            <strong>Cliente:</strong> {{$cliente->nombre}} <br>
-                            <strong>Telefono: </strong> {{$cliente->telefono}} <br>
-                            <strong>Correo: </strong> {{$cliente->email}} <br>
-                            <strong>Direccion: </strong> {{$cliente->direccion}} 
+                            <strong>Cliente:</strong> {{$nota->nombre}} <br>
+                            <strong>Telefono: </strong> {{$nota->telefono}} <br>
+                            <strong>Correo: </strong> {{$nota->email}} <br>
+                            <strong>Direccion: </strong> {{$nota->direccion}} 
                         </td>
                         <td >
-                            <p><strong>Entregar en: </strong> <br> {{$cliente->direccion_envio}} <br> 
-                                <strong>Referencia: </strong> <br> {{$cliente->referencia_envio}}
+                            <p><strong>Entregar en: </strong> <br> {{$nota->direccion_envio}} <br> 
+                                <strong>Referencia: </strong> <br> {{$nota->referencia_envio}}
                             </p>
                         </td>
                     </tr>
