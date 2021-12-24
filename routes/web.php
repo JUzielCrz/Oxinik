@@ -80,6 +80,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/nota/reserva/delete/{id}', 'NotaReservaController@delete');
     Route::get('/nota/reserva/tanques_pendientes', 'NotaReservaController@tanques_pendientes');
     Route::get('/nota/reserva/tanques_data', 'NotaReservaController@tanques_data');
+    Route::get('/nota/reserva/show_history/{id}', 'NotaReservaController@show_history');
 
 
   /* Clientes */
