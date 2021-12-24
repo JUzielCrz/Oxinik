@@ -9,6 +9,7 @@ use App\Models\MantenimientoTanque;
 use App\Models\NotaEntradaTanque;
 use App\Models\NotaForaneaTanque;
 use App\Models\NotaReserva;
+use App\Models\NotaReservaTanque;
 use App\Models\NotaTalonTanque;
 use App\Models\NotaTanque;
 use App\Models\Tanque;
@@ -235,8 +236,8 @@ class TanqueController extends Controller
             ->where('num_serie',$serietanque)
             ->union($nota_contrato_entrada);
 
-            $nota_reserva=NotaReserva::select( DB::raw("num_serie, nota_reserva_tanque.created_at, user_id,CONCAT('Nota Reserva', nota_reserva.incidencia ), CONCAT('/nota/reserva/show_history/', nota_reserva.id) "))
-            ->join('nota_reserva', 'nota_reserva.id','=','nota_reserva_tanque.nota_talon_id')
+            $nota_reserva=NotaReservaTanque::select( DB::raw("num_serie, nota_reserva_tanque.created_at, user_id,CONCAT('Nota Reserva', nota_reserva.incidencia ), CONCAT('/nota/reserva/show_history/', nota_reserva.id) "))
+            ->join('nota_reserva', 'nota_reserva.id','=','nota_reserva_tanque.nota_id')
             ->where('num_serie',$serietanque)
             ->union($nota_talon);
 

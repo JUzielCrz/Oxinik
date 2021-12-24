@@ -112,6 +112,9 @@ class NotaReservaController extends Controller
         return view('home');
     }
 
+    public function show_history($id){
+        return 'pass';  
+    }
     public function delete(NotaReserva $id){   
         if($this->slug_permiso('nota_reserva')){
 
