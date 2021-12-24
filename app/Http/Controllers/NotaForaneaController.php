@@ -184,6 +184,7 @@ class NotaForaneaController extends Controller
     }
 
     public function entrada_save(Request $request){
+
         if($this->slug_permiso('nota_foranea')){
             if($request->pago_cubierto == null){$pago=true;}else{$pago=$request->pago_cubierto;}
             
@@ -191,14 +192,14 @@ class NotaForaneaController extends Controller
             $venta->pago_cubierto = $pago;
             $venta->observaciones = $request->observaciones;
             $venta->save();
-            $client= ClienteSinContrato::find($venta->cliente_id);
-            $client->telefono = $request->telefono;
-            $client->email = $request->email;
-            $client->direccion = $request->direccion;
-            $client->rfc = $request->rfc;
-            $client->cfdi = $request->cfdi;
-            $client->direccion_factura = $request->direccion_factura;
-            $client->save();
+            // $client= ClienteSinContrato::find($venta->cliente_id);
+            // $client->telefono = $request->telefono;
+            // $client->email = $request->email;
+            // $client->direccion = $request->direccion;
+            // $client->rfc = $request->rfc;
+            // $client->cfdi = $request->cfdi;
+            // $client->direccion_factura = $request->direccion_factura;
+            // $client->save();
 
             if($request->inputNumSerie_entrada){
                 $searchRep = $request->inputNumSerie_entrada;
