@@ -87,11 +87,12 @@ class MantenimientoController extends Controller
                     $mantenimientoTanque=new MantenimientoTanque;
                     $mantenimientoTanque->num_serie = $request->inputNumSerie[$series];
                     $mantenimientoTanque->mantenimientoLLenado_id = $mantenimiento->id;
+                    $mantenimientoTanque->folio_talon = $request->inputTalon[$series];
                     $mantenimientoTanque->save();
 
                     $tanque=Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
                     $tanque->estatus = $estatus_tanque;
-                    $tanque->ph = $request->idInputPH[$series];
+                    $tanque->ph = $request->inputPH[$series];
                     $tanque->save();
                 }
                 return response()->json(['notaId'=>$mantenimiento->id]);

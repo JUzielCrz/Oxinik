@@ -68,14 +68,11 @@
                 <tbody>
                     <tr>
                         <td>
-                            <h5 >INFRA</h5>
-                            <p>#Nota: <strong>{{$nota->id}}</strong> </p>
-                        </td>
-                        <td>
                             <p>
+                                <span style="font-size:15px"><strong>INFRA</strong></span> <br>
+                                #Nota: <strong>{{$nota->id}}</strong> 
                                 INCIDENCIA: <strong>{{$nota->incidencia}} DE TANQUES</strong><br> 
                                 FECHA Y HORA: <strong>{{$nota->created_at}}</strong><br>
-                                TOTAL CILINDROS: <strong>{{$nota->cantidad_salida}}</strong>
                             </p>
                         </td>
                     </tr>

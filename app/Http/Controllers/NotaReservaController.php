@@ -113,7 +113,13 @@ class NotaReservaController extends Controller
     }
 
     public function show_history($id){
-        return 'pass';  
+        $nota=NotaReserva::find($id);
+        $tanques=NotaReservaTanque::
+        join('tanques','tanques.num_serie','=','nota_reserva_tanque.num_serie')
+        ->where('nota_id',$id)->get();
+        $usuario=User::where('id',$nota->user_id)->first();
+        $data = ['nota'=>$nota, 'tanques'=>$tanques, 'usuario'=>$usuario];
+        return view('notas.reserva.show_history', $data);
     }
     public function delete(NotaReserva $id){   
         if($this->slug_permiso('nota_reserva')){

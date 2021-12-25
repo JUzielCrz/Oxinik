@@ -15,7 +15,6 @@ class AdminSeeder extends Seeder
     public function run()
     {
 
-        
 
      //crear usuario administrador
         $useradmin=User::create([
@@ -35,8 +34,6 @@ class AdminSeeder extends Seeder
         $useradmin->roles()->sync([$roladmin->id]);
 
      //end
-
-
 
         //$useradmin=User::create([
         //    'name'      => 'Trabajador 1',

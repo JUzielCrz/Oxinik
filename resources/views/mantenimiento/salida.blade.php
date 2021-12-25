@@ -28,13 +28,24 @@
                     <div class="card" >
                         <div class="card-header">
                             <div class=" row">
-                                <div class="col-md-6">
-                                    <div class="input-group mb-3">
-                                        <input type="text" name="serie_tanque" id="serie_tanque" class="form-control form-control-sm" placeholder="#Serie" >
-                                        <div class="input-group-append">
-                                            <button type="button" class="btn btn-sm btn-amarillo" id="btn-InsertFila"><span class="fas fa-plus"></span> Agredar</button>
+                                <div class="col-md-3">
+                                    <label for="">#Serie</label>
+                                    <input type="text" name="serie_tanque" id="serie_tanque" class="form-control form-control-sm" placeholder="#" >
+
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="">Folio Talón</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <input type="text" name="folio_talon" id="folio_talon" class="form-control form-control-sm" aria-label="Text input with checkbox"> 
+                                            <div class="input-group-text">
+                                                <input type="checkbox" name="mantener_folio" id="mantener_folio" aria-label="Checkbox for following text input"> Mantener
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-md-2 align-self-end">
+                                    <button type="button" class="btn btn-sm btn-amarillo " id="btn-InsertFila"><span class="fas fa-plus"></span> Agredar</button>
                                 </div>
                             </div>
                             <span class="text-danger" id="serie_tanqueError"></span>
@@ -48,7 +59,8 @@
                                             <th scope="col">CAPACIDAD</th>
                                             <th scope="col">MATERIAL</th>
                                             <th scope="col">PH</th>
-                                            <th>fabricante</th>
+                                            <th>FABRICANTE</th>
+                                            <th>#TALÓN</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>

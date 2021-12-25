@@ -21,6 +21,7 @@ class CreateMantenimientoTanquesTable extends Migration
                 ->on('mantenimiento_llenado')
                 ->onDelete('cascade');
             $table->string('num_serie');
+            $table->string('folio_talon');
             $table->timestamps();
         });
     }

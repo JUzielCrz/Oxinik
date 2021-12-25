@@ -68,14 +68,11 @@
                 <tbody>
                     <tr>
                         <td>
-                            <h5 >MANTENIMIENTO</h5>
-                            <p>#Nota: <strong>{{$nota->id}}</strong> </p>
-                        </td>
-                        <td>
                             <p>
+                                <span style="font-size:15px"><strong>MANTENIMIENTO</strong></span> <br>
+                                #Nota: <strong>{{$nota->id}}</strong> <br>
                                 INCIDENCIA: <strong>{{$nota->incidencia}} DE TANQUES</strong><br> 
                                 FECHA Y HORA: <strong>{{$nota->created_at}}</strong><br>
-                                TOTAL CILINDROS: <strong>{{$nota->cantidad}}</strong>
                             </p>
                         </td>
                     </tr>
@@ -88,6 +85,7 @@
                     <tr>
                         <th>#</th>
                         <th>#serie</th>
+                        <th>Folio Talón</th>
                     </tr>
                 </thead>
                 @php
@@ -98,6 +96,7 @@
                         <tr>
                             <td style="padding: 2">{{$contador+=1}}</td>
                             <td style="padding: 2">{{$tanque->num_serie}}</td>
+                            <td style="padding: 2">{{$tanque->folio_talon}}</td>
                         </tr>
                     @endforeach
                 </tbody>

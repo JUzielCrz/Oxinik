@@ -18,14 +18,31 @@ $(document).ready(function () {
     var contador=0;
 
     function insert_fila(){
-        $('#serie_tanqueError').empty();
         $('#phError').empty();
 
-        var numserie= $('#serie_tanque').val().replace(/ /g,'');
-
+        var numserie= $('#serie_tanque').val().replace(/ /g,'').toUpperCase();
+        
         if(numserie ==''){
             $('#serie_tanqueError').text('Número de serie obligatorio');
+            $('#serie_tanque').addClass('is-invalid');
             return false;
+        }else{
+            $('#serie_tanqueError').empty();
+            $('#serie_tanque').removeClass('is-invalid');
+        }
+        
+        if($("#folio_talon").val() ==''){
+            $('#folio_talon').addClass('is-invalid');
+            $('#folio_talonError').text('Número de serie obligatorio');
+            return false;
+        }else{
+            $('#folio_talonError').empty();
+            $('#folio_talon').removeClass('is-invalid');
+        }
+
+        console.log($('#mantener_folio').is(':checked'));
+        if($('#mantener_folio').is(':checked') == false){
+            $('#folio_talon').val("");
         }
 
         var boolRepetido=false;
@@ -68,11 +85,12 @@ $(document).ready(function () {
             if(msg.estatus==valdiar_estatus){
                 $("#tbodyfilaTanques").append(
                     "<tr class='trFilaTanque'>"+
-                        "<td>"+msg.num_serie+"</td>"+"<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie +"'></input>"+
+                        "<td>"+msg.num_serie.toUpperCase()+"</td>"+"<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie.toUpperCase() +"'></input>"+
                         "<td>"+msg.capacidad+"</td>"+
                         "<td>"+msg.material+"</td>"+
-                        "<td>"+nuevo_ph+"</td>"+"<input type='hidden' name='idInputPH[]' id='idInputPH' value='"+nuevo_ph+"'></input>"+
+                        "<td>"+nuevo_ph+"</td>"+"<input type='hidden' name='inputPH[]' id='idInputPH' value='"+nuevo_ph+"'></input>"+
                         "<td>"+msg.fabricante+"</td>"+
+                        "<td>"+$("#folio_talon").val()+"</td>"+"<input type='hidden' name='inputTalon[]' id='idInputTalon' value='"+$("#folio_talon").val()+"'></input>"+
                         "<td>"+ "<button type='button' class='btn btn-naranja' id='btn-EliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
                     "</tr>"
                 );
@@ -153,6 +171,8 @@ $(document).ready(function () {
             "<h1 id='contador' class='display-1' style='font-size: 6rem;'>"+ contador+"</h1>"
         );
         $('#ph_mes').val('');
+        $('#folio_talon').val('');
+        $('#mantener_folio').prop('checked', false);
     }
 
 
