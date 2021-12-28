@@ -8,7 +8,7 @@ class MantenimientoLLenado extends Model
 {
     protected $table = 'mantenimiento_llenado';
     public $timestamps =  true;
-    protected $fillable = ['id','fecha','cantidad', 'incidencia'];
+    protected $fillable = ['id','fecha','cantidad', 'folio_talon','incidencia'];
     public $incrementing = true;
 }
 
