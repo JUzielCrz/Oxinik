@@ -56,8 +56,10 @@ $(document).ready(function () {
                 return false;
             }
             if(msg.estatus=='INFRA'){
+                var contador=$(".trFilaTanque").length+1;
                 $("#tbodyfilaTanques").append(
                     "<tr class='trFilaTanque'>"+
+                        "<td>"+contador+"</td>"+
                         "<td>"+msg.num_serie+"</td>"+"<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie +"'></input>"+
                         "<td>"+msg.capacidad+"</td>"+
                         "<td>"+msg.material+"</td>"+
@@ -223,8 +225,10 @@ $(document).ready(function () {
                 mensaje("error","Sin permisos", "No tienes los permisos suficientes para realizar esta acción.", null, null);
                 return false;
             }
+            var contador=$(".trFilaTanque").length+1;
             $("#tbodyfilaTanques").append(
                 "<tr class='trFilaTanque'>"+
+                    "<td>"+contador +"</td>"+
                     "<td>"+$("#num_serie").val()+"</td>"+"<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+$("#num_serie").val() +"'></input>"+
                     "<td>"+$("#capacidadnum").val()+$("#unidadmedida").val()+"</td>"+
                     "<td>"+$("#material").val()+"</td>"+

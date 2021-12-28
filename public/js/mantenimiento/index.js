@@ -32,6 +32,7 @@ $(document).ready(function () {
                 {data: 'incidencia', className: "text-center"},
                 {data: 'cantidad', className: "text-center"},
                 {data: 'btnShow', className: "text-center"},
+                {data: 'btnPDF', className: "text-center"},
                 // {data: 'btnEdit'},
                 // {data: 'btnDelete'},
             ],

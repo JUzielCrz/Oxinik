@@ -36,12 +36,8 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">SERIE</th>
-                                            <th scope="col">CAPACIDAD</th>
-                                            <th scope="col">MATERIAL</th>
-                                            <th scope="col">PH</th>
-                                            <th scope="col">GAS</th>
-                                            <th scope="col">TIPO</th>
-                                            <th>FABRICANTE</th>
+                                            <th scope="col">DESCRIPCIÓN</th>
+                                            <th scope="col">TALÓN</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
@@ -49,12 +45,9 @@
                                         @foreach ($tanques as $tanq)
                                             <tr class="trFilaTanque">
                                                 <td> {{$tanq->num_serie}}</td> 
-                                                <td> {{$tanq->capacidad}}</td>
-                                                <td> {{$tanq->material}}</td>
-                                                <td> {{$tanq->ph}}</td>
-                                                <td> {{$tanq->tipo_gas}}</td>
-                                                <td> {{$tanq->tipo_tanque}}</td>
-                                                <td> {{$tanq->fabricante}}</td>
+                                                <td> {{$tanq->capacidad}}, {{$tanq->material}}, PH: {{$tanq->ph}}, {{$tanq->tipo_gas}}, {{$tanq->tipo_gas}}, {{$tanq->tipo_tanque}}, {{$tanq->fabricante}}</td>
+                                                <td> {{$tanq->folio_talon}}</td>
+                                                
                                             </tr>
                                         @endforeach
                                     </tbody>

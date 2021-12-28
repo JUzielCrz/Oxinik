@@ -22,7 +22,8 @@
                             <th>FECHA</th>
                             <th>INCIDENCIA</th>
                             <th>CANTIDAD</th>
-                            <th></th>
+                            <th>VER</th>
+                            <th>PDF</th>
                             </tr>
                         </thead>
                     </table>

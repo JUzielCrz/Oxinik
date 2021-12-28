@@ -73,15 +73,17 @@ $(document).ready(function () {
 
         $.get('/tanque/show_numserie/'+numserie, function(msg) {
             var nuevo_ph='';
-
+            var folio_talon='';
             if(msg==''){
                 $('#serie_tanqueError').text('Error, No exite registro de tanque con este número de serie');
                 return false;
             }
             if($("#incidencia").val() == 'ENTRADA'){
                 nuevo_ph=$("#ph_anio").val()+"-"+$("#ph_mes").val();
+                folio_talon=$("#folio_talon").val();
             }else{
                 nuevo_ph=msg.ph;
+                folio_talon=msg.folio_talon;
             }
 
             if(msg.estatus==valdiar_estatus || msg.estatus == valdiar_estatus2){
@@ -92,7 +94,7 @@ $(document).ready(function () {
                         "<td>"+msg.material+"</td>"+
                         "<td>"+nuevo_ph+"</td>"+"<input type='hidden' name='inputPH[]' id='idInputPH' value='"+nuevo_ph+"'></input>"+
                         "<td>"+msg.fabricante+"</td>"+
-                        "<td>"+$("#folio_talon").val()+"</td>"+"<input type='hidden' name='inputTalon[]' id='idInputTalon' value='"+$("#folio_talon").val()+"'></input>"+
+                        "<td>"+folio_talon+"</td>"+"<input type='hidden' name='inputTalon[]' id='idInputTalon' value='"+folio_talon+"'></input>"+
                         "<td>"+ "<button type='button' class='btn btn-naranja' id='btn-EliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
                     "</tr>"
                 );

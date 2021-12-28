@@ -37,7 +37,7 @@ class MantenimientoController extends Controller
             return DataTables::of(
                 $mantenimiento
             )
-            ->addColumn( 'btnShow', '<button class="btn btn-morado btn-show btn-sm" data-id="{{$id}}"><span class="far fa-eye"></span></button>')
+            ->addColumn( 'btnShow', '<button class="btn btn-verde btn-show btn-sm" data-id="{{$id}}"><span class="far fa-eye"></span></button>')
             ->addColumn( 'btnPDF', '<a class="btn btn-verde btn-sm" href="{{route(\'pdf.mantenimiento_nota\', $id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Nota PDF"><i class="fas fa-file-pdf"></i></a>')
             ->rawColumns(['btnShow', 'btnPDF'])
             ->toJson();
