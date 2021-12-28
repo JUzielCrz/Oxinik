@@ -18,7 +18,7 @@
                     <table id="tablecruddata" class="table table-sm table-hover" style="font-size: 13px">
                         <thead class="text-center">
                             <tr >
-                            <th>ID</th>
+                            <th>ID NOTA</th>
                             <th>FECHA</th>
                             <th>INCIDENCIA</th>
                             <th>CANTIDAD</th>

@@ -204,3 +204,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/rol/delete/{id}', 'RoleController@destroy');
     // DataTables 
     Route::get('/rol/data', 'RoleController@data')->name('rol_data');
+
+
+
+   Route::get('/prueba/{num_serie}', 'PDFController@pdf_tanque_barras');

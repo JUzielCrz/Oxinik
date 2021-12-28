@@ -100,7 +100,7 @@ class InfraController extends Controller
     public function entrada($id){
         if($this->slug_permiso('infra_entrada')){
             $catalogo = CatalogoGas::pluck('nombre','id');
-            $nota_salida = InfraLLenado::select('id','cantidad_salida', 'pendiente', 'observaciones')->where('id',$id)->first();
+            $nota_salida = InfraLLenado::find($id);
             $tanques= InfraTanque::
             join('tanques','tanques.num_serie','=','infra_tanques.num_serie')->select('tanques.*')->where('infrallenado_id',$id)->where('incidencia','ENTRADA')->get();
             $data=['catalogo'=> $catalogo, 'nota'=>$nota_salida,'tanques'=>$tanques];
@@ -110,8 +110,7 @@ class InfraController extends Controller
     }
 
     public function entrada_save(Request $request){
-        // dump($request->all());
-        // return false;
+        
         if($this->slug_permiso('infra_salida') || $this->slug_permiso('infra_entrada')){
             $request->validate([
                 'cantidad_entrada' => ['required', 'int']
@@ -132,8 +131,9 @@ class InfraController extends Controller
             $infra->observaciones= $request->observaciones;
             $infra->user_id = auth()->user()->id;
             $infra->save();
+
                 foreach( $request->inputNumSerie AS $series => $g){
-                    if(InfraTanque::where('num_serie',$request->inputNumSerie[$series])->where('incidencia','ENTRADA')->first() == null){
+                    if(InfraTanque::where('num_serie',$request->inputNumSerie[$series])->where('infrallenado_id', $infra->id)->where('incidencia','ENTRADA')->first() == null){
                         $infratanque=new InfraTanque;
                         $infratanque->num_serie = $request->inputNumSerie[$series];
                         $infratanque->infrallenado_id = $infra->id;

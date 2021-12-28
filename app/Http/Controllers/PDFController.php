@@ -19,9 +19,9 @@ use App\Models\MantenimientoLLenado;
 use App\Models\MantenimientoTanque;
 use App\Models\NotaForanea;
 use App\Models\NotaForaneaTanque;
-use App\Models\NotaPagos;
 use App\Models\NotaTalon;
 use App\Models\NotaTalonTanque;
+use App\Models\Tanque;
 use App\Models\VentaExporadica;
 use App\Models\VentaTanque;
 
@@ -43,7 +43,7 @@ class PDFController extends Controller
  
         $pdf = PDF::loadView('pdf.nota', $data);
 
-        return $pdf->stream('nota_'.$nota->folio_nota.'.pdf');
+        return $pdf->stream('nota_'.$nota->id.'.pdf');
         // return $pdf->dowload('name.pdf');
     }
 
@@ -57,7 +57,7 @@ class PDFController extends Controller
  
         $pdf = PDF::loadView('pdf.nota_exporadica', $data);
 
-        return $pdf->stream('nota_exporadica_'.$nota->folio_nota.'.pdf');
+        return $pdf->stream('nota_exporadica_'.$nota->id.'.pdf');
         return $pdf->dowload('name.pdf');
     }
 
@@ -112,7 +112,7 @@ class PDFController extends Controller
  
         $pdf = PDF::loadView('pdf.infra_nota', $data);
 
-        return $pdf->stream('nota_infra_'.$nota->folio_nota.'.pdf');
+        return $pdf->stream('nota_infra_'.$nota->id.'.pdf');
         // return $pdf->dowload('name.pdf');
     }
 
@@ -124,7 +124,7 @@ class PDFController extends Controller
  
         $pdf = PDF::loadView('pdf.mantenimiento_nota', $data);
 
-        return $pdf->stream('nota_mantenimiento_'.$nota->folio_nota.'.pdf');
+        return $pdf->stream('nota_mantenimiento_'.$nota->id.'.pdf');
         // return $pdf->dowload('name.pdf');
     }
 
@@ -139,7 +139,7 @@ class PDFController extends Controller
         $data=['nota'=>$nota,'tanques'=>$tanques,'cliente' => $cliente];
         $pdf = PDF::loadView('pdf.nota_foranea', $data);
 
-        return $pdf->stream('nota_foranea_'.$nota->folio_nota.'.pdf');
+        return $pdf->stream('nota_foranea_'.$nota->id.'.pdf');
         return $pdf->dowload('name.pdf');
     }
 
@@ -152,9 +152,18 @@ class PDFController extends Controller
         $data=['nota'=>$nota,'tanques'=>$tanques];
         $pdf = PDF::loadView('pdf.nota_talon', $data);
     
-        return $pdf->stream('nota_talon_'.$nota->folio_nota.'.pdf');
+        return $pdf->stream('nota_talon_'.$nota->id.'.pdf');
         return $pdf->dowload('name.pdf');
     }
+
+
+    public function pdf_tanque_barras($num_serie){
+        $tanque=Tanque::
+        join('catalogo_gases', 'catalogo_gases.id', 'tanques.tipo_gas')->select('catalogo_gases.nombre as gas_nombre', 'tanques.*')->where('num_serie',$num_serie)->first();
+        
+        $pdf = PDF::loadView('pdf.etiqueta_tanque', $tanque);
+        return $pdf->setPaper(array(0, 0, 100, 200), 'landscape')->stream('nota_mantenimiento_'.$tanque->num_serie.'.pdf');
+}
 }
 
 

@@ -14,7 +14,7 @@
             <div class="card-header p-2 bg-gris text-white">
                 <div class="row">
                     <div class="col-md-9">
-                        <h5 >ENTRADA TANQUES <strong>INFRA</strong></h5>
+                        <h5 >ENTRADA TANQUES <strong>INFRA ID: {{$nota->id}}</strong></h5>
                     </div>
                 </div>
             </div>
@@ -40,6 +40,7 @@
                                 <table class="table table-sm table-hover" style="font-size: 13px">
                                     <thead>
                                         <tr>
+                                            <td>#</td>
                                             <th scope="col">SERIE</th>
                                             <th scope="col">CAPACIDAD</th>
                                             <th scope="col">MATERIAL</th>
@@ -49,8 +50,13 @@
                                         </tr>
                                     </thead>
                                     <tbody id="tbodyfilaTanques">
+                                        @php
+                                            $contador=0;
+                                        @endphp
                                         @foreach ($tanques as $tanque)
+                                        
                                             <tr class='trFilaTanque'>
+                                                <td>{{$contador+=1}}</td>
                                                 <td>{{$tanque->num_serie}}</td> <input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value={{$tanque->num_serie}}>
                                                 <td>{{$tanque->capacidad}}</td> 
                                                 <td>{{$tanque->material}}</td>
@@ -77,21 +83,21 @@
                             </div>
                         </div>
                         <div class="card bg-gray" style="height: 8rem;">
-                            <div class="card-header text-center p-1"> 
+                            <div class="card-header text-center p-1" > 
                                 ENTRADAS
                             </div>
                             <div class="card-body text-center p-0">
-                                <h1 id="cantidad_entrada_h" class="display-1" style="font-size: 5rem;"> 0</h1>
-                                <input type="hidden" id="cantidad_entrada" name="cantidad_entrada">
+                                <h1 id="cantidad_entrada_h" class="display-1" style="font-size: 5rem;"> {{$nota->cantidad_entrada}}</h1>
+                                <input type="hidden" id="cantidad_entrada" name="cantidad_entrada" value={{$nota->cantidad_entrada}}>
                             </div>
                         </div>
                         <div class="card bg-gray" style="height: 8rem;">
                             <div class="card-header text-center p-1"> 
                                 DIFERENCIA
-                            </div>
+                            </div> 
                             <div class="card-body text-center p-0">
-                                <h1 id="cantidad_diferencia_h" class="display-1" style="font-size: 5rem;"> 0</h1>
-                                <input type="hidden" id="cantidad_diferencia" name="cantidad_diferencia">
+                                <h1 id="cantidad_diferencia_h" class="display-1" style="font-size: 5rem;"> {{$nota->cantidad_diferencia}}</h1>
+                                <input type="hidden" id="cantidad_diferencia" name="cantidad_diferencia" value={{$nota->cantidad_diferencia}}>
                             </div>
                         </div>
                     </div>
