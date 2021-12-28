@@ -58,6 +58,7 @@ $(document).ready(function () {
         }
 
         var valdiar_estatus="";
+        var valdiar_estatus2="TEMPORAL-ESTATUS";
         if($("#incidencia").val() == 'ENTRADA'){
             valdiar_estatus='MANTENIMIENTO';
             if($("#ph_anio").val() == "" || $("#ph_mes").val() == ""){
@@ -66,6 +67,7 @@ $(document).ready(function () {
             }
         }else{
             valdiar_estatus='VACIO-ALMACEN'
+            valdiar_estatus2="INFRA";
         }
         
 
@@ -82,7 +84,7 @@ $(document).ready(function () {
                 nuevo_ph=msg.ph;
             }
 
-            if(msg.estatus==valdiar_estatus){
+            if(msg.estatus==valdiar_estatus || msg.estatus == valdiar_estatus2){
                 $("#tbodyfilaTanques").append(
                     "<tr class='trFilaTanque'>"+
                         "<td>"+msg.num_serie.toUpperCase()+"</td>"+"<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie.toUpperCase() +"'></input>"+

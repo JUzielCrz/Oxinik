@@ -104,9 +104,9 @@ class MantenimientoController extends Controller
 
     public function show(MantenimientoLLenado $id){
         if($this->slug_permiso('mantenimiento_salida') || $this->slug_permiso('mantenimiento_entrada')){
-            $tanques=MantenimientoLLenado::
+        $tanques=MantenimientoTanque::
                 join('tanques', 'tanques.num_serie', 'mantenimiento_tanques.num_serie')
-                ->where('mantenimientoLLenado_id', $id->id)
+                ->where('mantenimiento_tanques.mantenimientollenado_id', $id->id)
                 ->get();
             $data = ['mantenimientonota'=>$id, 'tanques' => $tanques];
             return view('mantenimiento.show', $data);

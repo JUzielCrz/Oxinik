@@ -1,25 +1,25 @@
 @extends('layouts.sidebar')
 
 @section('menu-navbar') 
-    @include('infra.submenu_navbar')
+    @include('mantenimiento.submenu_navbar')
 @endsection
 
 @section('content-sidebar')
 
 <div class="container">
-    <form id="formCreateInfra">
+    <form id="formCreateMantenimiento">
         @csrf
         <input type="hidden" name="incidencia" id="incidencia"  value="ENTRADA">
         <div class="card">
             <div class="card-header p-2 bg-gris text-white">
                 <div class="row">
                     <div class="col-md-9">
-                        <h5 class="ml-3"> INFORMACIÓN NOTA <strong>INFRA. </strong></h5>
+                        <h5 class="ml-3"> INFORMACIÓN NOTA <strong>MANTENIMIENTO. </strong></h5>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <span>Incidencia: <strong>{{$infranota->incidencia}}</strong> <br> Nota id: <strong>{{$infranota->id}}</strong></span>
+                <span>Incidencia: <strong>{{$mantenimientonota->incidencia}}</strong> <br> Nota id: <strong>{{$mantenimientonota->id}}</strong></span>
             </div>
         </div>
 
@@ -71,7 +71,7 @@
                                     TANQUES
                                 </div>
                                 <div class="card-body text-center p-0">
-                                    <h1 id="contador" class="display-1" style="font-size: 5rem;"> {{$infranota->cantidad}}</h1>
+                                    <h1 id="contador" class="display-1" style="font-size: 5rem;"> {{$mantenimientonota->cantidad}}</h1>
                                 </div>
                             </div>
                         </div>
