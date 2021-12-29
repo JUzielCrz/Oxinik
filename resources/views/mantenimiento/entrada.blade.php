@@ -75,7 +75,6 @@
                                             <th scope="col">MATERIAL</th>
                                             <th scope="col">PH</th>
                                             <th>FABRICANTE</th>
-                                            <th>FOLIO TALÓN</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>

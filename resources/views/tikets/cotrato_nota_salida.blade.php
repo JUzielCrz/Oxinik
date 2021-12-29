@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html >
+    <head lang="es">
+        <meta charset="utf-8">
+        <title>Nota Remisión</title>
+        <!--Styles -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <!-- icon -->
+
+        <style>
+            @page {
+                margin: 0cm 0cm;
+            }
+
+        </style>
+    </head>
+
+
+    <body style="font-size: 7px">
+        <main>
+            <div class="text-center mt-2" >
+                <img src="img/logo.svg" style="width: 80px" alt="">
+            </div>
+
+            <div class="text-center" style="font-size:7px; line-height: 7px">Calle Ignacio Zaragoza 213 A <br> 
+                Col. Fernando Gómez Sandoval. <br>
+                Santa Lucia del Camino, Oaxaca. <br>
+                951 195 02 00 / 951240 06 67 <br>
+                sge.oxinik@gmail.com</div>
+
+            
+                <div class="mt-2 ml-2">
+                    Fecha: <strong> {{$nota->fecha}}</strong> <br>
+                    Folio: <strong>{{$nota->id}}</strong>
+                </div>
+
+
+                <p > 
+                    @if ($cliente->empresa != null)
+                    <strong>Empresa: </strong>{{$cliente->empresa}} <br>
+                    <strong>Representante: </strong>  {{$cliente->nombre}} {{$cliente->apPaterno}}  {{$cliente->apMaterno}} <br>
+                    @else
+                    <strong>Cliente: </strong> {{$cliente->nombre}} {{$cliente->apPaterno}}  {{$cliente->apMaterno}}  <br>
+                    @endif
+                    {{-- <strong>#Contrato:  </strong> {{$contrato->num_contrato}}<br>
+                    <strong>Tipo Contrato: </strong> {{$contrato->tipo_contrato}}<br>
+                    <strong>1° Telefono: </strong> {{$cliente->telefono}}<br>
+                    <strong>2° Telefono: </strong> {{$cliente->telefonorespaldo}}<br>
+                    <strong>Entregar en: </strong> {{$contrato->direccion}} <br>
+                    <strong>Referencia: </strong> {{$contrato->referencia}}  --}}
+                    
+                </p>
+
+            
+            {{-- <table class="">
+                    <thead >
+                        <tr >
+                            <th scope="col">#SERIE</th>
+                            <th scope="col">CANTIDAD</th>
+                            <th scope="col">U. M.</th>
+                            <th scope="col">GAS</th>
+                            <th scope="col">TAPA</th>
+                            <th scope="col">PRECIO UNITARIO</th>
+                            <th scope="col">IMPORTE</th>
+                            <th scope="col">IVA</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tablelistaTanques" >
+                        @foreach ($tanques as $tanq)
+                            <tr>
+                                <td>{{$tanq->num_serie}}</td>
+                                <td>{{$tanq->cantidad}}</td>
+                                <td>{{$tanq->unidad_medida}}</td>
+                                <td>{{$tanq->tipo_gas}}</td>
+                                <td>{{$tanq->tapa_tanque}}</td>
+                                <td>$ {{number_format($tanq->precio_unitario,2)}}</td>
+                                <td>$ {{number_format($tanq->importe,2)}}</td>
+                                <td>$ {{number_format($tanq->iva_particular,2)}}</td>
+                                
+                            </tr>
+                        @endforeach
+                    </tbody>
+            </table>
+
+            
+
+            <table class="table table-bordered">
+                <tbody >
+                    <tr>
+                        <td>SUBTOTAL: <br>$ {{number_format($nota->subtotal, 2, '.', ',')}}</td>
+                        <td>ENVÍO: <br>$ {{number_format($nota->envio,2)}}</td>
+                        <td>TASA 16% IVA: <br>$ {{number_format($nota->iva_general,2)}}</td>
+                        <td>TOTAL: <br> $ {{number_format($nota->total,2)}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            @if ($nota->primer_pago < $nota->total)
+                <table class="table table-bordered mt-2">
+                    <tbody>
+                        <tr>
+                            <td>Abono: <br> $ {{number_format($nota->primer_pago,2)}}</td>
+                            <td>Adeudo: <br> $ {{number_format($nota->total - $nota->primer_pago,2)}}</td>
+                        </tr>  
+                    </tbody>
+                </table>
+            @endif
+            
+            <table class="table table-sm table-bordered mt-2">
+                <tbody >
+                    <tr style="background: black">
+                        <td colspan="2"><div class="text-center text-white" > CUENTAS BANCARIAS PARA TRANSFERENCIAS</div></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="p-0 m-0">
+                                DENOMINACIÓN : <strong>JUAN MANUEL CONTRERAS GÓMEZ </strong> <br>
+                                BANCO: <strong>BANORTE</strong> <br>
+                                RFC: <strong>COGJ940414C74</strong> <br>
+                                # CUENTA: <strong>1159955737</strong> <br>
+                                CLABE: <strong>072610011599557374</strong> <br>
+                                # SUCURSAL: <strong>_2376</strong> <br>
+                                
+                            </p>
+                        </td>
+                        <td>
+                            <p class="p-0 m-0">
+                                ASÍ MISMO SE LES PIDE ENVIAR COMPROBANTE DE PAGO AL SIGUIENTE CORREO: <strong>sge.oxinik@gmail.com</strong><br>
+                                HACIENDO REFERENCIA EN CONCEPTO ALGUNO DE LOS SIGUIENTES:<br>
+                                    * FOLIO DE FACTURA<br>
+                                    * NÚMERO DE VALE O TICKET DE VENTA<br>
+                                    * NÚMERO DE FOLIO DE HOJA DE CONTRATO.<br>
+                                ESTAMOS A SUS ORDENES
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+
+
+
+            <script type="text/php">
+                if ( isset($pdf) ) {
+                    $pdf->page_script('
+                        $font = $fontMetrics->get_font("Arial, Helvetica, sans-serif", "normal");
+                        $pdf->text(270, 780, "Pág $PAGE_NUM de $PAGE_COUNT", $font, 10);
+                    ');
+                }
+            </script> --}}
+        </main>
+
+        
+    </body>
+
+    </html>
+    
+

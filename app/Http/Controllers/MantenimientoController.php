@@ -77,10 +77,8 @@ class MantenimientoController extends Controller
 
             if($mantenimiento->save()){
                 if($mantenimiento->incidencia=='ENTRADA'){
-                    $obse_hystory='Regreso de MANTENIMIENTO. Nota id: '. $mantenimiento->id;
                     $estatus_tanque='LLENO-ALMACEN';
                 }else{
-                    $obse_hystory='Llevado a MANTENIMIENTO. Nota id: '. $mantenimiento->id;
                     $estatus_tanque='MANTENIMIENTO';
                 }
                 foreach( $request->inputNumSerie AS $series => $g){

@@ -163,7 +163,7 @@ class PDFController extends Controller
         
         $pdf = PDF::loadView('pdf.etiqueta_tanque', $tanque);
         return $pdf->setPaper(array(0, 0, 100, 200), 'landscape')->stream('nota_mantenimiento_'.$tanque->num_serie.'.pdf');
-}
+    }
 }
 
 
