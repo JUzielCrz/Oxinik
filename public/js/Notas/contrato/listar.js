@@ -57,6 +57,7 @@ $(document).ready(function () {
                 "<th></th>"+
                 "<th></th>"+
                 "<th></th>"+
+                "<th></th>"+
             "</tr></thead>";
         var contenido_columnas=
             [
@@ -68,6 +69,7 @@ $(document).ready(function () {
                 {data: 'user_name'},
                 {data: 'btnShow'},
                 {data: 'btnNota'},
+                {data: 'btnTiket'},
                 {data: 'btnCancelar'},
             ];
             

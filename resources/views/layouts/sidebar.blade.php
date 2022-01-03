@@ -61,18 +61,13 @@
                     @endif
                 {{-- Infra --}}
                     @if($user->permiso_con_admin('infra_salida') || $user->permiso_con_admin('infra_entrada'))    
-                        <li id="nav-ico-infra" ><a 
-                                href="{{ url('/infra/index') }}"><i class="fas fa-building"></i>Infra</a></li>
+                        <li id="nav-ico-infra" ><a href="{{ url('/infra/index') }}"><i class="fas fa-building"></i>Infra</a></li>
                     @endif
                 {{-- Mantenimiento --}}
                     @if($user->permiso_con_admin('mantenimiento_salida') || $user->permiso_con_admin('mantenimiento_entrada'))    
-                        <li id="nav-ico-mantenimiento" ><a 
-                            @if ($user->permiso_con_admin('mantenimiento_salida'))
-                                href="{{ url('/mantenimiento/salida') }}"
-                            @else
-                                href="{{ url('/mantenimiento/entrada') }}"
-                            @endif
-                            ><i class="fas fa-dolly-flatbed"></i> Manteni- <br> miento</a></li>
+                        <li id="nav-ico-mantenimiento" >
+                            <a  href="{{ url('/mantenimiento/index') }}" ><i class="fas fa-dolly-flatbed"></i> Manteni- <br> miento</a>
+                        </li>
                     @endif
                 {{-- Usuarios --}}
                     @if($user->soloParaUnRol('admin'))

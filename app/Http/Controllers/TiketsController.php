@@ -27,6 +27,7 @@ use App\Models\VentaTanque;
 
 class TiketsController extends Controller
 {
+    //1 punto tipografico = 2.83465    80mm=226.772 segun google
     public function cotrato_nota_salida($idnota){
         $nota=Nota::find($idnota);
         $tanques=NotaTanque::
@@ -35,10 +36,18 @@ class TiketsController extends Controller
         $contrato=Contrato::where('id', $nota->contrato_id)->first();
         $cliente=Cliente::where('id', $contrato->cliente_id)->first();
 
+        $list_tanq=count($tanques);
+        $large= ($list_tanq*75)+320;
+
+        if ($nota->pago_cubierto == false) {
+            $large = $large+60;
+        }
+
         $data=['nota'=>$nota,'tanques'=>$tanques, 'contrato'=>$contrato, 'cliente'=>$cliente];
         $pdf = PDF::loadView('tikets.cotrato_nota_salida', $data);
-
-        return $pdf->setPaper(array(0, 0, 80, 150))->stream('nota_'.$nota->id.'.pdf');
-        // return $pdf->dowload('name.pdf');
+        
+        return $pdf->setPaper(array(0, 0, 210, $large))->stream('nota_'.$nota->id.'.pdf');
+        // return $pdf->setPaper(array(0, 0, 80, $large))->stream('nota_'.$nota->id.'.pdf');
+        // return $pdf->dowload('name.pdf');  
     }
 }

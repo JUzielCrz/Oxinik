@@ -56,10 +56,8 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">SERIE</th>
-                                            <th scope="col">CAPACIDAD</th>
-                                            <th scope="col">MATERIAL</th>
+                                            <th scope="col">DESCRIPCIÓN</th>
                                             <th scope="col">PH</th>
-                                            <th>FABRICANTE</th>
                                             <th>#TALÓN</th>
                                             <th scope="col"></th>
                                         </tr>
@@ -98,7 +96,7 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/mantenimiento/registro.js') }}"></script>
+<script src="{{ asset('js/mantenimiento/salida.js') }}"></script>
 <script>
     $(document).ready(function () {
         $("#id-menu-salida").addClass('active');

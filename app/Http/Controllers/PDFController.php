@@ -118,7 +118,9 @@ class PDFController extends Controller
 
     public function mantenimiento_nota($idnota){
         $nota=MantenimientoLLenado::find($idnota);
-        $tanques=MantenimientoTanque::where('mantenimientollenado_id', $nota->id)->get();
+        $tanques=MantenimientoTanque::
+        join('tanques', 'tanques.num_serie', '=','mantenimiento_tanques.num_serie')
+        ->where('mantenimientollenado_id', $nota->id)->get();
         
         $data=['nota'=>$nota,'tanques'=>$tanques];
  

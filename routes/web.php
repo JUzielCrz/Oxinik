@@ -194,9 +194,11 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/mantenimiento/index', 'MantenimientoController@index');
     Route::get('/mantenimiento/data', 'MantenimientoController@data');
     Route::get('/mantenimiento/show/{id}', 'MantenimientoController@show');
-    Route::get('/mantenimiento/entrada', 'MantenimientoController@entrada');
+    // Route::get('/mantenimiento/entrada', 'MantenimientoController@entrada');
+    Route::get('/mantenimiento/entrada/{id}', 'MantenimientoController@entrada')->name('mantenimiento.entrada');
     Route::get('/mantenimiento/salida', 'MantenimientoController@salida');
-    Route::post('/mantenimiento/registro_save', 'MantenimientoController@registro_save');
+    Route::post('/mantenimiento/registro_entrada', 'MantenimientoController@registro_entrada');
+    Route::post('/mantenimiento/registro_salida', 'MantenimientoController@registro_salida');
 
 
   /* Usuarios */

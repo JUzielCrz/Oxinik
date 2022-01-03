@@ -79,13 +79,40 @@
                     
                 </tbody>
             </table>
-
+            <strong>SALIDA</strong>
             <table class="table table-sm text-center" style="font-size: 13px">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>#serie</th>
-                        <th>Folio Talón</th>
+                        <th>#SERIE</th>
+                        <th>#DESCRIPCIÓN</th>
+                        <th>FOLIO TALÓN</th>
+                    </tr>
+                </thead>
+                @php
+                    $contador=0;
+                @endphp
+                @inject('tipoeva','App\Http\Controllers\CatalogoGasController')
+                <tbody>
+                    @foreach ($tanques as $tanque)
+                        @if ($tanque->incidencia == "SALIDA")
+                        <tr>
+                            <td style="padding: 2">{{$contador+=1}}</td>
+                            <td style="padding: 2">{{$tanque->num_serie}}</td>
+                            <td style="padding: 2">{{$tipoeva->nombre_gas($tanque->tipo_gas)}}, {{$tanque->capacidad}}, {{$tanque->tipo_tanque}}, {{$tanque->material}}, {{$tanque->fabricante}} </td>
+                            <td style="padding: 2">{{$tanque->folio_talon}}</td>
+                        </tr>
+                        @endif
+                    @endforeach
+                </tbody>
+            </table>
+            <strong>ENTRADA</strong>
+            <table class="table table-sm text-center" style="font-size: 13px">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>#SERIE</th>
+                        <th>#DESCRIPCIÓN</th>
                     </tr>
                 </thead>
                 @php
@@ -93,11 +120,13 @@
                 @endphp
                 <tbody>
                     @foreach ($tanques as $tanque)
+                        @if ($tanque->incidencia == "ENTRADA")
                         <tr>
                             <td style="padding: 2">{{$contador+=1}}</td>
                             <td style="padding: 2">{{$tanque->num_serie}}</td>
-                            <td style="padding: 2">{{$tanque->folio_talon}}</td>
+                            <td style="padding: 2">{{$tipoeva->nombre_gas($tanque->tipo_gas)}}, {{$tanque->capacidad}}, {{$tanque->tipo_tanque}}, {{$tanque->material}}, {{$tanque->fabricante}} </td>
                         </tr>
+                        @endif
                     @endforeach
                 </tbody>
             </table>

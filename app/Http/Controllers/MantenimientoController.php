@@ -37,17 +37,28 @@ class MantenimientoController extends Controller
             return DataTables::of(
                 $mantenimiento
             )
-            ->addColumn( 'btnShow', '<button class="btn btn-verde btn-show btn-sm" data-id="{{$id}}"><span class="far fa-eye"></span></button>')
+            ->editColumn('pendiente', function ($mantenimiento) {
+                if($mantenimiento->pendiente == true){
+                    return "PENDIENTE";
+                }else{
+                    return '-';
+                }
+            })
+            ->addColumn( 'btnEntrada', '<a class="btn btn-verde btn-sm" href="{{route(\'mantenimiento.entrada\', $id)}}" data-toggle="tooltip" data-placement="top" title="Registra Entrada"><i class="fas fa-warehouse"></i></a>')
             ->addColumn( 'btnPDF', '<a class="btn btn-verde btn-sm" href="{{route(\'pdf.mantenimiento_nota\', $id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Nota PDF"><i class="fas fa-file-pdf"></i></a>')
-            ->rawColumns(['btnShow', 'btnPDF'])
+            ->rawColumns(['btnEntrada','btnShow', 'btnPDF'])
             ->toJson();
         }
         return view('home');
     }
 
-    public function entrada(){
+    public function entrada($id){
         if($this->slug_permiso('mantenimiento_entrada')){
-            return view('mantenimiento.entrada');
+            $nota=MantenimientoLLenado::find($id);
+            $tanques=MantenimientoTanque::
+            join('tanques', 'tanques.num_serie','=','mantenimiento_tanques.num_serie')
+            ->where('mantenimientollenado_id',$id)->get();
+            return view('mantenimiento.entrada', compact('tanques', 'nota'));
         }
         return view('home');
     }
@@ -58,13 +69,12 @@ class MantenimientoController extends Controller
         return view('home');
     }
 
-    public function registro_save(Request $request){
-
-        if($this->slug_permiso('mantenimiento_salida') || $this->slug_permiso('mantenimiento_entrada')){
+    public function registro_salida(Request $request){
+        if($this->slug_permiso('mantenimiento_salida')){
             $request->validate([
-                // 'fecha' => ['required'],
                 'cantidad' => ['required', 'int'],
                 'incidencia' => ['required', 'string', 'max:255'],
+
             ]);
 
             $fechaactual=date("Y")."-" . date("m")."-".date("d");
@@ -72,29 +82,52 @@ class MantenimientoController extends Controller
             $mantenimiento=new MantenimientoLLenado;
             $mantenimiento->cantidad= $request->cantidad;
             $mantenimiento->fecha= $fechaactual;
-            $mantenimiento->incidencia= $request->incidencia;
-            $mantenimiento->user_id=auth()->user()->id;
+            $mantenimiento->save();
 
-            if($mantenimiento->save()){
-                if($mantenimiento->incidencia=='ENTRADA'){
-                    $estatus_tanque='LLENO-ALMACEN';
-                }else{
-                    $estatus_tanque='MANTENIMIENTO';
-                }
+            foreach( $request->inputNumSerie AS $series => $g){
+                $mantenimientoTanque=new MantenimientoTanque;
+                $mantenimientoTanque->num_serie = $request->inputNumSerie[$series];
+                $mantenimientoTanque->mantenimientoLLenado_id = $mantenimiento->id;
+                $mantenimientoTanque->folio_talon = $request->inputTalon[$series];
+                $mantenimientoTanque->incidencia = $request->incidencia;
+                $mantenimientoTanque->user_id = auth()->user()->id;
+                $mantenimientoTanque->save();
+
+                $tanque=Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
+                $tanque->estatus = 'MANTENIMIENTO';
+                $tanque->ph = $request->inputPH[$series];
+                $tanque->save();
+            }
+            return response()->json(['notaId'=>$mantenimiento->id]);
+        }
+        return response()->json(['mensaje'=>'Sin permisos']);
+    }
+
+    public function registro_entrada(Request $request){
+        if($this->slug_permiso('mantenimiento_salida') || $this->slug_permiso('mantenimiento_entrada')){
+            $request->validate([
+                'cantidad' => ['required', 'int'],
+                'incidencia' => ['required', 'string', 'max:255'],
+
+            ]);
+            $mantenimiento=MantenimientoLLenado::find($request->nota_id);
+            $mantenimiento->pendiente= $request->pendiente;
+            $mantenimiento->save();
+            
                 foreach( $request->inputNumSerie AS $series => $g){
                     $mantenimientoTanque=new MantenimientoTanque;
                     $mantenimientoTanque->num_serie = $request->inputNumSerie[$series];
-                    $mantenimientoTanque->mantenimientoLLenado_id = $mantenimiento->id;
-                    $mantenimientoTanque->folio_talon = $request->inputTalon[$series];
+                    $mantenimientoTanque->mantenimientoLLenado_id = $request->nota_id;
+                    $mantenimientoTanque->incidencia = $request->incidencia;
+                    $mantenimientoTanque->user_id = auth()->user()->id;
                     $mantenimientoTanque->save();
 
                     $tanque=Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
-                    $tanque->estatus = $estatus_tanque;
+                    $tanque->estatus = 'LLENO-ALMACEN';
                     $tanque->ph = $request->inputPH[$series];
                     $tanque->save();
                 }
-                return response()->json(['notaId'=>$mantenimiento->id]);
-            }
+                return response()->json(['notaId'=>$request->nota_id]);
         }
         return response()->json(['mensaje'=>'Sin permisos']);
 

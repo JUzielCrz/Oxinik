@@ -29,12 +29,10 @@ $(document).ready(function () {
             columns:[
                 {data: 'id', className: "text-center"},
                 {data: 'fecha', className: "text-center"},
-                {data: 'incidencia', className: "text-center"},
                 {data: 'cantidad', className: "text-center"},
-                {data: 'btnShow', className: "text-center"},
+                {data: 'pendiente', className: "text-center"},
+                {data: 'btnEntrada', className: "text-center"},
                 {data: 'btnPDF', className: "text-center"},
-                // {data: 'btnEdit'},
-                // {data: 'btnDelete'},
             ],
         });
     

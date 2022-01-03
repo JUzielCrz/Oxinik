@@ -8,7 +8,7 @@ class MantenimientoTanque extends Model
 {
     protected $table = 'mantenimiento_tanques';
     public $timestamps =  true;
-    protected $fillable = ['id','num_serie','mantenimientollenado_id'];
+    protected $fillable = ['id','num_serie','mantenimientollenado_id','folio_talon','incidencia'];
     public $incrementing = true;
 }
 

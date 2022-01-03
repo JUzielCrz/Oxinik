@@ -20,9 +20,9 @@
                             <tr >
                             <th>ID NOTA</th>
                             <th>FECHA</th>
-                            <th>INCIDENCIA</th>
                             <th>CANTIDAD</th>
-                            <th>VER</th>
+                            <th>ESTATUS</th>
+                            <th>REG. ENTRADA</th>
                             <th>PDF</th>
                             </tr>
                         </thead>
