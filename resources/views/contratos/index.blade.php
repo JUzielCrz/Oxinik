@@ -118,6 +118,14 @@
                         <div class="form-row">
                             <div class="input-group input-group-sm mb-3">
                                 <div class="input-group-prepend">
+                                    <span class="input-group-text" >Nombre Comercial:</span>
+                                </div>
+                                <input id="nombre_comercialShow" type="text" class="form-control form-control-sm" value="" readonly>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
                                     <span class="input-group-text" >Reguladores:</span>
                                 </div>
                                 <input id="reguladoresShow" type="text" class="form-control form-control-sm" value="" readonly>
@@ -191,8 +199,8 @@
     </div>
     
     <!-- Modal insertar-->
-    <div class="modal fade bd-example-modal-lg" id="modalinsertar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal fade bd-example-modal-xl" id="modalinsertar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-onix">
             <h3 class="modal-title" id="modalinsertarTitle">Nuevo Contrato</h3>
@@ -310,7 +318,7 @@
     {{--------------------------------- MODALES PARA ASIGNACION ------------------------------------------------------}}
     <!-- Modal Edit Asignacion de tanques en contrato-->
     <div class="modal fade" id="modal-edit-asignacion" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="h5-title-modal"></h5>

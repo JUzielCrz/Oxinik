@@ -90,7 +90,7 @@ $(document).ready(function () {
             serverSider: true,
             ajax: '/nota/data/'+contrato_id,
             columns:[
-                {data: 'fecha'},
+                {data: 'created_at'},
                 {data: 'envio'},
                 {data: 'total'},
                 {data: 'metodo_pago'},
@@ -106,8 +106,8 @@ $(document).ready(function () {
     function metodo_insertar() {
         metodo_limpiar_span("Error");
 
-        var campo=['num_contrato','deposito_garantia', 'precio_transporte'];
-        var camponombre=['# contrato','Deposito de garantia', 'Precio de transporte'];
+        var campo=['num_contrato','deposito_garantia', 'precio_transporte', 'tipo_contrato', 'nombre_comercial'];
+        var camponombre=['# Contrato','Deposito de garantia', 'Precio de transporte', 'Tipo contrato', 'Nombre Comercial'];
         var bandera=false;
 
         $.each(campo, function(index){
@@ -137,6 +137,14 @@ $(document).ready(function () {
         });
 
         $("input[name='precio_unitariocreate[]']").each(function(indice, elemento) {
+            if($(elemento).val()=="" || $(elemento).val() < 1){
+                $(elemento).addClass("is-invalid");
+                banderamensaje=true;
+            }else{
+                $(elemento).removeClass("is-invalid");
+            }
+        });
+        $("input[name='deposito_garantiacreate[]']").each(function(indice, elemento) {
             if($(elemento).val()=="" || $(elemento).val() < 1){
                 $(elemento).addClass("is-invalid");
                 banderamensaje=true;
@@ -281,6 +289,7 @@ $(document).ready(function () {
         $("select[name='tipo_tanquecreate[]']").empty();
         $("select[name='materialcreate[]']").val("");
         $("input[name='precio_unitariocreate[]']").val("");
+        $("input[name='deposito_garantiacreate[]']").val("");
         $("select[name='capacidadcreate[]']").val("");
         $("select[name='unidad_medidacreate[]']").val("");
     }
@@ -338,6 +347,7 @@ $(document).ready(function () {
                 'cliente_id': $('#cliente_id').val(),
                 'nombre': $('#nombreedit').val(),
                 'tipo_contrato': $('#tipo_contratoedit').val(),
+                'nombre_comercial': $('#nombre_comercialedit').val(),
                 'precio_transporte': $('#precio_transporteedit').val(),
                 'direccion': $('#direccionedit').val(),
                 'referencia': $('#referenciaedit').val(),
@@ -349,10 +359,12 @@ $(document).ready(function () {
                     mensaje("error","Sin permisos", "No tienes los permisos suficientes para hacer este cambio", null, null);
                     return false;
                 }
+
                 $('.fila'+ msg.contratos.id).replaceWith(" "+
-                    "<tr class='fila"+ msg.contratos.id+"'>"+
+                    "<tr class='fila"+ msg.contratos.id+"'  data-id='"+msg.contratos.id+"'>"+
                     "<td class='text-center'>"+msg.contratos.num_contrato +"</td>"+
                     "<td class='text-center'>"+msg.contratos.tipo_contrato +"</td>"+
+                    "<td><a class='btn btn-amarillo btn-sm' target='_blank' href='/pdf/generar_contrato/"+msg.contratos.id+"'   title='Contrato'><i class='fas fa-file-pdf'></i></span></a></td>"+
                     "<td><a class='btn btn-amarillo btn-delete-modal btn-sm ' data-id='"+msg.contratos.id+"'>"+
                     "<i class='fas fa-trash'></i>"+
                     "</a></td>"+
@@ -475,16 +487,8 @@ $(document).ready(function () {
         // limpiarasignacion();
         $(".trasignacion").remove();
         getAsignaciones();
-        $("#div-garantia").replaceWith(
-            '<div id="div-garantia" class="row">'+
-                '<div class="col-md-6">'+
-                    '<label for="">Depósito de garantia:</label>'+
-                    '<input type="number" name="deposito_garantia" id="deposito_garantia" class="form-control form-control-sm">'+
-                '</div>'+
-            '</div>'
-        );
         $('#columnaopcion').replaceWith('<div id="columnaopcion">AUMENTOS</div>');
-        $('#td-btn-anadir').replaceWith('<td id="td-btn-anadir" colspan="7" class="text-right"> <button type="button" class="btn btn-amarillo btn-sm" id="btn-anadir-asignacion"><span class="fas fa-plus"></span>Añadir</button></td>');
+        $('#td-btn-anadir').replaceWith('<td id="td-btn-anadir" colspan="9" class="text-right"> <button type="button" class="btn btn-amarillo btn-sm" id="btn-anadir-asignacion"><span class="fas fa-plus"></span>Añadir</button></td>');
         $("#h5-title-modal").replaceWith('<h5 class="modal-title" id="h5-title-modal">Aumento</h5>');
         $('#modal-edit-asignacion').modal("show");
 
@@ -521,6 +525,7 @@ $(document).ready(function () {
                 '<input name="asignacion_precio_unitario[]" id="asignacion_precio_unitario" type="number" class="form-control form-control-sm" value="'+value.precio_unitario+'" readonly></td><td class="tdWidth">'+
                 '<input name="asignacion_capacidad[]" id="asignacion_capacidad" type="number" class="form-control form-control-sm" value="'+value.capacidad+'" readonly></td><td>'+
                 '<input name="asignacion_unidad_medida[]" id="asignacion_unidad_medida" type="text" class="form-control form-control-sm" value="'+value.unidad_medida+'" readonly></td><td>'+
+                '<input name="asignacion_deposito_garantia[]" id="asignacion_deposito_garantia" type="number" class="form-control form-control-sm" value="'+value.deposito_garantia+'" readonly></td><td class="tdWidth">'+   
                 '</td></tr>';
             });
 
@@ -554,7 +559,7 @@ $(document).ready(function () {
         $.get('/asignaciones/show/' + contrato_id, function(data) {
             var columnas='';
             $.each(data.asigTanques, function (key, value) {
-                columnas+='<tr><td>'+value.cilindros+'</td><td>'+value.nombreGas+'</td><td>'+value.tipo_tanque+'</td><td>'+value.precio_unitario+'</td><td>'+value.capacidad+" "+value.unidad_medida+'</td></tr>';
+                columnas+='<tr><td>'+value.cilindros+'</td><td>'+value.nombreGas+'</td><td>'+value.tipo_tanque+'</td><td>'+value.precio_unitario+'</td><td>'+value.capacidad+" "+value.unidad_medida+'</td><td>'+value.deposito_garantia+'</td></tr>';
             });
 
             $('#'+idTabla).remove();
@@ -562,11 +567,12 @@ $(document).ready(function () {
                 '<div id="'+idTabla+'" class="table-responsive" >'+
                     '<table class="table table-sm" style="font-size: 13px">'+
                         '<thead><tr style="background: #fff; color: black">'+
-                            '<th>Cil.</th>'+
-                            '<th>Gas</th>'+
-                            '<th>tipo</th>'+
+                            '<th>CIL.</th>'+
+                            '<th>GAS</th>'+
+                            '<th>TIPO</th>'+
                             '<th>P.U.</th>'+
-                            '<th>Capacidad</th>'+
+                            '<th>CAP</th>'+
+                            '<th>DEP. GRNT.</th>'+
                         '</tr></thead>'+
                         '<tbody>'+
                             columnas+

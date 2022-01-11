@@ -119,6 +119,20 @@ class TanqueController extends Controller
         return response()->json(['alert'=>false]);
     }
 
+    public function validar_talon($numserie){
+        
+        $notas=NotaTalonTanque::
+            join("nota_talon", "nota_talon.id","=", "nota_talontanque.nota_talon_id")
+                ->where('nota_talon.pendiente', true)
+                ->where("num_serie",$numserie)
+                ->first();
+        if($notas){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public function create(Request $request){
         if($this->slug_permiso('tanque_create')){
             $request->validate([

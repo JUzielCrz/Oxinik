@@ -14,7 +14,7 @@
     @csrf
         <!-- Nombre Completo-->
         <div class="form-row">
-            <div class="form-group col">
+            <div class="form-group col-md-2">
                 {!! Form::label('#Contrato*') !!}
                 {!! Form::number('num_contrato', null, ['id'=>'num_contrato', 'class' => 'form-control form-control-sm numero-entero-positivo', 'placeholder'=>'Número de Contrato', 'required' ]) !!}
             <span  id="num_contratoError" class="text-danger"></span>
@@ -27,7 +27,7 @@
                                                 ],null,['id' => 'tipo_contrato','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona'])}}
                 <span  id="tipo_contratoError" class="text-danger"></span>
             </div>
-            <div class="form-group col">
+            <div class="form-group col-md-2">
                 {!! Form::label('#Reguladores') !!}
                 <select name="reguladores" id="reguladores" class="form-control form-control-sm">
                     <option value="0">0</option>
@@ -40,8 +40,13 @@
                 </select>
                 <span  id="reguladoresError" class="text-danger"></span>
             </div>
+            <div class="form-group col">
+                <label for="">Nombre Comercial</label>
+                <input name="nombre_comercial" id="nombre_comercial" type="text" class="form-control form-control-sm" >
+                <span  id="nombre_comercialError" class="text-danger"></span>
+            </div>
         </div>
-
+        
 
         <hr>
         <div class="form-row">
@@ -92,6 +97,7 @@
                         <th>P.U.</th>
                         <th>CAPACIDAD</th>
                         <th>U.M.</th>
+                        <th>DEP GARANTIA</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -137,6 +143,9 @@
                             </select>
                         </td>
                         <td>
+                            <input type="number" name="deposito_garantiacreate[]" id="deposito_garantiacreate" class="form-control form-control-sm numero-decimal-positivo" placeholder="$0">
+                        </td>
+                        <td>
                             <button type="button" class="btn btn-amarillo btn-sm" id="btn-anadir-asignacioncreate"><span class="fas fa-plus"></span></button>
                         </td>
                     </tr>
@@ -147,20 +156,9 @@
         </div>
 
         <hr>
+
         <div class="form-row">
             <div class="col-md-6">
-                <label for="">Deposito Garantia</label>
-                <input type="number" name="deposito_garantia" id="deposito_garantia" class="form-control form-control-sm numero-decimal-positivo" placeholder="$ 0.0">
-                <span  id="deposito_garantiaError" class="text-danger"></span>
-            </div>
-            {{-- <div class="col-md-6">
-                <label for="">Deposito Escrito</label>
-                <input type="text" name="deposito_escrito" id="deposito_escrito" class="form-control form-control-sm">
-                <span  id="deposito_escritoError" class="text-danger"></span>
-            </div> --}}
-        </div>
-        <div class="form-row">
-            <div class="col">
                 <label for="">Observaciones</label>
                 <textarea name="observaciones" id="observaciones" class="form-control form-control-sm" cols="30" rows="2"></textarea>
             </div>
@@ -190,7 +188,7 @@
 
 
         function aniadir(){
-
+            console.log("pass");
             var opcionesTanque='';
             var isdisabled='';
 
@@ -259,6 +257,9 @@
                                 '<option value="kg">kg</option>'+
                             '</select>'+
                         '</td>'+
+                        '<td >'+
+                            '<input type="number" name="deposito_garantiacreate[]" id="deposito_garantiacreate" class="form-control form-control-sm numero-decimal-positivo" placeholder="$0">'+
+                        '</td>'+
                         '<td>'+
                             '<button type="button" class="btn btn-sm btn-amarillo" id="btn-anadir-asignacioncreate"><span class="fas fa-plus"></span></button>'+
                         '</td>'+
@@ -267,13 +268,7 @@
                         '</td>'+
                     '</tr>'
                 );
-
-            })
-
-
-            
-
-
+            });
         }
     });
 </script>

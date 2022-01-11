@@ -109,6 +109,16 @@ class NotaController extends Controller
             return DataTables::of(
                 $notas
             )
+            ->editColumn('created_at', function ($infra) {
+                return $infra->created_at->format('H:i:s A - d/m/Y');
+            })
+            ->editColumn('pago_cubierto', function ($nota) {
+                if($nota->pago_cubierto== true){
+                    return 'Pagado';
+                }else{
+                    return 'Adeuda';
+                }
+            })
             ->addColumn( 'btnPDF', '<a class="btn btn-verde btn-sm" href="{{route(\'pdf.nota_salida\', $id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Nota PDF"><i class="fas fa-file-pdf"></i></a>')
             ->rawColumns(['btnPDF'])
             ->toJson();

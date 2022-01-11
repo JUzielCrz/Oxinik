@@ -102,6 +102,7 @@ $(document).ready(function () {
             data: dataForm,
         }).done(function(msg){
             mensaje(msg.alert,msg.alert,msg.mensaje, null, null);
+            window.location = '/infra/index';
         })
         .fail(function (jqXHR, textStatus) {
             //Si existe algun error entra aqui

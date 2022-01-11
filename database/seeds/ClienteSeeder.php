@@ -54,16 +54,16 @@ class ClienteSeeder extends Seeder
         ]);
 
 
-        $contrato=Contrato::create([
-            'num_contrato'=>'5',
-            'cliente_id'=>$cliente1->id, 
-            'tipo_contrato'=>'Industrial',
-            'precio_transporte'=>'1245.78',
-            'direccion' => 'Plaza Crystal, Eduardo Mata, San José La Noria, 68120 Oaxaca de Juárez, Oax.',
-            'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
-            'reguladores' => 1,
-            'deposito_garantia' => 10000,
-        ]);
+        // $contrato=Contrato::create([
+        //     'num_contrato'=>'5',
+        //     'cliente_id'=>$cliente1->id, 
+        //     'tipo_contrato'=>'Industrial',
+        //     'precio_transporte'=>'1245.78',
+        //     'direccion' => 'Plaza Crystal, Eduardo Mata, San José La Noria, 68120 Oaxaca de Juárez, Oax.',
+        //     'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
+        //     'reguladores' => 1,
+        //     'deposito_garantia' => 10000,
+        // ]);
         // Asignacion::create([
         //     'contratos_id'=>$contrato->id,
         //     'cilindros'=>'3',

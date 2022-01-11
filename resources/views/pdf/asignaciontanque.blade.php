@@ -88,6 +88,7 @@
                         <th style="padding: 0">TIPO</th>
                         <th style="padding: 0">MATERIAL</th>
                         <th style="padding: 0">CAPACIDAD</th>
+                        <th style="padding: 0">DEP. GARANTÍA</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -99,6 +100,7 @@
                                 <td style="padding: 0">{{$tanques->tipo_tanque}}</td>
                                 <td style="padding: 0">{{$tanques->material}}</td>
                                 <td style="padding: 0">{{$tanques->capacidad}} {{$tanques->unidad_medida}}</td>
+                                <td style="padding: 0">{{$tanques->deposito_garantia}}</td>
                             </tr>
                         @endif            
                     @endforeach
@@ -154,7 +156,7 @@
             <p class="text-right">DEPO. XXXX</p>
 
             @php
-                $precioFormat= number_format($nota->deposito_garantia, 2, '.', ',')
+                $precioFormat= number_format($detalleNota->sum('deposito_garantia'), 2, '.', ',')
             @endphp
             <p class="mt-4">
                 RECIBI DE: <strong> {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}} </strong><br>

@@ -43,15 +43,6 @@ class NotaTalonController extends Controller
                 $notas=NotaTalon::
                 where('pendiente', $request->estatus);
             }
-
-            // if($user->soloParaUnRol('admin')){
-            //     $notas=NotaTalon::all();
-
-            // }else{
-            //     $notas=NotaTalon::
-            //     where('user_id', auth()->user()->id);
-            // }
-
             return DataTables::of(
                 $notas
             )

@@ -27,6 +27,7 @@
                     <th>PRECIO</th>
                     <th>CAPACIDAD</th>
                     <th>U.M.</th>
+                    <th>DEP. GRNT.</th>
                     <th></th>
                 </tr>
             </thead>
@@ -39,9 +40,6 @@
             </tbody>
         </table>
     </div>
-
-    <hr>
-    <div id="div-garantia"></div>
 </form>
 
 <script>
@@ -96,6 +94,7 @@
                     '<option value="m3">m3</option>'+
                     '<option value="kg">kg</option>'+
                 '</select></td><td>'+
+                '<input name="asignacion_deposito_garantia[]" id="asignacion_deposito_garantia" type="number" class="form-control form-control-sm numero-decimal-positivo" placeholder="$0.0"></td><td class="tdWidth">'+
                 '<button type="button" class="btn btn-sm btn-amarillo ml-1  " id="btn-eliminar-filaasignacion"><span class="fas fa-minus"></span></button></td>'+
                 '</tr>'
             );

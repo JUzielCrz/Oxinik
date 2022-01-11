@@ -56,7 +56,7 @@
             
             <div class="form-group col-md-12">
                 {!! Form::label('Estatus*') !!}
-                {{ Form::select('estatusedit',['Activo' => 'Activo', 'Inactivo' => 'Inactivo', 'Cancelado' => 'Cancelado' ],null,['id' => 'estatusedit','class'=>'form-control form-control-sm', 'placeholder'=>'estatus'])}}
+                {{ Form::select('estatusedit',['Activo' => 'Activo', 'Inactivo' => 'Inactivo' ],null,['id' => 'estatusedit','class'=>'form-control form-control-sm', 'placeholder'=>'estatus'])}}
                 <span  id="estatuseditError" class="text-danger"></span>
             </div>
         </div>

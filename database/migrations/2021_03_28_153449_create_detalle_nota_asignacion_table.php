@@ -25,6 +25,7 @@ class CreateDetalleNotaAsignacionTable extends Migration
             $table->string('material');
             $table->string('unidad_medida');
             $table->float('capacidad');
+            $table->float('deposito_garantia');
             $table->timestamps();
         });
     }

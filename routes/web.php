@@ -140,6 +140,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
     //tanques por reportados
     Route::get('/tanque/validar_ph/{ph}', 'TanqueController@validar_ph');
+    Route::get('/tanque/validar_talon/{numserie}', 'TanqueController@validar_talon');
 
     //GASES
     Route::get('/gas/index', 'CatalogoGasController@index');
