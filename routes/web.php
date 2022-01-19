@@ -59,6 +59,8 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/nota/foranea/edit/{id}', 'NotaForaneaController@edit')->name('nota.foranea.edit');
     Route::post('/nota/foranea/salida/save', 'NotaForaneaController@salida_save');
     Route::post('/nota/foranea/entrada/save/{id}', 'NotaForaneaController@entrada_save');
+    Route::post('/nota/foranea/cambiar_estatus/{num_serie}', 'NotaForaneaController@cambiar_estatus');
+    Route::post('/nota/foranea/cambiar_estatus_entrada/{num_serie}', 'NotaForaneaController@cambiar_estatus_entrada');
 
     // TALON
     Route::get('/nota/talon/index', 'NotaTalonController@index');

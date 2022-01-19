@@ -82,14 +82,14 @@
                             <th scope="col">IVA</th>
                         </tr>
                     </thead>
-
+                    @inject('tipoeva','App\Http\Controllers\CatalogoGasController')
                     <tbody id="tablelistaTanques" >
                         @foreach ($tanques as $tanq)
                             <tr>
                                 <td>{{$tanq->num_serie}}</td>
                                 <td>{{$tanq->cantidad}}</td>
                                 <td>{{$tanq->unidad_medida}}</td>
-                                <td>{{$tanq->tipo_gas}}</td>
+                                <td>{{$tipoeva->nombre_gas($tanq->tipo_gas)}}</td>
                                 <td>{{$tanq->tapa_tanque}}</td>
                                 <td>$ {{number_format($tanq->precio_unitario,2)}}</td>
                                 <td>$ {{number_format($tanq->importe,2)}}</td>

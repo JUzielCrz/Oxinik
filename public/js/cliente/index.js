@@ -303,8 +303,8 @@ $(document).ready(function () {
             text: "Se eliminara todo lo que este relacionado a este cliente definitivamente (Contratos, notas, pagos, etc.)",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#F9C846',
+            cancelButtonColor: '#329F5B',
             confirmButtonText: 'Si, eliminar!',
             cancelButtonText: 'Cancelar'
         }).then((result) => {

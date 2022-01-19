@@ -316,22 +316,43 @@
     </div>
 
     {{--------------------------------- MODALES PARA ASIGNACION ------------------------------------------------------}}
-    <!-- Modal Edit Asignacion de tanques en contrato-->
-    <div class="modal fade" id="modal-edit-asignacion" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <!-- asignacion plus-->
+    <div class="modal fade" id="modal-asignacion-plus" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="h5-title-modal"></h5>
+                <h5 class="modal-title">ASIGNACIONES</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                @include('contratos.asignaciontanques')
+                @include('contratos.asignacion_plus')
             </div>
             <div class="modal-footer">
             {{-- <button type="button" class="btn btn-verde" data-dismiss="modal">Cancelar</button> --}}
-            <button id="btn-save-asignacion" type="button" class="btn btn-verde">Guardar</button>
+            <button id="btn-save-asignacion-plus" type="button" class="btn btn-verde">Guardar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- asignacion minus-->
+    <div class="modal fade" id="modal-asignacion-minus" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">ASIGNACIONES</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @include('contratos.asignacion_minus')
+            </div>
+            <div class="modal-footer">
+            {{-- <button type="button" class="btn btn-verde" data-dismiss="modal">Cancelar</button> --}}
+            <button id="btn-save-asignacion-minus" type="button" class="btn btn-verde">Guardar</button>
             </div>
         </div>
         </div>

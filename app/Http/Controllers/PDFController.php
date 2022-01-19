@@ -75,8 +75,6 @@ class PDFController extends Controller
         $asignaciones_all=Asignacion::join('catalogo_gases','catalogo_gases.id','=','asignacion.tipo_gas')
         ->where('contratos_id',$nota->contrato_id)->get();
 
-
-        
         $data=['detalleNota'=>$detalleNota, 'nota'=>$nota, 'contrato'=>$contrato, 'cliente'=>$cliente, 'asignaciones_all'=>$asignaciones_all];
 
         $pdf = PDF::loadView('pdf.asignaciontanque', $data);
@@ -97,11 +95,15 @@ class PDFController extends Controller
         ->get();
 
         $objeto = new ConvertNumberController();
-        $precioLetras = $objeto->toMoney($contrato->deposito_garantia, 2, 'PESOS','CENTAVOS');
+        $precioLetras = $objeto->toMoney($tanques->sum('deposito_garantia'), 2, 'PESOS','CENTAVOS');
 
         $data=['contrato'=>$contrato, 'cliente'=>$cliente, 'tanques'=>$tanques, 'nota'=>$nota, 'precioLetras'=>$precioLetras];
 
-        $pdf = PDF::loadView('pdf.contratogenerate', $data);
+        if($contrato->tipo_contrato == 'Eventual'){
+            $pdf = PDF::loadView('pdf.contrato_eventual', $data);
+        }else{
+            $pdf = PDF::loadView('pdf.contrato_general', $data);
+        }
         return $pdf->stream('contrato_'. $contrato->num_contrato.'.pdf');
     }
 

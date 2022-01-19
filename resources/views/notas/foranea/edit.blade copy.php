@@ -17,89 +17,61 @@
                     
                     <div class="card-header">
                         <div class="row m-0 p-0">
+                            <div class="col-md-2 ">
+                                <button class="btn btn-amarillo btn-block " onclick="return window.history.back();"><span class="fas fa-arrow-circle-left"></span></button>
+                            </div>
                             <div class="col m-0">
                                 <strong>REGISTRO DE SALIDA</strong>
                             </div>
                             <div class="col text-right" >
                                 #Nota: <strong>{{$nota->id}}</strong>
                                 <input type="hidden" name="idnota" id="idnota" value="{{$nota->id}}">
-                                
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="row justify-content-center">
-                            <div class="col">
-                                {!! Form::label('# Serie') !!}
-                                {!! Form::text('serie_tanque', null, ['id'=>'serie_tanque', 'class' => 'form-control form-control-sm', 'placeholder'=>'#Serie',  'required' ]) !!}
-                                
-                            </div>
-                            <div class="col ">
-                                {!! Form::label('Tapa') !!}
-                                {{ Form::select('tapa_tanque',['SI' => 'SI', 'NO' => 'NO'],null,['id' => 'tapa_tanque','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
-                                <span  id="tapa_tanqueError" class="text-danger"></span>
-                            </div>
-                            <div class="col ">
-                                {!! Form::label('U. M.') !!}
-                                {{ Form::select('unidad_medida',['CARGA' => 'CARGA','kg' => 'kg', 'M3' => 'M3'],null,['id' => 'unidad_medida','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
-                                <span  id="unidad_medidaError" class="text-danger"></span>
-                            </div>  
-                            <div class="col">
-                                {!! Form::label('Cantidad') !!}
-                                {!! Form::number('cantidad', null, ['id'=>'cantidad', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'0', 'required', 'readonly' ]) !!}
-                                <span  id="cantidadError" class="text-danger"></span>
-                            </div>
-                            
-                            <div class="col">
-                                {!! Form::label('Precio') !!}
-                                {!! Form::number('precio_unitario', null, ['id'=>'precio_unitario', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'$0.0', 'required' ]) !!}
-                                <span  id="precio_unitarioError" class="text-danger"></span>
-                            </div>
-                            
-                            <div class="col align-self-end">
-                                <button type="button" class="btn btn-verde" id="btn-insert-fila-salida"> <span class="fas fa-plus"></span>Add</button>
-                            </div> 
-                        </div>
-                        <hr>
-                        <span  id="serie_tanqueError" class="text-danger"></span>
+                    <div class="card-body" >
+
+                        <strong>TANQUES ENTREGADOS</strong>
                         <div class="table-responsive mt-3">
                             <table class="table table-sm table-hover table-bordered" >
                                 <thead >
                                     <tr style="font-size: 13px">
+                                        <th scope="col">#</th>
                                         <th scope="col">#SERIE</th>
                                         <th scope="col">TAPA</th>
                                         <th scope="col">GAS</th>
                                         <th scope="col">CANTIDAD</th>
                                         <th scope="col">U. M.</th>
+                                        <th scope="col">P. U.</th>
                                         <th scope="col">IMPORTE</th>
                                         <th scope="col">IVA 16%</th>
-                                        <th scope="col"></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
+                                
                                 <tbody style="font-size: 13px">
+                                    @php
+                                        $contador=0;
+                                    @endphp
                                     @csrf
                                     @foreach ($tanques as $tanque)
-                                        <tr class="tr-cilindros-salida text-center">
-                                            <td class="p-0">{{$tanque->num_serie}}</td><input type='hidden' name='serie_carga_salida[]' id='serie_carga_salida' value='{{$tanque->num_serie}}'>
-                                            <td class="p-0">{{$tanque->tapa_tanque}}</td>
-                                            <td class="p-0">{{$tipoeva->nombre_gas($tanque->tipo_gas)}}</td>
-                                            <td class="p-0">{{$tanque->cantidad}}</td>
-                                            <td class="p-0">{{$tanque->unidad_medida}}</td>
-                                            <td class="p-0">{{$tanque->importe}}</td>
-                                            <td class="p-0">{{$tanque->iva_particular}}</td>
+                                        <tr class="tr-cilindros-salida">
+                                            <td>{{$contador+=1}}</td>
+                                            <td class="p-0 text-center">{{$tanque->num_serie}}</td> <input type="hidden" name="inputNumSerie[]" value={{$tanque->num_serie}}>
+                                            <td class="p-0 text-center">{{$tanque->tapa_tanque}}</td>
+                                            <td class="p-0 text-center">{{$tipoeva->nombre_gas($tanque->tipo_gas)}}</td>
+                                            <td class="p-0 text-center">{{$tanque->cantidad}}</td>
+                                            <td class="p-0 text-center">{{$tanque->unidad_medida}}</td>
+                                            <td class="p-0 text-center">{{$tanque->precio_unitario}}</td>
+                                            <td class="p-0 text-center">{{$tanque->importe}}</td>
+                                            <td class="p-0 text-center">{{$tanque->iva_particular}}</td>
                                             <td><button type="button" class="btn btn-naranja" id="btn-eliminar-salida"><span class="fas fa-window-close"></span></button></td>
                                         </tr>
                                     @endforeach
                                 </tbody>
-                                <tbody id="tbody-cilindros-salida">
-                                </tbody>
             
                             </table>
                         </div>
-                        <center>
-                            <div id="msg-tanques-salida" style="display:none" class="alert" role="alert">
-                            </div>
-                        </center>
                     </div>
                     {{-- TANQUES DE ENTRADA --}}
                     <div class="card-header pb-0">
@@ -112,7 +84,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="inputGroup-sizing-sm"># Serie:</span>
                                     </div>
-                                    <input type="text" name="serie_tanque_entrada" id="serie_tanque_entrada" class="form-control form-control-sm disabled_entrada" placeholder="#Serie" >
+                                    <input type="text" name="serie_tanque_entrada" id="serie_tanque_entrada" class="form-control form-control-sm bool_disabled" placeholder="#Serie" >
                                 </div>
                                 <span  id="serie_tanque_entradaError" class="text-danger"></span>
                             </div>
@@ -121,7 +93,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="inputGroup-sizing-sm"># Tapa:</span>
                                     </div>
-                                    <select name="tapa_tanque_entrada" id="tapa_tanque_entrada" class="form-control form-control-sm disabled_entrada">
+                                    <select name="tapa_tanque_entrada" id="tapa_tanque_entrada" class="form-control form-control-sm bool_disabled">
                                         <option value="">Selecciona</option>
                                         <option value="SI">SI</option>
                                         <option value="NO">NO</option>
@@ -138,6 +110,7 @@
                             <table class="table table-sm table-hover table-bordered">
                                 <thead>
                                     <tr style="font-size: 13px">
+                                        <th>#</th>
                                         <th scope="col">#SERIE</th>
                                         <th scope="col">DESCRIPCIÓN</th>
                                         <th scope="col">PH</th>
@@ -147,16 +120,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                        $contador=0;
+                                    @endphp
                                     @foreach ($tanquesEntrada as $tanq)
-                                        @php
-                                            $descrp=$tanq->capacidad.", ".$tanq->material.", ".$tanq->fabricante.", ".$tanq->tipo_tanque.", ".$tipoeva->nombre_gas($tanq->tipo_gas);
-                                        @endphp
-                                        <tr class='tr-cilindros-entrada text-center' style="font-size: 13px">
-                                            <td>{{$tanq->num_serie}}</td>
-                                            <td>{{$descrp}}</td>
-                                            <td>{{$tanq->ph}} </td>
-                                            <td>{{$tanq->tapa_tanque}}</td>
-                                            <td><button type="button" class="btn btn-naranja" id="btn-eliminar-entrada"><span class="fas fa-window-close"></span></button></td>
+                                        <tr class='tr-cilindros-entrada' style="font-size: 13px">
+                                            <td>{{$contador+=1}}</td>
+                                            <td>{{$tanq->num_serie}}</td> <input type='hidden' name='inputNumSerie_entrada[]' id='idInputNumSerie_entrada' value='{{$tanq->num_serie}}'>
+                                            <td>{{$tanq->capacidad}}, {{$tanq->material}}, {{$tanq->fabricante}}, {{$tanq->tipo_tanque}}, {{$tipoeva->nombre_gas($tanq->tipo_gas)}}</td><input type='hidden' name='inputDescripcion_entrada[]' value='descrp '>
+                                            <td>{{$tanq->ph}} </td><input type='hidden' name='inputPh_entrada[]' value='{{$tanq->ph}}'>
+                                            <td>{{$tanq->tapa_tanque}}</td> <input type='hidden' name='inputTapa_entrada[]' value='{{$tanq->tapa_tanque}}'>
+                                            <input type='hidden' name='inputRegistro[]' value=0>
+                                            <td><button type="button" class="btn btn-naranja" id="btnEliminarFila"><span class="fas fa-window-close"></span></button></td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -345,7 +320,7 @@
                                 <div id="div-subtotal">
                                     <label id='label-subtotal'>$ {{number_format($nota->subtotal,2)}}</label>
                                 </div>
-                                <input type="hidden" id="input-subtotal" name="input-subtotal" value={{$nota->subtotal}}>
+                                <input type="hidden" id="input-subtotal" name="input-subtotal" value=0 value={{$nota->subtotal}}>
                             </div>
                         </div>
                         <div class="form-row ">
@@ -356,7 +331,7 @@
                                 <div id="div-ivaGen">
                                     <label id='label-ivaGen'>$ {{number_format($nota->iva_general,2)}}</label>
                                 </div>
-                                <input type="hidden" id="input-ivaGen" name="input-ivaGen" value={{$nota->iva_general}}>
+                                <input type="hidden" id="input-ivaGen" name="input-ivaGen" value=0>
                             </div>
                         </div>
 
@@ -383,7 +358,7 @@
                                 <div id="div-total">
                                     <label id='label-total'>$ {{number_format($nota->total,2)}}</label>
                                 </div>
-                                <input type="hidden" id="input-total" name="input-total" value={{$nota->total}}>
+                                <input type="hidden" id="input-total" name="input-total">
                             </div>
                         </div>
 
@@ -397,18 +372,6 @@
                                 <input type="text" name="metodo_pago" id="metodo_pago" value={{$nota->metodo_pago}}  class="form-control form-control-sm" disabled>
                             </div>
                             <span id="metodo_pagoError" class="alert-danger  mb-3"></span>
-                        </div> 
-                        <div class="form-row">
-                            <div class="input-group input-group-sm mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">Tanques devueltos:</span>
-                                </div>
-                                <select name="tanques_devueltos" id="tanques_devueltos" class="form-control form-control-sm">
-                                    <option value='0' @if ($nota->tanques_devueltos == false) selected  @endif>No</option>
-                                    <option value='1' @if ($nota->tanques_devueltos == true) selected  @endif>Si</option>
-                                </select>
-                            </div>
-                            <span id="tanques_devueltosError" class="alert-danger  mb-3"></span>
                         </div> 
                         @if ($nota->metodo_pago == 'Credito')
                         

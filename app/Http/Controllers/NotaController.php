@@ -237,7 +237,6 @@ class NotaController extends Controller
         ->where('contrato_id', $contrato_id)
         ->where('nota_tanque.devuelto', false)
         ->get();
-
         return  $notatanque;
     }
 

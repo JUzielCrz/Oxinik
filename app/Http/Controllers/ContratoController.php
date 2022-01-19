@@ -121,7 +121,6 @@ class ContratoController extends Controller
                         $newAsignacionTanque->tipo_tanque= $request->tipo_tanquecreate[$inci];
                         $newAsignacionTanque->material= $request->materialcreate[$inci];
                         $newAsignacionTanque->precio_unitario= $request->precio_unitariocreate[$inci];
-                        $newAsignacionTanque->deposito_garantia= $request->deposito_garantiacreate[$inci];
                         $newAsignacionTanque->capacidad= $request->capacidadcreate[$inci];
                         $newAsignacionTanque->unidad_medida= $request->unidad_medidacreate[$inci];
                         $newAsignacionTanque->save();          

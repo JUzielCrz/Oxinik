@@ -95,7 +95,6 @@ class AsignacionController extends Controller
                         $newAsignacionTanque->precio_unitario= $request->asignacion_precio_unitario[$inci];
                         $newAsignacionTanque->unidad_medida= $request->asignacion_unidad_medida[$inci];
                         $newAsignacionTanque->capacidad= $request->asignacion_capacidad[$inci];
-                        $newAsignacionTanque->deposito_garantia= $request->asignacion_deposito_garantia[$inci];
                         $newAsignacionTanque->save();  
                     }
                 }   
@@ -143,12 +142,18 @@ class AsignacionController extends Controller
     }
 
     public function asignacion_minus(Request $request, $contrato_id){
+
         if($this->slug_permiso('asignacion_disminucion')){
             //valiodacion para que los campos no vengan vacios
+            $bandera=0;
             foreach( $request->asignacion_variante AS $valid => $g){
-                if($request->asignacion_variante[$valid] < 0 ){
-                    return response()->json(['alert'=>'alert-danger', 'mensaje'=>'Faltan campos por rellenar o existen valores incorrectos']);
+                if($request->asignacion_variante[$valid] > 0 ){
+                    $bandera+=1;
                 }
+            }
+
+            if($bandera == 0){
+                return response()->json(['alert'=>'alert-danger', 'mensaje'=>'Faltan campos por rellenar o valores incorrectos']);
             }
 
             $fechaactual=date("Y")."-" . date("m")."-".date("d");

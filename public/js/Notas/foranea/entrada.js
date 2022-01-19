@@ -1,7 +1,13 @@
 $(document).ready(function () {
-    $(document).on("click","#btn-insert-fila-entrada", validar_fila_entrada);
-    $(document).on("click","#btnEliminarFila", eliminarFila);
+    $(document).on("click","#btn-insert-fila-salida", insertar_fila_salida);
+    $(document).on("click","#btn-eliminar-salida", eliminar_cilindro_salida);
 
+
+    $(document).on("click","#btn-insert-fila-entrada", validar_fila_entrada);
+    $(document).on("click","#btn-eliminar-entrada", eliminar_cilindro_entrada);
+
+    $(document).on("click","#btnEliminarFila", eliminarFila);
+    
     //registro tanque
     $(document).on("click","#btn-registrar-tanque", validar_tanque);
     
@@ -12,7 +18,6 @@ $(document).ready(function () {
 
 
     $('#serie_tanque_entrada').keypress(function (event) {
-        // console.log(event.charCode);
         if (event.charCode == 13 ){
             event.preventDefault();
             insert_fila();
@@ -20,11 +25,115 @@ $(document).ready(function () {
     });
 
 
-    if($(".tr-cilindros-salida").length == $(".tr-cilindros-entrada").length){
-        $('.bool_disabled').prop('disabled', true);
-        console.log('pass')
+    actualizar_disables();
+
+    //FUNCIONES INSERTAR FILA SALDIA
+    function insertar_fila_salida() {
+        
+        var numserie= $('#serie_tanque').val().replace(/ /g,'').toUpperCase();;//eliminar espacios
+
+        //validar campos no vacios
+        var campo = ['serie_tanque','cantidad','unidad_medida','precio_unitario','tapa_tanque','iva_particular'];
+        var campovacio = [];
+
+        $.each(campo, function(index){
+            $('#'+campo[index]+'Error').empty().removeClass('is-invalid');
+            $('#'+campo[index]).removeClass('is-invalid');
+        });
+
+        $.each(campo, function(index){
+            if($("#"+campo[index]).val()=='' || $("#"+campo[index]).val()<=0    ){
+                campovacio.push(campo[index]);
+            }
+        });
+
+        if(campovacio.length != 0){
+            $.each(campovacio, function(index){
+                $("#"+campovacio[index]).addClass('is-invalid');
+                $("#"+campovacio[index]+'Error').text('Necesario');
+            });
+            return false;
+        }
+
+        //validar campos repetidos
+        var boolRepetido=false;
+        var deleteespacio=$.trim(numserie);
+        $(".tr-cilindros-salida").each(function(index, value){
+            var valores = $(this).find("td")[0].innerHTML;
+
+            if(valores == deleteespacio){
+                boolRepetido=true;
+            }
+        })
+
+        if(boolRepetido){
+            $("#serie_tanqueError").text('Número de serie ya agregado a esta nota');
+                return false;
+        }
+
+
+        $.get('/tanque/show_numserie/' + numserie, function(msg) { 
+            if(msg != ''){
+                $.get('/tanque/validar_talon/' + numserie, function(rsta) {
+                    if(rsta){
+                        $("#serie_tanqueError").text('Cilindro se encuentra en nota talon');
+                        return false;
+                    }
+                    if(msg.estatus == 'LLENO-ALMACEN' || msg.estatus == 'TANQUE-RESERVA'){
+                        var precio_importe= $('#precio_unitario').val();
+                        var iva =0;
+                                
+                        if( msg.tipo_tanque == 'Industrial'){
+                            iva = precio_importe * 0.16;
+                        }
+                        console.log(msg);
+                        $('#tbody-cilindros-salida').append(
+                            "<tr class='tr-cilindros-salida text-center' style='font-size: 13px'>"+
+                                "<td>"+msg.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie_salida' value='"+msg.num_serie +"'></input>"+
+                                "<td>"+$('#tapa_tanque').val() +"</td>"+ "<input type='hidden' name='inputTapa[]' value='"+$('#tapa_tanque').val() +"'></input>"+
+                                "<td>"+msg.gas_nombre +"</td>"+ "<input type='hidden' name='input_tipo_gas[]' value='"+msg.tipo_gas +"'></input>"+
+                                "<td>"+$('#cantidad').val() +"</td>"+ "<input type='hidden' name='input_cantidad[]' value='"+$('#cantidad').val() +"'></input>"+
+                                "<td>"+$('#unidad_medida').val() +"</td>"+ "<input type='hidden' name='input_unidad_medida[]' value='"+$('#unidad_medida').val() +"'></input>"+
+                                "<td>"+precio_importe +"</td>"+ "<input type='hidden' name='input_importe[]' value='"+precio_importe +"'></input>"+
+                                "<td>"+iva +"</td>"+ "<input type='hidden' name='input_iva_particular[]' value='"+iva +"'></input>"+
+
+                                "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
+                            "</tr>");
+                            actualizar_disables();
+                            actualizar_subtotal();
+                            limpiar_inputs_fila();
+
+                    }else{
+                        $("#serie_tanqueError").text('Error Tanque - estatus: '+ msg.estatus);
+                    }
+                });
+            }else{
+                $("#serie_tanqueError").text('Número de serie no existe en almacén');
+            }
+
+        });
+
+        return false;
     }
 
+    $("#unidad_medida").change( function() {
+        if ($(this).val() == "CARGA") {
+            $("#cantidad").prop("readonly", true);
+            $("#cantidad").val(1);
+
+        }else{
+            $("#cantidad").prop("readonly", false);
+        } 
+    });
+
+    function limpiar_inputs_fila() {
+        $("#serie_tanque").val("");
+        $("#tapa_tanque").val("");
+        $("#cantidad").val("");
+        $("#unidad_medida").val("");
+        $("#precio_unitario").val("");
+        $("#iva").val("");
+    }
     //FUNCIONES INSERTAR FILA ENTRADA
     function validar_fila_entrada(event) {
         event.stopPropagation();
@@ -157,7 +266,7 @@ $(document).ready(function () {
                 tdph="<td>"+pruebah +"</td>"
             }
             $('#tbody-tanques-entrada').append(
-                "<tr class='tr-cilindros-entrada'>"+
+                "<tr class='tr-cilindros-entrada text-center'>"+
                 "<td>"+numserie +"</td>"+ "<input type='hidden' name='inputNumSerie_entrada[]' id='idInputNumSerie_entrada' value='"+numserie +"'></input>"+
                 "<td>"+descrp+"</td>"+"<input type='hidden' name='inputDescripcion_entrada[]' value='"+descrp +"'></input>"+
                 tdph+ "<input type='hidden' name='inputPh_entrada[]' value='"+pruebah +"'></input>"+
@@ -173,6 +282,14 @@ $(document).ready(function () {
         limpiar_campos_tanque();
     }
 
+    //disables
+    function actualizar_disables(){
+        if($(".tr-cilindros-salida").length <= $(".tr-cilindros-entrada").length && $(".tr-cilindros-salida").length>0){
+            $('.disabled_entrada').prop('disabled', true);
+        }else{
+            $('.disabled_entrada').prop('disabled', false);
+        }   
+    }
 
     // para registro de tanque
 
@@ -273,25 +390,72 @@ $(document).ready(function () {
         $("#tapa_tanque_entrada").val('');
     }
 
+    //aritmeticas
+    function actualizar_subtotal(){
+
+        var importe = 0;
+
+        $(".tr-cilindros-salida").each(function(){
+            var preciotanque=$(this).find("td")[5].innerHTML;
+            importe=importe+parseFloat(preciotanque);
+        })
+        actualizar_ivageneral();
+
+        var subtotal = importe -  $('#input-ivaGen').val();
+        $('#label-subtotal').replaceWith( 
+            "<label id='label-subtotal'>"+Intl.NumberFormat('es-MX').format(subtotal) +"</label>"
+        );
+        $('#input-subtotal').val(subtotal);
+
+        actualizar_total();
+    }
+
+    function actualizar_ivageneral(){
+
+        var ivaGen = 0;
+        $(".tr-cilindros-salida").each(function(){
+            var preciotanque=$(this).find("td")[6].innerHTML;
+            ivaGen=ivaGen+parseFloat(preciotanque);
+        })
+        $('#label-ivaGen').replaceWith( 
+            "<label id='label-ivaGen'>"+Intl.NumberFormat('es-MX').format(ivaGen) +"</label>"
+        );
+        $('#input-ivaGen').val(ivaGen);
+    }
+    actualizar_total();
+    function actualizar_total(){
+        var importe = 0;
+
+        $(".tr-cilindros-salida").each(function(){
+            var preciotanque=$(this).find("td")[5].innerHTML;
+            importe=importe+parseFloat(preciotanque);
+        })
+        var total=parseFloat($("#precio_envio_nota").val()) + importe;
+        console.log($("#precio_envio_nota").val());
+        $('#label-total').replaceWith( 
+            "<label id='label-total'>"+Intl.NumberFormat('es-MX').format(total) +"</label>"
+        );
+        $('#input-total').val(total);
+        $("#monto_pago").val(total);
+    }
 
     //Funciones finales de Nota General
 
     function guardar_nota(){
-
-        
-        //SI no hay tanques agregados en entrada manda error
-        // if($('#idInputNumSerie_entrada').length === 0) {
-        //     mensaje('error','Error', 'No hay registro de tanques de entrada', null, null);
-        //     return false;
+        if($(".tr-cilindros-salida").length <= 0){
+            mensaje("error","Error", "No hay tanques de salida" , null, null);
+            return false;
+        }
+        if($(".tr-cilindros-entrada").length > $(".tr-cilindros-salida").length){
+            mensaje("error","Error", "Número de tanques de entrada no puede ser mayor a los de salida" , null, null);
+            return false;
+        }
+        // if($(".tr-cilindros-entrada").length == $(".tr-cilindros-salida").length){
+        //     $('#tanques_devueltos').val(1);
+        // }else{
+        //     $('#tanques_devueltos').val(0);
         // }
-        
 
-        // if($('#idInputNumSerie_salida').length != $('#idInputNumSerie_entrada').length) {
-        //     mensaje('error','Error', 'La cantidad de tanques de entrada deben ser igual a los de salida', null, null);
-        //     return false;
-        // }
-
-        // envio al controlador
         $.ajax({
             method: "post",
             url: "/nota/foranea/entrada/save/"+$("#idnota").val(),
@@ -325,8 +489,8 @@ $(document).ready(function () {
             text: "¿Estas seguro de cancelar esta venta?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#F9C846',
+            cancelButtonColor: '#329F5B',
             cancelButtonText: 'Cancelar',
             confirmButtonText: 'Si, Continuar!'
         }).then((result) => {
@@ -350,12 +514,87 @@ $(document).ready(function () {
         })
     }
 
+    function eliminar_cilindro_salida(){
+        Swal.fire({
+            title: '¿Estas seguro?',
+            text: "Se eliminara cilindro de esta nota y su estatus cambiara a LLENO-ALMACEN",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#F9C846',
+            cancelButtonColor: '#329F5B',
+            confirmButtonText: 'Si Eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var numserie=$(this).closest('tr').find("td")[0].innerHTML;
+                var trfila=$(this).closest('tr');
+                $.ajax({
+                    method: "post",
+                    url: "/nota/foranea/cambiar_estatus/"+numserie,
+                    data: {
+                        '_token': $('input[name=_token]').val(),
+                        'nota_id': $('#idnota').val(),
+                    },
+                }).done(function (msg) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Exito',
+                        text: 'Eliminado correctamente.',
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
+                    trfila.remove();
+                    actualizar_subtotal();
+                    actualizar_disables()
+                });
+            }
+        })
+    }
+
+    function eliminar_cilindro_entrada(){
+        Swal.fire({
+            title: '¿Estas seguro?',
+            text: "Se eliminara cilindro de esta nota y su estatus cambiara a VENTA-FORANEA",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#F9C846',
+            cancelButtonColor: '#329F5B',
+            confirmButtonText: 'Si Eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var numserie=$(this).closest('tr').find("td")[0].innerHTML;
+                var trfila=$(this).closest('tr');
+                $.ajax({
+                    method: "post",
+                    url: "/nota/foranea/cambiar_estatus_entrada/"+numserie,
+                    data: {
+                        '_token': $('input[name=_token]').val(),
+                        'nota_id': $('#idnota').val(),
+                    },
+                }).done(function (msg) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Exito',
+                        text: 'Eliminado correctamente.',
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
+                    trfila.remove();
+                    actualizar_disables()
+                });
+            }
+        })
+    }
+
     function eliminarFila(){
         $(this).closest('tr').remove();
+        actualizar_disables();
     }
 
     $('.numero-entero-positivo').keypress(function (event) {
-        // console.log(event.charCode);
         if (
             event.charCode == 43 || //+
             event.charCode == 45 || //-
@@ -369,7 +608,6 @@ $(document).ready(function () {
     });
 
     $('.numero-decimal-positivo').keypress(function (event) {
-        // console.log(event.charCode);
         if (
             event.charCode == 43 || //+
             event.charCode == 45 || //-
@@ -382,7 +620,6 @@ $(document).ready(function () {
     });
 
     $('.solo-texto').keypress(function (event) {
-        // console.log(event.charCode);
         if (event.charCode >= 65 && event.charCode <= 90 || event.charCode >= 97 && event.charCode <= 122 || 
             event.charCode ==  32 ||
             event.charCode == 193 || 

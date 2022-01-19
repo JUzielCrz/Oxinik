@@ -106,8 +106,8 @@ $(document).ready(function () {
             html: "<span>El reporte se eliminara y el tanque se restablecera con estatus: VACIO-ALMACEN <br> ¿Estas seguro de continuar?</span>",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#F9C846',
+            cancelButtonColor: '#329F5B',
             cancelButtonText: 'Cancelar',
             confirmButtonText: 'Si, Continuar!'
         }).then((result) => {
@@ -134,8 +134,8 @@ $(document).ready(function () {
             text: "¿Estas seguro de cancelar?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#F9C846',
+            cancelButtonColor: '#329F5B',
             cancelButtonText: 'Cancelar',
             confirmButtonText: 'Si, Continuar!'
         }).then((result) => {

@@ -74,8 +74,10 @@
             @php
                 if($nota->incidencia == 'AUMENTO'){
                     $optiontext='AUMENTO DE DOTACIÓN';
+                    $thgarantia='DEP. GAR';
                 }else{
                     $optiontext='DIMINUCIÓN  DE DOTACIÓN';
+                    $thgarantia='DEV. DEP. GAR';
                 }
             @endphp
             <p><img src="img/ico/checkcuadro2.svg" style="width: 20px" alt="" class="mr-2"> {{$optiontext}}</p>
@@ -88,7 +90,7 @@
                         <th style="padding: 0">TIPO</th>
                         <th style="padding: 0">MATERIAL</th>
                         <th style="padding: 0">CAPACIDAD</th>
-                        <th style="padding: 0">DEP. GARANTÍA</th>
+                        <th style="padding: 0">{{$thgarantia}}</th>
                     </tr>
                 </thead>
                 <tbody>

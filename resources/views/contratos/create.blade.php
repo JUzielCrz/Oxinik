@@ -94,9 +94,9 @@
                         <th>GAS</th>
                         <th>TIPO</th>
                         <th>MATERIAL</th>
-                        <th>P.U.</th>
                         <th>CAPACIDAD</th>
                         <th>U.M.</th>
+                        <th>PRECIO</th>
                         <th>DEP GARANTIA</th>
                         <th></th>
                         <th></th>
@@ -128,9 +128,6 @@
                                 <option value="Aluminio">Aluminio</option>
                             </select>
                         </td>
-                        <td>
-                            <input type="number" name="precio_unitariocreate[]" id="precio_unitariocreate" class="form-control form-control-sm numero-decimal-positivo" placeholder="$0">
-                        </td>
                         <td class="tdWidth">
                             <input type="number" name="capacidadcreate[]" id="capacidadcreate" class="form-control form-control-sm numero-entero-positivo" placeholder="0">
                         </td>
@@ -141,6 +138,9 @@
                                 <option value="m3">m3</option>
                                 <option value="kg">kg</option>
                             </select>
+                        </td>
+                        <td>
+                            <input type="number" name="precio_unitariocreate[]" id="precio_unitariocreate" class="form-control form-control-sm numero-decimal-positivo" placeholder="$0">
                         </td>
                         <td>
                             <input type="number" name="deposito_garantiacreate[]" id="deposito_garantiacreate" class="form-control form-control-sm numero-decimal-positivo" placeholder="$0">
@@ -188,7 +188,6 @@
 
 
         function aniadir(){
-            console.log("pass");
             var opcionesTanque='';
             var isdisabled='';
 
@@ -243,9 +242,6 @@
                                 '<option value="Aluminio">Aluminio</option>'+
                             '</select>'+
                         '</td>'+
-                        '<td >'+
-                            '<input type="number" name="precio_unitariocreate[]" id="precio_unitariocreate" class="form-control form-control-sm numero-decimal-positivo" placeholder="$0">'+
-                        '</td>'+
                         '<td class="tdWidth">'+
                             '<input type="number" name="capacidadcreate[]" id="capacidadcreate"  class="form-control form-control-sm numero-entero-positivo" placeholder="0">'+
                         '</td>'+
@@ -256,6 +252,9 @@
                                 '<option value="m3">m3</option>'+
                                 '<option value="kg">kg</option>'+
                             '</select>'+
+                        '</td>'+
+                        '<td >'+
+                            '<input type="number" name="precio_unitariocreate[]" id="precio_unitariocreate" class="form-control form-control-sm numero-decimal-positivo" placeholder="$0">'+
                         '</td>'+
                         '<td >'+
                             '<input type="number" name="deposito_garantiacreate[]" id="deposito_garantiacreate" class="form-control form-control-sm numero-decimal-positivo" placeholder="$0">'+

@@ -99,7 +99,8 @@ class NotaForaneaController extends Controller
 
             if($nota->user_id == $idauth || $user->soloParaUnRol('admin')){
                 $tanques= NotaForaneaTanque::
-                where('nota_foranea_id', $id)->where('insidencia','SALIDA')->get();
+                leftjoin('tanques','tanques.num_serie','=','notaforanea_tanque.num_serie')
+                ->where('nota_foranea_id', $id)->where('insidencia','SALIDA')->get();
                 $tanquesEntrada= NotaForaneaTanque::
                 leftjoin('tanques','tanques.num_serie','=','notaforanea_tanque.num_serie')
                 ->where('nota_foranea_id', $id)->where('insidencia','ENTRADA')->get();
@@ -115,6 +116,7 @@ class NotaForaneaController extends Controller
     }
 
     public function salida_save(Request $request){
+        
         if($this->slug_permiso('nota_foranea')){
             $request->validate([
                 'id_show' => ['required', 'numeric'],
@@ -127,7 +129,7 @@ class NotaForaneaController extends Controller
 
                 if(count($request->inputNumSerie) > 0 ){ ///validar si hay tanques en la lista
                     //Nota
-                    $cliente=ClienteSinContrato::find($request->id_show);
+                    $cliente = ClienteSinContrato::find($request->id_show);
                     //datos cliente
                     $venta= new NotaForanea;
                     $venta->num_cliente = $cliente->id;
@@ -144,7 +146,7 @@ class NotaForaneaController extends Controller
                     $venta->precio_envio = $cliente->precio_envio;
 
                     $venta->subtotal =  $request->input('input-subtotal');
-                    $venta->iva_general = $request->input('input-ivaGen');;
+                    $venta->iva_general = $request->input('input-ivaGen');
                     $venta->total = $request->input('input-total');
                     $venta->metodo_pago = $request->metodo_pago;
                     if($request->metodo_pago  == 'Credito'){
@@ -184,83 +186,122 @@ class NotaForaneaController extends Controller
     }
 
     public function entrada_save(Request $request){
-
         if($this->slug_permiso('nota_foranea')){
-            if($request->pago_cubierto == null){$pago=true;}else{$pago=$request->pago_cubierto;}
-            
-            $venta= NotaForanea::find($request->idnota);
-            $venta->pago_cubierto = $pago;
-            $venta->observaciones = $request->observaciones;
-            $venta->save();
-            // $client= ClienteSinContrato::find($venta->cliente_id);
-            // $client->telefono = $request->telefono;
-            // $client->email = $request->email;
-            // $client->direccion = $request->direccion;
-            // $client->rfc = $request->rfc;
-            // $client->cfdi = $request->cfdi;
-            // $client->direccion_factura = $request->direccion_factura;
-            // $client->save();
-
-            if($request->inputNumSerie_entrada){
+            //validaciones
+            if($request->inputNumSerie_entrada != null){
                 $searchRep = $request->inputNumSerie_entrada;
                 if(count($searchRep) > count(array_unique($searchRep))){
                     return response()->json([ 'alert'=>'error', 'mensaje'=>'Cilindros repetidos en registro de entrada']);
                 }
-                if(count($request->inputNumSerie_entrada) >= count($request->inputNumSerie)){
-                    $venta->tanques_devueltos = true;
-                    $venta->save();
-                }
-                if(count($request->inputNumSerie_entrada) <= count($request->inputNumSerie)){
-                    ///validar si hay tanques en la lista
-                    //Guardar tanques Entrada
-                    foreach( $request->inputNumSerie_entrada AS $entrada => $g){
-                        $searhTanque =Tanque::where('num_serie', $request->inputNumSerie_entrada[$entrada])->first();
-                                    
-                        // dump($searhTanque);
-                        if($searhTanque){
-                            //si existe cambiar estatus del tanque 
-                            $searhTanque->estatus='VACIO-ALMACEN';
-                            $searhTanque->save();
-
-                        }else{
-                            //Si no existe registrar
-                            $cadena=explode(', ', $request->inputDescripcion_entrada[$entrada]);
-                            $newTanque = new Tanque;
-                            $newTanque->num_serie = $request->inputNumSerie_entrada[$entrada];
-                            $newTanque->ph =$request->inputPh_entrada[$entrada];
-                            $newTanque->capacidad = $cadena[0];
-                            $newTanque->material = $cadena[1];
-                            $newTanque->fabricante = $cadena[2];
-                            $newTanque->tipo_tanque = $cadena[3];
-                            $newTanque->estatus = $cadena[4];
-                            $cadeGas =explode(' ',$cadena[5]);
-                            $newTanque->tipo_gas = $cadeGas[0];
-                            $newTanque->user_id = auth()->user()->id;
-                            $newTanque->save();
-                        }
-                        $ventatanque=new NotaForaneaTanque();
-                        $ventatanque->nota_foranea_id = $request->idnota;
-                        $ventatanque->num_serie = $request->inputNumSerie_entrada[$entrada];
-                        $ventatanque->tapa_tanque = $request->inputTapa_entrada[$entrada];
-                        $ventatanque->insidencia = 'ENTRADA';
-                        $ventatanque->save();
-                    }
+            }
+            if($request->inputNumSerie != null){
+                $searchRep = $request->inputNumSerie;
+                if(count($searchRep) > count(array_unique($searchRep))){
+                    return response()->json([ 'alert'=>'error', 'mensaje'=>'Cilindros repetidos en registro de entrada']);
                 }
             }
 
+            if($request->pago_cubierto == null){$pago=true;}else{$pago=$request->pago_cubierto;}
+            
+            $venta= NotaForanea::find($request->idnota);
+            $venta->pago_cubierto = $pago;
+            $venta->subtotal =  $request->input('input-subtotal');
+            $venta->iva_general = $request->input('input-ivaGen');
+            $venta->total = $request->input('input-total');
+            $venta->tanques_devueltos = $request->input('tanques_devueltos');
+            $venta->save();
+            
+            if($request->inputNumSerie != null){
+                foreach( $request->inputNumSerie AS $salid => $ent){
+                        //Cambiar estatus tanque
+                        $searhTanque =Tanque::where('num_serie', $request->inputNumSerie[$salid])->first(); 
+                        $searhTanque->estatus='VENTA-FORANEA';
+                        $searhTanque->save();
+    
+                        $ventatanque=new NotaForaneaTanque();
+                        $ventatanque->nota_foranea_id = $venta->id;
+                        $ventatanque->num_serie = $request->inputNumSerie[$salid];
+                        $ventatanque->cantidad = $request->input_cantidad[$salid];
+                        $ventatanque->unidad_medida = $request->input_unidad_medida[$salid];
+                        $ventatanque->precio_unitario = $request->input_precio_unitario[$salid];
+                        $ventatanque->tapa_tanque = $request->inputTapa[$salid];
+                        $ventatanque->iva_particular = $request->input_iva_particular[$salid];
+                        $ventatanque->importe = $request->input_importe[$salid];
+                        $ventatanque->insidencia = 'SALIDA';
+                        $ventatanque->save();
+                    
+                    
+                }
+            }
+            //entrada
+            //Guardar tanques Entrada   serie_carga_salida
+            if($request->inputNumSerie_entrada != null){
+                foreach( $request->inputNumSerie_entrada AS $entrada => $g){
+                    $searhTanque =Tanque::where('num_serie', $request->inputNumSerie_entrada[$entrada])->first();
+                    if($searhTanque){
+                        //si existe cambiar estatus del tanque 
+                        $searhTanque->estatus='VACIO-ALMACEN';
+                        $searhTanque->save();
+                    }else{
+                        //Si no existe registrar
+                        $cadena=explode(', ', $request->inputDescripcion_entrada[$entrada]);
+                        $newTanque = new Tanque;
+                        $newTanque->num_serie = $request->inputNumSerie_entrada[$entrada];
+                        $newTanque->ph =$request->inputPh_entrada[$entrada];
+                        $newTanque->capacidad = $cadena[0];
+                        $newTanque->material = $cadena[1];
+                        $newTanque->fabricante = $cadena[2];
+                        $newTanque->tipo_tanque = $cadena[3];
+                        $newTanque->estatus = $cadena[4];
+                        $cadeGas =explode(' ',$cadena[5]);
+                        $newTanque->tipo_gas = $cadeGas[0];
+                        $newTanque->user_id = auth()->user()->id;
+                        $newTanque->save();
+                    }
+    
+                    $ventatanque=new NotaForaneaTanque();
+                    $ventatanque->nota_foranea_id = $request->idnota;
+                    $ventatanque->num_serie = $request->inputNumSerie_entrada[$entrada];
+                    $ventatanque->tapa_tanque = $request->inputTapa_entrada[$entrada];
+                    $ventatanque->insidencia = 'ENTRADA';
+                    $ventatanque->save();
+                }
+            }
+            
             return response()->json(['alert'=>'success']);
-            
-            return false;
-            //validar que no se encuentren numero de serie repetido
-            
-
-            // return response()->json(['alert'=>'error', 'mensaje'=>'La cantidad de tanques de entrada deben ser igual a los de salida']);
-            // return response()->json(['alert'=>'error', 'mensaje'=>'No hay tanques que registrar']);
-            
         }
         return view('home');
     }
 
+    public function cambiar_estatus(Request $request, $num_serie){
+        if($this->slug_permiso('nota_foranea')){
+            NotaForaneaTanque::
+            where('nota_foranea_id',$request->nota_id)
+            ->where('insidencia','SALIDA')
+            ->where('num_serie',$num_serie)
+            ->delete();
+            $cilindro=Tanque::where('num_serie',$num_serie)->first();
+            $cilindro->estatus ='LLENO-ALMACEN';
+            $cilindro->save();
+            return response()->json(['alert'=>'success']);
+        }
+        return view('home');
+    }
+
+    public function cambiar_estatus_entrada(Request $request, $num_serie){
+        if($this->slug_permiso('nota_foranea')){
+            NotaForaneaTanque::
+            where('nota_foranea_id',$request->nota_id)
+            ->where('insidencia','ENTRADA')
+            ->where('num_serie',$num_serie)
+            ->delete();
+            $cilindro=Tanque::where('num_serie',$num_serie)->first();
+            $cilindro->estatus ='VENTA-FORANEA';
+            $cilindro->save();
+            return response()->json(['alert'=>'success']);
+        }
+        return view('home');
+    }
 
     
 }

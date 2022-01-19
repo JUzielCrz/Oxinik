@@ -425,7 +425,7 @@ $(document).ready(function () {
                         return false;
                     }
                     if(msg.estatus == 'LLENO-ALMACEN'){
-                        var precio_importe= $('#precio_unitario').val() * $('#cantidad').val();
+                        var precio_importe= $('#precio_unitario').val();
                         var iva =0;
                                 
                         if( msg.tipo_tanque == 'Industrial'){
@@ -671,8 +671,8 @@ $(document).ready(function () {
             text: "¿Estas seguro de cancelar esta venta?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#F9C846',
+            cancelButtonColor: '#329F5B',
             cancelButtonText: 'Cancelar',
             confirmButtonText: 'Si, Continuar!'
         }).then((result) => {

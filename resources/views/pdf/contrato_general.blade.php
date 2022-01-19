@@ -72,7 +72,12 @@
                     <li style="">                
                         Que está interesado en recibir por parte de “EL ARRENDADOR” los bienes que posteriormente se describirán en los términos y condiciones designados en el presente contrato, a los efectos de arrendar por el precio estipulado en el presente contrato. De tal modo que adquiere la posesión y uso mientras se satisfaga el precio y se cumplan las condiciones estipuladas y convenidas, en el Anexo A.                    </li>
                     <li>
-                        Señala como domicilio para todos los efectos de este contrato el ubicado en la {{$cliente->direccion}}, con nombre del establecimiento que se denomina {{$cliente->empresa}}.
+                        Señala como domicilio para todos los efectos de este contrato el ubicado en la <strong>{{$cliente->direccion}}</strong>
+                        @if ($contrato->nombre_comercial != null)
+                        , con nombre del establecimiento que se denomina <strong>{{$contrato->nombre_comercial }}</strong>
+                        @else
+                            .
+                        @endif
                     </li>
                 </ul>
             </p>
@@ -105,11 +110,9 @@
 
             <p><strong>SEXTA:</strong> “EL ARRENDATARIO” está obligado a conservar en buen estado los cilindros  obtenidos en arrendamiento y, si no utilizara el servicio por más de seis meses, deberá pagar por gastos de mantenimiento de los cilindros o envases de diversos gases, la cantidad de $200.00 doscientos pesos, cero centavos, moneda nacional, por cada envase que arrende, de no hacerlo, “EL ARRENDADOR” podrá dar por cancelado el contrato, y “EL ARRENDATARIO” deberá realizar la devolución y entrega de los cilindros o envases de diversos gases, que tenga a su cargo.</p>
 
-            @php
-                $precioFormat= number_format($contrato->deposito_garantia, 2, '.', ',')
-            @endphp
+            
 
-            <p><strong>SEPTIMA:</strong> “EL ARRENDATARIO” deberá entregar un depósito en garantía de {{$precioFormat}} <span>{{$precioLetras}}</span>, moneda nacional, por CADA UNO de los cilindros ó envases solicitados en alquiler y proporcionados por “EL ARRENDADOR”, que no representa de ninguna manera el precio de el o los envases que requiera, y que ampara el presente contrato, los cuales se mencionan en el cuadro siguiente y que se encuentran documentados, en la siguiente tabla. </p>
+            <p><strong>SEPTIMA:</strong> “EL ARRENDATARIO” deberá entregar un depósito en garantía de por cada uno de los cilindros ó envases solicitados en alquiler y proporcionados por “EL ARRENDADOR”, que no representa de ninguna manera el precio de el o los envases que requiera, y que ampara el presente contrato, los cuales se mencionan en el cuadro siguiente y que se encuentran documentados, en la siguiente tabla. </p>
 
 
             <table class="table table-sm mt-4 mb-4 text-center">
@@ -121,6 +124,7 @@
                         <th>TIPO</th>
                         <th>MATERIAL</th>
                         <th>CAPACIDAD</th>
+                        <th>DEP. GAR.</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -132,16 +136,21 @@
                         <td>{{$item->tipo_tanque}}</td>
                         <td>{{$item->material}}</td>
                         <td>{{$item->capacidad}} {{$item->unidad_medida}}</td>
+                        <td>{{number_format($item->deposito_garantia, 2, '.', ',')}}</td>
                     </tr>
                     @endforeach
                     <tr>
-                        <td >OBSERVACIONES: </td>
-                        <td colspan="4"> {{$nota->observaciones}}</td>
+                        <td colspan="5" class="text-right">Total: </td>
+                        <td>{{number_format($tanques->sum('deposito_garantia'), 2, '.', ',')}}</td>
+                    </tr>
+                    <tr>
+                        <td>OBSERVACIONES: </td>
+                        <td colspan="5"> {{$nota->observaciones}}</td>
                     </tr>
                 </tbody>
             </table>
 
-            <p><strong>OCTAVA:</strong> “EL ARRENDATARIO” deberá consignar un importe de $____________ mil pesos, cero centavos, moneda nacional, por CADA UNO de los cilindros o envases de diversos gases, solicitados en alquiler y proporcionados por “EL ARRENDADOR”, el cual podrá satisfacerse mediante tarjeta de crédito, tarjeta de débito, transferencia bancaria o en efectivo en el domicilio del establecimiento comercial denominado OXI NIK Gases Especiales, con domicilio en la calle Ignacio Zaragoza, número 213, letra “A”, en la Colonia Fernando Gómez Sandoval, del Municipio de Santa Lucia del Camino, Oaxaca c. p. 71243, cuyo justificante se adjuntará al presente contrato.</p>
+            <p><strong>OCTAVA:</strong> “EL ARRENDATARIO” deberá consignar el importe de garantía descrito en la tabla de la clausula septima, el cual podrá satisfacerse mediante tarjeta de crédito, tarjeta de débito, transferencia bancaria o en efectivo en el domicilio del establecimiento comercial denominado OXI NIK Gases Especiales, con domicilio en la calle Ignacio Zaragoza, número 213, letra “A”, en la Colonia Fernando Gómez Sandoval, del Municipio de Santa Lucia del Camino, Oaxaca c. p. 71243, cuyo justificante se adjuntará al presente contrato.</p>
 
             <ul style="list-style-type: lower-latin; ">
                 <li>
@@ -241,7 +250,12 @@
             <p> EN LA CIUDAD DE OAXACA DE JUÁREZ, OAXACA, A  <span>{{$fechaactual2}}</span> </p>
             <br>
             <br>
-            <p>RECIBI DEL C.{{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}} LA CANTIDAD DE ${{$precioFormat}} ({{$precioLetras}} MIL PESOS 00/100 MONEDA NACIONAL), 
+
+            @php
+                $precioFormat= number_format($tanques->sum('deposito_garantia'), 2, '.', ',')
+            @endphp
+
+            <p>RECIBI DEL C.{{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}} LA CANTIDAD DE ${{$precioFormat}} ({{$precioLetras}} 00/100 MONEDA NACIONAL), 
                 COMO CONCEPTO DE DEPOSITO DE 
                 @foreach ($tanques as $item)
                     <span>{{$item->cilindros}}</span> CILINDROS DE <span>{{$item->material}}</span> DE <span>{{$item->nombre}}</span> <span>{{$item->tipo_tanque}}</span>, 

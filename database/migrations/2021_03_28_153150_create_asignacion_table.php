@@ -26,7 +26,6 @@ class CreateAsignacionTable extends Migration
             $table->float('precio_unitario');
             $table->string('unidad_medida');
             $table->float('capacidad');
-            $table->float('deposito_garantia');
             $table->timestamps();
         });
     }

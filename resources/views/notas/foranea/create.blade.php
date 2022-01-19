@@ -17,9 +17,6 @@
                 <div class="card">
                     <div class="card-header bg-gris text-white">
                         <div class="row m-0 p-0">
-                            <div class="col-md-2 ">
-                                <button class="btn btn-amarillo btn-block " onclick="return window.history.back();"><span class="fas fa-arrow-circle-left"></span></button>
-                            </div>
                             <div class="col m-0">
                                 <h5>NUEVA NOTA FORANEA</h5>
                             </div>
