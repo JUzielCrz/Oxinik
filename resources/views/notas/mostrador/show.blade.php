@@ -133,7 +133,7 @@
                                     <th scope="col">GAS</th>
                                     <th scope="col">TAPA</th>
                                     <th scope="col">DESCRIPCIÓN</th>
-                                    <th scope="col">P.U.</th>
+                                    <th scope="col">PRECIO</th>
                                     <th scope="col">IVA</th>
                                     <th scope="col">IMPORTE</th>
                                 </tr>

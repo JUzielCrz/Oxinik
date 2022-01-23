@@ -46,6 +46,7 @@
                         <th scope="col">Usuario</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
+                        <th scope="col"></th>
                         </tr>
                     </thead>
                 </table>

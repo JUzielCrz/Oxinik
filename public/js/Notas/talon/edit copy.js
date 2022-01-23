@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    $(document).on("click","#btn-insert-fila-entrada", validar_fila_entrada);
+    $(document).on("click","#btn-eliminar-entrada", eliminar_cilindro_entrada);
     
     $(document).on("click","#btn-insert-fila-salida", insertar_fila_salida);
     $(document).on("click","#btn-eliminar-salida", eliminar_cilindro_salida);
@@ -33,6 +35,266 @@ $(document).ready(function () {
         } 
     });
 
+    
+    //FUNCIONES INSERTAR FILA entrada
+    function validar_fila_entrada() {
+        //Eliminar espacios
+        var numserie= $('#serie_tanque_entrada').val().replace(/ /g,'').toUpperCase();
+
+        //validar campos no vacios
+        var campo= ['serie_tanque_entrada','tapa_tanque_entrada'];
+        var campovacio = [];
+
+        $.each(campo, function(index){
+            $('#'+campo[index]+'Error').empty().removeClass('is-invalid');
+            $('#'+campo[index]).removeClass('is-invalid');
+        });
+
+        $.each(campo, function(index){
+            if($("#"+campo[index]).val()=='' || $("#"+campo[index]).val()<=0    ){
+                campovacio.push(campo[index]);
+            }
+        });
+
+        if(campovacio.length != 0){
+            $.each(campovacio, function(index){
+                $("#"+campovacio[index]).addClass('is-invalid');
+                $("#"+campovacio[index]+'Error').text('Necesario');
+            });
+            return false;
+        }
+    
+        //Bucar si ya esta agregado tanque a la lista
+        var boolRepetido=false;
+        $(".tr-cilindros-entrada").each(function(index, value){
+            if($(this).find("td")[0].innerHTML == numserie){
+                boolRepetido=true;
+            }
+        })
+        if(boolRepetido){
+            $("#serie_tanque_entradaError").text('Número de serie ya agregado a esta nota');
+                return false;
+        }
+    
+        //validar si el tanque existe.
+        $.ajax({
+            method: "get",
+            url: "/tanque/show_numserie/"+numserie+'',
+        }).done(function(msg){
+            var numserie= $('#serie_tanque_entrada').val().replace(/ /g,'').toUpperCase();
+            if(msg == ""){// entra si no existe tanque
+                $('#num_serie').val(numserie);
+                $('#num_serie').prop("disabled", true);
+                $("#modal-registrar-tanque").modal('show');
+            }else{
+                if(msg.estatus == "VENTA-TALON" || msg.estatus == 'REGISTRADO'){
+                    insertar_fila_entrada(msg);
+                    mensaje("info","Aviso", "Este cilindro ya esta registrado en su base da datos" , 1000, "#modal-registrar-tanque");
+                }else{ 
+                    //Tanque registrado en el sistema con estus diferente a VENTA-talon
+                    Swal.fire({
+                        icon: 'warning',
+                        html: 'Este tanque esta registrado en el sistema, pero no ha salido en alguna venta talon <br> Estatus tanque:  <strong> '+msg.estatus+'</strong> <br>',
+                        showCancelButton: true,
+                        confirmButtonText: 'Continuar de todos modos',
+                        footer: '<a class="btn btn-link" target="_blank" href="/tanque/history/'+msg.id+'">ver historial <strong>'+msg.num_serie+'</strong></a>'+
+                        '<a class="btn btn-link" target="_blank" href="/tanque/reportados/create">Levantar reporte <strong>'+msg.num_serie+'</strong></a>',
+                        
+                    }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                            insertar_fila_entrada(msg);
+                        } 
+                    })
+                }   
+            }
+
+        })
+        return false;
+    }
+
+    function insertar_fila_entrada(msg){
+        var valorcampo=[];
+        var inputRegistro=false;
+
+        if(msg == 'REGISTRO-TANQUE'){
+            var fabri;
+            if($("#fabricanteoficial").val() == "Otros"){
+                fabri = $("#otrofabricante").val();
+            }else{
+                fabri = $("#fabricanteoficial").val();
+            }
+            inputRegistro=true;
+            valorcampo= [
+                $('#num_serie').val(),// 0
+                $('#unidadmedida').val(),// 1
+                $('#capacidadnum').val(),// 2
+                $('#material').val(),// 3
+                $('#tipo_tanque').val(),// 4
+                $('#estatus').val(),// 5
+                $('#ph_anio').val(),// 6
+                $('#ph_mes').val(),// 7
+                $("#tipo_gas").val()+" "+$("#tipo_gas option:selected").text(),// 8
+                fabri//9
+            ];
+            var pruebah= valorcampo[6]+'-'+valorcampo[7];
+        }else{
+            valorcampo= [
+                msg.num_serie,// 0
+                msg.capacidad,// 1
+                msg.capacidad,// 2
+                msg.material,// 3
+                msg.tipo_tanque,// 4
+                msg.estatus,// 5
+                msg.ph,// 6
+                '',// 7
+                'gas id: '+msg.tipo_gas,// 8
+                msg.fabricante//9
+            ];
+            var pruebah= valorcampo[6];
+        }
+
+        var capacidad=valorcampo[2]+' '+ valorcampo[1];
+        var descrp= capacidad+", "+valorcampo[3]+", "+valorcampo[9]+", "+valorcampo[4]+", "+valorcampo[5]+", "+valorcampo[8];
+        
+        var tapaTanque=$('#tapa_tanque_entrada').val();
+
+        $.get('/tanque/validar_ph/' + pruebah, function(respuesta) {
+            var tdph;
+            if(respuesta.alert){
+                tdph="<td class='table-danger'>"+pruebah +"</td>"
+            }else{
+                tdph="<td>"+pruebah +"</td>"
+            }
+            var serie_cilindro=valorcampo[0];
+            var serie_limpiado=serie_cilindro.replace(/ /g,'').toUpperCase();
+            $('#tbody-cilindros-entrada').append(
+                "<tr class='tr-cilindros-entrada'>"+
+                "<td>"+serie_limpiado +"</td>"+ "<input type='hidden' name='inputNumSerie_entrada[]' id='idInputNumSerie_entrada' value='"+serie_limpiado +"'></input>"+
+                "<td>"+descrp+"</td>"+"<input type='hidden' name='inputDescripcion_entrada[]' value='"+descrp +"'></input>"+
+                tdph+ "<input type='hidden' name='inputPh_entrada[]' value='"+pruebah +"'></input>"+
+                "<td>"+tapaTanque+"</td>"+ "<input type='hidden' name='inputTapa_entrada[]' value='"+tapaTanque +"'></input>"+
+                "<input type='hidden' name='inputRegistro[]' value="+inputRegistro+"></input>"+
+                "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
+                "</tr>"
+            );
+
+            mensaje("success","Exito", "Agregado Correctamente" , 1500, "#modal-registrar-tanque");
+            limpiar_campos_entrada();
+        });
+    }
+
+    $("#unidad_medida").change( function() {
+        if ($(this).val() == "CARGA") {
+            $("#cantidad").prop("readonly", true);
+            $("#cantidad").val(1);
+
+        }else{
+            $("#cantidad").prop("readonly", false);
+        } 
+    });
+
+    // para registro de tanque
+
+    $("#fabricanteoficial").change( function() {
+        if ($(this).val() == "Otros") {
+            $("#otrofabricante").prop("disabled", false);
+        } else {
+            $("#otrofabricante").prop("disabled", true);
+            $("#otrofabricante").val('');
+        }
+    });
+
+    $("#unidadmedida").change( function() {
+        if ($(this).val() == "Carga") {
+            $("#capacidadnum").val(1);
+            $("#capacidadnum").prop("disabled", true);
+        } else {
+            
+            $("#capacidadnum").prop("disabled", false);
+        }
+    });
+
+    function validar_tanque() {
+        var campo= [
+            'num_serie',
+            'unidadmedida',
+            'capacidadnum',
+            'material',
+            'tipo_tanque',
+            'estatus',
+            'ph_anio',
+            'ph_mes',
+            'tipo_gas',
+            'fabricanteoficial'];
+        var campovacio = [];
+
+        $.each(campo, function(index){
+            $('#'+campo[index]+'Error').empty();
+            $('#'+campo[index]).removeClass('is-invalid');
+        });
+
+        $.each(campo, function(index){
+            if($("#"+campo[index]).val()=='' || $("#"+campo[index]).val()<=0    ){
+                campovacio.push(campo[index]);
+            }
+        });
+
+        if(campovacio.length != 0){
+            $.each(campovacio, function(index){
+                $("#"+campovacio[index]).addClass('is-invalid');
+                $("#"+campovacio[index]+'Error').text('Necesario');
+            });
+            return false;
+        }
+
+
+        var fabri;
+        if($("#fabricanteoficial").val() == "Otros"){
+            fabri = $("#otrofabricante").val();
+        }else{
+            fabri = $("#fabricanteoficial").val();
+        }
+
+        if(fabri==""){
+            $("#fabricanteError").text('Necesario');
+            $("#otrofabricante").addClass('is-invalid');
+            $("#fabricanteoficial").addClass('is-invalid');
+            return false;
+        }else{
+            $("#fabricanteError").empty();
+            $("#otrofabricante").removeClass('is-invalid');
+            $("#fabricanteoficial").removeClass('is-invalid');
+        }
+
+        $("#phError").empty();
+        $("#ph_anio").removeClass('is-invalid');
+        if($('#ph_anio').val()<1950){
+            $("#phError").text('Campo Incorrecto');
+            $("#ph_anio").addClass('is-invalid');
+            return false;
+        }
+
+
+        insertar_fila_entrada('REGISTRO-TANQUE');
+    }
+
+    function limpiar_campos_entrada(){
+        $("#num_serie").val("");
+        $("#ph_mes").val("");
+        $("#ph_anio").val("");
+        $("#capacidadnum").val("");
+        $("#unidadmedida").val("");
+        $("#material").val("");
+        $("#otrofabricante").val("");
+        $("#fabricanteoficial").val("");
+        $("#tipo_gas").val("");
+        $("#tipo_tanque").val("");
+        $("#estatus").val("");
+
+        $("#serie_tanque_entrada").val("");
+        $("#tapa_tanque_entrada").val("");
+    }
     //FUNCIONES INSERTAR FILA SALIDA
 
     function insertar_fila_salida() {
@@ -91,7 +353,7 @@ $(document).ready(function () {
 
         $.get('/tanque/show_numserie/' + numserie, function(msg) { 
             if(msg != ''){
-                if(msg.estatus == 'LLENO-ALMACEN'){
+                if(msg.estatus == 'LLENO-ALMACEN'|| msg.estatus == 'REGISTRADO'){
 
                     var precio_importe= $('#precio_unitario').val();
                     var iva =0;
@@ -117,7 +379,7 @@ $(document).ready(function () {
                         mensaje("success","Exito", "Agregado Correctamente" , 1500, "#modal-registrar-tanque");
                         limpiar_campos();
                         actualizar_subtotal();
-                        actualizar_disables();
+                        // limpiar_campos_tanque()
 
                 }else{
                     $("#serie_tanqueError").text('Error Tanque - estatus: '+ msg.estatus);
@@ -132,7 +394,7 @@ $(document).ready(function () {
     }
 
     function limpiar_campos(){
-        $("#serie_tanque").val("");
+        $("#serie_tanque_entrada").val("");
         $("#tapa_tanque").val("");
         $("#cantidad").val("");
         $("#unidad_medida").val("");
@@ -153,9 +415,9 @@ $(document).ready(function () {
     //disables
     function actualizar_disables(){
         if($(".tr-cilindros-salida").length <= $(".tr-cilindros-entrada").length && $(".tr-cilindros-salida").length>0){
-            $('.disabled_saldia').prop('disabled', true);
+            $('.disabled_entrada').prop('disabled', true);
         }else{
-            $('.disabled_saldia').prop('disabled', false);
+            $('.disabled_entrada').prop('disabled', false);
         }   
     }
 
@@ -280,8 +542,15 @@ $(document).ready(function () {
             return false;
         }
 
+
+        //SI no hay tanques agregados en salida manda error
+        if($('#idInputNumSerie').length === 0) {
+            mensaje('error','Error', 'No hay registro de tanques', null, null);
+            return false;
+        }
+
         //Si Metodo de pago esta vacio mandar error
-        if($("#metodo_pago").val()=='' && $("#input-total").val()!=0){
+        if($("#metodo_pago").val()==''){
             $("#metodo_pago").addClass('is-invalid');
             $("#metodo_pagoError").text('Selecciona un metodo de pago');
             return false;
@@ -401,17 +670,16 @@ $(document).ready(function () {
 
     function actualizar_total(){
         var importe = 0;
-        
+
         $(".tr-cilindros-salida").each(function(){
             var preciotanque=$(this).find("td")[7].innerHTML;
             importe=importe+parseFloat(preciotanque);
         })
-        
+
         var total=parseFloat($("#precio_envio_nota").val()) + importe;
         $('#label-total').replaceWith( 
             "<label id='label-total'>"+Intl.NumberFormat('es-MX').format(total) +"</label>"
         );
-        console.log($("#precio_envio_nota").val());
         $('#input-total').val(total);
         $("#monto_pago").val(total);
     }
@@ -466,10 +734,59 @@ $(document).ready(function () {
         })
     }
 
+
+    function eliminar_cilindro_entrada(){
+        //validar campos repetidos
+        var numserie=$(this).closest('tr').find("td")[0].innerHTML;
+        var boolRepetido=false;
+        $(".tr-cilindros-salida").each(function(index, value){
+            var valores = $(this).find("td")[0].innerHTML;
+            if(valores == numserie){
+                boolRepetido=true;
+            }
+        })
+        if(boolRepetido){
+            mensaje('error','Error', 'Debes eliminar cilindro de salida primero', null,null);
+                return false;
+        }
+        Swal.fire({
+            title: '¿Estas seguro?',
+            text: "Se eliminara cilindro de esta nota y su estatus cambiara a REGISTRADO",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#F9C846',
+            cancelButtonColor: '#329F5B',
+            confirmButtonText: 'Si Eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                
+                var trfila=$(this).closest('tr');
+                $.ajax({
+                    method: "post",
+                    url: "/nota/talon/cambiar_estatus_entrada/"+numserie,
+                    data: {
+                        '_token': $('input[name=_token]').val(),
+                        'nota_id': $('#idnota').val(),
+                    },
+                }).done(function (msg) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Exito',
+                        text: 'Eliminado correctamente.',
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
+                    trfila.remove();
+                    actualizar_disables()
+                });
+            }
+        })
+    }
+
     function eliminarFila(){
         $(this).closest('tr').remove();
-        actualizar_subtotal();
-        actualizar_disables();
     }
 
     $("#metodo_pago").change( function() {

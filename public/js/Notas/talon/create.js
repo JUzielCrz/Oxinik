@@ -380,13 +380,16 @@ $(document).ready(function () {
 
     function limpiar_campos(){
         $("#num_serie").val("");
-        $("#ph").val("");
+        $("#ph_mes").val("");
+        $("#ph_anio").val("");
         $("#capacidadnum").val("");
         $("#unidadmedida").val("");
         $("#material").val("");
         $("#otrofabricante").val("");
         $("#fabricanteoficial").val("");
         $("#tipo_gas").val("");
+        $("#tipo_tanque").val("");
+        $("#estatus").val("");
 
         $("#serie_tanque_entrada").val("");
         $("#tapa_tanque").val("");

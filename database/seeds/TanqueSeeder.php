@@ -29,9 +29,9 @@ class TanqueSeeder extends Seeder
             'capacidad'=>'8 m3',  
             'material'=>'Acero',
             'fabricante'=>'Infra',
-            'tipo_gas'=>'2',
+            'tipo_gas'=>'1',
             'tipo_tanque'=>'Industrial',
-            'estatus'=>'MANTENIMIENTO',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
@@ -42,7 +42,7 @@ class TanqueSeeder extends Seeder
             'fabricante'=>'Praxair',
             'tipo_gas'=>'3',
             'tipo_tanque'=>'Industrial',
-            'estatus'=>'ENTREGADO-CLIENTE',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
@@ -53,7 +53,7 @@ class TanqueSeeder extends Seeder
             'fabricante'=>'TanQuir',
             'tipo_gas'=>'4',
             'tipo_tanque'=>'Industrial',
-            'estatus'=>'VACIO-ALMACEN',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
@@ -64,7 +64,7 @@ class TanqueSeeder extends Seeder
             'fabricante'=>'Praxair',
             'tipo_gas'=>'1',
             'tipo_tanque'=>'Industrial',
-            'estatus'=>'VACIO-ALMACEN',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
@@ -75,7 +75,7 @@ class TanqueSeeder extends Seeder
             'fabricante'=>'Infra',
             'tipo_gas'=>'2',
             'tipo_tanque'=>'Industrial',
-            'estatus'=>'VACIO-ALMACEN',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
@@ -86,7 +86,7 @@ class TanqueSeeder extends Seeder
             'fabricante'=>'Praxair',
             'tipo_gas'=>'3',
             'tipo_tanque'=>'Industrial',
-            'estatus'=>'VACIO-ALMACEN',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
@@ -97,7 +97,7 @@ class TanqueSeeder extends Seeder
             'fabricante'=>'TanQuir',
             'tipo_gas'=>'4',
             'tipo_tanque'=>'Industrial',
-            'estatus'=>'VACIO-ALMACEN',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
 
 
@@ -106,11 +106,11 @@ class TanqueSeeder extends Seeder
             'num_serie'=>'AL00245',
             'ph'=>'2014-12',
             'capacidad'=>'8 m3',  
-            'material'=>'Aluminio',
+            'material'=>'Acero',
             'fabricante'=>'Praxair',
             'tipo_gas'=>'1',
             'tipo_tanque'=>'Industrial',
-            'estatus'=>'VACIO-ALMACEN',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
@@ -121,7 +121,7 @@ class TanqueSeeder extends Seeder
             'fabricante'=>'Infra',
             'tipo_gas'=>'2',
             'tipo_tanque'=>'Industrial',
-            'estatus'=>'VACIO-ALMACEN',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
@@ -132,7 +132,7 @@ class TanqueSeeder extends Seeder
             'fabricante'=>'Praxair',
             'tipo_gas'=>'3',
             'tipo_tanque'=>'Industrial',
-            'estatus'=>'VACIO-ALMACEN',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
@@ -143,7 +143,7 @@ class TanqueSeeder extends Seeder
             'fabricante'=>'TanQuir',
             'tipo_gas'=>'4',
             'tipo_tanque'=>'Industrial',
-            'estatus'=>'VACIO-ALMACEN',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
@@ -154,18 +154,18 @@ class TanqueSeeder extends Seeder
             'fabricante'=>'Praxair',
             'tipo_gas'=>'1',
             'tipo_tanque'=>'Industrial',
-            'estatus'=>'VACIO-ALMACEN',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
             'num_serie'=>'AL00250',
             'ph'=>'2014-12',
             'capacidad'=>'8 m3',  
-            'material'=>'Aluminio',
+            'material'=>'Acero',
             'fabricante'=>'Infra',
-            'tipo_gas'=>'2',
+            'tipo_gas'=>'1',
             'tipo_tanque'=>'Industrial',
-            'estatus'=>'VACIO-ALMACEN',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
@@ -176,7 +176,7 @@ class TanqueSeeder extends Seeder
             'fabricante'=>'Praxair',
             'tipo_gas'=>'3',
             'tipo_tanque'=>'Industrial',
-            'estatus'=>'VACIO-ALMACEN',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
 
         Tanque::create([
@@ -187,7 +187,7 @@ class TanqueSeeder extends Seeder
             'fabricante'=>'TanQuir',
             'tipo_gas'=>'4',
             'tipo_tanque'=>'Industrial',
-            'estatus'=>'VACIO-ALMACEN',
+            'estatus'=>'LLENO-ALMACEN',
         ]);
         
 

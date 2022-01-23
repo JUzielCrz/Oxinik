@@ -1,6 +1,8 @@
 $(document).ready(function () {
 
     $(document).on("click","#btn-estatus", estatus);
+    $(document).on("click",".btn-eliminar-nota", eliminar);
+
     estatus();
 
     var listtabla='';
@@ -17,6 +19,7 @@ $(document).ready(function () {
                         '<th scope="col">Pendiente</th>'+
                         '<th scope="col">Telefono</th>'+
                         '<th scope="col">Usuario</th>'+
+                        '<th scope="col"></th>'+
                         '<th scope="col"></th>'+
                         '<th scope="col"></th>'+
                     '</tr>'+
@@ -67,11 +70,48 @@ $(document).ready(function () {
                 {data: 'user_name'},
                 {data: 'btnPDF'},
                 {data: 'btnEdit'},
+                {data: 'btnDelete'},
             ]
         });
     }
     // Data Tables
     
+    function eliminar() {
+        Swal.fire({
+            title: '¿Estas seguro?',
+            text: "Se eliminara permanentemente la nota y los estatus de los cilindros cambiaran",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#F9C846',
+            cancelButtonColor: '#329F5B',
+            confirmButtonText: 'Si, eliminar!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    method: "get",
+                    url: "/nota/talon/delete/"+$(this).data('id'),
+                }).done(function (msg) {
+                    if(msg.mensaje == 'Sin permisos'){
+                        mensaje("error","Sin permisos", "No tienes los permisos suficientes para hacer este cambio", null, null);
+                        return false;
+                    }
+                    estatus();
+                    Swal.fire(
+                        'Exito',
+                        'Eliminado correctamente.',
+                        'success'
+                    )
+                }).fail(function (){
+                    Swal.fire(
+                        'Error',
+                        'Verifica tus datos',
+                        'error'
+                    )
+                });
+            }
+        })
+    }
 
     
 });

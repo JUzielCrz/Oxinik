@@ -73,7 +73,9 @@ class NotaForaneaController extends Controller
             })
             ->addColumn( 'btnEdit', '<a class="btn btn-sm btn-verde" href="{{route(\'nota.foranea.edit\', $notaf_id)}}" data-toggle="tooltip" data-placement="top" title="Contrato"><span class="fas fa-edit"></span></a>')
             ->addColumn( 'btnPDF', '<a class="btn btn-verde btn-sm" href="{{route(\'pdf.nota_foranea\', $notaf_id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Nota PDF"><i class="fas fa-file-pdf"></i></a>')
-            ->rawColumns(['btnEdit', 'btnPDF'])
+            ->addColumn( 'btnDelete', '<button class="btn btn-sm btn-verde btn-eliminar-nota" data-id="{{$notaf_id}}" title="Eliminar"><span class="fas fa-trash"></span></button>')
+
+            ->rawColumns(['btnEdit', 'btnPDF', 'btnDelete'])
             ->toJson();
         }
         return view('home');
@@ -301,6 +303,32 @@ class NotaForaneaController extends Controller
             return response()->json(['alert'=>'success']);
         }
         return view('home');
+    }
+
+    public function delete (NotaForanea $idnota){
+        if($this->slug_permiso('nota_salida')){
+            $tanques=NotaForaneaTanque::where('nota_foranea_id', $idnota->id)->get();
+
+            foreach( $tanques AS $indice1 => $cilindro_ent){
+                if($cilindro_ent->insidencia =='ENTRADA'){
+                    $tanq = Tanque::where('num_serie',$cilindro_ent->num_serie)->first();
+                    $tanq->estatus = 'VENTA-FORANEA';
+                    $tanq->save();
+                };
+            }
+            foreach( $tanques AS $indice1 => $cilindro_sal){
+                if($cilindro_sal->insidencia =='SALIDA'){
+                    $tanq = Tanque::where('num_serie',$cilindro_sal->num_serie)->first();
+                    $tanq->estatus = 'LLENO-ALMACEN';
+                    $tanq->save();
+                };
+            }
+            $idnota->delete();
+            return response()->json(['mensaje'=>'success']);
+            
+            return response()->json(['mensaje'=>'success']);
+        }
+        return response()->json(['mensaje'=>'Sin permisos']);
     }
 
     

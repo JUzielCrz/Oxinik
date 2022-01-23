@@ -605,7 +605,7 @@ $(document).ready(function () {
                             '<th>CIL.</th>'+
                             '<th>GAS</th>'+
                             '<th>TIPO</th>'+
-                            '<th>P.U.</th>'+
+                            '<th>PRECIO</th>'+
                             '<th>CAP</th>'+
                         '</tr></thead>'+
                         '<tbody>'+

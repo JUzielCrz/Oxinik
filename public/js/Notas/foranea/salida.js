@@ -326,7 +326,7 @@ $(document).ready(function () {
             '</div>'
         )
         $('#precio_envio_nota').val($('#precio_envio_show').val());
-        actualizar_total();
+        actualizar_subtotal();
         
     }
 
@@ -336,19 +336,23 @@ $(document).ready(function () {
             '<button id="btn-addEnvio" type="button" class="btn btn-sm btn-amarillo" > <span class="fas fa-plus"></span> Agregar Envio</button>'
         )
         $('#precio_envio_nota').val(0);
-        actualizar_total();
+        actualizar_subtotal();
     }
 
 
     //Funciones finales de Nota General
 
     function pagar_nota(){
+        if($('#id_show').val() == '') {
+            mensaje('error','Error', 'Debes seleccionar un cliente o registralo', null, null);
+            return false;
+        }
+
         $("#nombre_cliente").removeClass('is-invalid');
         if($("#nombre_cliente").val() == ''){
             $("#nombre_cliente").addClass('is-invalid');
             return false;
         }
-
 
         //SI no hay tanques agregados en salida manda error
         if($('#idInputNumSerie_salida').length === 0) {

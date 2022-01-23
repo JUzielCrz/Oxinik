@@ -42,13 +42,13 @@
                                 <span  id="unidad_medidaError" class="text-danger"></span>
                             </div>  
                             <div class="col">
-                                {!! Form::label('cantidad') !!}
+                                {!! Form::label('Cantidad') !!}
                                 {!! Form::number('cantidad', null, ['id'=>'cantidad', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'0', 'required', 'readonly' ]) !!}
                                 <span  id="cantidadError" class="text-danger"></span>
                             </div>
                             
                             <div class="col">
-                                {!! Form::label('P.U.') !!}
+                                {!! Form::label('Precio') !!}
                                 {!! Form::number('precio_unitario', null, ['id'=>'precio_unitario', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'$0.0', 'required' ]) !!}
                                 <span  id="precio_unitarioError" class="text-danger"></span>
                             </div>
@@ -67,7 +67,7 @@
                                         <th scope="col">GAS</th>
                                         <th scope="col">CANTIDAD</th>
                                         <th scope="col">U. M.</th>
-                                        <th scope="col">P. U.</th>
+                                        <th scope="col">PRECIO</th>
                                         <th scope="col">IMPORTE</th>
                                         <th scope="col">IVA 16%</th>
                                         <th scope="col"></th>
