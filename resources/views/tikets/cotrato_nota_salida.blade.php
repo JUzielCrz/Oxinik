@@ -9,13 +9,13 @@
 
         <style>
             @page {
-                margin: 5mm 5mm;
+                margin: 3mm 3mm;
             }
 
             * {
-                font-size: 12px;
+                font-size: 10px;
                 font-family: 'DejaVu Sans', serif;
-                line-height: 12px;
+                line-height: 10px;
             }
             p{
                 text-align: center;
@@ -97,7 +97,7 @@
                 <p style="margin: 0">
                     GRACIAS POR SU COMPRA <br>
                     FACEBOOK: OXINIK GASES ESPECIALES<br>
-                    sge.oxinik@gmail.com<br>
+                    SGE.OXINIK@GMAIL.COM<br>
                     ESTA VENTA SE FACTURA EN LA VENTA GLOBAL DEL DIA.<br>
                     PIDA SU FACTURA AL MOMENTO DE SU COMPRA<br>
                 </p>
