@@ -28,7 +28,7 @@ class CreateNotaTanqueTable extends Migration
             $table->enum('tapa_tanque', ['SI', 'NO']);
             $table->float('iva_particular')->nullable();
             $table->float('importe')->nullable();
-            $table->boolean('devuelto')->default(false);
+            $table->enum('estatus', ['PENDIENTE','DEVUELTO', 'CAMBIADO'])->default('PENDIENTE');
             //devolucion
             $table->timestamps();
         });

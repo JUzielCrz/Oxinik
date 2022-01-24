@@ -54,7 +54,6 @@ class ContratoController extends Controller
                 'num_contrato' => ['required', 'string', 'max:255', 'unique:contratos,num_contrato'],
                 'cliente_id' => ['required'],
                 'tipo_contrato' => ['required', 'string', 'max:255'],
-                'deposito_garantia' => ['required'],
                 
             ]); 
 
@@ -74,6 +73,7 @@ class ContratoController extends Controller
                     $request->materialcreate[$valid] == '' ||
                     $request->tipo_tanquecreate[$valid] == '' ||
                     $request->precio_unitariocreate[$valid] == '' ||
+                    $request->deposito_garantiacreate[$valid] == '' ||
                     $request->unidad_medidacreate[$valid] == ''){
                     return response()->json(['alert'=>'alert-danger', 'mensaje'=>'Faltan campos por rellenar']);
                 }
@@ -101,12 +101,12 @@ class ContratoController extends Controller
             $contratos->num_contrato = $request->input('num_contrato');
             $contratos->cliente_id = $request->input('cliente_id');
             $contratos->tipo_contrato = $request->tipo_contrato;
+            $contratos->nombre_comercial = $request->nombre_comercial;
             $contratos->precio_transporte = $request->input('precio_transporte');
             $contratos->direccion = $request->input('direccion');
             $contratos->referencia = $request->input('referencia');
             $contratos->link_ubicacion = $request->input('link_ubicacion');
             $contratos->reguladores = $request->input('reguladores');
-            $contratos->deposito_garantia = $request->input('deposito_garantia');
             $contratos->observaciones= $request->observaciones;
 
             
@@ -158,6 +158,7 @@ class ContratoController extends Controller
                         $newDetalle->capacidad= $request->capacidadcreate[$typeG];
                         $newDetalle->unidad_medida= $request->unidad_medidacreate[$typeG];
                         $newDetalle->material= $request->materialcreate[$typeG];
+                        $newDetalle->deposito_garantia= $request->deposito_garantiacreate[$typeG];
                         $newDetalle->save(); 
                     }         
                 }
@@ -195,7 +196,8 @@ class ContratoController extends Controller
             $contratos = Contrato::find($id);
             $contratos->num_contrato = $request->num_contrato;
             $contratos->cliente_id = $request->cliente_id;
-            $contratos->tipo_contrato = $request->tipo_contrato;;
+            $contratos->tipo_contrato = $request->tipo_contrato;
+            $contratos->nombre_comercial = $request->nombre_comercial;
             $contratos->precio_transporte = $request->precio_transporte;
             $contratos->direccion = $request->direccion;
             $contratos->referencia = $request->referencia;

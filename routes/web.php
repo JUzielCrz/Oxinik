@@ -59,6 +59,9 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/nota/foranea/edit/{id}', 'NotaForaneaController@edit')->name('nota.foranea.edit');
     Route::post('/nota/foranea/salida/save', 'NotaForaneaController@salida_save');
     Route::post('/nota/foranea/entrada/save/{id}', 'NotaForaneaController@entrada_save');
+    Route::post('/nota/foranea/cambiar_estatus/{num_serie}', 'NotaForaneaController@cambiar_estatus');
+    Route::post('/nota/foranea/cambiar_estatus_entrada/{num_serie}', 'NotaForaneaController@cambiar_estatus_entrada');
+    Route::get('/nota/foranea/delete/{idnota}', 'NotaForaneaController@delete'); 
 
     // TALON
     Route::get('/nota/talon/index', 'NotaTalonController@index');
@@ -67,6 +70,8 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/nota/talon/create/save', 'NotaTalonController@create_save');
     Route::get('/nota/talon/edit/{id}', 'NotaTalonController@edit')->name('nota.talon.edit');
     Route::post('/nota/talon/edit/save/{id}', 'NotaTalonController@edit_save');
+    Route::post('/nota/talon/cambiar_estatus/{num_serie}', 'NotaTalonController@cambiar_estatus');
+    Route::get('/nota/talon/delete/{idnota}', 'NotaTalonController@delete'); 
 
     ///* Pago notas */
     Route::get('/nota/pagos/index/{not_id}', 'NotaPagosController@index')->name('nota.pagos.index');
@@ -140,6 +145,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
     //tanques por reportados
     Route::get('/tanque/validar_ph/{ph}', 'TanqueController@validar_ph');
+    Route::get('/tanque/validar_talon/{numserie}', 'TanqueController@validar_talon');
 
     //GASES
     Route::get('/gas/index', 'CatalogoGasController@index');

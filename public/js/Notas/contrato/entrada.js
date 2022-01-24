@@ -499,12 +499,6 @@ $(document).ready(function () {
         
         $.get('/tanque/show/'+ id_tanque, function(msg) {
             var descrp=msg.capacidad+", "+msg.material+", "+msg.fabricante+", "+msg.tipo_gas;
-            var nota_id="";
-            $(".class-tanques-nota").each(function(index, value){
-                if(msg.num_serie == $(this).find("td")[0].innerHTML){
-                    nota_id=parseInt($(this).find("td")[4].innerHTML);
-                }
-            })
 
             $('#tablelistaTanques').append(
                 "<tr class='classfilatanque'>"+
@@ -514,7 +508,7 @@ $(document).ready(function () {
                     "<td>"+$('#tapa_tanque').val() +"</td>"+ "<input type='hidden' name='inputTapa[]' value='"+$('#tapa_tanque').val() +"'></input>"+
                     "<td>"+"SN"+"</td>"+ "<input type='hidden' name='inputCambio[]' value='SN'></input>"+
                     "<td>"+recargo+"</td>"+
-                    "<input type='hidden' name='inputIdNota[]' value="+nota_id+"></input>"+
+                    // "<input type='hidden' name='inputIdNota[]' value="+nota_id+"></input>"+
                     "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
                 "</tr>");
             $("#serie_tanque").val('');
@@ -1021,8 +1015,8 @@ $(document).ready(function () {
             text: "¿Estas seguro de cancelar esta venta?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#F9C846',
+            cancelButtonColor: '#329F5B',
             cancelButtonText: 'Cancelar',
             confirmButtonText: 'Si, Continuar!'
         }).then((result) => {

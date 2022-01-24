@@ -3,6 +3,8 @@
 use App\Models\Asignacion;
 use App\Models\Cliente;
 use App\Models\Contrato;
+use App\Models\Nota;
+use App\Models\NotaTanque;
 use Illuminate\Database\Seeder;
 
 class ClienteSeeder extends Seeder
@@ -55,139 +57,86 @@ class ClienteSeeder extends Seeder
 
 
         $contrato=Contrato::create([
-            'num_contrato'=>'5',
+            'num_contrato'=>'1',
             'cliente_id'=>$cliente1->id, 
             'tipo_contrato'=>'Industrial',
-            'precio_transporte'=>'1245.78',
-            'direccion' => 'Plaza Crystal, Eduardo Mata, San José La Noria, 68120 Oaxaca de Juárez, Oax.',
+            'nombre_comercial'=>'Los 3 Garcias',
+            'precio_transporte'=>'250',
+            'direccion' => 'Plan de Ayala 305, FERROCARRIL, Agencia de Policia de Cinco Señores, 68145 Oaxaca de Juárez, Oax.',
             'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
+            'link_ubicacion' => 'https://goo.gl/maps/qPBLWWL4Z43Z7f6s7',
             'reguladores' => 1,
-            'deposito_garantia' => 10000,
+            'observaciones' => 'Cliente distinguido',
         ]);
-        // Asignacion::create([
-        //     'contratos_id'=>$contrato->id,
-        //     'cilindros'=>'3',
-        //     'tipo_gas'=>1,
-        //     'tipo_tanque' => 'Industrial',
-        //     'precio_unitario' => 200,
-        //     'unidad_medida'=> 'Carga',
-        //     'material' => 'Acero'
-        //     ]); 
+        Asignacion::create([
+            'contratos_id'=>$contrato->id,
+            'cilindros'=>1,
+            'tipo_gas'=>1,
+            'tipo_tanque' => 'Industrial',
+            'material' => 'Acero',
+            'precio_unitario' => 200,
+            'unidad_medida'=> 'Carga',
+            'capacidad' => 1,
+            ]); 
 
-        // $contrato=Contrato::create([
-        //     'num_contrato'=>'00786',
-        //     'cliente_id'=>$cliente2->id, 
-        //     'tipo_contrato'=>'Industrial',
-        //     'precio_transporte'=>'1245.78',
-        //     'direccion' => 'Plaza Crystal, Eduardo Mata, San José La Noria, 68120 Oaxaca de Juárez, Oax.',
-        //     'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
-        //     'deposito_garantia' => 10000,
-        // ]);
-        // Asignacion::create([
-        //     'contratos_id'=>$contrato->id,
-        //     'cilindros'=>'3',
-        //     'tipo_gas'=>1,
-        //     'tipo_tanque' => 'Industrial',
-        //     'precio_unitario' => 200,
-        //     'unidad_medida' => 'Carga',
-        //     'material' => 'Acero'
-        // ]);
+        Nota::create([
+            'contrato_id' =>1,   
+            'fecha' =>'2021-12-17',  
+            'envio' =>200,  
+            'subtotal' =>20160,  
+            'iva_general' =>3840,  
+            'total' =>24000,  
+            'primer_pago' =>24000,  
+            'metodo_pago' =>'Efectivo',  
+            'pago_cubierto' =>1,  
+            'observaciones' =>'',
+            'user_id' =>1, 
+            'estatus' =>'ACTIVA',   
 
-        // $contrato=Contrato::create([
-        //     'num_contrato'=>'00787',
-        //     'cliente_id'=>$cliente2->id, 
-        //     'tipo_contrato'=>'Medicinal',
-        //     'precio_transporte'=>'180.50',
-        //     'direccion' => 'Plaza Crystal, Eduardo Mata, San José La Noria, 68120 Oaxaca de Juárez, Oax.',
-        //     'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
-        //     'reguladores' => 1,
-        //     'deposito_garantia' => 10000,
-        // ]);
-        // Asignacion::create([
-        //     'contratos_id'=>$contrato->id,
-        //     'cilindros'=>'3',
-        //     'tipo_gas'=>1,
-        //     'tipo_tanque' => 'Industrial',
-        //     'precio_unitario' => 200,
-        //     'unidad_medida' => 'Carga',
-        //     'material' => 'Acero'
-        // ]);
-
-        // $contrato=Contrato::create([
-        //     'num_contrato'=>'00788',
-        //     'cliente_id'=>$cliente2->id, 
-        //     'tipo_contrato'=>'Eventual',
-        //     'precio_transporte'=>'850',
-        //     'direccion' => 'Plaza Crystal, Eduardo Mata, San José La Noria, 68120 Oaxaca de Juárez, Oax.',
-        //     'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
-        //     'deposito_garantia' => 10000,
-        // ]);
-        // Asignacion::create([
-        //     'contratos_id'=>$contrato->id,
-        //     'cilindros'=>'3',
-        //     'tipo_gas'=>1,
-        //     'tipo_tanque' => 'Industrial',
-        //     'precio_unitario' => 200,
-        //     'unidad_medida' => 'Carga',
-        //     'material' => 'Acero'
-        // ]);
-
-        // $contrato=Contrato::create([
-        //     'num_contrato'=>'00790',
-        //     'cliente_id'=>$cliente3->id, 
-        //     'tipo_contrato'=>'Industrial',
-        //     'precio_transporte'=>'1245.78',
-        //     'direccion' => 'Plaza Crystal, Eduardo Mata, San José La Noria, 68120 Oaxaca de Juárez, Oax.',
-        //     'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
-        //     'deposito_garantia' => 10000,
-        // ]);
-        // Asignacion::create([
-        //     'contratos_id'=>$contrato->id,
-        //     'cilindros'=>'3',
-        //     'tipo_gas'=>1,
-        //     'tipo_tanque' => 'Industrial',
-        //     'precio_unitario' => 200,
-        //     'unidad_medida' => 'Carga',
-        //     'material' => 'Acero'
-        // ]);
-
-        // $contrato=Contrato::create([
-        //     'num_contrato'=>'00791',
-        //     'cliente_id'=>$cliente3->id, 
-        //     'tipo_contrato'=>'Medicinal',
-        //     'precio_transporte'=>'180.50',
-        //     'direccion' => 'Plaza Crystal, Eduardo Mata, San José La Noria, 68120 Oaxaca de Juárez, Oax.',
-        //     'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
-        //     'deposito_garantia' => 10000,
-        // ]);
-        // Asignacion::create([
-        //     'contratos_id'=>$contrato->id,
-        //     'cilindros'=>'3',
-        //     'tipo_gas'=>1,
-        //     'tipo_tanque' => 'Industrial',
-        //     'precio_unitario' => 200,
-        //     'unidad_medida' => 'Carga',
-        //     'material' => 'Acero'
-        // ]);
-
-        // $contrato=Contrato::create([
-        //     'num_contrato'=>'00792',
-        //     'cliente_id'=>$cliente3->id, 
-        //     'tipo_contrato'=>'Eventual',
-        //     'precio_transporte'=>'850',
-        //     'direccion' => 'Plaza Crystal, Eduardo Mata, San José La Noria, 68120 Oaxaca de Juárez, Oax.',
-        //     'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
-        //     'deposito_garantia' => 10000,
-        // ]);
-        // Asignacion::create([
-        //     'contratos_id'=>$contrato->id,
-        //     'cilindros'=>'3',
-        //     'tipo_gas'=>1,
-        //     'tipo_tanque' => 'Industrial',
-        //     'precio_unitario' => 200,
-        //     'unidad_medida' => 'Carga',
-        //     'material' => 'Acero'
-        // ]);
-        
+        ]);
+        NotaTanque::create([
+            'nota_id'=> 1,
+            'num_serie'=> 'TQ00245',
+            'cantidad'=> 1,
+            'unidad_medida'=> 'CARGA',
+            'precio_unitario'=> '6000',
+            'tapa_tanque'=> 'SI',
+            'iva_particular'=> 960,
+            'importe'=> 6000,
+            'estatus'=> 'PENDIENTE',
+        ]);       
+        NotaTanque::create([
+            'nota_id'=> 1,
+            'num_serie'=> 'AL00245',
+            'cantidad'=> 1,
+            'unidad_medida'=> 'CARGA',
+            'precio_unitario'=> '6000',
+            'tapa_tanque'=> 'SI',
+            'iva_particular'=> 960,
+            'importe'=> 6000,
+            'estatus'=> 'PENDIENTE',
+        ]);  
+        NotaTanque::create([
+            'nota_id'=> 1,
+            'num_serie'=> 'AL00249',
+            'cantidad'=> 1,
+            'unidad_medida'=> 'CARGA',
+            'precio_unitario'=> '6000',
+            'tapa_tanque'=> 'SI',
+            'iva_particular'=> 960,
+            'importe'=> 6000,
+            'estatus'=> 'PENDIENTE',
+        ]);  
+        NotaTanque::create([
+            'nota_id'=> 1,
+            'num_serie'=> 'AL00250',
+            'cantidad'=> 1,
+            'unidad_medida'=> 'CARGA',
+            'precio_unitario'=> '6000',
+            'tapa_tanque'=> 'SI',
+            'iva_particular'=> 960,
+            'importe'=> 6000,
+            'estatus'=> 'PENDIENTE',
+        ]);   
     }
 }

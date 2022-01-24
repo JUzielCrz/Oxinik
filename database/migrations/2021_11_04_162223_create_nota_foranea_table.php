@@ -28,7 +28,7 @@ class CreateNotaForaneaTable extends Migration
             $table->string('direccion_envio')->nullable();
             $table->string('referencia_envio')->nullable();
             $table->string('link_ubicacion_envio')->nullable();
-            $table->float('precio_envio')->default(0)->nullable();
+            $table->float('precio_envio')->default(0);
             //fin add
             
             $table->float('subtotal');

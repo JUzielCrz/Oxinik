@@ -11,7 +11,6 @@ class NotaEntrada extends Model
     protected $fillable = [
         'id',
         'contrato_id', 
-        'fecha', 
         'metodo_pago', 
         'recargos', 
         'observaciones'];

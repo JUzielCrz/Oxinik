@@ -28,7 +28,13 @@
             </div>
         </div>
 
-        
+        <div class="form-row">
+            <div class="col-md-6">
+                <label for="">Nombre Comercial</label>
+                <input name="nombre_comercialedit" id="nombre_comercialedit" type="text" class="form-control form-control-sm" >
+                <span  id="nombre_comercialeditError" class="text-danger"></span>
+            </div>
+        </div>        
         
         <div class="form-row">
             <div class="form-group col-md-6">

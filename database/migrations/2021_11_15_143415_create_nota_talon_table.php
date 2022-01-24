@@ -32,9 +32,9 @@ class CreateNotaTalonTable extends Migration
             //fin add
             $table->boolean('pendiente')->default(true);
 
-            $table->float('subtotal')->nullable();
-            $table->float('iva_general')->nullable();
-            $table->float('total')->nullable();
+            $table->float('subtotal')->default(0);
+            $table->float('iva_general')->default(0);
+            $table->float('total')->default(0);
             $table->string('metodo_pago')->nullable();
             $table->date('fecha');
             $table->unsignedBigInteger('user_id')->nullable();

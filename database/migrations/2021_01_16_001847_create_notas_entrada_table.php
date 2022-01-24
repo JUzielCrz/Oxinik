@@ -19,7 +19,6 @@ class CreateNotasEntradaTable extends Migration
             $table->foreign('contrato_id')->references('id')
                 ->on('contratos')
                 ->onDelete('cascade');
-            $table->date('fecha');
             $table->string('metodo_pago')->nullable();
             $table->double('recargos')->default(0)->nullable();
             $table->string('observaciones')->nullable();

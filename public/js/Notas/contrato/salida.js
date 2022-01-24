@@ -146,64 +146,67 @@ $(document).ready(function () {
 
 
         $.get('/tanque/show_numserie/' + numserie, function(msg) { 
-            
             if(msg != ''){
-                $.get('/tanque/validar_ph/' + msg.ph, function(respuesta) {
-                    if(respuesta.alert=='vencido'){
-                        //detener 
-                        mensaje("error","PH: "+msg.ph, respuesta.mensaje, null, null);
+                $.get('/tanque/validar_talon/' + numserie, function(rsta) {
+                    if(rsta){
+                        $("#serie_tanqueError").text('Cilindro se encuentra en nota talon');
                         return false;
                     }
-                    if(respuesta.alert){
-                        mensaje("warning","PH: "+msg.ph, respuesta.mensaje, null, null);
-                    }
-                    if(msg.estatus == 'LLENO-ALMACEN' || msg.estatus == 'TANQUE-RESERVA'){
-                        $.ajax({
-                            method: "post",
-                            url: "/nota/contrato/salida/validar_tanqueasignacion",
-                            data: {
-                                '_token': $('input[name=_token]').val(),
-                                'contrato_id': $('#contrato_id').val(),
-                                'num_serie': numserie,
-                                },
-                        })
-                        .done(function(msgasignacion){
-                            if(msgasignacion.mensaje){
-                                
-                                var precio_importe= $('#precio_unitario').val() * $('#cantidad').val();
-                                var iva =0;
-                                
-                                if( msg.tipo_tanque == 'Industrial'){
-                                    iva = precio_importe * 0.16;
-                                }
-        
-                                $('#tablelistaTanques').append(
-                                    "<tr class='classfilatanque'>"+
-                                    "<td>"+msg.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie +"'></input>"+
-                                    "<td>"+$('#tapa_tanque').val() +"</td>"+ "<input type='hidden' name='inputTapa[]' value='"+$('#tapa_tanque').val() +"'></input>"+
-                                    "<td>"+msg.tipo_gas +"</td>"+ "<input type='hidden' name='input_tipo_gas[]' value='"+msg.tipo_gas +"'></input>"+
-                                    "<td>"+$('#cantidad').val() +"</td>"+ "<input type='hidden' name='input_cantidad[]' value='"+$('#cantidad').val() +"'></input>"+
-                                    "<td>"+$('#unidad_medida').val() +"</td>"+ "<input type='hidden' name='input_unidad_medida[]' value='"+$('#unidad_medida').val() +"'></input>"+
-                                    "<td>"+$('#precio_unitario').val() +"</td>"+ "<input type='hidden' name='input_precio_unitario[]' value='"+$('#precio_unitario').val() +"'></input>"+
-                                    "<td>"+precio_importe +"</td>"+ "<input type='hidden' name='input_importe[]' value='"+precio_importe +"'></input>"+
-                                    "<td>"+iva +"</td>"+ "<input type='hidden' name='input_iva_particular[]' value='"+iva +"'></input>"+    
-                                    "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
-                                    "</tr>");
-    
-                                    actualizar_subtotal()
-                                    limpiar_inputs_fila();
-    
-                                    return false;
-                            }else{
-                                $("#serie_tanqueError").text('No tiene asignado en contrato este tipo de tanque');
-                            }
-                        }); 
-                    }else{
-                        $("#serie_tanqueError").text('Error Tanque - estatus: '+ msg.estatus);
-                    }
-                });
-                
+                    $.get('/tanque/validar_ph/' + msg.ph, function(respuesta) {
+                        if(respuesta.alert=='vencido'){
+                            //detener 
+                            mensaje("error","PH: "+msg.ph, respuesta.mensaje, null, null);
+                            return false;
+                        }
+                        if(respuesta.alert){
+                            mensaje("warning","PH: "+msg.ph, respuesta.mensaje, null, null);
+                        }
+                        if(msg.estatus == 'LLENO-ALMACEN' || msg.estatus == 'TANQUE-RESERVA'){
+                            $.ajax({
+                                method: "post",
+                                url: "/nota/contrato/salida/validar_tanqueasignacion",
+                                data: {
+                                    '_token': $('input[name=_token]').val(),
+                                    'contrato_id': $('#contrato_id').val(),
+                                    'num_serie': numserie,
+                                    },
+                            })
+                            .done(function(msgasignacion){
+                                if(msgasignacion.mensaje){
+                                    
+                                    var precio_importe= $('#precio_unitario').val();
+                                    var iva =0;
+                                    
+                                    if( msg.tipo_tanque == 'Industrial'){
+                                        iva = precio_importe * 0.16;
+                                    }
             
+                                    $('#tablelistaTanques').append(
+                                        "<tr class='classfilatanque'>"+
+                                        "<td>"+msg.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie +"'></input>"+
+                                        "<td>"+$('#tapa_tanque').val() +"</td>"+ "<input type='hidden' name='inputTapa[]' value='"+$('#tapa_tanque').val() +"'></input>"+
+                                        "<td>"+msg.gas_nombre +"</td>"+ "<input type='hidden' name='input_tipo_gas[]' value='"+msg.tipo_gas +"'></input>"+
+                                        "<td>"+$('#cantidad').val() +"</td>"+ "<input type='hidden' name='input_cantidad[]' value='"+$('#cantidad').val() +"'></input>"+
+                                        "<td>"+$('#unidad_medida').val() +"</td>"+ "<input type='hidden' name='input_unidad_medida[]' value='"+$('#unidad_medida').val() +"'></input>"+
+                                        "<td>"+$('#precio_unitario').val() +"</td>"+ "<input type='hidden' name='input_precio_unitario[]' value='"+$('#precio_unitario').val() +"'></input>"+
+                                        "<td>"+precio_importe +"</td>"+ "<input type='hidden' name='input_importe[]' value='"+precio_importe +"'></input>"+
+                                        "<td>"+iva +"</td>"+ "<input type='hidden' name='input_iva_particular[]' value='"+iva +"'></input>"+    
+                                        "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
+                                        "</tr>");
+        
+                                        actualizar_subtotal()
+                                        limpiar_inputs_fila();
+        
+                                        return false;
+                                }else{
+                                    $("#serie_tanqueError").text('No tiene asignado en contrato este tipo de tanque');
+                                }
+                            }); 
+                        }else{
+                            $("#serie_tanqueError").text('Error Tanque - estatus: '+ msg.estatus);
+                        }
+                    });
+                });
             }else{
                 $("#serie_tanqueError").text('Número de serie no existe');
             }
@@ -564,8 +567,8 @@ $(document).ready(function () {
             text: "¿Estas seguro de cancelar esta venta?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#F9C846',
+            cancelButtonColor: '#329F5B',
             cancelButtonText: 'Cancelar',
             confirmButtonText: 'Si, Continuar!'
         }).then((result) => {

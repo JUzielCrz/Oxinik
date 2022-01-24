@@ -35,22 +35,6 @@
                                 {{ Form::select('tapa_tanque',['SI' => 'SI', 'NO' => 'NO'],null,['id' => 'tapa_tanque','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
                                 <span  id="tapa_tanqueError" class="text-danger"></span>
                             </div>
-                            {{-- <div class="col ">
-                                {!! Form::label('U. M.') !!}
-                                {{ Form::select('unidad_medida',['CARGA' => 'CARGA','kg' => 'kg', 'M3' => 'M3'],null,['id' => 'unidad_medida','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
-                                <span  id="unidad_medidaError" class="text-danger"></span>
-                            </div>  
-                            <div class="col">
-                                {!! Form::label('cantidad') !!}
-                                {!! Form::number('cantidad', null, ['id'=>'cantidad', 'class' => 'form-control form-control-sm numero-entero-positivo', 'placeholder'=>'0', 'required', 'readonly' ]) !!}
-                                <span  id="cantidadError" class="text-danger"></span>
-                            </div>
-                            
-                            <div class="col">
-                                {!! Form::label('P.U.') !!}
-                                {!! Form::number('precio_unitario', null, ['id'=>'precio_unitario', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'$0.0', 'required' ]) !!}
-                                <span  id="precio_unitarioError" class="text-danger"></span>
-                            </div> --}}
                             
                             <div class="col align-self-end">
                                 <button type="button" class="btn btn-verde" id="btn-insert-fila-entrada"> <span class="fas fa-plus"></span>Add</button>
@@ -65,11 +49,6 @@
                                         <th scope="col">DESCRIPCIÓN</th>
                                         <th scope="col">PH</th>
                                         <th scope="col">TAPA</th>
-                                        {{-- <th scope="col">CANT.</th>
-                                        <th scope="col">U. M.</th>
-                                        <th scope="col">P. U.</th>
-                                        <th scope="col">IMP.</th>
-                                        <th scope="col">IVA</th> --}}
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>

@@ -92,32 +92,36 @@ $(document).ready(function () {
 
         $.get('/tanque/show_numserie/' + numserie, function(msg) { 
             if(msg != ''){
-                $.get('/tanque/validar_ph/' + msg.ph, function(respuesta) {
-                    if(respuesta.alert=='vencido'){
-                        //detener 
-                        mensaje("error","PH: "+msg.ph, respuesta.mensaje, null, null);
+                $.get('/tanque/validar_talon/' + numserie, function(rsta) {
+                    if(rsta){
+                        $("#serie_tanqueError").text('Cilindro se encuentra en nota talon');
                         return false;
                     }
-                    if(respuesta.alert){
-                        mensaje("warning","PH: "+msg.ph, respuesta.mensaje, null, null);
-                    }
-                    if(msg.estatus == estatus){                                
-                        $('#tbody-reserva-tanques').append(
-                        "<tr class='classfilatanque'>"+
-                        "<td>"+msg.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie +"'></input>"+
-                        "<td>"+msg.tipo_gas+", "+msg.capacidad+", "+msg.material+", "+msg.fabricante+", "+msg.gas_nombre+", "+msg.tipo_tanque+", PH: "+msg.ph +"</td>"+
-                        "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
-                        "</tr>");
-                        $("#serie_tanque").val("");
-                        return false;
-                    }else{
-                        $("#serie_tanqueError").text('Error Tanque - estatus: '+ msg.estatus);
-                        $("#serie_tanque").val("");
-                        return false;
-                    }
+                    $.get('/tanque/validar_ph/' + msg.ph, function(respuesta) {
+                        if(respuesta.alert=='vencido'){
+                            //detener 
+                            mensaje("error","PH: "+msg.ph, respuesta.mensaje, null, null);
+                            return false;
+                        }
+                        if(respuesta.alert){
+                            mensaje("warning","PH: "+msg.ph, respuesta.mensaje, null, null);
+                        }
+                        if(msg.estatus == estatus){                                
+                            $('#tbody-reserva-tanques').append(
+                            "<tr class='classfilatanque'>"+
+                            "<td>"+msg.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie +"'></input>"+
+                            "<td>"+msg.tipo_gas+", "+msg.capacidad+", "+msg.material+", "+msg.fabricante+", "+msg.gas_nombre+", "+msg.tipo_tanque+", PH: "+msg.ph +"</td>"+
+                            "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
+                            "</tr>");
+                            $("#serie_tanque").val("");
+                            return false;
+                        }else{
+                            $("#serie_tanqueError").text('Error Tanque - estatus: '+ msg.estatus);
+                            $("#serie_tanque").val("");
+                            return false;
+                        }
+                    });
                 });
-                
-            
             }else{
                 $("#serie_tanqueError").text('Número de serie no existe');
                 $("#serie_tanque").val("");

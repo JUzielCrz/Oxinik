@@ -46,7 +46,8 @@ class AsignacionController extends Controller
                     $request->asignacion_material[$valid] == '' || 
                     $request->asignacion_precio_unitario[$valid] < 0 || 
                     $request->asignacion_unidad_medida[$valid] == ''||
-                    $request->asignacion_capacidad[$valid] < 0 
+                    $request->asignacion_capacidad[$valid] < 0 || 
+                    $request->asignacion_deposito_garantia[$valid] == '' 
                     ){
                     return response()->json(['alert'=>'alert-danger', 'mensaje'=>'Faltan campos por rellenar o existen valores incorrectos']);
                 }
@@ -102,7 +103,6 @@ class AsignacionController extends Controller
                 $newNota->contrato_id = $contrato_id;
                 $newNota->fecha=$fechaactual;
                 $newNota->incidencia= 'aumento';
-                $newNota->deposito_garantia= $request->deposito_garantia;
                 $newNota->user_id= auth()->user()->id;
                 $newNota->save();
 
@@ -128,6 +128,7 @@ class AsignacionController extends Controller
                             $newDetalle->material= $request->asignacion_material[$detalle];
                             $newDetalle->unidad_medida= $request->asignacion_unidad_medida[$detalle];
                             $newDetalle->capacidad= $request->asignacion_capacidad[$detalle];
+                            $newDetalle->deposito_garantia= $request->asignacion_deposito_garantia[$detalle];
                             $newDetalle->save();     
                         }
                     }
@@ -141,18 +142,18 @@ class AsignacionController extends Controller
     }
 
     public function asignacion_minus(Request $request, $contrato_id){
+
         if($this->slug_permiso('asignacion_disminucion')){
             //valiodacion para que los campos no vengan vacios
+            $bandera=0;
             foreach( $request->asignacion_variante AS $valid => $g){
-                if($request->asignacion_variante[$valid] < 0 
-                // || 
-                //     $request->asignacion_gas[$valid] == '' ||
-                //     $request->asignacion_tipo_tanque[$valid] == '' || 
-                //     $request->asignacion_material[$valid] == '' || 
-                //     $request->asignacion_unidad_medida[$valid] == ''
-                    ){
-                    return response()->json(['alert'=>'alert-danger', 'mensaje'=>'Faltan campos por rellenar o existen valores incorrectos']);
+                if($request->asignacion_variante[$valid] > 0 ){
+                    $bandera+=1;
                 }
+            }
+
+            if($bandera == 0){
+                return response()->json(['alert'=>'alert-danger', 'mensaje'=>'Faltan campos por rellenar o valores incorrectos']);
             }
 
             $fechaactual=date("Y")."-" . date("m")."-".date("d");
@@ -206,6 +207,7 @@ class AsignacionController extends Controller
                     $newDetalle->material= $request->asignacion_material[$detalle];
                     $newDetalle->unidad_medida= $request->asignacion_unidad_medida[$detalle];
                     $newDetalle->capacidad= $request->asignacion_capacidad[$detalle];
+                    $newDetalle->deposito_garantia= $request->asignacion_deposito_garantia[$detalle];
                     $newDetalle->save();     
                 }
             }

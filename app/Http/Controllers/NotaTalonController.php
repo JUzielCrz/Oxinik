@@ -43,15 +43,6 @@ class NotaTalonController extends Controller
                 $notas=NotaTalon::
                 where('pendiente', $request->estatus);
             }
-
-            // if($user->soloParaUnRol('admin')){
-            //     $notas=NotaTalon::all();
-
-            // }else{
-            //     $notas=NotaTalon::
-            //     where('user_id', auth()->user()->id);
-            // }
-
             return DataTables::of(
                 $notas
             )
@@ -72,7 +63,8 @@ class NotaTalonController extends Controller
             })
             ->addColumn( 'btnEdit', '<a class="btn btn-sm btn-verde" href="{{route(\'nota.talon.edit\', $id)}}" data-toggle="tooltip" data-placement="top" title="Contrato"><span class="fas fa-edit"></span></a>')
             ->addColumn( 'btnPDF', '<a class="btn btn-sm btn-verde" href="{{route(\'pdf.nota_talon\', $id)}}" data-toggle="tooltip" data-placement="top" title="PDF"><i class="fas fa-file-pdf"></i></a>')
-            ->rawColumns(['btnEdit', 'btnPDF'])
+            ->addColumn( 'btnDelete', '<button class="btn btn-sm btn-verde btn-eliminar-nota" data-id="{{$id}}" title="Eliminar"><span class="fas fa-trash"></span></button>')
+            ->rawColumns(['btnEdit', 'btnPDF', 'btnDelete'])
             ->toJson();
         }
         return view('home');
@@ -178,48 +170,48 @@ class NotaTalonController extends Controller
     public function edit_save(Request $request){
         $request->validate([
             'id_show' => ['required', 'numeric'],
-            'metodo_pago' => ['required', 'string', 'max:255'],
+            // 'metodo_pago' => ['required', 'string', 'max:255'],
             'input-subtotal' => ['required', 'numeric'],
             'input-total' => ['required', 'numeric'],
         ]);
         if($this->slug_permiso('nota_talon')){
-            //validar que no se encuentren numero de serie repetido
-            $searchRep = $request->inputNumSerie_salida;
-
-            if(count($searchRep) > count(array_unique($searchRep))){
-                return response()->json([ 'alert'=>'error', 'mensaje'=>'Cilindros repetidos en registro de salida']);
-            }
-
+            //validar que no se encuentren numero de serie repetido            
             $fechaactual=date("Y")."-" . date("m")."-".date("d");
-            if(count($request->inputNumSerie_salida) <= count($request->inputNumSerie_entrada)){
-                if(count($request->inputNumSerie_salida) > 0 || count($request->inputNumSerie_entrada) > 0 ){ ///validar si hay tanques en la lista
-                    $cliente=ClienteSinContrato::find($request->id_show);
-                    //Nota venta de envio
-                    $venta= NotaTalon::find($request->idnota);
-                    $venta->precio_envio=$request->precio_envio_nota;
-                    $venta->subtotal =  $request->input('input-subtotal');
-                    $venta->iva_general = $request->input('input-ivaGen');;
-                    $venta->total = $request->input('input-total');
-                    $venta->metodo_pago = $request->metodo_pago;
-                    //datos cliente
-                    $venta->num_cliente = $cliente->id;
-                    $venta->nombre = $cliente->nombre;
-                    $venta->telefono = $cliente->telefono;
-                    $venta->email = $cliente->email;
-                    $venta->direccion = $cliente->direccion;
-                    $venta->rfc = $cliente->rfc;
-                    $venta->cfdi = $cliente->cfdi;
-                    $venta->direccion_factura = $cliente->direccion_factura;
-                    $venta->direccion_envio = $cliente->direccion_envio;
-                    $venta->referencia_envio = $cliente->referencia_envio;
-                    $venta->link_ubicacion_envio = $cliente->link_ubicacion_envio;
-                    $venta->precio_envio = $cliente->precio_envio;
-                    $venta->fecha = $fechaactual;
-                    $venta->user_id = auth()->user()->id;
-                    $venta->observaciones = $request->observaciones;
-                    $venta->pendiente = $request->pendiente;
-                    $venta->save();
+            $cliente=ClienteSinContrato::find($request->id_show);
+            //Nota venta de envio
+            $venta= NotaTalon::find($request->idnota);
+            $venta->precio_envio=$request->input('precio_envio_nota');
+            $venta->subtotal =  $request->input('input-subtotal');
+            $venta->iva_general = $request->input('input-ivaGen');
+            $venta->total = $request->input('input-total');
+            $venta->metodo_pago = $request->metodo_pago;
+            //datos cliente
+            $venta->num_cliente = $cliente->id;
+            $venta->nombre = $cliente->nombre;
+            $venta->telefono = $cliente->telefono;
+            $venta->email = $cliente->email;
+            $venta->direccion = $cliente->direccion;
+            $venta->rfc = $cliente->rfc;
+            $venta->cfdi = $cliente->cfdi;
+            $venta->direccion_factura = $cliente->direccion_factura;
+            $venta->direccion_envio = $cliente->direccion_envio;
+            $venta->referencia_envio = $cliente->referencia_envio;
+            $venta->link_ubicacion_envio = $cliente->link_ubicacion_envio;
+            $venta->precio_envio = $cliente->precio_envio;
+            $venta->fecha = $fechaactual;
+            $venta->user_id = auth()->user()->id;
+            $venta->observaciones = $request->observaciones;
+            $venta->pendiente = $request->pendiente;
+            $venta->save();
+            
+            if($request->inputNumSerie_salida != null){ ///validar si hay tanques en la lista
+                $searchRep = $request->inputNumSerie_salida;
 
+                if(count($searchRep) > count(array_unique($searchRep))){
+                    return response()->json([ 'alert'=>'error', 'mensaje'=>'Cilindros repetidos en registro de salida']);
+                }
+
+                if(count($request->inputNumSerie_salida) <= count($request->inputNumSerie_entrada)){
                     //Guardar tanques salida
                     foreach( $request->inputNumSerie_salida AS $salid => $ent){
                         //Cambiar estatus tanque
@@ -243,16 +235,45 @@ class NotaTalonController extends Controller
                     }
     
                     return response()->json(['alert'=>'success', 'notaId'=>$request->idnota]);
-                        
+                }else{
+                    return response()->json(['alert'=>'error', 'mensaje'=>'La cantidad de tanques de salida deben ser igual a los de entrada']);            
                 }
-                return response()->json(['alert'=>'error', 'mensaje'=>'No hay tanques que registrar']);
             }
-            return response()->json(['alert'=>'error', 'mensaje'=>'La cantidad de tanques de salida deben ser igual a los de entrada']);
-            
-            
+            return response()->json(['alert'=>'success', 'notaId'=>$request->idnota]);
+        }
+        return view('home');
+    }
+
+    public function cambiar_estatus(Request $request, $num_serie){
+        if($this->slug_permiso('nota_talontanque')){
+            NotaTalonTanque::
+            where('nota_talon_id',$request->nota_id)
+            ->where('insidencia','SALIDA')
+            ->where('num_serie',$num_serie)
+            ->delete();
+            $cilindro=Tanque::where('num_serie',$num_serie)->first();
+            $cilindro->estatus ='LLENO-ALMACEN';
+            $cilindro->save();
+            return response()->json(['alert'=>'success']);
         }
         return view('home');
     }
 
 
+    public function delete (NotaTalon $idnota){
+        if($this->slug_permiso('nota_salida')){
+            $tanques=NotaTalonTanque::where('nota_talon_id', $idnota->id)->get();
+
+            foreach( $tanques AS $indice1 => $cilindro_ent){
+                if($cilindro_ent->insidencia =='ENTRADA'){
+                    $tanq = Tanque::where('num_serie',$cilindro_ent->num_serie)->first();
+                    $tanq->estatus = 'VENTA-TALON';
+                    $tanq->save();
+                };
+            }
+            $idnota->delete();
+            return response()->json(['mensaje'=>'success']);
+        }
+        return response()->json(['mensaje'=>'Sin permisos']);
+    }
 }

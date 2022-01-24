@@ -17,11 +17,8 @@
                     
                     <div class="card-header">
                         <div class="row m-0 p-0">
-                            <div class="col-md-2 ">
-                                <button class="btn btn-amarillo btn-block " onclick="return window.history.back();"><span class="fas fa-arrow-circle-left"></span></button>
-                            </div>
                             <div class="col m-0">
-                                <strong>REGISTRO DE SALIDA</strong>
+                                <strong>ENTRADA</strong>
                             </div>
                             <div class="col text-right" >
                                 #Nota: <strong>{{$nota->id}}</strong>
@@ -30,9 +27,8 @@
                         </div>
                     </div>
                     <div class="card-body" >
-                        <strong>TANQUES ENTRADA</strong>
                         <input type="hidden" name="pendiente" id="pendiente" value=1>
-                        <div class="table-responsive ">
+                        <div class="table-responsive mt-2">
                             <table class="table table-sm table-hover table-bordered">
                                 <thead>
                                     <tr style="font-size: 13px">
@@ -44,54 +40,62 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($tanquesEntrada as $tanq)
-                                        <tr class='classfilatanque_entrada' style="font-size: 13px">
-                                            <td>{{$tanq->num_serie}}</td><input type="hidden" name="inputNumSerie_entrada[]" value={{$tanq->num_serie}}>
+                                        <tr class='tr-cilindros-entrada' style="font-size: 13px">
+                                            <td>{{$tanq->num_serie}}</td>
+                                            <input type="hidden" name="inputNumSerie_entrada[]" value={{$tanq->num_serie}}>
                                             <td>{{$tanq->material}}, {{$tanq->fabricante}}, {{$tanq->tipo_tanque}}</td>
                                             <td>{{$tanq->ph}}</td>
                                             <td>{{$tanq->tapa_tanque}}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
-                                <tbody id="tbody-tanques-entrada" style="font-size: 13px">
+                                <tbody id="tbody-cilindros-entrada" style="font-size: 13px">
                                 </tbody>
             
                             </table>
                         </div>
                     </div>
-                    {{-- TANQUES DE salida --}}
+                </div>
+                <div class="card mt-2">
+                    <div class="card-header">
+                        <div class="row m-0 p-0">
+                            <div class="col m-0">
+                                <strong>REGISTRA SALIDA DE TANQUES</strong>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="card-body">
-                        <strong>REGISTRA SALIDA DE TANQUES</strong>
-                        <hr>
                         <div class="row justify-content-center">
                             <div class="col">
                                 {!! Form::label('# Serie') !!}
-                                {!! Form::text('serie_tanque', null, ['id'=>'serie_tanque', 'class' => 'form-control form-control-sm bool_disabled', 'placeholder'=>'#Serie',  'required' ]) !!}
+                                {!! Form::text('serie_tanque', null, ['id'=>'serie_tanque', 'class' => 'form-control form-control-sm disabled_saldia', 'placeholder'=>'#Serie',  'required' ]) !!}
 
                             </div>
                             <div class="col ">
                                 {!! Form::label('Tapa') !!}
-                                {{ Form::select('tapa_tanque',['SI' => 'SI', 'NO' => 'NO'],null,['id' => 'tapa_tanque','class'=>'form-control form-control-sm bool_disabled', 'placeholder'=>'Selecciona', 'required'])}}
+                                {{ Form::select('tapa_tanque',['SI' => 'SI', 'NO' => 'NO'],null,['id' => 'tapa_tanque','class'=>'form-control form-control-sm disabled_saldia', 'placeholder'=>'Selecciona', 'required'])}}
                                 <span  id="tapa_tanqueError" class="text-danger"></span>
                             </div>
                             <div class="col ">
                                 {!! Form::label('U. M.') !!}
-                                {{ Form::select('unidad_medida',['CARGA' => 'CARGA','kg' => 'kg', 'M3' => 'M3'],null,['id' => 'unidad_medida','class'=>'form-control form-control-sm bool_disabled', 'placeholder'=>'Selecciona', 'required'])}}
+                                {{ Form::select('unidad_medida',['CARGA' => 'CARGA','kg' => 'kg', 'M3' => 'M3'],null,['id' => 'unidad_medida','class'=>'form-control form-control-sm disabled_saldia', 'placeholder'=>'Selecciona', 'required'])}}
                                 <span  id="unidad_medidaError" class="text-danger"></span>
                             </div>  
                             <div class="col">
-                                {!! Form::label('cantidad') !!}
-                                {!! Form::number('cantidad', null, ['id'=>'cantidad', 'class' => 'form-control form-control-sm bool_disabled numero-decimal-positivo', 'placeholder'=>'0', 'required', 'readonly' ]) !!}
+                                {!! Form::label('Cantidad') !!}
+                                {!! Form::number('cantidad', null, ['id'=>'cantidad', 'class' => 'form-control form-control-sm disabled_saldia numero-decimal-positivo', 'placeholder'=>'0', 'required', 'readonly' ]) !!}
                                 <span  id="cantidadError" class="text-danger"></span>
                             </div>
                             
                             <div class="col">
-                                {!! Form::label('P.U.') !!}
-                                {!! Form::number('precio_unitario', null, ['id'=>'precio_unitario', 'class' => 'form-control form-control-sm bool_disabled numero-decimal-positivo', 'placeholder'=>'$0.0', 'required' ]) !!}
+                                {!! Form::label('Precio') !!}
+                                {!! Form::number('precio_unitario', null, ['id'=>'precio_unitario', 'class' => 'form-control form-control-sm disabled_saldia numero-decimal-positivo', 'placeholder'=>'$0.0', 'required' ]) !!}
                                 <span  id="precio_unitarioError" class="text-danger"></span>
                             </div>
                             
                             <div class="col align-self-end">
-                                <button type="button" class="btn btn-verde bool_disabled" id="btn-insert-fila-salida"> <span class="fas fa-plus"></span>Add</button>
+                                <button type="button" class="btn btn-verde disabled_saldia" id="btn-insert-fila-salida"> <span class="fas fa-plus"></span>Add</button>
                             </div> 
                         </div>
                         <span  id="serie_tanqueError" class="text-danger"></span>
@@ -106,7 +110,7 @@
                                         <th scope="col">TAPA</th>
                                         <th scope="col">CANT.</th>
                                         <th scope="col">U. M.</th>
-                                        <th scope="col">P. U.</th>
+                                        <th scope="col">PRECIO</th>
                                         <th scope="col">IMP.</th>
                                         <th scope="col">IVA</th>
                                         <th scope="col"></th>
@@ -114,7 +118,7 @@
                                 </thead>
                                 <tbody style="font-size: 13px">
                                     @foreach ($tanques as $tanque)
-                                        <tr class="tr-tanques-salida">
+                                        <tr class="tr-cilindros-salida">
                                             <td>{{$tanque->num_serie}}</td> 
                                             <td>{{$tanque->material}}, {{$tanque->fabricante}}, {{$tanque->tipo_tanque}}</td>
                                             <td> {{$tanque->ph}}</td>
@@ -124,19 +128,15 @@
                                             <td>{{$tanque->precio_unitario}}</td>
                                             <td>{{$tanque->importe}}</td>
                                             <td>{{$tanque->iva_particular}}</td>
-                                            <td></td>
+                                            <td><button type="button" class="btn btn-naranja" id="btn-eliminar-salida"><span class="fas fa-window-close"></span></button></td>
                                         </tr>
                                     @endforeach
                                 </tbody>
-                                <tbody id="tbody-tanques-salida" style="font-size: 13px">
+                                <tbody id="tbody-cilindros-salida" style="font-size: 13px">
                                 </tbody>
             
                             </table>
                         </div>
-                        <center>
-                            <div id="msg-tanques-salida" style="display:none" class="alert" role="alert">
-                            </div>
-                        </center>
                     </div>
                 </div>
                 {{-- OBSERVACIONES --}}
@@ -145,7 +145,7 @@
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <label for="">Observaciones Generales</label>
-                                <textarea name="observaciones" id="observaciones" cols="30" rows="1" class="form-control bool_disabled">{{$nota->observaciones}}</textarea>
+                                <textarea name="observaciones" id="observaciones" cols="30" rows="1" class="form-control">{{$nota->observaciones}}</textarea>
                             </div>
                         </div>
                     </div>
@@ -160,7 +160,7 @@
                                 DATOS CLIENTE
                             </div>
                             <div class="col text-right">
-                                <button id="btn-editar-cliente" class="btn btn-sm btn-amarillo bool_disabled"  type="button" data-toggle="modal" data-target="#modal-editar-cliente"><span class="fas fa-edit"></span> Editar</button>
+                                <button id="btn-editar-cliente" class="btn btn-sm btn-amarillo"  type="button" data-toggle="modal" data-target="#modal-editar-cliente"><span class="fas fa-edit"></span> Editar</button>
                             </div>
                         </div>
                             
@@ -317,7 +317,7 @@
                                 <div id="div-subtotal">
                                     <label id='label-subtotal'>{{$nota->subtotal}}</label>
                                 </div>
-                                <input type="hidden" id="input-subtotal" name="input-subtotal" value=0>
+                                <input type="hidden" id="input-subtotal" name="input-subtotal" value={{$nota->subtotal}}>
                             </div>
                         </div>
                         <div class="form-row ">
@@ -328,15 +328,16 @@
                                 <div id="div-ivaGen">
                                     <label id='label-ivaGen'>{{$nota->iva_general}}</label>
                                 </div>
-                                <input type="hidden" id="input-ivaGen" name="input-ivaGen" value=0>
+                                <input type="hidden" id="input-ivaGen" name="input-ivaGen" value={{$nota->iva_general}}>
                             </div>
                         </div>
 
                         <div id="row-envio" >
-                            <button id="btn-addEnvio" type="button" class="btn btn-sm btn-amarillo bool_disabled" > <span class="fas fa-plus"></span> Agregar Envio</button>
+                            <button id="btn-addEnvio" type="button" class="btn btn-sm btn-amarillo" > <span class="fas fa-plus"></span> Agregar Envio</button>
                         </div>
-
-                        <input id="precio_envio_nota" name="precio_envio_nota" type="hidden" value=0 >
+                        {{-- {{dump($nota)}}
+                        {{dump($nota->precio_envio)}} --}}
+                        <input id="precio_envio_nota" name="precio_envio_nota" type="hidden" value={{$nota->precio_envio}} >
                         <hr>
 
                         <div class="row">
@@ -347,7 +348,7 @@
                                 <div id="div-total">
                                     <label id='label-total'>{{$nota->total}}</label>
                                 </div>
-                                <input type="hidden" id="input-total" name="input-total">
+                                <input type="hidden" id="input-total" name="input-total" value="{{$nota->total}}">
                             </div>
                         </div>
 
@@ -364,7 +365,7 @@
                                     'Tarjeta Credito' => 'Tarjeta Credito', 
                                     'Tarjeta Debito' => 'Tarjeta Debito',  
                                     'Cheque' => 'Cheque'
-                                    ],$nota->metodo_pago,['id' => 'metodo_pago','class'=>'form-control form-control-sm bool_disabled', 'placeholder'=>'Selecciona'])}}
+                                    ],$nota->metodo_pago,['id' => 'metodo_pago','class'=>'form-control form-control-sm ', 'placeholder'=>'Selecciona'])}}
                             </div>
                             <span id="metodo_pagoError" class="alert-danger  mb-2"></span>
                         </div> 
@@ -379,12 +380,25 @@
                             </div>
                             <span id="ingreso-efectivoError" class="alert-danger"></span>
                         </div>
+                        <hr>
+                        <div class="form-row">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Pendiente:</span>
+                                </div>
+                                <select name="pendiente" id="pendiente" class="form-control form-control-sm">
+                                    <option value='1' @if ($nota->pendiente == true) selected  @endif>Si</option>
+                                    <option value='0' @if ($nota->pendiente == false) selected  @endif>No</option>
+                                </select>
+                            </div>
+                            <span id="tanques_devueltosError" class="alert-danger  mb-3"></span>
+                        </div> 
                         
                         <hr>
 
                         <div class="row justify-content-center">
-                            <button type="button" class="btn btn-verde bool_disabled" id="btnCancelar">Cancelar</button>
-                            <button type="button" class="btn btn-verde bool_disabled ml-2" id="btn-pagar-nota">Pagar</button>
+                            <button type="button" class="btn btn-verde " id="btnCancelar">Cancelar</button>
+                            <button type="button" class="btn btn-verde ml-2" id="btn-pagar-nota">Guardar</button>
                             {{-- <button type="button" class="btn btn-amarillo" id="btn-pdf-nota"> Nota de remision</button> --}}
                         </div>
                     </div>

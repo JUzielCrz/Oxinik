@@ -150,7 +150,8 @@ $(document).ready(function () {
             title: 'Eliminar',
             text: '¿Estas seguro de eliminar?',
             showCancelButton: true,
-            confirmButtonColor: '#f9c846',
+            confirmButtonColor: '#F9C846',
+            cancelButtonColor: '#329F5B',
             confirmButtonText: 'Aceptar',
         }).then((result) => {
             if (result.isConfirmed) {

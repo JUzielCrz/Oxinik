@@ -49,8 +49,8 @@ $(document).ready(function () {
             text: "Este cilindro se restaurara",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#F9C846',
+            cancelButtonColor: '#329F5B',
             confirmButtonText: 'Restaurar cilindro'
         }).then((result) => {
             if (result.isConfirmed) {
@@ -88,8 +88,8 @@ $(document).ready(function () {
             text: "Se eliminara permanetemente de la base de datos junto con su historial",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#F9C846',
+            cancelButtonColor: '#329F5B',
             confirmButtonText: 'Eliminar permanentemente'
         }).then((result) => {
             $.ajax({

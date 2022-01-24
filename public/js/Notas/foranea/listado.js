@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+    $(document).on("click",".btn-eliminar-nota", eliminar);
+
+    
     // Data Tables
     var listtabla = $('#tablecruddata').DataTable({
         language: {
@@ -36,8 +39,44 @@ $(document).ready(function () {
             {data: 'user_name'},
             {data: 'btnEdit'},
             {data: 'btnPDF'},
+            {data: 'btnDelete'}
         ]
     });
 
-    
+    function eliminar() {
+        Swal.fire({
+            title: '¿Estas seguro?',
+            text: "Se eliminara permanentemente la nota y los estatus de los cilindros cambiaran",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#F9C846',
+            cancelButtonColor: '#329F5B',
+            confirmButtonText: 'Si, eliminar!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    method: "get",
+                    url: "/nota/foranea/delete/"+$(this).data('id'),
+                }).done(function (msg) {
+                    if(msg.mensaje == 'Sin permisos'){
+                        mensaje("error","Sin permisos", "No tienes los permisos suficientes para hacer este cambio", null, null);
+                        return false;
+                    }
+                    Swal.fire(
+                        'Exito',
+                        'Eliminado correctamente.',
+                        'success'
+                    )
+                    listtabla.ajax.reload(null,false);
+                }).fail(function (){
+                    Swal.fire(
+                        'Error',
+                        'Verifica tus datos',
+                        'error'
+                    )
+                });
+            }
+        })
+    }
 });

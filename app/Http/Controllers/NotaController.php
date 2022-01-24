@@ -109,6 +109,16 @@ class NotaController extends Controller
             return DataTables::of(
                 $notas
             )
+            ->editColumn('created_at', function ($infra) {
+                return $infra->created_at->format('H:i:s A - d/m/Y');
+            })
+            ->editColumn('pago_cubierto', function ($nota) {
+                if($nota->pago_cubierto== true){
+                    return 'Pagado';
+                }else{
+                    return 'Adeuda';
+                }
+            })
             ->addColumn( 'btnPDF', '<a class="btn btn-verde btn-sm" href="{{route(\'pdf.nota_salida\', $id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Nota PDF"><i class="fas fa-file-pdf"></i></a>')
             ->rawColumns(['btnPDF'])
             ->toJson();
@@ -225,9 +235,8 @@ class NotaController extends Controller
         ->addSelect(['tanque_id' => tanque::select('id')->whereColumn( 'nota_tanque.num_serie', 'tanques.num_serie')])
         ->addSelect(['tanque_desc' => tanque::select(DB::raw("CONCAT(ph,', ', capacidad,', ', material,', ',fabricante,', ',tipo_tanque)"))->whereColumn( 'nota_tanque.num_serie', 'tanques.num_serie')])
         ->where('contrato_id', $contrato_id)
-        ->where('nota_tanque.devuelto', false)
+        ->where('nota_tanque.estatus', 'PENDIENTE')
         ->get();
-
         return  $notatanque;
     }
 
@@ -240,56 +249,36 @@ class NotaController extends Controller
                 'contrato_id' => ['required', 'numeric'],
             ]);
 
-            $fechaactual=date("Y")."-" . date("m")."-".date("d");
-
             if(count($request->inputNumSerie) > 0){ ///validar si hay tanques en la lista
                 $notas = new NotaEntrada();
                 $notas->contrato_id = $request->input('contrato_id');
-                $notas->fecha = $fechaactual;
                 $notas->metodo_pago = $request->input('metodo_pago');
                 $notas->recargos = $request->input('input-total');
                 $notas->observaciones = $request->input('observaciones');
                 $notas->user_id = auth()->user()->id;
+                $notas->save();
 
-                if($notas->save()){ //
                     foreach( $request->inputNumSerie AS $series => $g){
                         //buscar tanque en inventario
                         $searhTanque =Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
                         
-                        if($searhTanque){
-                            //si existe cambiar estatus del tanque 
+                        if($searhTanque){//si existe 
+                            //cambia estatus del tanque
                             $searhTanque->estatus='VACIO-ALMACEN';
                             $searhTanque->save();
-                            ///Marcar en la nota que fue devuelto
-                            $tanquedevuelto = NotaTanque::where('nota_id',$request->inputIdNota[$series])->where('num_serie',$request->inputNumSerie[$series])->first();
-                            $tanquedevuelto->devuelto=true;
-                            $tanquedevuelto->save();
-                            
-                        }
-
-                        
-                        
-                        if($searhTanque && $request->inputCambio[$series] != 'SN'){
-                            
-                            //cambiar estatus del tanque cambiado
-                            $intercambiotanq =Tanque::where('num_serie',$request->inputCambio[$series])->first();
-                            $intercambiotanq->estatus='TANQUE-CAMBIADO';
-                            $intercambiotanq->save();
-
-                            //si existe cambiar estatus del tanque 
-                            $searhTanque->estatus='VACIO-ALMACEN';
-                            $searhTanque->save();
-
-                            $tanquedevuelto = NotaTanque::where('nota_id',$request->inputIdNota[$series])->where('num_serie',$request->inputCambio[$series])->first();
-                            $tanquedevuelto->devuelto=true;
-                            $tanquedevuelto->save();
-                        }
-                        if($searhTanque==null && $request->inputCambio[$series] != 'SN'){
-                            
-                            //cambiar estatus del tanque cambiado
-                            $intercambiotanq =Tanque::where('num_serie',$request->inputCambio[$series])->first();
-                            $intercambiotanq->estatus='TANQUE-CAMBIADO';
-                            $intercambiotanq->save();
+                            if($request->inputCambio[$series] == 'SN'){
+                                $NoTanqueId=NotaTanque::
+                                join('notas', 'nota_tanque.nota_id','notas.id')
+                                ->select('nota_tanque.id as nota_tanque_id')
+                                ->where('nota_tanque.estatus','PENDIENTE')
+                                ->where('num_serie',  $request->inputNumSerie[$series])
+                                ->where('contrato_id',$request->input('contrato_id'))
+                                ->first();
+                                $cambiar_estatus = NotaTanque::find($NoTanqueId->nota_tanque_id);
+                                $cambiar_estatus->estatus='DEVUELTO';
+                                $cambiar_estatus->save();
+                            }
+                        }else{//SI CILINDRO NO EXISTE
                             //Registrar nuevo tanque
                             $cadena=explode(', ', $request->inputDescripcion[$series]);
                             $newTanque = new Tanque;
@@ -304,10 +293,25 @@ class NotaController extends Controller
                             $newTanque->tipo_gas = $cadenaGas[0];
                             $newTanque->user_id = auth()->user()->id;
                             $newTanque->save();
+                        }
 
-                            $tanquedevuelto = NotaTanque::where('nota_id',$request->inputIdNota[$series])->where('num_serie',$request->inputCambio[$series])->first();
-                            $tanquedevuelto->devuelto=true;
-                            $tanquedevuelto->save();
+                        if($request->inputCambio[$series] != 'SN'){//entra si el tanque SI se cambio
+                            
+                            $NoTanqueId=NotaTanque::
+                                join('notas', 'nota_tanque.nota_id','notas.id')
+                                ->select('nota_tanque.id as nota_tanque_id')
+                                ->where('nota_tanque.estatus','PENDIENTE')
+                                ->where('num_serie', $request->inputCambio[$series])
+                                ->where('contrato_id',$request->input('contrato_id'))
+                                ->first();
+                                $cambiar_estatus = NotaTanque::find($NoTanqueId->nota_tanque_id);
+                                $cambiar_estatus->estatus='CAMBIADO';
+                                $cambiar_estatus->save();
+
+                            //cambiar estatus del tanque cambiado
+                            $intercambiotanq =Tanque::where('num_serie',$request->inputCambio[$series])->first();
+                            $intercambiotanq->estatus='TANQUE-CAMBIADO';
+                            $intercambiotanq->save();
                         }
 
                         $notaTanque=new NotaEntradaTanque();
@@ -318,7 +322,7 @@ class NotaController extends Controller
                         $notaTanque->save();    
                     }
                     return response()->json(['mensaje'=>'Regsitro Correcto']);
-                }
+                
             }
             return response()->json(['mensaje'=>'Error, No hay tanques que registrar']);
         }
@@ -357,4 +361,10 @@ class NotaController extends Controller
         }
         return response()->json(['mensaje'=>'Sin permisos']);
     }
+
+
 }
+
+
+
+
