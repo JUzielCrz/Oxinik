@@ -86,7 +86,6 @@ $(document).ready(function () {
                         if( msg.tipo_tanque == 'Industrial'){
                             iva = precio_importe * 0.16;
                         }
-                        console.log(msg);
                         $('#tbody-cilindros-salida').append(
                             "<tr class='tr-cilindros-salida text-center' style='font-size: 13px'>"+
                                 "<td>"+msg.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie_salida' value='"+msg.num_serie +"'></input>"+
@@ -422,7 +421,6 @@ $(document).ready(function () {
         );
         $('#input-ivaGen').val(ivaGen);
     }
-    actualizar_total();
     function actualizar_total(){
         var importe = 0;
 
@@ -430,8 +428,14 @@ $(document).ready(function () {
             var preciotanque=$(this).find("td")[5].innerHTML;
             importe=importe+parseFloat(preciotanque);
         })
-        var total=parseFloat($("#precio_envio_nota").val()) + importe;
-        console.log($("#precio_envio_nota").val());
+        var precio_envio=$("#precio_envio_nota").val();
+        
+        if(precio_envio==""){
+            precio_envio=0;
+            $("#precio_envio_nota").val(0);
+        }
+        var total=parseFloat(precio_envio) + importe;
+
         $('#label-total').replaceWith( 
             "<label id='label-total'>"+Intl.NumberFormat('es-MX').format(total) +"</label>"
         );
@@ -450,11 +454,6 @@ $(document).ready(function () {
             mensaje("error","Error", "Número de tanques de entrada no puede ser mayor a los de salida" , null, null);
             return false;
         }
-        // if($(".tr-cilindros-entrada").length == $(".tr-cilindros-salida").length){
-        //     $('#tanques_devueltos').val(1);
-        // }else{
-        //     $('#tanques_devueltos').val(0);
-        // }
 
         $.ajax({
             method: "post",
