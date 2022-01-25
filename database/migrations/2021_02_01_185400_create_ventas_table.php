@@ -28,7 +28,7 @@ class CreateVentasTable extends Migration
             $table->string('direccion_envio')->nullable();
             $table->string('referencia_envio')->nullable();
             $table->string('link_ubicacion_envio')->nullable();
-            $table->float('precio_envio')->default(0);
+            $table->float('precio_envio')->default(0)->nullable();
             //fin add
             $table->float('subtotal');
             $table->float('iva_general')->nullable();
