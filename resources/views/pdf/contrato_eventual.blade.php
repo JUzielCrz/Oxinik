@@ -79,7 +79,14 @@
             <p class="mt-4">Que celebran por una parte el señor <strong>Juan Manuel Contreras Gómez</strong>, propietario del establecimiento OXINIK GASES ESPECIALES, a quién en lo sucesivo se le denominara “El Contratante” 
                 y por la otra parte el sr (a). <span><strong>{{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}</strong></span>, a quién se le denominara “El Contratista”, los cuales se sujetarán a las siguientes CLÁUSULAS: </p>
 
-            <p><strong>PRIMERA:</strong> “El Contratante”, entrega a “El Contratista” en calidad de alquiler: ________________________, con un costo de renta $600.00 semanales  (seiscientos pesos 00/100 m.n.), que inicia el día ____________________ y concluye el día _____________________, el cual será utilizado en el domicilio ubicado en {{$contrato->direccion}}, entre las calles de ___________________________ ____________________________, quien cuenta con número telefónico {{$cliente->telefono}}, {{$cliente->telefonorespaldo}}. </p>
+            <p><strong>PRIMERA:</strong> “El Contratante”, entrega a “El Contratista” en calidad de alquiler:
+                @foreach ($tanques as $item)
+                    <span>{{$item->cilindros}}</span> cilindro(s) de <span>{{$item->material}}</span> de <span>{{$item->nombre}}</span> <span>{{$item->tipo_tanque}}</span>
+                @endforeach
+                @if ($contrato->reguladores>0)
+                y {{$contrato->reguladores}} regulador(es) {{$contrato->modelo_regulador}},
+                @endif
+                con un costo de renta $80.00 (ochenta pesos 00/100 m.n.) diarios, que inicia el día {{date('Y-m-d', strtotime($contrato->created_at))}}, el cual será utilizado en el domicilio ubicado en {{$contrato->direccion}}, entre las calles de {{$contrato->calle1}} y {{$contrato->calle2}}, quien cuenta con número telefónico {{$cliente->telefono}} y {{$cliente->telefonorespaldo}}. </p>
 
 
             <p><strong>SEGUNDA:</strong> El equipo dado en renta a “El Contratista” por parte de “El Contratante”, no podrá bajo ninguna circunstancia ser prestado, sub arrendado ó cedido en forma alguna a terceras personas, constituyéndose “El Contratista” como el responsable directo del buen uso y de la conservación del equipo alquilado y se obliga a pagar el doble del importe de todo el equipo alquilado en el caso de robo, destrucción ó daños que sufra el equipo alquilado y tendrá que pagar las reparaciones que sufra el equipo mencionado.</p>
@@ -90,7 +97,7 @@
 
             <p><strong>QUINTA:</strong> “El Contratista” debe entregar un depósito en garantía de ${{number_format($tanques->sum('deposito_garantia'), 2, '.', ',')}} ({{$precioLetras}} 00/100 m.n.), por CADA UNO de los envases solicitados en alquiler y proporcionados por “El Contratante”, el cual podrá satisfacerse mediante tarjeta de crédito, transferencia bancaria o en efectivo en el domicilio del establecimiento OXI NIK GASES ESPECIALES, ubicado en la calle Ignacio Zaragoza, número 213, letra “A”, en la colonia Fernando Gómez Sandoval, del Municipio de Santa Lucia del Camino, Oaxaca, c. p. 71243, cuyo justificante se adjuntará al presente contrato.</p>
 
-            <p>En la ciudad de Oaxaca de Juárez, Oaxaca, debo y pagaré incondicionalmente y a la orden del señor Juan Manuel Contreras Gómez, la cantidad de $ 15,000 (Quince mil pesos 00/100 moneda nacional), valor recibido a mi entera satisfacción, con fecha de vencimiento ___________, sujeto a la condición de que de no hacer pago de acuerdo al artículo 79 y 152 de la Ley General de Títulos y Operaciones de Crédito, causara en interes moratorio de _____%, por cada mes o fracción.</p>
+            <p>En la ciudad de Oaxaca de Juárez, Oaxaca, debo y pagaré incondicionalmente y a la orden del señor Juan Manuel Contreras Gómez, la cantidad de $ 15,000 (Quince mil pesos 00/100 moneda nacional), valor recibido a mi entera satisfacción, con fecha de vencimiento _______________, sujeto a la condición de que de no hacer pago de acuerdo al artículo 79 y 152 de la Ley General de Títulos y Operaciones de Crédito, causara en interes moratorio de _____%, por cada mes o fracción.</p>
 
 
             <br>

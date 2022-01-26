@@ -162,6 +162,9 @@ $(document).ready(function () {
                             mensaje("warning","PH: "+msg.ph, respuesta.mensaje, null, null);
                         }
                         if(msg.estatus == 'LLENO-ALMACEN' || msg.estatus == 'TANQUE-RESERVA'){
+                            if(msg.estatus == 'TANQUE-RESERVA'){
+                                mensaje('success','Exito','Se eliminara de pendientes RESERVA',2000,null);
+                            }
                             $.ajax({
                                 method: "post",
                                 url: "/nota/contrato/salida/validar_tanqueasignacion",

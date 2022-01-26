@@ -33,8 +33,8 @@
             <i class="fas fa-piggy-bank"></i> Reserva <i class="fas fa-angle-down"></i>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="font-size: 13px">
-            <a class="dropdown-item" href="{{ url('/nota/reserva/index') }}"> Notas</a>
             <a class="dropdown-item" href="{{ url('/nota/reserva/tanques_pendientes') }}"> Tanques Pendientes</a>
+            <a class="dropdown-item" href="{{ url('/nota/reserva/index') }}"> Notas</a>
         </div>
     </li>
 

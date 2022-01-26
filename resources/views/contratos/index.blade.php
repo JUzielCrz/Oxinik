@@ -271,10 +271,10 @@
             <!-- botones Aceptar y cancelar-->
             <div class="row justify-content-center" >
                 <div class="btn-group col-auto" style="margin:10px" >
-                <button type="submit" class="btn btn-naranja" id="btneliminar">Eliminar</button>
+                <button type="submit" class="btn btn-amarillo" id="btneliminar">Eliminar</button>
                 </div>
                 <div class="btn-group col-auto" style="margin:10px">
-                <button type="reset" class="btn btn-amarillo" data-dismiss="modal">Cancelar</button>
+                <button type="reset" class="btn btn-verde" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
             </div>

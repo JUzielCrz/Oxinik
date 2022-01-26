@@ -1,7 +1,10 @@
 <div class="row">
     <div class="col">
         <h5 id="nota_id"></h5>
-        <span id="span-incidencia"></span>
+        <p>
+            <span id="span-incidencia"></span> <br>
+            <span id="span-user"></span>
+        </p>
     </div>
 </div>
 <hr>

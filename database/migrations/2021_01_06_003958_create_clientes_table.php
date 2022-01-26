@@ -23,8 +23,8 @@ class CreateClientesTable extends Migration
             $table->string('email');
             $table->string('telefono');
             $table->string('telefonorespaldo');
-            $table->string('direccion');
-            $table->string('referencia');
+            $table->string('direccion')->nullable();;
+            $table->string('referencia')->nullable();;
             $table->string('estatus');
             $table->timestamps();
         });

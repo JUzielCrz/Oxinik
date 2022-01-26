@@ -106,9 +106,19 @@ $(document).ready(function () {
     function metodo_insertar() {
         metodo_limpiar_span("Error");
 
-        var campo=['num_contrato','deposito_garantia', 'precio_transporte', 'tipo_contrato', 'nombre_comercial'];
-        var camponombre=['# Contrato','Deposito de garantia', 'Precio de transporte', 'Tipo contrato', 'Nombre Comercial'];
+        $('#modelo_reguladorError').empty();
+        $('#modelo_regulador').removeClass("is-invalid");
+        if($("#reguladores").val() > 0 && $("#modelo_regulador").val() == ''){
+            $('#modelo_reguladorError').text("Mod. Regulador invalido");
+            $('#modelo_regulador').addClass("is-invalid");
+            return false;
+        }
+
+        var campo=['num_contrato', 'tipo_contrato', 'reguladores', 'direccion','referencia','calle1','calle2'];
+        var camponombre=['# Contrato', 'Tipo contrato',  '# Reguladores','Dirección','Referencia','1ra Calle', '2da Calle'];
         var bandera=false;
+
+        
 
         $.each(campo, function(index){
             if($('#'+campo[index]).val() < 0 || $('#'+campo[index]).val() == ""){
@@ -209,6 +219,7 @@ $(document).ready(function () {
         }
         if(banderamensaje || banderamensaje2){
             return false;
+            
         }
 
         var dataForm= $("#idFormContrato").serialize()+'&cliente_id=' +  $('#cliente_id').val();
@@ -266,20 +277,29 @@ $(document).ready(function () {
         $("#reguladores"+ nombreerror).empty();
         $("#deposito_garantia"+ nombreerror).empty();
         $("#observaciones"+ nombreerror).empty();
+        $("#nombre_comercial"+ nombreerror).empty();
+        $("#calle1"+ nombreerror).empty();
+        $("#calle2"+ nombreerror).empty();
+        $("#modelo_regulador"+ nombreerror).empty();
     }
     
     function metodo_limpiar_campos() {
         $("#num_contrato").val("");
         $("#nombre").val("");
         $("#tipo_contrato").val("");
+        $("#nombre_comercial").val("");
         $("#asignacion_tanques").val("");
         $("#precio_transporte").val("");
         $("#direccion").val("");
+        $("#calle1").val("");
+        $("#calle2").val("");
         $("#referencia").val("");
         $("#link_ubicacion").val("");
-        $("#reguladores").val("");
+        $("#reguladores").val(0);
+        $("#modelo_regulador").val("");
         $("#deposito_garantia").val("");
         $("#observaciones").val("");
+        
 
         $("#tbody-tr-asignacioncreate").empty();
 
@@ -348,9 +368,12 @@ $(document).ready(function () {
                 'nombre': $('#nombreedit').val(),
                 'tipo_contrato': $('#tipo_contratoedit').val(),
                 'nombre_comercial': $('#nombre_comercialedit').val(),
+                'modelo_regulador': $('#modelo_reguladoredit').val(),
                 'precio_transporte': $('#precio_transporteedit').val(),
                 'direccion': $('#direccionedit').val(),
                 'referencia': $('#referenciaedit').val(),
+                'calle1': $('#calle1edit').val(),
+                'calle2': $('#calle2edit').val(),
                 'link_ubicacion': $('#link_ubicacionedit').val(),
                 },
         })
@@ -430,7 +453,6 @@ $(document).ready(function () {
     //Para Validar Campos
 
     $('.solo-text').keypress(function (event) {
-        // console.log(event.charCode);
         if (event.charCode >= 65 && event.charCode <= 90 || event.charCode >= 97 && event.charCode <= 122 || 
             event.charCode ==  32 ||
             event.charCode == 193 || 
@@ -638,7 +660,6 @@ $(document).ready(function () {
     });
 
     $('.numero-entero-positivo').keypress(function (event) {
-        // console.log(event.charCode);
         if (
             event.charCode == 43  || //+
             event.charCode == 45  || //-
@@ -652,7 +673,6 @@ $(document).ready(function () {
     });
 
     $('.numero-decimal-positivo').keypress(function (event) {
-        // console.log(event.charCode);
         if (
             event.charCode == 43 || //+
             event.charCode == 45 || //-

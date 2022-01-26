@@ -38,11 +38,10 @@ $(document).ready(function () {
 
     $(document).on("click","#btn-insertar-cilindro", insertar_cilindro);
     $(document).on("click","#btnEliminarFila", eliminarFila);
-
     $(document).on("click","#btn-save-nota", nota_save);
-
     $(document).on("click",".btn-show", nota_show);
     $(document).on("click",".btn-delete", nota_delete);
+    $(document).on("click","#refresh-table", refresh_table);
 
     $('#serie_tanque').keypress(function (event) {
         // console.log(event.charCode);
@@ -52,6 +51,7 @@ $(document).ready(function () {
         } 
     });
 
+    
     $("#incidencia").change( function() {
         if ($(this).val() == "") {
             $("#serie_tanque").prop("disabled", true);
@@ -132,6 +132,20 @@ $(document).ready(function () {
         return false;
     }
 
+    function nota_show() {
+        $("#tbody-reserva-show").empty();
+        $.get('/nota/reserva/show/' + $(this).data('id'), function(msg) { 
+            $("#modal-show").modal("show");
+            $("#nota_id").replaceWith("<h5 id='nota_id'>Nota id: "+msg.nota.id+"</h5>");
+            $("#span-incidencia").replaceWith('<span id="span-incidencia">Incidencia: '+msg.nota.incidencia+'</span>');
+            $("#span-user").replaceWith('<span id="span-user">Usuario: '+msg.user_name+'</span>');
+            $.each(msg.tanques, function (key, value) {
+                $("#tbody-reserva-show").append(
+                    "<tr><td>"+value.num_serie+"</td><td>"+value.tipo_gas+", "+value.capacidad+", "+value.material+", "+value.fabricante+", "+value.nombre+", "+value.tipo_tanque+", PH: "+value.ph +"</td></tr>"
+                );
+            });
+        });
+    }
 
     function nota_save(){
         $("#incidencia").removeClass('is-invalid');
@@ -173,20 +187,9 @@ $(document).ready(function () {
 
     }
 
-    function nota_show() {
-        $("#tbody-reserva-show").empty();
-        $.get('/nota/reserva/show/' + $(this).data('id'), function(msg) { 
-            $("#modal-show").modal("show");
-            $("#nota_id").replaceWith("<h5 id='nota_id'>Nota id: "+msg.nota.id+"</h5>");
-            $("#span-incidencia").replaceWith('<span id="span-incidencia">Incidencia: '+msg.nota.incidencia+'</span>');
-            $.each(msg.tanques, function (key, value) {
-                $("#tbody-reserva-show").append(
-                    "<tr><td>"+value.num_serie+"</td><td>"+value.tipo_gas+", "+value.capacidad+", "+value.material+", "+value.fabricante+", "+value.nombre+", "+value.tipo_tanque+", PH: "+value.ph +"</td></tr>"
-                );
-            });
-        });
+    function eliminarFila(){
+        $(this).closest('tr').remove();
     }
-
 
     function mensaje(icono,titulo, mensaje, tiempo, modal){
         $(modal).modal("hide");
@@ -197,10 +200,6 @@ $(document).ready(function () {
             timer: tiempo,
             width: 300,
         })
-    }
-
-    function eliminarFila(){
-        $(this).closest('tr').remove();
     }
 
     function nota_delete(){
@@ -228,5 +227,9 @@ $(document).ready(function () {
                 });
             }
         })
+    }
+
+    function refresh_table(){
+        listtabla.ajax.reload(null,false);
     }
 });

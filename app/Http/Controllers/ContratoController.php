@@ -102,9 +102,12 @@ class ContratoController extends Controller
             $contratos->cliente_id = $request->input('cliente_id');
             $contratos->tipo_contrato = $request->tipo_contrato;
             $contratos->nombre_comercial = $request->nombre_comercial;
+            $contratos->modelo_regulador = $request->modelo_regulador;
             $contratos->precio_transporte = $request->input('precio_transporte');
             $contratos->direccion = $request->input('direccion');
             $contratos->referencia = $request->input('referencia');
+            $contratos->calle1 = $request->calle1;
+            $contratos->calle2 = $request->calle2;
             $contratos->link_ubicacion = $request->input('link_ubicacion');
             $contratos->reguladores = $request->input('reguladores');
             $contratos->observaciones= $request->observaciones;
@@ -198,9 +201,12 @@ class ContratoController extends Controller
             $contratos->cliente_id = $request->cliente_id;
             $contratos->tipo_contrato = $request->tipo_contrato;
             $contratos->nombre_comercial = $request->nombre_comercial;
+            $contratos->modelo_regulador = $request->modelo_regulador;
             $contratos->precio_transporte = $request->precio_transporte;
             $contratos->direccion = $request->direccion;
             $contratos->referencia = $request->referencia;
+            $contratos->calle1 = $request->calle1;
+            $contratos->calle2 = $request->calle2;
             $contratos->link_ubicacion = $request->link_ubicacion;
 
             if($contratos->save()){

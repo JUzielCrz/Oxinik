@@ -14,6 +14,10 @@
                     <h5>RESERVA -> Notas</h5>
                 </div>
                 <div class="col text-right">
+                    <button type="button" class="btn btn-amarillo btn-primary" id="refresh-table">
+                        <i class="fas fa-sync-alt"></i> 
+                        Tabla
+                    </button >
                         <button type="button" class="btn btn-amarillo btn-primary" data-toggle="modal" data-target="#modal-create">
                             <span class="fas fa-plus"></span>
                             Agregar

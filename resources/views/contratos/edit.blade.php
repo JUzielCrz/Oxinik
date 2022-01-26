@@ -34,6 +34,11 @@
                 <input name="nombre_comercialedit" id="nombre_comercialedit" type="text" class="form-control form-control-sm" >
                 <span  id="nombre_comercialeditError" class="text-danger"></span>
             </div>
+            <div class="form-group col">
+                <label for="">Mod. Regulador</label>
+                <input name="modelo_reguladoredit" id="modelo_reguladoredit" type="text" class="form-control form-control-sm" >
+                <span  id="modelo_reguladoreditError" class="text-danger"></span>
+            </div>
         </div>        
         
         <div class="form-row">
@@ -59,6 +64,18 @@
             <div class="col-md-6">
                 <label for="">Referencia</label>
                 <textarea name="referenciaedit" id="referenciaedit" class="form-control form-control-sm" cols="30" rows="2"></textarea>
+            </div>
+        </div>
+
+        <div class="form-row">Entre las calles:</div>
+        <div class="form-row">
+            <div class="col">
+                <textarea name="calle1edit" id="calle1edit" class="form-control form-control-sm" cols="30" rows="1"  placeholder="CALLE 1"></textarea>
+                <span  id="calle1editError" class="text-danger"></span>
+            </div>
+            <div class="col">
+                <textarea name="calle2edit" id="calle2edit" class="form-control form-control-sm" cols="30" rows="1" placeholder="CALLE 2"></textarea>
+                <span  id="calle2editError" class="text-danger"></span>
             </div>
         </div>
 

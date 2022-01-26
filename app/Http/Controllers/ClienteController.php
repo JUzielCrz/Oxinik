@@ -58,11 +58,8 @@ class ClienteController extends Controller
                 'apMaterno' => ['required', 'string', 'max:255'],
                 'nombre' => ['required', 'string', 'max:255'],
                 'rfc' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'email'],
                 'telefono' => ['required', 'string', 'max:255'],
                 'telefonorespaldo' => ['required', 'string', 'max:255'],
-                'direccion' => ['required', 'string', 'max:255'],
-                'referencia' => ['required', 'string', 'max:255'],
                 'estatus' => ['required', 'string', 'max:255'],
             ]);
 

@@ -27,6 +27,11 @@
                                                 ],null,['id' => 'tipo_contrato','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona'])}}
                 <span  id="tipo_contratoError" class="text-danger"></span>
             </div>
+            <div class="form-group col">
+                <label for="">Nombre Comercial</label>
+                <input name="nombre_comercial" id="nombre_comercial" type="text" class="form-control form-control-sm" >
+                <span  id="nombre_comercialError" class="text-danger"></span>
+            </div>
             <div class="form-group col-md-2">
                 {!! Form::label('#Reguladores') !!}
                 <select name="reguladores" id="reguladores" class="form-control form-control-sm">
@@ -41,25 +46,38 @@
                 <span  id="reguladoresError" class="text-danger"></span>
             </div>
             <div class="form-group col">
-                <label for="">Nombre Comercial</label>
-                <input name="nombre_comercial" id="nombre_comercial" type="text" class="form-control form-control-sm" >
-                <span  id="nombre_comercialError" class="text-danger"></span>
+                <label for="">Mod. Regulador</label>
+                <input name="modelo_regulador" id="modelo_regulador" type="text" class="form-control form-control-sm" >
+                <span  id="modelo_reguladorError" class="text-danger"></span>
             </div>
         </div>
         
 
         <hr>
         <div class="form-row">
-                <p>Datos Envío</p>
+                <p>Donde serán utilizado los cilindros</p>
         </div>
         <div class="form-row">
             <div class="col-md-6">
-                <label for="">Dirección envío</label>
+                <label for="">Dirección</label>
                 <textarea name="direccion" id="direccion" class="form-control form-control-sm" cols="30" rows="2"></textarea>
+                <span  id="direccionError" class="text-danger"></span>
             </div>
             <div class="col-md-6">
                 <label for="">Referencia</label>
                 <textarea name="referencia" id="referencia" class="form-control form-control-sm" cols="30" rows="2"></textarea>
+                <span  id="referenciaError" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">Entre las calles:</div>
+        <div class="form-row">
+            <div class="col">
+                <textarea name="calle1" id="calle1" class="form-control form-control-sm" cols="30" rows="1"  placeholder="CALLE 1"></textarea>
+                <span  id="calle1Error" class="text-danger"></span>
+            </div>
+            <div class="col">
+                <textarea name="calle2" id="calle2" class="form-control form-control-sm" cols="30" rows="1" placeholder="CALLE 2"></textarea>
+                <span  id="calle2Error" class="text-danger"></span>
             </div>
         </div>
 
@@ -71,7 +89,7 @@
             </div>
             <div class="col-md-6">
                 <label for="">URL Ubicación</label>
-                <textarea name="link_ubicacion" id="link_ubicacion" class="form-control form-control-sm" cols="30" rows="1"></textarea>
+                <textarea name="link_ubicacion" id="link_ubicacion" class="form-control form-control-sm" cols="30" rows="1" placeholder="www.exmaple_ubicacion.com"></textarea>
             </div>
         </div>
         

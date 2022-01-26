@@ -11,7 +11,17 @@
         <div class="card-header">
             <div class="row ">
                 <div class="col">
-                    <h5>RESERVA -> Tanques Pendientes</h5>
+                    <span>RESERVA -> Tanques Pendientes</span>
+                </div>
+                <div class="col text-right">
+                    <button type="button" class="btn btn-amarillo btn-primary" id="refresh-table">
+                        <i class="fas fa-sync-alt"></i> 
+                        Tabla
+                    </button >
+                    <button type="button" class="btn btn-amarillo btn-primary" data-toggle="modal" data-target="#modal-create">
+                        <span class="fas fa-plus"></span>
+                        Agregar
+                    </button>
                 </div>
             </div>
         </div>
@@ -33,6 +43,27 @@
         </div>
     </div>
 </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal-create" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal-createLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="modal-createLabel">Crear</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                @include('notas.reserva.create')
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" id="btn-save-nota" class="btn btn-verde">Aceptar</button>
+            </div>
+        </div>
+        </div>
+    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="modal-show" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal-showLabel" aria-hidden="true">

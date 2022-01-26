@@ -63,10 +63,13 @@ class ClienteSeeder extends Seeder
             'nombre_comercial'=>'Los 3 Garcias',
             'precio_transporte'=>'250',
             'direccion' => 'Plan de Ayala 305, FERROCARRIL, Agencia de Policia de Cinco Señores, 68145 Oaxaca de Juárez, Oax.',
+            'calle1'=>'Aldama Martirez',
+            'calle1'=>'Guillermo Prieto',
             'referencia' => 'Porton rojo, a una cuadra de AV. Lazaro Cardenas',
             'link_ubicacion' => 'https://goo.gl/maps/qPBLWWL4Z43Z7f6s7',
             'reguladores' => 1,
             'observaciones' => 'Cliente distinguido',
+            'modelo_regulador' => 'kn123',
         ]);
         Asignacion::create([
             'contratos_id'=>$contrato->id,

@@ -22,11 +22,14 @@ class CreateContratosTable extends Migration
                 ->onDelete('cascade');
             $table->string('tipo_contrato');
             $table->string('nombre_comercial')->nullable();
+            $table->integer('reguladores')->default(0)->nullable();
+            $table->string('modelo_regulador')->nullable();
             $table->double('precio_transporte')->default(0)->nullable();
             $table->string('direccion')->nullable();
             $table->string('referencia')->nullable();
+            $table->string('calle1')->nullable();
+            $table->string('calle2')->nullable();
             $table->string('link_ubicacion')->nullable();
-            $table->integer('reguladores')->default(0)->nullable();
             $table->unique(['cliente_id', 'tipo_contrato']);
             $table->string('observaciones')->nullable();
             $table->timestamps();

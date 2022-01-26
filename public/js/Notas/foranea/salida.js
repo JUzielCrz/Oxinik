@@ -191,6 +191,9 @@ $(document).ready(function () {
                         return false;
                     }
                     if(msg.estatus == 'LLENO-ALMACEN' || msg.estatus == 'TANQUE-RESERVA'){
+                        if(msg.estatus == 'TANQUE-RESERVA'){
+                            mensaje('success','Exito','Se eliminara de pendientes RESERVA',2000,null);
+                        }
                         var precio_importe= $('#precio_unitario').val();
                         var iva =0;
                                 

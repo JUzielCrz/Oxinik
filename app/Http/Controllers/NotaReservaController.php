@@ -102,11 +102,12 @@ class NotaReservaController extends Controller
 
     public function show(NotaReserva $id){   
         if($this->slug_permiso('nota_reserva')){
+            $user_name=User::find($id->user_id);
             $tanques=Tanque::
             join("nota_reserva_tanque", "tanques.num_serie","=","nota_reserva_tanque.num_serie")
             ->join("catalogo_gases", "catalogo_gases.id","=","tanques.tipo_gas")
             ->where('nota_id',$id->id)->get();
-            $data = ['nota'=>$id, 'tanques'=>$tanques];
+            $data = ['nota'=>$id, 'tanques'=>$tanques, 'user_name'=>$user_name->name];
             return $data;
         }
         return view('home');

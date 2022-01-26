@@ -54,7 +54,7 @@
             <p class="text-right">Convenio: <strong>{{$contrato->num_contrato}}</strong></p>
             <h5 style="font-size: 20px; text-align: center">CONTRATO DE ARRENDAMIENTO DE CILINDROS DE OXIGÉNO MEDICINAL E INDUSTRIAL, GASES ESPECIALES Y ACCESORIOS.</h5>
             
-            <p class="mt-4">Que celebran por una parte el <strong>C. Juan Manuel Contreras Gómez</strong>, como responsable y/o propietario del establecimiento que comercialmente se denomina OXI NIK Gases Especiales, persona que en lo subsecuente se le denominara “EL ARRENDADOR” y por la otra el <span><strong>C. {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}</strong></span> con número telefónico <span><strong>{{$cliente->telefono}}</strong></span> y correo electrónico <span><strong>{{$cliente->email}}</strong></span> quien en  lo subsecuente se le denominara “EL ARRENDATARIO”, quienes se sujetan al tenor de las siguientes declaraciones y clausulas: </p>
+            <p class="mt-4">Que celebran por una parte el <strong>C. Juan Manuel Contreras Gómez</strong>, como responsable y/o propietario del establecimiento que comercialmente se denomina OXI NIK Gases Especiales, persona que en lo subsecuente se le denominara “EL ARRENDADOR” y por la otra el <span><strong>C. {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}</strong></span> con  @if ($cliente->email != '') correo electrónico <span><strong>{{$cliente->email}}</strong></span> @endif y número telefónico <span><strong>{{$cliente->telefono}}</strong></span>, quien en  lo subsecuente se le denominara “EL ARRENDATARIO”, quienes se sujetan al tenor de las siguientes declaraciones y clausulas: </p>
             
             <h5 style="font-size: 16px; text-align: center">DECLARACIONES:</h5>
  
@@ -72,7 +72,7 @@
                     <li style="">                
                         Que está interesado en recibir por parte de “EL ARRENDADOR” los bienes que posteriormente se describirán en los términos y condiciones designados en el presente contrato, a los efectos de arrendar por el precio estipulado en el presente contrato. De tal modo que adquiere la posesión y uso mientras se satisfaga el precio y se cumplan las condiciones estipuladas y convenidas, en el Anexo A.                    </li>
                     <li>
-                        Señala como domicilio para todos los efectos de este contrato el ubicado en la <strong>{{$cliente->direccion}}</strong>
+                        Señala como domicilio para todos los efectos de este contrato el ubicado en la <strong>{{$contrato->direccion}}</strong>
                         @if ($contrato->nombre_comercial != null)
                         , con nombre del establecimiento que se denomina <strong>{{$contrato->nombre_comercial }}</strong>
                         @else
@@ -185,8 +185,7 @@
             <p><strong>DECIMA SEPTIMA:</strong> Para garantía de lo estipulado en el presente Contrato lo firma solidariamente el Sr (a):
                 <strong> {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}</strong>
                 con domicilio en:<strong> {{$cliente->direccion}}</strong>, 
-                número telefónico  <strong>{{$cliente->telefono}} </strong>
-                y correo electrónico  <strong>{{$cliente->email}}</strong>,  con el carácter de fiador solidario, así mismo bajo protesta de decir verdad manifiesta tener propiedades bastantes y suficientes para cumplir con  todas y cada una obligaciones contraídas por “El ARRENDATARIO”, en el presente contrato y firma solidariamente, y reconoce que no cesara su responsabilidad solidaria sino hasta que el “EL ARRENDADOR”, se dé por conforme de las prestaciones otorgadas
+                @if ($cliente->email != '') correo electrónico <span><strong>{{$cliente->email}}</strong></span> @endif y número telefónico  <strong>{{$cliente->telefono}} </strong>,  con el carácter de fiador solidario, así mismo bajo protesta de decir verdad manifiesta tener propiedades bastantes y suficientes para cumplir con  todas y cada una obligaciones contraídas por “El ARRENDATARIO”, en el presente contrato y firma solidariamente, y reconoce que no cesara su responsabilidad solidaria sino hasta que el “EL ARRENDADOR”, se dé por conforme de las prestaciones otorgadas
                 </p>
 
             <p><strong>DECIMA OCTAVA:</strong> Para todo lo relativo a la interpretación y cumplimiento de este Contrato de Arrendamiento, las partes contratantes declaran su conformidad en someterse a los Tribunales del Fuero Común en esta ciudad de Oaxaca de Juárez, Oaxaca. Renunciando a cualquier otro fuero que pueda corresponderle en virtud de su nuevo domicilio actual ó futuro. La firma de este contrato no compromete a “EL ARRENDATARIO” a la compra de los cilindros a envases y/o sus accesorios ni la opción de compra del mismo.</p>
