@@ -10,13 +10,12 @@
     <div class="form-row">
         <div class="form-group col-md-4">
             {!! Form::label('Número de serie') !!}
-            {!! Form::text('num_serieedit', null, ['id'=>'num_serieedit', 'class' => 'form-control form-control-sm', 'placeholder'=>'#serie', 'readonly' ]) !!}
+            {!! Form::text('num_serieedit', null, ['id'=>'num_serieedit', 'class' => 'form-control form-control-sm', 'placeholder'=>'#serie' ]) !!}
             <span  id="num_serieeditError" class="text-danger"></span>
         </div>
 
         <div class="form-group col-md-2">
             {!! Form::label('Capacidad') !!}
-            
             <select name="unidadmedidaedit" id="unidadmedidaedit" class="form-control form-control-sm">
                 <option value="">Selecione</option>
                 <option value="Carga">Carga</option>

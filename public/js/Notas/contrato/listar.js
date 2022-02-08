@@ -6,8 +6,8 @@ $(document).ready(function () {
     
     $(document).on("click","#btn-entradas", entradas);
     $(document).on("click","#btn-salidas", salidas);
-    // $(document).on("click","#btn-exporadicas", exporadicas);
     $(document).on("click","#btn-adeudos", adeudos);
+    $(document).on("click","#btn-asignaciones", asignaciones);
 
     $(document).on("click",".btn-cancelar-salida", cancelar_salida);
     $(document).on("click",".btn-cancelar-entrada", cancelar_entrada);
@@ -69,7 +69,7 @@ $(document).ready(function () {
                 {data: 'user_name'},
                 {data: 'btnShow'},
                 {data: 'btnNota'},
-                {data: 'btnTiket'},
+                // {data: 'btnTiket'},
                 {data: 'btnCancelar'},
             ];
             
@@ -77,7 +77,6 @@ $(document).ready(function () {
         
         insertar_tabla(titulo_table,titulo_columnas,contenido_columnas, link_data);
     }
-
     function adeudos(){
         var titulo_table="Notas Sin Liquidar"; 
         var titulo_columnas=
@@ -101,6 +100,30 @@ $(document).ready(function () {
             {data: 'btnShow'},
             {data: 'btnNota'}];
         var link_data="/nota/contrato/listar/adeudos/data";
+        
+        insertar_tabla(titulo_table,titulo_columnas,contenido_columnas, link_data);
+    }
+    function asignaciones(){
+        var titulo_table="Notas Asignaciones"; 
+        var titulo_columnas=
+            "<thead><tr>"+
+                "<th>ID</th>"+
+                "<th>#CONTRATO</th>"+
+                "<th>FECHA</th>"+
+                "<th>INCIDENCIA</th>"+
+                "<th>USUARIO</th>"+
+                "<th></th>"+
+            "</tr></thead>";
+        var contenido_columnas=
+            [{data: 'id'},
+            {data: 'contrato_id'},
+            {data: 'fecha'},
+            {data: 'incidencia'},
+            {data: 'user_name'},
+            {data: 'btnPDF'},
+        ];
+            
+        var link_data="/nota/contrato/listar/asignaciones/data";
         
         insertar_tabla(titulo_table,titulo_columnas,contenido_columnas, link_data);
     }

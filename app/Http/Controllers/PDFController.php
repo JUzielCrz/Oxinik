@@ -13,6 +13,7 @@ use Barryvdh\DomPDF\Facade as PDF;
 // use App\Funciones\ConvertNumber;
 use App\Http\Controllers\ConvertNumber;
 use App\Models\ClienteSinContrato;
+use App\Models\DatosEmpresa;
 use App\Models\InfraLLenado;
 use App\Models\InfraTanque;
 use App\Models\MantenimientoLLenado;
@@ -37,9 +38,9 @@ class PDFController extends Controller
         ->where('nota_id', $nota->id)->get();
         $contrato=Contrato::where('id', $nota->contrato_id)->first();
         $cliente=Cliente::where('id', $contrato->cliente_id)->first();
-
+        $empresa=DatosEmpresa::find(1);
         
-        $data=['nota'=>$nota,'tanques'=>$tanques, 'contrato'=>$contrato, 'cliente'=>$cliente];
+        $data=['nota'=>$nota,'tanques'=>$tanques, 'contrato'=>$contrato, 'cliente'=>$cliente, 'empresa'=>$empresa];
  
         $pdf = PDF::loadView('pdf.nota', $data);
 
@@ -52,8 +53,9 @@ class PDFController extends Controller
         $tanques=VentaTanque::
         join('tanques', 'tanques.num_serie','=','venta_tanque.num_serie' )
         ->where('venta_id', $nota->id)->get();
+        $empresa=DatosEmpresa::find(1);
 
-        $data=['nota'=>$nota,'tanques'=>$tanques];
+        $data=['nota'=>$nota,'tanques'=>$tanques, 'empresa'=>$empresa];
  
         $pdf = PDF::loadView('pdf.nota_exporadica', $data);
 
@@ -140,8 +142,9 @@ class PDFController extends Controller
         ->where('nota_foranea_id', $nota->id)->get();
 
         $cliente=ClienteSinContrato::find($nota->cliente_id);
-        
-        $data=['nota'=>$nota,'tanques'=>$tanques,'cliente' => $cliente];
+        $empresa=DatosEmpresa::find(1);
+
+        $data=['nota'=>$nota,'tanques'=>$tanques,'cliente' => $cliente,'empresa'=>$empresa];
         $pdf = PDF::loadView('pdf.nota_foranea', $data);
 
         return $pdf->stream('nota_foranea_'.$nota->id.'.pdf');
@@ -153,8 +156,9 @@ class PDFController extends Controller
         $tanques=NotaTalonTanque::
         join('tanques', 'tanques.num_serie','=','nota_talontanque.num_serie' )
         ->where('nota_talon_id', $nota->id)->get();
-        
-        $data=['nota'=>$nota,'tanques'=>$tanques];
+        $empresa=DatosEmpresa::find(1);
+
+        $data=['nota'=>$nota,'tanques'=>$tanques,'empresa'=>$empresa];
         $pdf = PDF::loadView('pdf.nota_talon', $data);
     
         return $pdf->stream('nota_talon_'.$nota->id.'.pdf');

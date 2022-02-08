@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AsignacionNota;
 use App\Models\Nota;
 use App\Models\NotaEntrada;
-use App\Models\VentaExporadica;
 use Yajra\DataTables\DataTables;
 
 use App\User;
@@ -59,7 +59,7 @@ class NotaListasController extends Controller
             })
             ->addColumn( 'btnShow', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'nota.contrato.salida.show\', $nota_id)}}" title="Nota"><i class="far fa-eye"></i></a>')
             ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_salida\', $nota_id)}}" title="Nota"><i class="fas fa-file-pdf"></i></a>')
-            ->addColumn( 'btnTiket', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'tiket.cotrato_nota_salida\', $nota_id)}}" title="Nota"><i class="fas fa-print"></i></a>')
+            // ->addColumn( 'btnTiket', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'tiket.cotrato_nota_salida\', $nota_id)}}" title="Nota"><i class="fas fa-print"></i></a>')
             ->addColumn( 'btnCancelar', '<button class="btn btn-sm btn-verde btn-cancelar-salida" data-id="{{$nota_id}}" title="Cancelar"><span class="fas fa-trash"></span></button>')
             ->rawColumns(['btnNota','btnShow', 'btnCancelar','btnTiket'])
             ->toJson();
@@ -126,6 +126,27 @@ class NotaListasController extends Controller
             ->addColumn( 'btnShow', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'nota.contrato.entrada.show\', $nota_id)}}" title="Nota"><i class="far fa-eye"></i></a>')
             ->addColumn( 'btnCancelar', '<button class="btn btn-sm btn-verde btn-cancelar-entrada" data-id="{{$nota_id}}" title="Cancelar"><span class="fas fa-trash"></span></button>')
             ->rawColumns(['btnShow', 'btnCancelar'])
+            ->toJson();
+        }
+        return view('home');
+    }
+
+    public function asignaciones_data(){
+        if($this->slug_permiso('nota_show')){
+            $nota_entrada=AsignacionNota::all();
+            return DataTables::of(
+                $nota_entrada
+            )
+            ->editColumn('user_name', function ($nota) {
+                if($nota->user_id == null){
+                    return null;
+                }else{
+                    $usuario=User::select('name')->where('id', $nota->user_id)->first();
+                    return $usuario->name;
+                }
+            })                                                                  
+            ->addColumn( 'btnPDF', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota.asignacion\', $id)}}" title="Nota"><i class="far fa-eye"></i></a>')
+            ->rawColumns(['btnPDF'])
             ->toJson();
         }
         return view('home');

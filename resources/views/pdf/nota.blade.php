@@ -18,11 +18,9 @@
                             <img src="img/logo.svg" style="width: 200px" alt=""></td>
                         <td >
                             <p >
-                                Calle Ignacio Zaragoza 213 A <br> 
-                                Col. Fernando Gómez Sandoval. <br>
-                                Santa Lucia del Camino, Oaxaca. <br>
-                                951 195 02 00 / 951240 06 67 <br>
-                                sge.oxinik@gmail.com
+                                {{$empresa->direccion}}<br>
+                                {{$empresa->telefono1}} / {{$empresa->telefono2}} <br>
+                                {{$empresa->email}}
                             </p>
                         </td>
                     </tr>
@@ -126,23 +124,33 @@
             <table class="table table-sm table-bordered mt-2">
                 <tbody >
                     <tr style="background: black">
-                        <td colspan="2"><div class="text-center text-white" > CUENTAS BANCARIAS PARA TRANSFERENCIAS</div></td>
+                        <td colspan="3"><div class="text-center text-white" > CUENTAS BANCARIAS PARA TRANSFERENCIAS</div></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"  class="text-center">
+                            RFC: <strong>{{$empresa->rfc}}</strong> <br>
+                        </td>
                     </tr>
                     <tr>
                         <td>
                             <p class="p-0 m-0">
-                                DENOMINACIÓN : <strong>JUAN MANUEL CONTRERAS GÓMEZ </strong> <br>
-                                BANCO: <strong>BANORTE</strong> <br>
-                                RFC: <strong>COGJ940414C74</strong> <br>
-                                # CUENTA: <strong>1159955737</strong> <br>
-                                CLABE: <strong>072610011599557374</strong> <br>
-                                # SUCURSAL: <strong>_2376</strong> <br>
-                                
+                                Titular: <strong>{{$empresa->titular1}} </strong> <br>
+                                BANCO: <strong>{{$empresa->banco1}}</strong> <br>
+                                # CUENTA: <strong>{{$empresa->num_cuenta1}}</strong> <br>
+                                CLABE: <strong>{{$empresa->clave1}}</strong> <br>                                
                             </p>
                         </td>
                         <td>
                             <p class="p-0 m-0">
-                                ASÍ MISMO SE LES PIDE ENVIAR COMPROBANTE DE PAGO AL SIGUIENTE CORREO: <strong>sge.oxinik@gmail.com</strong><br>
+                                Titular: <strong>{{$empresa->titular2}} </strong> <br>
+                                BANCO: <strong>{{$empresa->banco2}}</strong> <br>
+                                # CUENTA: <strong>{{$empresa->num_cuenta2}}</strong> <br>
+                                CLABE: <strong>{{$empresa->clave2}}</strong> <br>                                
+                            </p>
+                        </td>
+                        <td>
+                            <p class="p-0 m-0">
+                                ASÍ MISMO SE LES PIDE ENVIAR COMPROBANTE DE PAGO AL SIGUIENTE CORREO: <strong>{{$empresa->email}}</strong><br>
                                 HACIENDO REFERENCIA EN CONCEPTO ALGUNO DE LOS SIGUIENTES:<br>
                                     * FOLIO DE FACTURA<br>
                                     * NÚMERO DE VALE O TICKET DE VENTA<br>

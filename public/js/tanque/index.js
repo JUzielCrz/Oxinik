@@ -112,9 +112,7 @@ $(document).ready(function () {
         });
     }
     function save_tanque(clave, accion, e) {
-
         metodo_limpiar_span("Error");
-
         var campo= [
             'num_serie',
             'unidadmedida',
@@ -218,7 +216,7 @@ $(document).ready(function () {
                 var status = jqXHR.status;
                 if (status === 422) {
                     $.each(jqXHR.responseJSON.errors, function (key, value) {
-                        var idError = "#" + key + "Error";
+                        var idError = "#" + key + clave + "Error";
                         //$(idError).removeClass("d-none");
                         $(idError).text(value);
                     });

@@ -7,7 +7,7 @@ trait UserTrait{
     public function roles(){
         return $this->belongsToMany('App\Role')->withTimestamps();
     }
-    //                                'docente'
+    //'docente'
     public function permiso_con_admin($permission){
         foreach($this->roles as $role){
             if($role['slug']=='admin'){

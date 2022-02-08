@@ -43,6 +43,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/nota/contrato/listar/salidas/data', 'NotaListasController@salidas_data');
     Route::get('/nota/contrato/listar/adeudos/data', 'NotaListasController@adeudos_data');
     Route::get('/nota/contrato/listar/entradas/data', 'NotaListasController@entradas_data');
+    Route::get('/nota/contrato/listar/asignaciones/data', 'NotaListasController@asignaciones_data');
 
     // EXPORADICA/MOSTRADOR
     Route::get('/nota/exporadica', 'NotaExporadicaController@index');
@@ -163,7 +164,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/asignaciones/disminucion/{contrato_id}', 'AsignacionController@asignacion_minus');
 
   //pdf
-    Route::get('/pdf/asignacion_tanque/{idasignacion}', 'PDFController@asignacion_tanques'); 
+    Route::get('/pdf/asignacion_tanque/{idasignacion}', 'PDFController@asignacion_tanques')->name('pdf.nota.asignacion');; 
     Route::get('/pdf/nota/{idnota}', 'PDFController@pdf_nota')->name('pdf.nota_salida'); 
     Route::get('/pdf/generar_contrato/{idcontrato}', 'PDFController@generar_contrato')->name('pdf.contrato'); 
     Route::get('/pdf/nota/exporadica/{idnota}', 'PDFController@pdf_nota_exporadica')->name('pdf.nota_exporadica'); 
@@ -172,16 +173,6 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/pdf/infra/nota/{idnota}', 'PDFController@infra_nota')->name('pdf.infra_nota'); 
     Route::get('/pdf/mantenimiento/nota/{idnota}', 'PDFController@mantenimiento_nota')->name('pdf.mantenimiento_nota');
 
-      //PDF TIKET 
-      // Route::get('/pdf/asignacion_tanque/{idasignacion}', 'TiketsController@asignacion_tanques'); 
-    Route::get('/tiket/nota/{idnota}', 'TiketsController@cotrato_nota_salida')->name('tiket.cotrato_nota_salida'); 
-      // Route::get('/pdf/generar_contrato/{idcontrato}', 'TiketsController@generar_contrato')->name('pdf.contrato'); 
-      // Route::get('/pdf/nota/exporadica/{idnota}', 'TiketsController@pdf_nota_exporadica')->name('pdf.nota_exporadica'); 
-      // Route::get('/pdf/nota/foranea/{idnota}', 'TiketsController@pdf_nota_foranea')->name('pdf.nota_foranea'); 
-      // Route::get('/pdf/nota/talon/{idnota}', 'TiketsController@pdf_nota_talon')->name('pdf.nota_talon'); 
-      // Route::get('/pdf/infra/nota/{idnota}', 'TiketsController@infra_nota')->name('pdf.infra_nota'); 
-      // Route::get('/pdf/mantenimiento/nota/{idnota}', 'TiketsController@mantenimiento_nota')->name('pdf.mantenimiento_nota');
-  
 
   //INFRA
     Route::get('/infra/index', 'InfraController@index');
@@ -191,16 +182,12 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/infra/salida', 'InfraController@salida');
     Route::post('/infra/salida_save', 'InfraController@salida_save');
     Route::post('/infra/entrada_save', 'InfraController@entrada_save');
-    // Route::get('editinfra/{id}', 'InfraController@edit');
 
-//   Route::get('/deleteinfra/{id}', 'InfraController@delete');
-//   Route::get('actualizarnoteinfra', 'InfraController@update');
 
   //MANTENIMIENTO
     Route::get('/mantenimiento/index', 'MantenimientoController@index');
     Route::get('/mantenimiento/data', 'MantenimientoController@data');
     Route::get('/mantenimiento/show/{id}', 'MantenimientoController@show');
-    // Route::get('/mantenimiento/entrada', 'MantenimientoController@entrada');
     Route::get('/mantenimiento/entrada/{id}', 'MantenimientoController@entrada')->name('mantenimiento.entrada');
     Route::get('/mantenimiento/salida', 'MantenimientoController@salida');
     Route::post('/mantenimiento/registro_entrada', 'MantenimientoController@registro_entrada');
@@ -224,6 +211,22 @@ Route::get('/home', 'HomeController@index')->name('home');
     // DataTables 
     Route::get('/rol/data', 'RoleController@data')->name('rol_data');
 
+    /* Config */
+    Route::get('/config/empresa/index', 'ConfigSystemController@empresa_index');
+    Route::get('/config/empresa/save', 'ConfigSystemController@empresa_save');
 
+    /* perfil */
+    Route::get('/perfil/index', 'PerfilController@index');
+    Route::post('/perfil/cambio_password', 'PerfilController@cambio_password');
+    Route::post('/perfil/cambio_email', 'PerfilController@cambio_email');
+    Route::post('/perfil/mis_datos', 'PerfilController@mis_datos');
 
-   Route::get('/prueba/{num_serie}', 'PDFController@pdf_tanque_barras');
+         //PDF TIKET 
+      // Route::get('/pdf/asignacion_tanque/{idasignacion}', 'TiketsController@asignacion_tanques'); 
+    // Route::get('/tiket/nota/{idnota}', 'TiketsController@cotrato_nota_salida')->name('tiket.cotrato_nota_salida'); 
+      // Route::get('/pdf/generar_contrato/{idcontrato}', 'TiketsController@generar_contrato')->name('pdf.contrato'); 
+      // Route::get('/pdf/nota/exporadica/{idnota}', 'TiketsController@pdf_nota_exporadica')->name('pdf.nota_exporadica'); 
+      // Route::get('/pdf/nota/foranea/{idnota}', 'TiketsController@pdf_nota_foranea')->name('pdf.nota_foranea'); 
+      // Route::get('/pdf/nota/talon/{idnota}', 'TiketsController@pdf_nota_talon')->name('pdf.nota_talon'); 
+      // Route::get('/pdf/infra/nota/{idnota}', 'TiketsController@infra_nota')->name('pdf.infra_nota'); 
+      // Route::get('/pdf/mantenimiento/nota/{idnota}', 'TiketsController@mantenimiento_nota')->name('pdf.mantenimiento_nota');

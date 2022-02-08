@@ -50,6 +50,18 @@
                         </a>
                     </div>
                 </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body bg-verde border-dark text-white text-center  p-2" >
+                            <i class="fas fa-sticky-note"></i> Asignaciones
+                        </div>
+                        <a href="#" id="btn-asignaciones">
+                            <div class="card-footer bg-gris text-white text-center p-1 " style="font-size:14px">
+                                Listar <i class="fas fa-angle-double-right"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

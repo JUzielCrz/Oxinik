@@ -16,12 +16,10 @@
                         <td class="text-center p-0">
                             <img src="img/logo.svg" style="width: 200px" alt=""></td>
                         <td class="p-0">
-                            <p class="p-0">
-                                Calle Ignacio Zaragoza 213 A <br> 
-                                Col. Fernando Gómez Sandoval. <br>
-                                Santa Lucia del Camino, Oaxaca. <br>
-                                951 195 02 00 / 951240 06 67 <br>
-                                sge.oxinik@gmail.com
+                            <p >
+                                {{$empresa->direccion}}<br>
+                                {{$empresa->telefono1}} / {{$empresa->telefono2}} <br>
+                                {{$empresa->email}}
                             </p>
                         </td>
                     </tr>

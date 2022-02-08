@@ -74,6 +74,12 @@
                         <li id="nav-ico-usuario" ><a href="{{ url('/user/index') }}"><i class="fas fa-users-cog"></i>Usuarios</a></li>
                     @endif
 
+                {{-- Configuraciones--}}
+                @if($user->soloParaUnRol('admin'))
+                    <li id="nav-ico-config" ><a href="{{ url('/config/empresa/index') }}"><i class="fas fa-tools"></i> Ajustes</a></li>
+                @endif
+                {{-- Perfil--}}
+                <li id="nav-ico-perfil" ><a href="{{ url('/perfil/index') }}"><i class="fas fa-user-circle"></i>Perfil</a></li>
             </ul>
 
             <ul class="list-unstyled CTAs">
@@ -113,9 +119,10 @@
                 </div>
 
                 {{-- cERRAR SESION --}}
+                <span class="text-white mr-2"> <i class="fas fa-user"></i> {{auth()->user()->name}} </span>
                 <div class="btn-group">
                     <a type="button" class="btn btn-verde text-white" data-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-user"></i> <i class="fas fa-angle-down"></i>
+                        <i class="fas fa-angle-down"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" style="font-size: 13px">
                         <a  href="{{ route('logout') }}" class="dropdown-item" type="button" onclick="event.preventDefault(); document.getElementById('logout-form1').submit();" class="article">
