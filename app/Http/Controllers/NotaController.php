@@ -110,7 +110,7 @@ class NotaController extends Controller
                 $notas
             )
             ->editColumn('created_at', function ($infra) {
-                return $infra->created_at->format('H:i:s A - d/m/Y');
+                return $infra->created_at->format('Y/m/d - H:i:s A');
             })
             ->editColumn('pago_cubierto', function ($nota) {
                 if($nota->pago_cubierto== true){

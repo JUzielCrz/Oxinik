@@ -5,6 +5,8 @@ $(document).ready(function () {
     
     // Data Tables
     var listtabla = $('#tablecruddata').DataTable({
+        "ordering": true,
+        "order": [[ 0, 'desc' ]],
         language: {
             "decimal": "",
             "emptyTable": "No hay información",
@@ -31,7 +33,7 @@ $(document).ready(function () {
         columns:[
             {data: 'notaf_id'},   
             {data: 'nombre'},
-            {data: 'fecha'},
+            {data: 'created_at'},
             {data: 'total'},
             {data: 'telefono'},
             {data: 'pago_cubierto'},

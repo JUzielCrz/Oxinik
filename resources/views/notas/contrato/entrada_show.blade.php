@@ -131,6 +131,11 @@
 <script>
     $(document).ready(function () {
         $("#id-menu-contrato").addClass('active');
+        $("#nav-ico-notas").addClass('active');
     });
 </script>
+<script type="text/javascript">
+    $("#nav-ico-notas").addClass('active');
+</script>
+
 <!--Fin Scripts-->

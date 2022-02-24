@@ -40,7 +40,7 @@ class InfraController extends Controller
                 $infra
             )
             ->editColumn('created_at', function ($infra) {
-                return $infra->created_at->format('H:i:s A - d/m/Y');
+                return $infra->created_at->format('Y/m/d - H:i:s A');
             })
             ->editColumn('mostrar_diferencia', function ($infra) {
                 if($infra->pendiente == true){

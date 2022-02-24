@@ -38,7 +38,7 @@ class NotaReservaController extends Controller
                 $notas
             )
             ->editColumn('created_at', function ($notas) {
-                return $notas->created_at->format('H:i:s A - d/m/Y');
+                return $notas->created_at->format('Y/m/d - H:i:s A');
             })
             ->addColumn( 'btnShow', '<button class="btn btn-sm btn-verde btn-show" data-id="{{$nota_id}}" data-toggle="tooltip" data-placement="top" title="Ver"><i class="fas fa-eye"></i> Nota</button>')
             ->addColumn( 'btnDelete', '<button class="btn btn-sm btn-verde btn-delete" data-id="{{$nota_id}}" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fas fa-trash-alt"></i> Eliminar</button>')
@@ -64,7 +64,7 @@ class NotaReservaController extends Controller
                 $notas
             )
             ->editColumn('created_at', function ($notas) {
-                return $notas->created_at->format('H:i:s A - d/m/Y');
+                return $notas->created_at->format('Y/m/d - H:i:s A');
             })
             ->addColumn( 'btnShow', '<button class="btn btn-sm btn-verde btn-show" data-id="{{$nota_id}}" data-toggle="tooltip" data-placement="top" title="Ver"><i class="fas fa-eye"></i> Nota</button>')
             ->rawColumns(['btnShow'])

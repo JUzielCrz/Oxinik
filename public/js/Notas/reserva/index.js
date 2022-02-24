@@ -2,6 +2,8 @@ $(document).ready(function () {
 
     // Data Tables
     var listtabla = $('#tablecruddata').DataTable({
+        "ordering": true,
+        "order": [[ 0, 'desc' ]],
         language: {
             "decimal": "",
             "emptyTable": "No hay información",

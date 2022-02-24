@@ -17,7 +17,7 @@
                 </a>
             </div>
 
-            <ul class="list-unstyled components">
+            <ul id="menu_principal" class="list-unstyled components">
                 {{-- <li class="active">
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                         <i class="fas fa-home"></i>
@@ -34,8 +34,10 @@
                     @if($user->permiso_con_admin('nota_salida') ||  $user->permiso_con_admin('nota_entrada') )
                         <li id="nav-ico-notas"><a 
                             @if ($user->permiso_con_admin('nota_salida') )
+                            onclick="salir_pagina(event, '/nota/contrato/salida')"
                             href="{{ url('/nota/contrato/salida') }}"
                             @else
+                            onclick="salir_pagina(event, '/nota/contrato/entrada')"
                             href="{{ url('/nota/contrato/entrada') }}"
                             @endif
                             ><i class="fas fa-clipboard"></i> Notas</a>
@@ -43,51 +45,53 @@
                     @endif
                 {{-- Clientes --}}
                     @if($user->permiso_con_admin('cliente_show'))    
-                        <li id="nav-ico-cliente" ><a href="{{ url('/cliente/index') }}"><i class="fas fa-users"></i> Clientes</a></li>
+                        <li id="nav-ico-cliente" ><a  onclick="salir_pagina(event, '/cliente/index')"href="{{ url('/cliente/index') }}"><i class="fas fa-users"></i> Clientes</a></li>
                     @endif
                 {{-- Contratos --}}
                     @if($user->permiso_con_admin('contrato_show'))    
-                        <li id="nav-ico-contratos" ><a href="{{ url('/contrato/listar') }}"><i class="fas fa-file-signature"></i> Contratos</a></li>
+                        <li id="nav-ico-contratos" ><a onclick="salir_pagina(event, '/contrato/listar')" href="{{ url('/contrato/listar') }}"><i class="fas fa-file-signature"></i> Contratos</a></li>
                     @endif
                 {{-- Tanques --}}
                     @if($user->permiso_con_admin('tanque_show') || $user->permiso_con_admin('gas_show'))    
                         <li id="nav-ico-tanques"><a 
                             @if ($user->permiso_con_admin('tanque_show'))
+                                onclick="salir_pagina(event, '/tanque/index')" 
                                 href="{{ url('/tanque/index') }}"
                             @else
+                                onclick="salir_pagina(event, '/gas/index')" 
                                 href="{{ url('/gas/index') }}"
                             @endif
                             ><i class="fas fa-prescription-bottle"></i> Tanques</a></li>
                     @endif
                 {{-- Infra --}}
                     @if($user->permiso_con_admin('infra_salida') || $user->permiso_con_admin('infra_entrada'))    
-                        <li id="nav-ico-infra" ><a href="{{ url('/infra/index') }}"><i class="fas fa-building"></i>Infra</a></li>
+                        <li id="nav-ico-infra" ><a onclick="salir_pagina(event, '/infra/index')" href="{{ url('/infra/index') }}"><i class="fas fa-building"></i>Infra</a></li>
                     @endif
                 {{-- Mantenimiento --}}
                     @if($user->permiso_con_admin('mantenimiento_salida') || $user->permiso_con_admin('mantenimiento_entrada'))    
                         <li id="nav-ico-mantenimiento" >
-                            <a  href="{{ url('/mantenimiento/index') }}" ><i class="fas fa-dolly-flatbed"></i> Manteni- <br> miento</a>
+                            <a onclick="salir_pagina(event, '/mantenimiento/index')"  href="{{ url('/mantenimiento/index') }}" ><i class="fas fa-dolly-flatbed"></i> Manteni- <br> miento</a>
                         </li>
                     @endif
                 {{-- Usuarios --}}
                     @if($user->soloParaUnRol('admin'))
-                        <li id="nav-ico-usuario" ><a href="{{ url('/user/index') }}"><i class="fas fa-users-cog"></i>Usuarios</a></li>
+                        <li id="nav-ico-usuario" ><a onclick="salir_pagina(event, '/user/index')" href="{{ url('/user/index') }}"><i class="fas fa-users-cog"></i>Usuarios</a></li>
                     @endif
 
                 {{-- Configuraciones--}}
                 @if($user->soloParaUnRol('admin'))
-                    <li id="nav-ico-config" ><a href="{{ url('/config/empresa/index') }}"><i class="fas fa-tools"></i> Ajustes</a></li>
+                    <li id="nav-ico-config" ><a onclick="salir_pagina(event, '/config/empresa/index')" href="{{ url('/config/empresa/index') }}"><i class="fas fa-tools"></i> Ajustes</a></li>
                 @endif
                 {{-- Perfil--}}
-                <li id="nav-ico-perfil" ><a href="{{ url('/perfil/index') }}"><i class="fas fa-user-circle"></i>Perfil</a></li>
+                <li id="nav-ico-perfil" ><a onclick="salir_pagina(event, '/perfil/index')" href="{{ url('/perfil/index') }}"><i class="fas fa-user-circle"></i>Perfil</a></li>
             </ul>
 
             <ul class="list-unstyled CTAs">
                 {{-- <li>
-                    <a href="#" class="download">Download source</a>
+                    <a onclick="salir_pagina(event)" href="#" class="download">Download source</a>
                 </li> --}}
                 <li>
-                    <a href="{{ route('logout') }}" 
+                    <a onclick="salir_pagina(event)" href="{{ route('logout') }}" 
                     onclick="event.preventDefault();
                     document.getElementById('logout-form1').submit();" class="article">Cerar Sesión</a>
                     <form id="logout-form1" action="{{ route('logout') }}" method="POST" style="display: none;">

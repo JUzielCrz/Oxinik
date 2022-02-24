@@ -45,12 +45,13 @@ $(document).ready(function () {
                 },
         }).done(function(msg){
             // limpiar_campos();
-            mensaje('success','Exito','Registro creado correctamente', 1500, 'modal-create');
-            // location.reload();
+            mensaje('success','Exito','Registro creado correctamente', 1500, '#modal-create');
+            location.reload();
         })
     }
 
-    function mensaje(icono,titulo, mensaje, timer){
+    function mensaje(icono,titulo, mensaje, timer, modal){
+        $(modal).modal('hide');
         Swal.fire({
             icon: icono,
             title: titulo,

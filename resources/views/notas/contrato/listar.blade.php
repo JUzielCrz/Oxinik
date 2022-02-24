@@ -9,7 +9,7 @@
 <div class="container">
     <div class="card">
         <div class="card-header">
-            <h5>NOTAS CON CONTRATO</h5>
+            <h5>LISTADO DE NOTAS</h5>
         </div>
         <div class="card-body">
             <div class="row justify-content-center">
@@ -41,7 +41,7 @@
                 <div class="col-md-3">
                     <div class="card">
                         <div class="card-body bg-verde border-dark text-white text-center  p-2" >
-                            <i class="fas fa-sticky-note"></i> Sin Pagar
+                            <i class="fas fa-sticky-note"></i> Notas sin Pagar
                         </div>
                         <a href="#" id="btn-adeudos">
                             <div class="card-footer bg-gris text-white text-center p-1 " style="font-size:14px">

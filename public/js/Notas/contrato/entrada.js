@@ -206,7 +206,7 @@ $(document).ready(function () {
                                 showCancelButton: true,
                                 confirmButtonText: 'Continuar de todos modos',
                                 footer: '<a class="btn btn-link" target="_blank" href="/tanque/history/'+msg.id+'">ver historial <strong>'+msg.num_serie+'</strong></a>'+
-                                '<a class="btn btn-link" target="_blank" href="/tanque/reportados/create'+msg.id+'">Levantar reporte <strong>'+msg.num_serie+'</strong></a>',
+                                '<a class="btn btn-link" target="_blank" href="/tanque/reportados/create">Levantar reporte <strong>'+msg.num_serie+'</strong></a>',
                                 
                             }).then((result) => {
                                 /* Read more about isConfirmed, isDenied below */
@@ -901,7 +901,7 @@ $(document).ready(function () {
     
         var cambio = 0;
         if($("#metodo_pago").val() == "Efectivo"){
-            cambio = parseFloat($("#ingreso-efectivo").val())-parseFloat($("#monto_pago").val());
+            cambio = parseFloat($("#ingreso-efectivo").val())-parseFloat($("#input-total").val());
             $("#label-cambio").replaceWith(
                 "<label id='label-cambio'>$ "+Intl.NumberFormat('es-MX').format(cambio)+"</label>"
             );

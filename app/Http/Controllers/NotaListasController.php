@@ -34,14 +34,17 @@ class NotaListasController extends Controller
             join('contratos','contratos.id','=','notas.contrato_id')
             ->select('notas.id as nota_id',
                     'contratos.num_contrato',
-                    'notas.fecha',
+                    'notas.created_at',
                     'notas.pago_cubierto',
                     'notas.observaciones',
                     'notas.user_id',
                     'notas.estatus');
             return DataTables::of(
                 $nota_entrada
-            )                                       
+            )
+            ->editColumn('created_at', function ($infra) {
+                return $infra->created_at->format('Y/m/d - H:i:s A');
+            })                                       
             ->editColumn('pago_cubierto', function ($nota) {
                 if($nota->pago_cubierto== true){
                     return 'Pagado';
@@ -73,7 +76,7 @@ class NotaListasController extends Controller
             join('contratos','contratos.id','=','notas.contrato_id')
             ->select('notas.id as nota_id',
                     'contratos.num_contrato',
-                    'notas.fecha',
+                    'notas.created_at',
                     'notas.pago_cubierto',
                     'notas.observaciones',
                     'notas.user_id')
@@ -82,6 +85,9 @@ class NotaListasController extends Controller
             return DataTables::of(
                 $nota_entrada
             )
+            ->editColumn('created_at', function ($infra) {
+                return $infra->created_at->format('Y/m/d - H:i:s A');
+            })  
             ->editColumn('user_name', function ($nota) {
                 if($nota->user_id == null){
                     return null;
@@ -90,8 +96,8 @@ class NotaListasController extends Controller
                     return $usuario->name;
                 }
             })                                                             
-            ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_salida\', $nota_id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
-            ->addColumn( 'btnShow', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'nota.pagos.index\', $nota_id)}}" title="Nota"><i class="far fa-eye"></i></a>')
+            ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_salida\', $nota_id)}}" title="Nota"><i class="fas fa-file-pdf"></i></a>')
+            ->addColumn( 'btnShow', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'nota.pagos.index\', $nota_id)}}" title="Nota"><i class="fas fa-cash-register"></i></a>')
             ->rawColumns(['btnNota','btnShow'])
             ->editColumn('pago_cubierto', function ($user) {
                 if($user->pago_cubierto== true){
@@ -115,6 +121,9 @@ class NotaListasController extends Controller
             return DataTables::of(
                 $nota_entrada
             )
+            ->editColumn('created_at', function ($infra) {
+                return $infra->created_at->format('Y/m/d - H:i:s A');
+            })
             ->editColumn('user_name', function ($nota) {
                 if($nota->user_id == null){
                     return null;
@@ -137,6 +146,9 @@ class NotaListasController extends Controller
             return DataTables::of(
                 $nota_entrada
             )
+            ->editColumn('created_at', function ($infra) {
+                return $infra->created_at->format('Y/m/d - H:i:s A');
+            })
             ->editColumn('user_name', function ($nota) {
                 if($nota->user_id == null){
                     return null;
@@ -145,7 +157,7 @@ class NotaListasController extends Controller
                     return $usuario->name;
                 }
             })                                                                  
-            ->addColumn( 'btnPDF', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota.asignacion\', $id)}}" title="Nota"><i class="far fa-eye"></i></a>')
+            ->addColumn( 'btnPDF', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota.asignacion\', $id)}}" title="Nota"><i class="fas fa-file-pdf"></i></a>')
             ->rawColumns(['btnPDF'])
             ->toJson();
         }

@@ -118,7 +118,6 @@ $(document).ready(function () {
         });
     }
 
-
     //funciones generales
     function mensaje(icono,titulo, mensaje, timer){
         Swal.fire({
@@ -141,4 +140,5 @@ $(document).ready(function () {
         $('#tbody_errores').empty();
     }
 
+    
 });

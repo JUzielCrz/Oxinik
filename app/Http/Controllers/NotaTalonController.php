@@ -46,6 +46,9 @@ class NotaTalonController extends Controller
             return DataTables::of(
                 $notas
             )
+            ->editColumn('created_at', function ($infra) {
+                return $infra->created_at->format('Y/m/d - H:i:s A');
+            })
             ->editColumn('user_name', function ($user) {
                 if($user->user_id == null){
                     return null;

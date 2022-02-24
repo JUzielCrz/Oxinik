@@ -6,6 +6,8 @@ $(document).ready(function () {
 
 
     var listtabla = $('#table-data').DataTable({
+        "ordering": true,
+        "order": [[ 0, 'desc' ]],
         language: {
             "decimal": "",
             "emptyTable": "No hay información",
@@ -33,7 +35,7 @@ $(document).ready(function () {
         [
             {data: 'id'},
             {data: 'nombre'},
-            {data: 'fecha'},
+            {data: 'created_at'},
             {data: 'telefono'},
             {data: 'total'},
             {data: 'estatus'},

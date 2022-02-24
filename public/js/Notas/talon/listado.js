@@ -29,6 +29,8 @@ $(document).ready(function () {
         $("#titulo-tabla").replaceWith('<h5 id="titulo-tabla"> TALONES '+$("#estatus option:selected").text()+'</h5>');
 
         listtabla = $('#tablecruddata').DataTable({
+            "ordering": true,
+            "order": [[ 0, 'desc' ]],
             language: {
                 "decimal": "",
                 "emptyTable": "No hay información",
@@ -63,7 +65,7 @@ $(document).ready(function () {
             columns:[
                 {data: 'id'},   
                 {data: 'nombre'},
-                {data: 'fecha'},
+                {data: 'created_at'},
                 {data: 'total'},
                 {data: 'pendiente'},
                 {data: 'telefono'},

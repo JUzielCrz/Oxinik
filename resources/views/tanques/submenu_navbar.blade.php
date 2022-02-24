@@ -10,7 +10,7 @@ $user=App\User::find($idauth);
         <a class="nav-link"  href="{{ url('/tanque/lista_bajas') }}"><i class="fas fa-trash"></i> Dados de baja</a>
     </li>
     <li class="nav-item" id="id-menu-estatus">
-        <a class="nav-link"  href="{{ url('/tanque/estatus') }}"><i class="fas fa-chart-bar"></i> Info</a>
+        <a class="nav-link"  href="{{ url('/tanque/estatus') }}"><i class="fas fa-chart-bar"></i> Información</a>
     </li>
     <li class="nav-item" id="id-menu-reportes">
         <a class="nav-link"  href="{{ url('/tanque/reportados') }}"><i class="fas fa-bug"></i> Reportados</a>

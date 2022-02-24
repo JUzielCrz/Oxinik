@@ -71,6 +71,9 @@ class NotaForaneaController extends Controller
                     return 'Pendientes';
                 }
             })
+            ->editColumn('created_at', function ($infra) {
+                return $infra->created_at->format('Y/m/d - H:i:s A');
+            })
             ->addColumn( 'btnEdit', '<a class="btn btn-sm btn-verde" href="{{route(\'nota.foranea.edit\', $notaf_id)}}" data-toggle="tooltip" data-placement="top" title="Contrato"><span class="fas fa-edit"></span></a>')
             ->addColumn( 'btnPDF', '<a class="btn btn-verde btn-sm" href="{{route(\'pdf.nota_foranea\', $notaf_id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Nota PDF"><i class="fas fa-file-pdf"></i></a>')
             ->addColumn( 'btnDelete', '<button class="btn btn-sm btn-verde btn-eliminar-nota" data-id="{{$notaf_id}}" title="Eliminar"><span class="fas fa-trash"></span></button>')

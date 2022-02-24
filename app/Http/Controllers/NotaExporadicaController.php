@@ -162,6 +162,9 @@ class NotaExporadicaController extends Controller
                     return $usuario->name;
                 }
             })
+            ->editColumn('created_at', function ($infra) {
+                return $infra->created_at->format('Y/m/d - H:i:s A');
+            })
             ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_exporadica\', $id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
             ->addColumn( 'btnShow', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'nota.exporadica.show\', $id)}}" title="Nota"><i class="far fa-eye"></i></a>')
             ->addColumn( 'btnCancelar', '<button class="btn btn-sm btn-verde btn-cancelar-salida" data-id="{{$id}}" title="Cancelar"><span class="fas fa-trash"></span></button>')
@@ -172,14 +175,15 @@ class NotaExporadicaController extends Controller
     }
 
     public function show ($id){
+        
         if($this->slug_permiso('nota_salida')){
             
-            $nota=VentaExporadica::find($id);
-            $cliente=ClienteSinContrato::find($nota->cliente_id);
-            $tanques=VentaTanque::
-            join('tanques', 'tanques.num_serie','=','venta_tanque.num_serie' )
-            ->select('venta_tanque.id as nota_id', 'venta_tanque.*', 'tanques.*')
-            ->where('venta_tanque.venta_id', $nota->id)->get();
+        $nota=VentaExporadica::find($id);
+        $cliente=ClienteSinContrato::find($nota->num_cliente);
+        $tanques=VentaTanque::
+        join('tanques', 'tanques.num_serie','=','venta_tanque.num_serie' )
+        ->select('venta_tanque.id as nota_id', 'venta_tanque.*', 'tanques.*')
+        ->where('venta_tanque.venta_id', $nota->id)->get();
             
         $data=['nota'=>$nota,'tanques'=>$tanques, 'cliente'=>$cliente];
         return view('notas.mostrador.show', $data);

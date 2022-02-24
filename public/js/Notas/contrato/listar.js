@@ -31,7 +31,7 @@ $(document).ready(function () {
         var contenido_columnas=
             [{data: 'nota_id'},
             {data: 'num_contrato'},
-            {data: 'fecha'},
+            {data: 'created_at'},
             {data: 'metodo_pago'},
             {data: 'recargos'},
             {data: 'estatus'},
@@ -63,7 +63,7 @@ $(document).ready(function () {
             [
                 {data: 'nota_id'},
                 {data: 'num_contrato'},
-                {data: 'fecha'},
+                {data: 'created_at'},
                 {data: 'pago_cubierto'},
                 {data: 'estatus'},    
                 {data: 'user_name'},
@@ -87,13 +87,13 @@ $(document).ready(function () {
                 "<th>PAGO CUBIERTO</th>"+
                 "<th>OBSERVACIONES</th>"+
                 "<th>USUARIO</th>"+
-                "<th>VER</th>"+
-                "<th>NOTA</th>"+
+                "<th>PAGOS</th>"+
+                "<th>PDF</th>"+
             "</tr></thead>";
         var contenido_columnas=
             [{data: 'nota_id'},
             {data: 'num_contrato'},
-            {data: 'fecha'},
+            {data: 'created_at'},
             {data: 'pago_cubierto'},
             {data: 'observaciones'},
             {data: 'user_name'},
@@ -117,7 +117,7 @@ $(document).ready(function () {
         var contenido_columnas=
             [{data: 'id'},
             {data: 'contrato_id'},
-            {data: 'fecha'},
+            {data: 'created_at'},
             {data: 'incidencia'},
             {data: 'user_name'},
             {data: 'btnPDF'},
@@ -144,6 +144,8 @@ $(document).ready(function () {
 
         // Data Tables
         listtabla = $('#table-data').DataTable({
+            "ordering": true,
+            "order": [[ 0, 'desc' ]],
             language: {
                 "decimal": "",
                 "emptyTable": "No hay información",

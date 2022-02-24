@@ -6,7 +6,7 @@
 
 @section('content-sidebar')
 
-<div class="container">
+<div class="container" >
     <form id="formCreateInfra">
         @csrf
         <div class="card">
@@ -94,5 +94,23 @@
     $(document).ready(function () {
         $("#id-menu-salida").addClass('active');
     });
+</script>
+<script type="text/javascript">
+            function salir_pagina(evt , url){
+                evt.preventDefault();
+                Swal.fire({
+                    title: '¿Estas seguro de salir?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#F9C846',
+                    cancelButtonColor: '#329F5B',
+                    confirmButtonText: '¡Si, Continuar!',
+                    cancelButtonText: 'Cancelar!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = url;
+                    }
+                })
+            }
 </script>
 <!--Fin Scripts-->

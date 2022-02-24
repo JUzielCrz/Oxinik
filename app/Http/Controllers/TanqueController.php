@@ -264,7 +264,7 @@ class TanqueController extends Controller
                 $venta_mostrador
             )
             ->editColumn('created_at', function ($venta_mostrador) {
-                return $venta_mostrador->created_at->format('H:i:s A - d/m/Y');
+                return $venta_mostrador->created_at->format('Y/m/d - H:i:s A');
             })
             ->editColumn('user_id', function ($venta_mostrador) {
                 if($venta_mostrador->user_id != null){
