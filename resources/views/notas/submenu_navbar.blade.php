@@ -3,9 +3,9 @@
             <i class="fas fa-clipboard"></i>  C/Contrato |<i class="fas fa-angle-down"></i>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="font-size: 13px">
-            <a class="dropdown-item" href="{{ url('/nota/contrato/salida') }}"> <i class="fas fa-sign-out-alt"></i> Salida</a>
-            <a class="dropdown-item" href="{{ url('/nota/contrato/entrada') }}"><i class="fas fa-sign-in-alt"></i> Entrada</a>
-            <a class="dropdown-item" href="{{ url('/nota/contrato/listar/index') }}"><i class="fas fa-sign-in-alt"></i> Notas</a>
+            <a class="dropdown-item" href="{{ url('/nota/contrato/salida') }}"> <i class="fas fa-sign-out-alt"></i> Notas Salida</a>
+            <a class="dropdown-item" href="{{ url('/nota/contrato/entrada') }}"><i class="fas fa-sign-in-alt"></i> Notas Entrada</a>
+            <a class="dropdown-item" href="{{ url('/nota/contrato/listar/index') }}"><i class="fas fa-sign-in-alt"></i> Lista Notas</a>
         </div>
     </li>
     <li class="nav-item dropdown" id="id-menu-mostrador" >
@@ -13,8 +13,8 @@
             <i class="fas fa-shopping-bag"></i> Mostrador | <i class="fas fa-angle-down"></i>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="font-size: 13px">
-            <a class="dropdown-item" href="{{ url('/nota/exporadica') }}"> <i class="fas fa-shopping-bag"></i> Mostrador</a>
-            <a class="dropdown-item" href="{{ url('/nota/exporadica/listar') }}"><i class="fas fa-sign-in-alt"></i> Notas</a>
+            <a class="dropdown-item" href="{{ url('/nota/exporadica') }}"> <i class="fas fa-shopping-bag"></i> Generar Nota</a>
+            <a class="dropdown-item" href="{{ url('/nota/exporadica/listar') }}"><i class="fas fa-sign-in-alt"></i> Lista Notas</a>
         </div>
     </li>
 
@@ -34,7 +34,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="font-size: 13px">
             <a class="dropdown-item" href="{{ url('/nota/reserva/tanques_pendientes') }}"> Tanques Pendientes</a>
-            <a class="dropdown-item" href="{{ url('/nota/reserva/index') }}"> Notas</a>
+            <a class="dropdown-item" href="{{ url('/nota/reserva/index') }}">Lista Notas</a>
         </div>
     </li>
 

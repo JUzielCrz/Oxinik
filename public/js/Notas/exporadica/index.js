@@ -138,6 +138,8 @@ $(document).ready(function () {
         //limpiar span input
         $('#serie_tanque_entradaError').empty();
         $('#tapa_tanque_entradaError').empty();
+        $('#tapa_tanque_entrada').removeClass('is-invalid');
+        $('#serie_tanque_entrada').removeClass('is-invalid');
         //Eliminar espacios
         var numserie= $('#serie_tanque_entrada').val().replace(/ /g,'').toUpperCase();
         //validar campos vacios
@@ -439,7 +441,7 @@ $(document).ready(function () {
                                 "<td>"+msg.tipo_gas +"</td>"+ "<input type='hidden' name='input_tipo_gas[]' value='"+msg.tipo_gas +"'></input>"+
                                 "<td>"+$('#cantidad').val() +"</td>"+ "<input type='hidden' name='input_cantidad[]' value='"+$('#cantidad').val() +"'></input>"+
                                 "<td>"+$('#unidad_medida').val() +"</td>"+ "<input type='hidden' name='input_unidad_medida[]' value='"+$('#unidad_medida').val() +"'></input>"+
-                                "<td>"+$('#precio_unitario').val() +"</td>"+ "<input type='hidden' name='input_precio_unitario[]' value='"+$('#precio_unitario').val() +"'></input>"+
+                                "<input type='hidden' name='input_precio_unitario[]' value='"+$('#precio_unitario').val() +"'></input>"+
                                 "<td>"+precio_importe +"</td>"+ "<input type='hidden' name='input_importe[]' value='"+precio_importe +"'></input>"+
                                 "<td>"+iva +"</td>"+ "<input type='hidden' name='input_iva_particular[]' value='"+iva +"'></input>"+
 
@@ -485,7 +487,7 @@ $(document).ready(function () {
         var importe = 0;
 
         $(".classfilatanque").each(function(){
-            var preciotanque=$(this).find("td")[6].innerHTML;
+            var preciotanque=$(this).find("td")[5].innerHTML;
             importe=importe+parseFloat(preciotanque);
         })
         actualizar_ivageneral();
@@ -503,7 +505,7 @@ $(document).ready(function () {
 
         var ivaGen = 0;
         $(".classfilatanque").each(function(){
-            var preciotanque=$(this).find("td")[7].innerHTML;
+            var preciotanque=$(this).find("td")[6].innerHTML;
             ivaGen=ivaGen+parseFloat(preciotanque);
         })
         $('#label-ivaGen').replaceWith( 
@@ -516,7 +518,7 @@ $(document).ready(function () {
         var importe = 0;
 
         $(".classfilatanque").each(function(){
-            var preciotanque=$(this).find("td")[6].innerHTML;
+            var preciotanque=$(this).find("td")[5].innerHTML;
             importe=importe+parseFloat(preciotanque);
         })
 

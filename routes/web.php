@@ -51,7 +51,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/nota/exporadica/listar', 'NotaExporadicaController@listar');
     Route::get('/nota/exporadica/data', 'NotaExporadicaController@data');
     Route::get('/nota/exporadica/show/{nota_id}', 'NotaExporadicaController@show')->name('nota.exporadica.show');
-    Route::get('/nota/exporadica/cancelar/{nota_id}', 'NotaExporadicaController@cancelar');
+    Route::get('/nota/exporadica/cancelar/{nota_id}', 'NotaExporadicaController@salida_cancelar');
     
     //FORANEA
     Route::get('/nota/foranea/index', 'NotaForaneaController@index');

@@ -165,9 +165,9 @@ class NotaExporadicaController extends Controller
             ->editColumn('created_at', function ($infra) {
                 return $infra->created_at->format('Y/m/d - H:i:s A');
             })
-            ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_exporadica\', $id)}}" title="Nota"><i class="fas fa-sticky-note"></i></a>')
+            ->addColumn( 'btnNota', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'pdf.nota_exporadica\', $id)}}" title="Nota"><i class="fas fa-file-pdf"></i></a>')
             ->addColumn( 'btnShow', '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'nota.exporadica.show\', $id)}}" title="Nota"><i class="far fa-eye"></i></a>')
-            ->addColumn( 'btnCancelar', '<button class="btn btn-sm btn-verde btn-cancelar-salida" data-id="{{$id}}" title="Cancelar"><span class="fas fa-trash"></span></button>')
+            ->addColumn( 'btnCancelar', '<button class="btn btn-sm btn-verde btn-cancelar" data-id="{{$id}}" title="Cancelar"><span class="fas fa-trash"></span></button>')
             ->rawColumns(['btnNota', 'btnShow', 'btnCancelar'])
             ->toJson();
         }
@@ -192,27 +192,33 @@ class NotaExporadicaController extends Controller
     }
 
     public function salida_cancelar ($nota_id){
+        
         if($this->slug_permiso('nota_salida')){
             $nota=VentaExporadica::find($nota_id);
             $nota->estatus = 'CANCELADA';
             $nota->save();
-            $tanques=VentaTanque::where('nota_id', $nota->id)->get();
+            $tanques=VentaTanque::where('venta_id', $nota->id)->get();
 
             foreach( $tanques AS $indice1 => $cilindro_ent){
-                $tanq = Tanque::where('num_serie',$cilindro_ent->num_serie)->where('insidencia','ENTRADA')->first();
-                $tanq->estatus = 'VENTA-EXPORADICA';
-                $tanq->save();
+                if($cilindro_ent->insidencia =='ENTRADA'){
+                    $tanq = Tanque::where('num_serie',$cilindro_ent->num_serie)->first();
+                    $tanq->estatus = 'VENTA-EXPORADICA';
+                    $tanq->save();
+                };
             }
 
             foreach( $tanques AS $indice2 => $cilindro_sal){
-                $tanq = Tanque::where('num_serie',$cilindro_sal->num_serie)->where('insidencia','SALIDA')->first();
-                $tanq->estatus = 'LLENO-ALMACEN';
-                $tanq->save();
+                if($cilindro_sal->insidencia =='SALIDA'){
+                    $tanq = Tanque::where('num_serie',$cilindro_sal->num_serie)->first();
+                    $tanq->estatus = 'LLENO-ALMACEN';
+                    $tanq->save();
+                };
             }
             
             return response()->json(['mensaje'=>'success']);
         }
         return response()->json(['mensaje'=>'Sin permisos']);
     }
+
 
 }

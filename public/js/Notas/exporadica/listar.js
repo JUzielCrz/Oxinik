@@ -48,9 +48,10 @@ $(document).ready(function () {
     });
     
     function cancelar() {
+        console.log('pass');
         Swal.fire({
             title: '¿Estas seguro?',
-            text: "Se cambiaran los estatus de los cilindros a llenos en almacen",
+            text: "Se cambiaran los estatus de los cilindros a LLENO-ALMACEN",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#F9C846',

@@ -33,7 +33,7 @@
                             </div>
 
                             <div class="col align-self-end">
-                                <button type="button" class="btn btn-verde" id="btn-insert-fila-entrada"> <span class="fas fa-plus"></span>Add</button>
+                                <button type="button" class="btn btn-verde" id="btn-insert-fila-entrada"> <span class="fas fa-plus"></span>Añadir</button>
                             </div> 
                         </div>
                         
@@ -99,7 +99,7 @@
                             </div>
                             
                             <div class="col align-self-end">
-                                <button type="button" class="btn btn-verde" id="btn-insert-fila-salida"> <span class="fas fa-plus"></span>Add</button>
+                                <button type="button" class="btn btn-verde" id="btn-insert-fila-salida"> <span class="fas fa-plus"></span>Añadir</button>
                             </div> 
                         </div>
                         <span  id="serie_tanqueError" class="text-danger"></span>
@@ -112,7 +112,6 @@
                                         <th scope="col">GAS</th>
                                         <th scope="col">CANTIDAD</th>
                                         <th scope="col">U. M.</th>
-                                        <th scope="col">PRECIO</th>
                                         <th scope="col">IMPORTE</th>
                                         <th scope="col">IVA 16%</th>
                                         <th scope="col"></th>
