@@ -333,7 +333,8 @@
                                     'Transferencia' => 'Transferencia', 
                                     'Tarjeta Credito' => 'Tarjeta Credito', 
                                     'Tarjeta Debito' => 'Tarjeta Debito',  
-                                    'Cheque' => 'Cheque'
+                                    'Cheque' => 'Cheque',
+                                    'Credito' => 'Credito'
                                     ],null,['id' => 'metodo_pago','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona'])}}
                             </div>
                             <span id="metodo_pagoError" class="alert-danger  mb-2"></span>

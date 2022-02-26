@@ -28,10 +28,10 @@ $(document).ready(function () {
         columns:[
             {data: 'num_serie'},   
             {data: 'estatus'}, 
-            {data: 'nota_id'},
-            {data: 'created_at'},
-            {data: 'incidencia'},
-            {data: 'btnShow'},
+            // {data: 'nota_id'},
+            // {data: 'created_at'},
+            // {data: 'incidencia'},
+            // {data: 'btnShow'},
             
         ]
     });

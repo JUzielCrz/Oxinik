@@ -32,10 +32,6 @@
                         <tr >
                         <th scope="col">#Serie</th>
                         <th scope="col">#Estatus</th>
-                        <th scope="col">ID Nota</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Incidencia</th>
-                        <th scope="col"></th>
                         </tr>
                     </thead>
                 </table>

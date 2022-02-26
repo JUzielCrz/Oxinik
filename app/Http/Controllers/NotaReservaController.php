@@ -56,17 +56,14 @@ class NotaReservaController extends Controller
     }
     public function tanques_data(){
         if($this->slug_permiso('nota_talon')){
-            $notas=NotaReservaTanque::
-                join('nota_reserva', 'nota_reserva.id','=', 'nota_reserva_tanque.nota_id')
-                ->join('tanques', 'tanques.num_serie', '=','nota_reserva_tanque.num_serie')
-                ->where('tanques.estatus', 'TANQUE-RESERVA');
+            $notas=Tanque::where('tanques.estatus', 'TANQUE-RESERVA');
             return DataTables::of(
                 $notas
             )
             ->editColumn('created_at', function ($notas) {
                 return $notas->created_at->format('Y/m/d - H:i:s A');
             })
-            ->addColumn( 'btnShow', '<button class="btn btn-sm btn-verde btn-show" data-id="{{$nota_id}}" data-toggle="tooltip" data-placement="top" title="Ver"><i class="fas fa-eye"></i> Nota</button>')
+            // ->addColumn( 'btnShow', '<button class="btn btn-sm btn-verde btn-show" data-id="{{$nota_id}}" data-toggle="tooltip" data-placement="top" title="Ver"><i class="fas fa-eye"></i> Nota</button>')
             ->rawColumns(['btnShow'])
             ->toJson();
         }

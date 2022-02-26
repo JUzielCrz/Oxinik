@@ -192,7 +192,7 @@ $(document).ready(function () {
                     }
                     if(msg.estatus == 'LLENO-ALMACEN' || msg.estatus == 'TANQUE-RESERVA'){
                         if(msg.estatus == 'TANQUE-RESERVA'){
-                            mensaje('success','Exito','Se eliminara de pendientes RESERVA',2000,null);
+                            mensaje('info','Exito','Despues de guardar la nota este cilindro se eliminara de PENDIENTES RESERVA',null,null);
                         }
                         var precio_importe= $('#precio_unitario').val();
                         var iva =0;
