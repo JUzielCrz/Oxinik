@@ -11,12 +11,6 @@
         <!-- Nombre Completo-->
         <div class="form-row">
             <div class="form-group col-md-6">
-                {!! Form::label('Número de Contrato*') !!}
-                {!! Form::number('num_contratoedit', null, ['id'=>'num_contratoedit', 'class' => 'form-control form-control-sm', 'placeholder'=>'Número de Contrato', 'required' ]) !!}
-            <span  id="num_contratoeditError" class="text-danger"></span>
-            </div>
-
-            <div class="form-group col-md-6">
                 {!! Form::label('Tipo de Contrato*') !!}
                 {!! Form::text('tipo_contratoedit', null, ['id'=>'tipo_contratoedit', 'class' => 'form-control form-control-sm', 'required', 'readonly']) !!}
 

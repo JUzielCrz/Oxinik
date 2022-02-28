@@ -30,7 +30,7 @@ $(document).ready(function () {
             "</tr></thead>";
         var contenido_columnas=
             [{data: 'nota_id'},
-            {data: 'num_contrato'},
+            {data: 'contrato_id'},
             {data: 'created_at'},
             {data: 'metodo_pago'},
             {data: 'recargos'},
@@ -62,7 +62,7 @@ $(document).ready(function () {
         var contenido_columnas=
             [
                 {data: 'nota_id'},
-                {data: 'num_contrato'},
+                {data: 'contrato_id'},
                 {data: 'created_at'},
                 {data: 'pago_cubierto'},
                 {data: 'estatus'},    
@@ -92,7 +92,7 @@ $(document).ready(function () {
             "</tr></thead>";
         var contenido_columnas=
             [{data: 'nota_id'},
-            {data: 'num_contrato'},
+            {data: 'contrato_id'},
             {data: 'created_at'},
             {data: 'pago_cubierto'},
             {data: 'observaciones'},

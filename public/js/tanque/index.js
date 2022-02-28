@@ -171,7 +171,7 @@ $(document).ready(function () {
 
         $("#ph"+clave+"Error").empty();
         $("#ph_anio"+clave).removeClass('is-invalid');
-        if($('#ph_anio'+clave).val()<1950){
+        if($('#ph_anio'+clave).val()<1950 || $('#ph_anio'+clave).val()>3030){
             $("#ph"+clave+"Error").text('Campo Incorrecto');
             $("#ph_anio"+clave).addClass('is-invalid');
             return false;

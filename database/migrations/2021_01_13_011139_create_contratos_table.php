@@ -15,7 +15,6 @@ class CreateContratosTable extends Migration
     {
         Schema::create('contratos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('num_contrato')->unique();
             $table->unsignedBigInteger('cliente_id');
             $table->foreign('cliente_id')->references('id')
                 ->on('clientes')

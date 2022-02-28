@@ -30,7 +30,6 @@ class ContratoController extends Controller
     
     protected function validatorupdate(array $data,$id){
         return Validator::make($data, [
-            'num_contrato' => ['required','max:50', Rule::unique('contratos')->ignore($id, 'id')],
             'cliente_id' => ['required'],
             'tipo_contrato' => ['required', 'string', 'max:255'],
         ]);
@@ -51,13 +50,12 @@ class ContratoController extends Controller
 
         if($this->slug_permiso('contrato_create')){
             $request->validate([
-                'num_contrato' => ['required', 'string', 'max:255', 'unique:contratos,num_contrato'],
                 'cliente_id' => ['required'],
                 'tipo_contrato' => ['required', 'string', 'max:255'],
                 
             ]); 
 
-            if($request->input('num_contrato')<0 ||$request->input('deposito_garantia')<0 || $request->input('precio_transporte')<0){
+            if($request->input('deposito_garantia')<0 || $request->input('precio_transporte')<0){
                 return response()->json(['alert'=>'alert-danger', 'mensaje'=>'No puedes introducir valores menor a 0']);
             }
             foreach( $request->cilindroscreate AS $negativo => $g){
@@ -98,7 +96,6 @@ class ContratoController extends Controller
             }
 
             $contratos=new Contrato;
-            $contratos->num_contrato = $request->input('num_contrato');
             $contratos->cliente_id = $request->input('cliente_id');
             $contratos->tipo_contrato = $request->tipo_contrato;
             $contratos->nombre_comercial = $request->nombre_comercial;
@@ -197,10 +194,10 @@ class ContratoController extends Controller
 
 
             $contratos = Contrato::find($id);
-            $contratos->num_contrato = $request->num_contrato;
             $contratos->cliente_id = $request->cliente_id;
             $contratos->tipo_contrato = $request->tipo_contrato;
             $contratos->nombre_comercial = $request->nombre_comercial;
+            $contratos->reguladores = $request->reguladores;
             $contratos->modelo_regulador = $request->modelo_regulador;
             $contratos->precio_transporte = $request->precio_transporte;
             $contratos->direccion = $request->direccion;
@@ -239,10 +236,12 @@ class ContratoController extends Controller
             if($request->tipo_contrato == "ALL"){
                 $contrato=Contrato::
                 join('clientes','clientes.id',"=", 'contratos.cliente_id')
+                ->select('contratos.id as contrato_id','contratos.direccion', 'contratos.cliente_id', 'tipo_contrato')
                 ->where('clientes.estatus',$request->estatus);
             }else{
                 $contrato=Contrato::
                 join('clientes','clientes.id',"=", 'contratos.cliente_id')
+                ->select('contratos.id as contrato_id','contratos.direccion', 'contratos.cliente_id', 'tipo_contrato')
                 ->where('clientes.estatus',$request->estatus)
                 ->where('contratos.tipo_contrato', $request->tipo_contrato);
             }

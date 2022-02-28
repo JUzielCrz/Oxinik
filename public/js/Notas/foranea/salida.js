@@ -302,10 +302,6 @@ $(document).ready(function () {
 
     // FUNCIONES DE ENVIO
     function addenvio(){
-        
-        if($('#num_contrato').val() == ''){
-            return false;
-        }
         $('#btn-addEnvio').remove()
         $('#row-envio').append(
             '<div class="row mr-3" id="input-group-envio">'+

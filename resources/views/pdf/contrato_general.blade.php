@@ -51,7 +51,7 @@
         
 
         <main>
-            <p class="text-right">Convenio: <strong>{{$contrato->num_contrato}}</strong></p>
+            <p class="text-right">Convenio: <strong>{{$contrato->id}}</strong></p>
             <h5 style="font-size: 20px; text-align: center">CONTRATO DE ARRENDAMIENTO DE CILINDROS DE OXIGÉNO MEDICINAL E INDUSTRIAL, GASES ESPECIALES Y ACCESORIOS.</h5>
             
             <p class="mt-4">Que celebran por una parte el <strong>C. Juan Manuel Contreras Gómez</strong>, como responsable y/o propietario del establecimiento que comercialmente se denomina OXI NIK Gases Especiales, persona que en lo subsecuente se le denominara “EL ARRENDADOR” y por la otra el <span><strong>C. {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}</strong></span> con  @if ($cliente->email != '') correo electrónico <span><strong>{{$cliente->email}}</strong></span> @endif y número telefónico <span><strong>{{$cliente->telefono}}</strong></span>, quien en  lo subsecuente se le denominara “EL ARRENDATARIO”, quienes se sujetan al tenor de las siguientes declaraciones y clausulas: </p>

@@ -78,6 +78,7 @@
                                 <table id="table-tanques-nota" class="table table-sm table-hover table-bordered">
                                     <thead>
                                         <tr style="font-size: 13px">
+                                            <th scope="col">#</th>
                                             <th scope="col">#SERIE</th>
                                             <th scope="col">DESCRIPCIÓN</th>
                                             <th scope="col">TAPA</th>
@@ -109,7 +110,6 @@
                         </center>
 
                         <div class="row">
-                            <input type="hidden"  name="contrato_id" id="contrato_id">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text fas fa-search" id="inputGroup-sizing-sm"></span>
@@ -135,7 +135,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroup-sizing-sm"># Contrato:</span>
                                 </div>
-                                <input id="num_contrato" name="num_contrato" type="text" class="form-control" readonly>
+                                <input id="contrato_id" name="contrato_id" type="text" class="form-control" readonly>
                             </div>
                         </div>
                         {{-- tipo contrato--}}

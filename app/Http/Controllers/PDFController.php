@@ -66,7 +66,7 @@ class PDFController extends Controller
     public function asignacion_tanques($nota_id){
         $nota= AsignacionNota::find($nota_id);
         
-        $contrato=Contrato::select('cliente_id','num_contrato')->where('id',$nota->contrato_id)->first();
+        $contrato=Contrato::select('cliente_id','id')->where('id',$nota->contrato_id)->first();
 
         $cliente=Cliente::select('nombre','apPaterno','apMaterno')->where('id',$contrato->cliente_id)->first();
 
@@ -106,7 +106,7 @@ class PDFController extends Controller
         }else{
             $pdf = PDF::loadView('pdf.contrato_general', $data);
         }
-        return $pdf->stream('contrato_'. $contrato->num_contrato.'.pdf');
+        return $pdf->stream('contrato_'. $contrato->id.'.pdf');
     }
 
     public function infra_nota($idnota){

@@ -49,7 +49,7 @@
                                 @else
                                 <strong>Cliente: </strong> {{$cliente->nombre}} {{$cliente->apPaterno}}  {{$cliente->apMaterno}}  <br>
                                 @endif
-                                <strong>#Contrato:  </strong> {{$contrato->num_contrato}}<br>
+                                <strong>#Contrato:  </strong> {{$contrato->id}}<br>
                                 <strong>Tipo Contrato: </strong> {{$contrato->tipo_contrato}}<br>
                                 <strong>1° Telefono: </strong> {{$cliente->telefono}}<br>
                                 <strong>2° Telefono: </strong> {{$cliente->telefonorespaldo}}<br>

@@ -14,11 +14,6 @@
     @csrf
         <!-- Nombre Completo-->
         <div class="form-row">
-            <div class="form-group col-md-2">
-                {!! Form::label('#Contrato*') !!}
-                {!! Form::number('num_contrato', null, ['id'=>'num_contrato', 'class' => 'form-control form-control-sm numero-entero-positivo', 'placeholder'=>'Número de Contrato', 'required' ]) !!}
-            <span  id="num_contratoError" class="text-danger"></span>
-            </div>
             <div class="form-group col">
                 {!! Form::label('Tipo de Contrato*') !!}
                 {{ Form::select('tipo_contrato',['Industrial' => 'Industrial', 

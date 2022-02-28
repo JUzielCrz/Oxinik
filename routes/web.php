@@ -24,12 +24,12 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/nota/contrato/salida', 'NotaController@salidas');
     Route::post('/nota/contrato/salida/search_contrato', 'NotaController@search_contrato');
     Route::post('/nota/contrato/salida/validar_tanqueasignacion', 'NotaController@salida_validar_tanqueasignacion');
-    Route::post('/nota/contrato/salida/save_envio/{num_contrato}', 'NotaController@save_envio');
+    Route::post('/nota/contrato/salida/save_envio/{contrato_id}', 'NotaController@save_envio');
     Route::post('/nota/contrato/salida/save', 'NotaController@salida_save');
     Route::get('/nota/contrato/salida/show/{nota_id}', 'NotaController@salida_show')->name('nota.contrato.salida.show');
     Route::get('/nota/contrato/salida/cancelar/{nota_id}', 'NotaController@salida_cancelar');
 
-    Route::post('/nota/data_contrato/{num_contrato}', 'NotaController@data_contrato'); //url para buscar contrato en nota salida
+    Route::post('/nota/data_contrato/{contrato_id}', 'NotaController@data_contrato'); //url para buscar contrato en nota salida
     Route::get('/nota/data/{contrato_id}', 'NotaController@nota_data');
 
     Route::get('/nota/contrato/entrada', 'NotaController@entradas');

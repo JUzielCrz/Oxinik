@@ -64,7 +64,7 @@
                         <tbody>
                             @foreach ($contratos as $contrato)
                                 <tr class="fila{{$contrato->id}}" data-id="{{$contrato->id}}">
-                                    <td class="text-center">{{$contrato->num_contrato}}</td>
+                                    <td class="text-center">{{$contrato->id}}</td>
                                     <td class="text-center">{{$contrato->tipo_contrato}}</td>
                                     
                                     <td><a class="btn btn-amarillo btn-sm" target="_blank" href="{{ url("/pdf/generar_contrato/{$contrato->id}") }}"  title="Contrato"><i class='fas fa-file-pdf'></i></span></a></td>
@@ -103,8 +103,8 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" >#Contrato:</span>
                                 </div>
-                                <input type="hidden"  name="idShow" id="idShow">
-                                <input id="num_contratoShow" type="text" class="form-control form-control-sm" value="" readonly>
+                                {{-- <input type="hidden"  name="idShow" id="idShow"> --}}
+                                <input name="idShow" id="idShow" type="text" class="form-control form-control-sm" value="" readonly>
                             </div>
                         </div>
                         <div class="form-row">

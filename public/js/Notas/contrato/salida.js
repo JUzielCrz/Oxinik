@@ -44,7 +44,6 @@ $(document).ready(function () {
             })
             .done(function(msg) {
                 $('#contrato_id').val(msg.contrato.contrato_id)
-                $('#num_contrato').val(msg.contrato.num_contrato)
                 if(msg.contrato.nombre == null){
                     $('#nombre_cliente').val('------')
                 }else{
@@ -72,8 +71,11 @@ $(document).ready(function () {
             
             $.get('/nota/contrato/entrada/tanques_pendientes/' + contrato_id, function(data) {
                 var columnas='';
+                var contador=0;
                 $.each(data, function (key, value) {
+                    contador+=1;
                     columnas+='<tr class="class-tanques-nota"><td>'+
+                    contador+'</td><td>'+
                     value.num_serie+'</td><td>'+
                     value.tanque_desc+'</td><td>'+
                     value.tapa_tanque+'</td><td>'+
@@ -284,7 +286,7 @@ $(document).ready(function () {
 
   // FUNCIONES DE ENVIO
     function addenvio(){
-        if($('#num_contrato').val() == ''){
+        if($('#contrato_id').val() == ''){
             return false;
         }
         $.ajax({
@@ -352,7 +354,7 @@ $(document).ready(function () {
 
         $.ajax({
             method: "post",
-            url: "/nota/contrato/salida/save_envio/"+$('#num_contrato').val(),
+            url: "/nota/contrato/salida/save_envio/"+$('#contrato_id').val(),
             data: $('#form-edit-envio').serialize(),
         }).done(function(msg){
             $('#precio_envio').val(msg.precio_transporte);
@@ -365,7 +367,7 @@ $(document).ready(function () {
 
     function pagar_nota(){
 
-        if($('#num_contrato').val() == '') {
+        if($('#contrato_id').val() == '') {
             mostrar_mensaje("#msg-contrato",'Error, falta información de contrato', "alert-danger",null);
             return false;
         }
@@ -449,6 +451,7 @@ $(document).ready(function () {
 
     function guardar_nota(){
         // envio al controlador
+        $("#guardar-nota").prop("disabled", true);
         $.ajax({
             method: "post",
             url: "/nota/contrato/salida/save",
@@ -475,9 +478,9 @@ $(document).ready(function () {
       // FUNCIONES DE ASIGNACION DE TANQUES
 
     function show_table_asignaciones(contrato_id, idTabla, idDiv) {
-        
+        console.log(contrato_id);
         $.get('/asignaciones/show/' + contrato_id, function(data) {
-
+            
             var columnas='';
             $.each(data.asigTanques, function (key, value) {
                 columnas+='<tr><td>'+
@@ -499,9 +502,6 @@ $(document).ready(function () {
                     '</table>'+
                 '</div>'
             );
-
-
-
         })
     }
 

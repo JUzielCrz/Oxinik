@@ -68,7 +68,7 @@
             <table class="table table-borderless ">
                 <tbody>
                     <td class="ml-3"> <img src="img/logo.svg" style="width: 200px" alt=""></td></td>
-                    <td class="mt-4 mr-3 text-right"> N° CONTRATO: <strong>{{$contrato->num_contrato}}</strong> </td>
+                    <td class="mt-4 mr-3 text-right"> N° CONTRATO: <strong>{{$contrato->id}}</strong> </td>
                 </tbody>
             </table> 
         </header>

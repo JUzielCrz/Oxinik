@@ -39,7 +39,7 @@
                                 @endif
                                 <tr>
                                     <td class="pl-3 p-0">Contrato: </td>
-                                    <td class="pl-3 p-0">{{$contrato->num_contrato}}</td>
+                                    <td class="pl-3 p-0">{{$contrato->id}}</td>
                                 </tr>
                                 <tr>
                                     <td class="pl-3 p-0">Tipo: </td>

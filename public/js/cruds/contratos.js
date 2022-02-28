@@ -3,14 +3,6 @@ $(document).ready(function () {
     // CRUD
     metodo_limpiar_span("Error");
 
-    // $("input").focusout(function () {
-    //     var value = $(this).val();
-    //     if (value.length == 0) {
-    //         $(this).addClass("is-invalid");
-    //     } else {
-    //         $(this).removeClass("is-invalid");
-    //     }
-    // });
 
     $(document).on("click","#btnaccept",metodo_insertar);
     $(document).on("click","#btn-edit-modal",metodo_detalle_edit);
@@ -114,7 +106,7 @@ $(document).ready(function () {
             return false;
         }
 
-        var campo=['num_contrato', 'tipo_contrato', 'reguladores', 'direccion','referencia','calle1','calle2'];
+        var campo=['tipo_contrato', 'reguladores', 'direccion','referencia','calle1','calle2'];
         var camponombre=['# Contrato', 'Tipo contrato',  '# Reguladores','Dirección','Referencia','1ra Calle', '2da Calle'];
         var bandera=false;
 
@@ -239,7 +231,7 @@ $(document).ready(function () {
                     metodo_limpiar_campos();
                     $('#tableinsertfila').append(
                         "<tr class='fila"+ msg.contratos.id+"' data-id='"+msg.contratos.id+"'>"+
-                            "<td class='text-center'>"+msg.contratos.num_contrato +"</td>"+
+                            "<td class='text-center'>"+msg.contratos.id +"</td>"+
                             "<td class='text-center'>"+msg.contratos.tipo_contrato +"</td>"+
                             "<td><a class='btn btn-amarillo btn-sm' target='_blank' href='/pdf/generar_contrato/"+msg.contratos.id+"'   title='Contrato'><i class='fas fa-file-pdf'></i></span></a></td>"+
                             "<td><button class='btn btn-amarillo btn-delete-modal btn-sm' data-id='"+msg.contratos.id+"'><span class='fas fa-trash'></span></button></td>"+
@@ -266,7 +258,6 @@ $(document).ready(function () {
     }
     
     function metodo_limpiar_span(nombreerror) {
-        $("#num_contrato"+ nombreerror).empty();
         $("#tipo_contrato"+ nombreerror).empty();
         $("#asignacion_tanques"+ nombreerror).empty();
         $("#precio_transporte"+ nombreerror).empty();
@@ -284,7 +275,6 @@ $(document).ready(function () {
     }
     
     function metodo_limpiar_campos() {
-        $("#num_contrato").val("");
         $("#nombre").val("");
         $("#tipo_contrato").val("");
         $("#nombre_comercial").val("");
@@ -363,12 +353,12 @@ $(document).ready(function () {
             data: {
                 '_token': $('input[name=_token]').val(),
                 'id': $('#idedit').val(),
-                'num_contrato': $('#num_contratoedit').val(),
                 'cliente_id': $('#cliente_id').val(),
                 'nombre': $('#nombreedit').val(),
                 'tipo_contrato': $('#tipo_contratoedit').val(),
                 'nombre_comercial': $('#nombre_comercialedit').val(),
                 'modelo_regulador': $('#modelo_reguladoredit').val(),
+                'reguladores': $('#reguladoresedit').val(),
                 'precio_transporte': $('#precio_transporteedit').val(),
                 'direccion': $('#direccionedit').val(),
                 'referencia': $('#referenciaedit').val(),
@@ -385,15 +375,17 @@ $(document).ready(function () {
 
                 $('.fila'+ msg.contratos.id).replaceWith(" "+
                     "<tr class='fila"+ msg.contratos.id+"'  data-id='"+msg.contratos.id+"'>"+
-                    "<td class='text-center'>"+msg.contratos.num_contrato +"</td>"+
+                    "<td class='text-center'>"+msg.contratos.id +"</td>"+
                     "<td class='text-center'>"+msg.contratos.tipo_contrato +"</td>"+
                     "<td><a class='btn btn-amarillo btn-sm' target='_blank' href='/pdf/generar_contrato/"+msg.contratos.id+"'   title='Contrato'><i class='fas fa-file-pdf'></i></span></a></td>"+
                     "<td><a class='btn btn-amarillo btn-delete-modal btn-sm ' data-id='"+msg.contratos.id+"'>"+
                     "<i class='fas fa-trash'></i>"+
                     "</a></td>"+
                     "</tr>");
-
-                    $('#num_contratoShow').val(msg.contratos.num_contrato),
+                    console.log(msg.contratos);
+                    $('#idShow').val(msg.contratos.id),
+                    $('#nombre_comercialShow').val(msg.contratos.nombre_comercial),
+                    $('#reguladoresShow').val(msg.contratos.reguladores),
                     $('#tipo_contratoShow').val(msg.contratos.tipo_contrato),
                     $('#precio_transporteShow').val(msg.contratos.precio_transporte),
                     $('#direccionShow').val(msg.contratos.direccion),
@@ -505,7 +497,7 @@ $(document).ready(function () {
     
 
     function modal_edit_asignacion_plus(){
-        if($('#asignacion_tanques').val() == '' || $('#num_contratoShow').val()==''){
+        if($('#asignacion_tanques').val() == '' || $('#idShow').val()==''){
             return false;
         }
         $(".tr-asignaciones").remove();
@@ -525,7 +517,6 @@ $(document).ready(function () {
                 value.precio_unitario+'</td><td>'+
                 '</td></tr>';
             });
-
             $("#tbody-asignaciones-anteriores").append(columnas);
         })
         $('#modal-asignacion-plus').modal("show");
@@ -533,7 +524,7 @@ $(document).ready(function () {
 
     function modal_edit_asignacion_minus(){
         
-        if( $('#num_contratoShow').val()==''){
+        if( $('#idShow').val()==''){
             return false;
         }
         

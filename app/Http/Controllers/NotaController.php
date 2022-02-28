@@ -76,8 +76,9 @@ class NotaController extends Controller
             $query = $request->get('query');
             $data=Contrato::
             join('clientes','clientes.id','=','contratos.cliente_id')
+            ->select('clientes.nombre', 'clientes.apPaterno', 'clientes.apMaterno', 'contratos.id','contratos.tipo_contrato','clientes.empresa')
             ->where('clientes.estatus', 'ACTIVO')
-            ->where('num_contrato', 'LIKE', "%{$query}%")
+            ->where('contratos.id', 'LIKE', "%{$query}%")
             ->orWhere(DB::raw("CONCAT(clientes.nombre,' ', clientes.apPaterno,' ', clientes.apMaterno )"),'LIKE', "%{$query}%")
             ->orWhere('clientes.empresa', 'LIKE', "%{$query}%")
             ->get();
@@ -85,18 +86,18 @@ class NotaController extends Controller
             $output = '<ul class="dropdown-menu" style="display:block; position:relative">'; 
 
             foreach($data as $row) {
-                $output .= '<li><a href="#">'.$row->num_contrato.', '.$row->nombre.' '.$row->apPaterno.', '.$row->empresa.', '.$row->tipo_contrato.'</a></li>'; 
+                $output .= '<li><a href="#">'.$row->id.', '.$row->nombre.' '.$row->apPaterno.', '.$row->empresa.', '.$row->tipo_contrato.'</a></li>'; 
             }
 
             $output .= '</ul>'; echo $output;
         }
     }
 
-    public function data_contrato($num_contrato){
+    public function data_contrato($contrato_id){
         $contrato=Contrato::
         join('clientes','clientes.id','=','contratos.cliente_id')
         ->select('contratos.id as contrato_id', 'contratos.*','clientes.*')
-        ->where('num_contrato', $num_contrato)->first();
+        ->where('contratos.id', $contrato_id)->first();
         
         $num_asignacion= Asignacion::where('contratos_id', $contrato->id)->get() ;
 
@@ -202,9 +203,9 @@ class NotaController extends Controller
         return response()->json(['mensaje'=>'Sin permisos']);
     }
 
-    public function save_envio(Request $request, $num_contrato){
+    public function save_envio(Request $request, $contrato_id){
         if($this->slug_permiso('nota_salida')){
-            $envio = Contrato::where('num_contrato',$num_contrato)->first();
+            $envio = Contrato::where('id',$contrato_id)->first();
             $envio->precio_transporte = $request->precio_transporte;
             $envio->direccion = $request->direccion;
             $envio->referencia = $request->referencia;
@@ -236,6 +237,7 @@ class NotaController extends Controller
         ->addSelect(['tanque_desc' => tanque::select(DB::raw("CONCAT(ph,', ', capacidad,', ', material,', ',fabricante,', ',tipo_tanque)"))->whereColumn( 'nota_tanque.num_serie', 'tanques.num_serie')])
         ->where('contrato_id', $contrato_id)
         ->where('nota_tanque.estatus', 'PENDIENTE')
+        ->orderBy('num_serie')
         ->get();
         return  $notatanque;
     }
@@ -330,6 +332,7 @@ class NotaController extends Controller
     }
 
     public function entrada_show ($nota_id){
+        
         if($this->slug_permiso('nota_entrada')){
             $nota=NotaEntrada::find($nota_id);
             $tanques=NotaEntradaTanque::

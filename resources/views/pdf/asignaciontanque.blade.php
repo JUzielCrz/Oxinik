@@ -67,7 +67,7 @@
             <p class="text-center"><strong>{{$nota->incidencia}}</strong> DE DOTACION CON EL CLIENTE</p>
             
             <p> FECHA: <strong>{{$nota->fecha}}</strong><br>
-                No. CONVENIO DE CLIENTE: <strong>{{$contrato->num_contrato}}</strong><br>
+                No. CONVENIO DE CLIENTE: <strong>{{$contrato->id}}</strong><br>
                 NOMBRE DEL CLIENTE: <strong> {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}} </strong> <br>
             </p>
 

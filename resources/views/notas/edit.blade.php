@@ -1,4 +1,4 @@
-@extends('layouts.navbar')
+{{-- @extends('layouts.navbar')
 @section('contentnavbar')
 
 <style>
@@ -182,4 +182,4 @@
 @include('layouts.scripts')
 <!--Scripts-->
 <script src="{{ asset('js/notas/notatanqueedit.js') }}"></script>
-<!--Fin Scripts-->
+<!--Fin Scripts--> --}}

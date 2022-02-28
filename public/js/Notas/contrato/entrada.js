@@ -46,8 +46,8 @@ $(document).ready(function () {
                 data: {'_token': $('input[name=_token]').val(),},
             })
             .done(function(msg) {
+                console.log(msg.contrato.contrato_id);
                 $('#contrato_id').val(msg.contrato.contrato_id)
-                $('#num_contrato').val(msg.contrato.num_contrato)
                 $('#tipo_contrato').val(msg.contrato.tipo_contrato)
                 $("#nombre_cliente").val('#'+msg.contrato.cliente_id+' - '+contrato[1]);
                 $('#tablelistaTanques').empty();
@@ -71,8 +71,11 @@ $(document).ready(function () {
             
         $.get('/nota/contrato/entrada/tanques_pendientes/' + contrato_id, function(data) {
             var columnas='';
+            var contador=0;
             $.each(data, function (key, value) {
+                contador+=1;
                 columnas+='<tr class="class-tanques-nota"><td>'+
+                contador+'</td><td>'+
                 value.num_serie+'</td><td>'+
                 value.tanque_desc+'</td><td>'+
                 value.tapa_tanque+'</td><td>'+
@@ -173,10 +176,10 @@ $(document).ready(function () {
                     var bandera_pendiete=false; //validar si el tanque es de los que adeuda
                         var tapa_tanque_estatus="";
                         $(".class-tanques-nota").each(function(index, value){
-                            var tanquePendiente = $(this).find("td")[0].innerHTML;
+                            var tanquePendiente = $(this).find("td")[1].innerHTML;
                             if(tanquePendiente == numserie){
                                 bandera_pendiete=true;
-                                tapa_tanque_estatus=$(this).find("td")[2].innerHTML;
+                                tapa_tanque_estatus=$(this).find("td")[3].innerHTML;
                             }
                         })
 
@@ -842,7 +845,7 @@ $(document).ready(function () {
     //Funcion registrar nota
     function pagar_nota(){
 
-        if($('#num_contrato').val() == '') {
+        if($('#contrato_id').val() == '') {
             mostrar_mensaje("#msg-contrato",'Error, falta información de contrato', "alert-danger",null);
             return false;
         }
@@ -933,7 +936,8 @@ $(document).ready(function () {
     }
 
     function guardar_nota(){
-        // envio al controlador
+        // envio al controlador 
+        $("#guardar-nota").prop("disabled", true);
         $.ajax({
             method: "post",
             url: "/nota/contrato/entrada/save",
@@ -954,6 +958,7 @@ $(document).ready(function () {
                 });
             }
         });
+
 
     }
 

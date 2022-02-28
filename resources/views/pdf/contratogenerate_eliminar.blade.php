@@ -85,7 +85,7 @@
         
 
         <main>
-            <p class="text-right">Convenio: <strong>{{$contrato->num_contrato}}</strong></p>
+            <p class="text-right">Convenio: <strong>{{$contrato->id}}</strong></p>
             <h5 style="font-size: 20px; text-align: center">CONVENIO DE SUMINISTRO DE GAS Y COMODATO</h5>
 
             <p class="mt-4">Que celebran por una parte “EL PROVEEDOR” C. <strong>JUAN MANUEL CONTRERAS GOMEZ</strong> con domicilio, CALLE IGNACIO ZARAGOZA # 213 A, COLONIA FERNANDO GOMEZ SANDOVAL, SANTA LUCIA DEL CAMINO, OAXACA C.P. 71243, con nombre del establecimiento OXI.NIK GASES ESPECIALES y por la otra declara “EL CONSUMIDOR”, <span><strong>{{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}</strong></span> con domicilio <span><strong>{{$cliente->direccion}}</strong></span> al tenor de las siguientes declaraciones y clausulas:</p>

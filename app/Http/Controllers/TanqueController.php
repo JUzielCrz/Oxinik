@@ -134,6 +134,7 @@ class TanqueController extends Controller
     }
 
     public function create(Request $request){
+        return response()->json(['mensaje'=>$request->all()]);
         if($this->slug_permiso('tanque_create')){
             $request->validate([
                 'num_serie' => ['required', 'string', 'max:255','unique:tanques,num_serie'],

@@ -33,7 +33,7 @@ class NotaListasController extends Controller
             $nota_entrada=Nota::
             join('contratos','contratos.id','=','notas.contrato_id')
             ->select('notas.id as nota_id',
-                    'contratos.num_contrato',
+                    'contratos.id as contrato_id',
                     'notas.created_at',
                     'notas.pago_cubierto',
                     'notas.observaciones',
@@ -75,7 +75,7 @@ class NotaListasController extends Controller
             $nota_entrada=Nota::
             join('contratos','contratos.id','=','notas.contrato_id')
             ->select('notas.id as nota_id',
-                    'contratos.num_contrato',
+                    'contratos.id as contrato_id',
                     'notas.created_at',
                     'notas.pago_cubierto',
                     'notas.observaciones',
@@ -116,7 +116,7 @@ class NotaListasController extends Controller
             $nota_entrada=NotaEntrada::
             join('contratos','contratos.id','=','notas_entrada.contrato_id')
             ->select('notas_entrada.id as nota_id',
-                    'contratos.num_contrato',
+                    'contratos.id as contrato_id',
                     'notas_entrada.*',);
             return DataTables::of(
                 $nota_entrada

@@ -57,7 +57,6 @@ class ClienteSeeder extends Seeder
 
 
         $contrato=Contrato::create([
-            'num_contrato'=>'1',
             'cliente_id'=>$cliente1->id, 
             'tipo_contrato'=>'Industrial',
             'nombre_comercial'=>'Los 3 Garcias',

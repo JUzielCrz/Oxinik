@@ -195,21 +195,24 @@ class AsignacionController extends Controller
                 ->where('material', $request->asignacion_material[$detalle])
                 ->first();
 
-                if($detalleNota != null){
-                    $detalleNota->cilindros = $detalleNota->cilindros + $request->asignacion_variante[$detalle];
-                    $detalleNota->save();
-                }else{
-                    $newDetalle= new AsignacionNotaDetalle;
-                    $newDetalle->nota_asignacion_id = $newNota->id;
-                    $newDetalle->cilindros= $request->asignacion_variante[$detalle];
-                    $newDetalle->tipo_gas= $request->asignacion_gas[$detalle];
-                    $newDetalle->tipo_tanque= $request->asignacion_tipo_tanque[$detalle];
-                    $newDetalle->material= $request->asignacion_material[$detalle];
-                    $newDetalle->unidad_medida= $request->asignacion_unidad_medida[$detalle];
-                    $newDetalle->capacidad= $request->asignacion_capacidad[$detalle];
-                    $newDetalle->deposito_garantia= $request->asignacion_deposito_garantia[$detalle];
-                    $newDetalle->save();     
+                if($request->asignacion_variante[$detalle] > 0){
+                    if($detalleNota != null){
+                        $detalleNota->cilindros = $detalleNota->cilindros + $request->asignacion_variante[$detalle];
+                        $detalleNota->save();
+                    }else{
+                        $newDetalle= new AsignacionNotaDetalle;
+                        $newDetalle->nota_asignacion_id = $newNota->id;
+                        $newDetalle->cilindros= $request->asignacion_variante[$detalle];
+                        $newDetalle->tipo_gas= $request->asignacion_gas[$detalle];
+                        $newDetalle->tipo_tanque= $request->asignacion_tipo_tanque[$detalle];
+                        $newDetalle->material= $request->asignacion_material[$detalle];
+                        $newDetalle->unidad_medida= $request->asignacion_unidad_medida[$detalle];
+                        $newDetalle->capacidad= $request->asignacion_capacidad[$detalle];
+                        $newDetalle->deposito_garantia= $request->asignacion_deposito_garantia[$detalle];
+                        $newDetalle->save();     
+                    }
                 }
+                
             }
             
             return response()->json(['alert'=>'alert-primary', 'nota_id' => $newNota->id]);

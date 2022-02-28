@@ -59,7 +59,7 @@ $(document).ready(function () {
                     }
             },
             columns:[
-                {data: 'num_contrato', className: "text-center"},
+                {data: 'contrato_id', className: "text-center"},
                 {data: 'cliente', className: "text-center"},
                 {data: 'tipo_contrato', className: "text-center"},
                 {data: 'direccion', className: "text-center"}, //aqui va estatus
