@@ -528,9 +528,11 @@ $(document).ready(function () {
         $('#modal_generico').modal('hide');
 
         var nota_id="";
+        
             $(".class-tanques-nota").each(function(index, value){
-                if($('input:radio[name=exampleRadios]:checked').val() == $(this).find("td")[0].innerHTML){
-                    nota_id=parseInt($(this).find("td")[4].innerHTML);
+                console.log($(this).find("td")[0].innerHTML);
+                if($('input:radio[name=exampleRadios]:checked').val() == $(this).find("td")[1].innerHTML){
+                    nota_id=parseInt($(this).find("td")[5].innerHTML);
                 }
             }); 
             if(nota_id==""){

@@ -170,7 +170,7 @@ class TanqueController extends Controller
 
     public function show_numserie($num_serie){
             $tanque=Tanque::
-            join('catalogo_gases', 'catalogo_gases.id', 'tanques.tipo_gas')->select('catalogo_gases.nombre as gas_nombre', 'tanques.*')->where('num_serie',$num_serie)->first();
+            join('catalogo_gases', 'catalogo_gases.id', 'tanques.tipo_gas','tanques.id')->select('catalogo_gases.nombre as gas_nombre', 'tanques.*')->where('num_serie',$num_serie)->first();
             return $tanque;
     }
 
