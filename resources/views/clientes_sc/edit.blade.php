@@ -1,4 +1,3 @@
-<form id="form-cliente-sc-edit">
     @csrf
     <input type="hidden" id="id_edit" name="id_edit">
     <div class="form-row">
@@ -10,14 +9,14 @@
                     <label for="">Nombre</label>
                     <input type="text" name="nombre_edit" id="nombre_edit" class="form-control form-control-sm solo-texto" placeholder="Nombre">
                 </div>
-                <div class="col">
+                {{--<div class="col">
                     <label for="">Ap Paterno</label>
                     <input type="text" name="apPaterno_edit" id="apPaterno_edit" class="form-control form-control-sm solo-texto" placeholder="Ap. Paterno">
                 </div>
                 <div class="col">
                     <label for="">Ap Materno</label>
                     <input type="text" name="apMaterno_edit" id="apMaterno_edit" class="form-control form-control-sm solo-texto"placeholder="Ap. Materno">
-                </div>
+                </div> --}}
             </div>
 
             <!-- Telefono y correo-->
@@ -91,4 +90,3 @@
         </div>
         </div>
     </div>
-</form>

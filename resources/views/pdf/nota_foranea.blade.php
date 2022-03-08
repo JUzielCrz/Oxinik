@@ -8,7 +8,7 @@
         <!-- icon -->
     </head>
 
-    <body style="font-size: 11px">
+    <body style="font-size: 14px">
         <main>
             <table class="table table-borderless">
                 <tbody>
@@ -65,12 +65,12 @@
                     <thead >
                         <tr >
                             <th scope="col">#SERIE</th>
-                            <th scope="col">CANTIDAD</th>
+                            <th scope="col">CANT</th>
                             <th scope="col">U. M.</th>
                             <th scope="col">GAS</th>
                             <th scope="col">TAPA</th>
                             <th scope="col">DESCRIPCIÓN</th>
-                            <th scope="col">PRECIO UNITARIO</th>
+                            <th scope="col">P. U.</th>
                             <th scope="col">IVA</th>
                             <th scope="col">IMPORTE</th>
                         </tr>
@@ -86,9 +86,9 @@
                                     <td>{{$tipoeva->nombre_gas($tanq->tipo_gas)}} </td>
                                     <td>{{$tanq->tapa_tanque}}</td>
                                     <td>PH: {{$tanq->ph}}, {{$tanq->material}}, {{$tanq->fabricante}}, {{$tanq->tipo_tanque}}</td>
-                                    <td>$ {{number_format($tanq->precio_unitario,2)}}</td>
-                                    <td>$ {{number_format($tanq->iva_particular,2)}}</td>
-                                    <td>$ {{number_format($tanq->importe,2)}}</td>
+                                    <td>${{number_format($tanq->precio_unitario,2)}}</td>
+                                    <td>${{number_format($tanq->iva_particular,2)}}</td>
+                                    <td>${{number_format($tanq->importe,2)}}</td>
                                 </tr>
                             @endif
                         @endforeach
@@ -153,10 +153,10 @@
             <table class="table table-sm table-bordered mt-2">
                 <tbody >
                     <tr style="background: black">
-                        <td colspan="3"><div class="text-center text-white" > CUENTAS BANCARIAS PARA TRANSFERENCIAS</div></td>
+                        <td colspan="2"><div class="text-center text-white" > CUENTAS BANCARIAS PARA TRANSFERENCIAS</div></td>
                     </tr>
                     <tr>
-                        <td colspan="3"  class="text-center">
+                        <td colspan="2"  class="text-center">
                             RFC: <strong>{{$empresa->rfc}}</strong> <br>
                         </td>
                     </tr>
@@ -177,7 +177,9 @@
                                 CLABE: <strong>{{$empresa->clave2}}</strong> <br>                                
                             </p>
                         </td>
-                        <td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
                             <p class="p-0 m-0">
                                 ASÍ MISMO SE LES PIDE ENVIAR COMPROBANTE DE PAGO AL SIGUIENTE CORREO: <strong>{{$empresa->email}}</strong><br>
                                 HACIENDO REFERENCIA EN CONCEPTO ALGUNO DE LOS SIGUIENTES:<br>

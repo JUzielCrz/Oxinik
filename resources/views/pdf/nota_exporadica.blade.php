@@ -8,7 +8,7 @@
         <!-- icon -->
     </head>
 
-    <body style="font-size: 11px">
+    <body style="font-size: 14px">
         <main>
             <table class="table table-borderless">
                 <tbody>
@@ -16,28 +16,28 @@
                         <td class="text-center">
                             <img src="img/logo.svg" style="width: 200px" alt=""></td>
                         <td >
-                            <p >
+                            <p>
                                 {{$empresa->direccion}}<br>
                                 {{$empresa->telefono1}} / {{$empresa->telefono2}} <br>
                                 {{$empresa->email}}
                             </p>
                         </td>
                     </tr>
-                </thead>
+                </tbody>
 
-                <tbody>
+                <tbody >
                     <tr>
-                        <td  class="text-right">
+                        <td  class="text-right p-0 m-0">
                             Fecha: {{$nota->fecha}}
                         </td>
-                        <td  class="text-right" >
+                        <td  class="text-right p-0 m-0" >
                             Folio: <span style="color: red">{{$nota->id}}</span>
                         </td>
                     </tr>
                 </tbody>
             </table>
 
-            <table class="table mt-1 mb-3">
+            <table class="table p-0 mt-0 mb-1">
                 <tbody>
                     <tr>
                         <td>
@@ -96,12 +96,12 @@
                     <thead >
                         <tr >
                             <th scope="col">#SERIE</th>
-                            <th scope="col">CANTIDAD</th>
+                            <th scope="col">CANT</th>
                             <th scope="col">U. M.</th>
                             <th scope="col">GAS</th>
                             <th scope="col">TAPA</th>
                             <th scope="col">DESCRIPCIÓN</th>
-                            <th scope="col">PRECIO UNITARIO</th>
+                            <th scope="col">P.U.</th>
                             <th scope="col">IVA</th>
                             <th scope="col">IMPORTE</th>
                         </tr>
@@ -117,9 +117,9 @@
                                     <td>{{$tipoeva->nombre_gas($tanq->tipo_gas)}} </td>
                                     <td>{{$tanq->tapa_tanque}}</td>
                                     <td>PH: {{$tanq->ph}}, {{$tanq->material}}, {{$tanq->fabricante}}, {{$tanq->tipo_tanque}}</td>
-                                    <td>$ {{number_format($tanq->precio_unitario,2)}}</td>
-                                    <td>$ {{number_format($tanq->iva_particular,2)}}</td>
-                                    <td>$ {{number_format($tanq->importe,2)}}</td>
+                                    <td>${{number_format($tanq->precio_unitario,2)}}</td>
+                                    <td>${{number_format($tanq->iva_particular,2)}}</td>
+                                    <td>${{number_format($tanq->importe,2)}}</td>
                                 </tr>
                             @endif
                         @endforeach
@@ -149,13 +149,13 @@
             </table>
             @endif
             
-            <table class="table table-sm table-bordered mt-2">
+            <table class="table table-sm table-bordered mt-2" style="font-size: 12px">
                 <tbody >
                     <tr style="background: black">
-                        <td colspan="3"><div class="text-center text-white" > CUENTAS BANCARIAS PARA TRANSFERENCIAS</div></td>
+                        <td colspan="2"><div class="text-center text-white" > CUENTAS BANCARIAS PARA TRANSFERENCIAS</div></td>
                     </tr>
                     <tr>
-                        <td colspan="3"  class="text-center">
+                        <td colspan="2"  class="text-center">
                             RFC: <strong>{{$empresa->rfc}}</strong> <br>
                         </td>
                     </tr>
@@ -176,7 +176,9 @@
                                 CLABE: <strong>{{$empresa->clave2}}</strong> <br>                                
                             </p>
                         </td>
-                        <td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
                             <p class="p-0 m-0">
                                 ASÍ MISMO SE LES PIDE ENVIAR COMPROBANTE DE PAGO AL SIGUIENTE CORREO: <strong>{{$empresa->email}}</strong><br>
                                 HACIENDO REFERENCIA EN CONCEPTO ALGUNO DE LOS SIGUIENTES:<br>

@@ -101,7 +101,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/clientes_sc/search', 'ClienteSinContratoController@search');
     Route::get('/clientes_sc/show/{id}', 'ClienteSinContratoController@show');
     Route::post('/clientes_sc/create', 'ClienteSinContratoController@create');
-    Route::post('/clientes_sc/update/{id}', 'ClienteSinContratoController@update');
+    Route::post('/clientes_sc/update', 'ClienteSinContratoController@update');
   /* Contratos */
     Route::get('/contrato/index/{id}', 'ContratoController@index')->name('contrato.index');
     Route::post('/contrato/create', 'ContratoController@create');

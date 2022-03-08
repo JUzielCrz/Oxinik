@@ -33,19 +33,22 @@ class ClienteSinContratoController extends Controller
     }
 
     public function create(Request $request){
-
         $request->validate([
+            'tipo_persona' => ['required', 'string', 'max:255'],
             'nombre' => ['required', 'string', 'max:255'],
-            'apPaterno' => ['required', 'string', 'max:255'],
-            'apMaterno' => ['required', 'string', 'max:255'],
         ]);
-
-        $nombre =str_replace(' ', '',$request->nombre);
-        $apPaterno =str_replace(' ', '',$request->apPaterno);
-        $apMaterno =str_replace(' ', '',$request->apMaterno);
+        $nombre_cliente=$request->nombre;
+        if($request->tipo_persona=='Fisica'){
+            $request->validate([
+                'apPaterno' => ['required', 'string', 'max:255'],
+                'apMaterno' => ['required', 'string', 'max:255'],
+            ]);
+            $nombre_cliente=$request->nombre.' '.$request->apPaterno.' '.$request->apMaterno;
+        }
+        
 
         $cliente=new ClienteSinContrato();
-        $cliente->nombre = strtoupper($nombre." ".$apPaterno." ".$apMaterno);
+        $cliente->nombre = $nombre_cliente;
         $cliente->telefono = $request->telefono;
         $cliente->email = $request->email;
         $cliente->direccion = $request->direccion;
@@ -60,29 +63,24 @@ class ClienteSinContratoController extends Controller
         return response()->json(['cliente_id'=> $cliente->id]);
     }
 
-    public function update(Request $request){
+    public function update(Request $request) {
         $request->validate([
-            'nombre_edit' => ['required', 'string', 'max:255'],
-            'apPaterno_edit' => ['required', 'string', 'max:255'],
-            'apMaterno_edit' => ['required', 'string', 'max:255'],
-        ]);
+            'nombre' => ['required', 'string', 'max:255'],
+        ]); 
 
-        $nombre =str_replace(' ', '',$request->nombre_edit);
-        $apPaterno =str_replace(' ', '',$request->apPaterno_edit);
-        $apMaterno =str_replace(' ', '',$request->apMaterno_edit);
 
-        $cliente=ClienteSinContrato::find($request->id_edit);
-        $cliente->nombre = strtoupper($nombre." ".$apPaterno." ".$apMaterno);
-        $cliente->telefono = $request->telefono_edit;
-        $cliente->email = $request->email_edit;
-        $cliente->direccion = $request->direccion_edit;
-        $cliente->rfc = $request->rfc_edit;
-        $cliente->cfdi = $request->cfdi_edit;
-        $cliente->direccion_factura = $request->direccion_factura_edit;
-        $cliente->direccion_envio = $request->direccion_envio_edit;
-        $cliente->referencia_envio = $request->referencia_envio_edit;
-        $cliente->link_ubicacion_envio = $request->link_ubicacion_envio_edit;
-        $cliente->precio_envio = $request->precio_envio_edit;
+        $cliente=ClienteSinContrato::find($request->id);
+        $cliente->nombre = $request->nombre;
+        $cliente->telefono = $request->telefono;
+        $cliente->email = $request->email;
+        $cliente->direccion = $request->direccion;
+        $cliente->rfc = $request->rfc;
+        $cliente->cfdi = $request->cfdi;
+        $cliente->direccion_factura = $request->direccion_factura;
+        $cliente->direccion_envio = $request->direccion_envio;
+        $cliente->referencia_envio = $request->referencia_envio;
+        $cliente->link_ubicacion_envio = $request->link_ubicacion_envio;
+        $cliente->precio_envio = $request->precio_envio;
         $cliente->save();
         return response()->json(['cliente_id'=> $cliente->id]);
     }

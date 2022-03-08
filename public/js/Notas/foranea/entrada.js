@@ -28,8 +28,7 @@ $(document).ready(function () {
     actualizar_disables();
 
     //FUNCIONES INSERTAR FILA SALDIA
-    function insertar_fila_salida() {
-        
+    function insertar_fila_salida(){
         var numserie= $('#serie_tanque').val().replace(/ /g,'').toUpperCase();;//eliminar espacios
 
         //validar campos no vacios
@@ -71,7 +70,6 @@ $(document).ready(function () {
                 return false;
         }
 
-
         $.get('/tanque/show_numserie/' + numserie, function(msg) { 
             if(msg != ''){
                 $.get('/tanque/validar_talon/' + numserie, function(rsta) {
@@ -85,7 +83,7 @@ $(document).ready(function () {
                         }
                         var precio_importe= $('#precio_unitario').val();
                         var iva =0;
-                                
+                        
                         if( msg.tipo_tanque == 'Industrial'){
                             iva = precio_importe * 0.16;
                         }
@@ -98,13 +96,11 @@ $(document).ready(function () {
                                 "<td>"+$('#unidad_medida').val() +"</td>"+ "<input type='hidden' name='input_unidad_medida[]' value='"+$('#unidad_medida').val() +"'></input>"+
                                 "<td>"+precio_importe +"</td>"+ "<input type='hidden' name='input_importe[]' value='"+precio_importe +"'></input>"+
                                 "<td>"+iva +"</td>"+ "<input type='hidden' name='input_iva_particular[]' value='"+iva +"'></input>"+
-
                                 "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
                             "</tr>");
                             actualizar_disables();
                             actualizar_subtotal();
                             limpiar_inputs_fila();
-
                     }else{
                         $("#serie_tanqueError").text('Error Tanque - estatus: '+ msg.estatus);
                     }

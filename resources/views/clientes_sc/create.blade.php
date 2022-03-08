@@ -1,24 +1,24 @@
-<form id="form-cliente-sc">
+
     @csrf
     <input type="hidden" id="id" name="id">
     <div class="form-row">
         <div class="col">
             <!-- Nombre Completo-->
-            
             <div class="form-row">
                 <div class="col">
-                    <label for="">Nombre</label>
-                    <input type="text" name="nombre" id="nombre" class="form-control form-control-sm solo-texto" placeholder="Nombre">
-                </div>
-                <div class="col">
-                    <label for="">Ap Paterno</label>
-                    <input type="text" name="apPaterno" id="apPaterno" class="form-control form-control-sm solo-texto" placeholder="Ap. Paterno">
-                </div>
-                <div class="col">
-                    <label for="">Ap Materno</label>
-                    <input type="text" name="apMaterno" id="apMaterno" class="form-control form-control-sm solo-texto"placeholder="Ap. Materno">
+                    <label for="">Persona:</label>
+                    <select name="tipo_persona" id="tipo_persona" class="form-control form-control-sm"> 
+                        <option value="">Seleccione</option>
+                        <option value="Fisica">Fisica</option>
+                        <option value="Moral">Moral</option>
+                    </select>
                 </div>
             </div>
+            
+            <div id="row_nombre"></div>
+            <hr>
+
+            
 
             <!-- Telefono y correo-->
             <div class="form-row">
@@ -91,4 +91,47 @@
         </div>
         </div>
     </div>
-</form>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#tipo_persona").change( function() {
+            if ($(this).val() == "Fisica") {
+                $("#row_nombre").empty()
+                $("#row_nombre").append(
+                    '<div class="form-row mt-2">'+
+                    '<div class="col">'+
+                        '<label for="">Nombre</label>'+
+                        '<input type="text" name="nombre" id="nombre" class="form-control form-control-sm solo-texto" placeholder="Nombre">'+
+                    '</div>'+
+                    '<div class="col ">'+
+                        '<label for="">Ap Paterno</label>'+
+                        '<input type="text" name="apPaterno" id="apPaterno" class="form-control form-control-sm solo-texto" placeholder="Ap. Paterno">'+
+                    '</div>'+
+                    '<div class="col">'+
+                        '<label for="">Ap Materno</label>'+
+                        '<input type="text" name="apMaterno" id="apMaterno" class="form-control form-control-sm solo-texto"placeholder="Ap. Materno">'+
+                    '</div>'+
+                '</div>'
+                );
+            }
+            if ($(this).val() == "Moral") {
+                $("#row_nombre").empty()
+                $("#row_nombre").append(
+                    '<div class="form-row mt-2">'+
+                        '<div class="col">'+
+                            '<label for="">Nombre:</label>'+
+                            '<input name="nombre" id="nombre" type="text" class="form-control form-control-sm numero-entero-positivo lenght-telefono" placeholder="#">'+
+                        '</div>'+
+                    '</div>'
+                );
+                
+            }  
+            if ($(this).val() == "") {
+                $("#row_nombre").empty()
+            } 
+        });
+    });
+</script>

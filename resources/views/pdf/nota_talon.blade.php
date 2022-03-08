@@ -8,7 +8,7 @@
         <!-- icon -->
     </head>
 
-    <body style="font-size: 12px">
+    <body style="font-size: 14px">
         <main>
             <table class="table table-borderless m-0">
                 <tbody>
@@ -182,7 +182,7 @@
             </p>	     
             
 
-            <p style="text-align: center; font-size: 10px">
+            <p style="text-align: center; font-size: 12px">
                 “Todo cilindro que regrese a uso es debido a que sus parámetros están dentro de los límites establecidos en las especificaciones (CFR, CGA, DOT, ISO, NMX-H-156), por lo que se autoriza que continúen en servicio por el periodo correspondiente de 5 años ó 10 años posteriores a su fecha de recalificación estampada, dependiendo de la especificación correspondiente del cilindro; esta vigencia serpa válido en el entendimiento que deberán perseverarse las condiciones previas de funcionamiento bajo las cuáles operó cada cilindro”
             </p>
 
