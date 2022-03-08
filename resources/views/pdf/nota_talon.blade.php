@@ -65,6 +65,7 @@
                             <th scope="col">#SERIE</th>
                             <th scope="col">DESCRIPCIÓN</th>
                             <th scope="col">GAS</th>
+                            <th scope="col">TAPA</th>
                         </tr>
                     </thead>
 
@@ -75,25 +76,7 @@
                                     <td>{{$tanq->num_serie}}</td>
                                     <td>{{$tanq->material}}, {{$tanq->tipo_tanque}},  PH: {{$tanq->ph}}, {{$tanq->fabricante}}</td>
                                     <td>{{$tipoeva->nombre_gas($tanq->tipo_gas)}}</td>
-                                    {{-- <td>{{$tanq->num_serie}}</td>
-                                    
-                                    <td>{{$tipoeva->nombre_gas($tanq->tipo_gas)}} </td>
                                     <td>{{$tanq->tapa_tanque}}</td>
-                                    <td>PH: {{$tanq->ph}}, {{$tanq->material}}, {{$tanq->fabricante}}, {{$tanq->tipo_tanque}}</td>
-                                    @if ($tanq->precio_unitario == null)
-                                    <td>--</td>
-                                    <td>--</td>
-                                    <td>--</td>
-                                    <td>--</td>
-                                    <td>--</td>
-                                    @else
-                                    <td>{{$tanq->cantidad}}</td>
-                                    <td>{{$tanq->unidad_medida}}</td>
-                                    <td>$ {{number_format($tanq->precio_unitario,2)}}</td>
-                                    <td>$ {{number_format($tanq->iva_particular,2)}}</td>
-                                    <td>$ {{number_format($tanq->importe,2)}}</td>
-                                    @endif --}}
-                                    
                                 </tr>
                             @endif
                         @endforeach
