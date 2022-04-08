@@ -91,21 +91,12 @@ $(document).ready(function () {
 
 
 
-//Funciones para insertar fila de tanque
-
-    
-    // $("#unidad_medida").change( function() {
-    //     if ($(this).val() == "CARGA") {
-    //         $("#cantidad").prop("readonly", true);
-    //         $("#cantidad").val(1);
-
-    //     }else{
-    //         $("#cantidad").prop("readonly", false);
-    //     } 
-    // });
-
-
-
+    $('#serie_tanque').keypress(function (event) {
+        if (event.charCode == 13 ){
+            event.preventDefault();
+            insertfila();
+        } 
+    });
 
     function insertfila() {
 
