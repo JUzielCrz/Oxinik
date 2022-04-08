@@ -46,11 +46,9 @@
                 <span  id="modelo_reguladorError" class="text-danger"></span>
             </div>
         </div>
-        
-
         <hr>
         <div class="form-row">
-                <p>Donde serán utilizado los cilindros</p>
+                <strong>Donde serán utilizado los cilindros</strong>
         </div>
         <div class="form-row">
             <div class="col-md-6">
@@ -75,7 +73,6 @@
                 <span  id="calle2Error" class="text-danger"></span>
             </div>
         </div>
-
         <div class="form-row">
             <div class="form-group col-md-6">
                 {!! Form::label('Precio Transporte') !!}
@@ -91,7 +88,36 @@
         <hr>
         
         <div class="form-row">
-                <p>Asignación tanques</p>
+                <strong>PERSONA SOLIDARIA</strong>
+        </div>
+        <div class="form-row">
+            <div class="col">
+                <label for="">Nombre</label>
+                <input type="text" name="nombre_solidaria" id="nombre_solidaria" class="form-control form-control-sm">
+            </div>
+            <div class="col">
+                <label for="">Teléfono</label>
+                <input type="number" name="telefono_solidaria" id="telefono_solidaria" class="form-control form-control-sm numero-entero-positivo lenght-telefono">
+            </div>
+            <div class="col">
+                <label for="">Correo Electronico</label>
+                <input type="email" name="email_solidaria" id="email_solidaria" class="form-control form-control-sm">
+            </div>
+            
+        </div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <label for="">Dirección</label>
+                <textarea name="direccion_solidaria" id="direccion_solidaria" class="form-control form-control-sm" cols="30" rows="2"></textarea>
+                <span  id="direccion_solidariaError" class="text-danger"></span>
+            </div>
+        </div>
+
+        
+        <hr>
+        
+        <div class="form-row">
+                <strong>ASIGNACIÓN TANQUES</strong>
         </div>
 
         

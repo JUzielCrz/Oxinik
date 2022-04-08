@@ -79,22 +79,29 @@
                     
                 </tbody>
             </table>
-
+            @inject('tipoeva','App\Http\Controllers\CatalogoGasController')
             <table class="table table-sm text-center" style="font-size: 13px">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>#serie</th>
+                        <th>#SERIE</th>
+                        <th>GAS</th>
+                        <th>CAPACIDAD</th>
+                        <th>#FABRICANTE</th>
                     </tr>
                 </thead>
                 @php
                     $contador=0;
                 @endphp
+                
                 <tbody>
                     @foreach ($tanques as $tanque)
                         <tr>
                             <td style="padding: 2">{{$contador+=1}}</td>
                             <td style="padding: 2">{{$tanque->num_serie}}</td>
+                            <td style="padding: 2">{{$tipoeva->nombre_gas($tanque->tipo_gas)}}</td>
+                            <td style="padding: 2">{{$tanque->capacidad}}</td>
+                            <td style="padding: 2">{{$tanque->fabricante}}</td>
                         </tr>
                     @endforeach
                 </tbody>

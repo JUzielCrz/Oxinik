@@ -31,6 +31,10 @@ class CreateContratosTable extends Migration
             $table->string('link_ubicacion')->nullable();
             $table->unique(['cliente_id', 'tipo_contrato']);
             $table->string('observaciones')->nullable();
+            $table->string('nombre_solidaria')->nullable();
+            $table->string('telefono_solidaria')->nullable();
+            $table->string('email_solidaria')->nullable();
+            $table->string('direccion_solidaria')->nullable();
             $table->timestamps();
         });
     }

@@ -1,14 +1,5 @@
 @extends('layouts.sidebar')
 
-@section('menu-navbar') 
-    <li class="nav-item active">
-        <a class="nav-link" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i> Atras</a>
-    </li>
-    {{-- <li class="nav-item">
-        <a class="btn btn-sm btn-outline-success" href="{{ url('/nota/contrato/entrada') }}"><i class="fas fa-sign-in-alt"></i> Entrada</a>
-    </li> --}}
-@endsection
-
 @section('content-sidebar')
 
 @php

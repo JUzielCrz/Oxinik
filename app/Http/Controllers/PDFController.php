@@ -111,7 +111,9 @@ class PDFController extends Controller
 
     public function infra_nota($idnota){
         $nota=InfraLLenado::find($idnota);
-        $tanques=InfraTanque::where('infrallenado_id', $nota->id)->get();
+        $tanques=InfraTanque::
+        join('tanques', 'tanques.num_serie','=','infra_tanques.num_serie')
+        ->where('infrallenado_id', $nota->id)->get();
         
         $data=['nota'=>$nota,'tanques'=>$tanques];
  

@@ -81,3 +81,32 @@
             
         </div>
 
+        <div class="form-row">
+            <strong>PERSONA SOLIDARIA</strong>
+        </div>
+        <div class="form-row">
+            <div class="col">
+                <label for="">Nombre</label>
+                <input type="text" name="nombre_solidariaedit" id="nombre_solidariaedit" class="form-control form-control-sm">
+                <span  id="nombre_solidariaeditError" class="text-danger"></span>
+            </div>
+            <div class="col">
+                <label for="">Teléfono</label>
+                <input type="number" name="telefono_solidariaedit" id="telefono_solidariaedit" class="form-control form-control-sm numero-entero-positivo lenght-telefono">
+                <span  id="telefono_solidariaeditError" class="text-danger"></span>
+            </div>
+            <div class="col">
+                <label for="">Correo Electronico</label>
+                <input type="email" name="email_solidariaedit" id="email_solidariaedit" class="form-control form-control-sm">
+                <span  id="email_solidariaeditError" class="text-danger"></span>
+            </div>
+            
+        </div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <label for="">Dirección</label>
+                <textarea name="direccion_solidariaedit" id="direccion_solidariaedit" class="form-control form-control-sm" cols="30" rows="2"></textarea>
+                <span  id="direccion_solidariaeditError" class="text-danger"></span>
+            </div>
+        </div>
+

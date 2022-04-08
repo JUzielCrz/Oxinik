@@ -108,6 +108,10 @@ class ContratoController extends Controller
             $contratos->link_ubicacion = $request->input('link_ubicacion');
             $contratos->reguladores = $request->input('reguladores');
             $contratos->observaciones= $request->observaciones;
+            $contratos->nombre_solidaria= $request->nombre_solidaria;
+            $contratos->telefono_solidaria= $request->telefono_solidaria;
+            $contratos->email_solidaria= $request->email_solidaria;
+            $contratos->direccion_solidaria= $request->direccion_solidaria;
 
             
             if($contratos->save()){
@@ -205,6 +209,10 @@ class ContratoController extends Controller
             $contratos->calle1 = $request->calle1;
             $contratos->calle2 = $request->calle2;
             $contratos->link_ubicacion = $request->link_ubicacion;
+            $contratos->nombre_solidaria= $request->nombre_solidaria;
+            $contratos->telefono_solidaria= $request->telefono_solidaria;
+            $contratos->email_solidaria= $request->email_solidaria;
+            $contratos->direccion_solidaria= $request->direccion_solidaria;
 
             if($contratos->save()){
                     return response()->json(['mensaje'=>'Editado Correctamente', 'contratos'=>$contratos]);

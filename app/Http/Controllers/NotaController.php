@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Asignacion;
 use App\Models\Cliente;
-use App\Models\Contrato; 
+use App\Models\Contrato;
 use App\Models\Nota;
 use App\Models\NotaEntrada;
 use App\Models\NotaEntradaTanque;

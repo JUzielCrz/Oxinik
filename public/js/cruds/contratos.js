@@ -272,6 +272,10 @@ $(document).ready(function () {
         $("#calle1"+ nombreerror).empty();
         $("#calle2"+ nombreerror).empty();
         $("#modelo_regulador"+ nombreerror).empty();
+        $("#nombre_solidaria"+ nombreerror).empty();
+        $("#telefono_solidaria"+ nombreerror).empty();
+        $("#email_solidaria"+ nombreerror).empty();
+        $("#direccion_solidaria"+ nombreerror).empty();
     }
     
     function metodo_limpiar_campos() {
@@ -289,6 +293,10 @@ $(document).ready(function () {
         $("#modelo_regulador").val("");
         $("#deposito_garantia").val("");
         $("#observaciones").val("");
+        $("#nombre_solidaria").val("");
+        $("#telefono_solidaria").val("");
+        $("#email_solidaria").val("");
+        $("#direccion_solidaria").val("");
         
 
         $("#tbody-tr-asignacioncreate").empty();
@@ -298,6 +306,7 @@ $(document).ready(function () {
         $("select[name='tipo_tanquecreate[]']").val("");
         $("select[name='tipo_tanquecreate[]']").empty();
         $("select[name='materialcreate[]']").val("");
+        $("select[name='capacidadcreate[]']").val("")
         $("input[name='precio_unitariocreate[]']").val("");
         $("input[name='deposito_garantiacreate[]']").val("");
         $("select[name='capacidadcreate[]']").val("");
@@ -365,6 +374,10 @@ $(document).ready(function () {
                 'calle1': $('#calle1edit').val(),
                 'calle2': $('#calle2edit').val(),
                 'link_ubicacion': $('#link_ubicacionedit').val(),
+                'nombre_solidaria': $('#nombre_solidariaedit').val(),
+                'telefono_solidaria': $('#telefono_solidariaedit').val(),
+                'email_solidaria': $('#email_solidariaedit').val(),
+                'direccion_solidaria': $('#direccion_solidariaedit').val(),
                 },
         })
             .done(function (msg) {
@@ -673,6 +686,12 @@ $(document).ready(function () {
             return false;
         } 
         return true;
+    });
+
+    $('.lenght-telefono').keypress(function (event) {
+        if (this.value.length === 10) {
+            return false;
+        }
     });
 
 });

@@ -182,10 +182,36 @@
             <p><strong>DECIMA CUARTA:</strong> En el caso de falta de pago o incumplimiento de cualquiera de las obligaciones que se establecen en este contrato “EL ARRENDADOR” tendrá derecho a dar por concluido el contrato de alquiler y exigir la devolución de los suministros arrendados, todo ello con el cargo a “EL ARRENDATARIO” sobre el abono de los costos/indemnización que puedan haberse generado en virtud de la falta de pago o incumplimiento del contrato.</p>
             <p><strong>DECIMA QUINTA:</strong> Todas y cada una de las modificaciones que se deseen aplicar y que no estén dispuestas en el presente contrato, deberán ser realizadas por escrito, y anexadas con el numeral que corresponda. Del mismo modo deberán ser firmadas por ambas partes e incorporadas al presente contrato de no desarrollarse tales modificaciones conforme a lo dispuesto en el presente contrato, se tendrán por no puestas y serán entendidas como nulas de pleno derecho.</p>
             <p><strong>DECIMA SEXTA:</strong> El presente Contrato será forzoso para ambas partes por un término de un año,  dentro de los 30 días naturales anteriores a la conclusión del plazo, cualquiera de las partes podrá darlo por terminado por medio de un aviso proporcionado a la otra por escrito; de no recibir dicho aviso por algunas de las partes, se entenderá prorrogado el Contrato por un término igual al iniciar y después, continuara por tiempo indeterminado, termino dentro del cual cualquiera de las partes podrá darlo por terminado con un aviso dado por escrito con 180 días naturales de anticipación, en el entendido que de no dar aviso, las partes contratantes continuaran obligándose a todos los derechos y obligaciones inherentes de este contrato.</p>
-            <p><strong>DECIMA SEPTIMA:</strong> Para garantía de lo estipulado en el presente Contrato lo firma solidariamente el Sr (a):
-                <strong> {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}</strong>
-                con domicilio en:<strong> {{$cliente->direccion}}</strong>, 
-                @if ($cliente->email != '') correo electrónico <span><strong>{{$cliente->email}}</strong></span> @endif y número telefónico  <strong>{{$cliente->telefono}} </strong>,  con el carácter de fiador solidario, así mismo bajo protesta de decir verdad manifiesta tener propiedades bastantes y suficientes para cumplir con  todas y cada una obligaciones contraídas por “El ARRENDATARIO”, en el presente contrato y firma solidariamente, y reconoce que no cesara su responsabilidad solidaria sino hasta que el “EL ARRENDADOR”, se dé por conforme de las prestaciones otorgadas
+            <p><strong>DECIMA SEPTIMA:</strong> Para garantía de lo estipulado en el presente Contrato lo firma solidariamente el 
+                Sr (a):
+            @if ($contrato->nombre_solidaria == '')
+                ________________________________________________________, 
+            @else
+                <strong> {{$contrato->nombre_solidaria}}</strong>
+            @endif
+
+            con domicilio en:
+            @if ($contrato->direccion_solidaria == '')
+            __________________________________________________________________________________
+            __________________________________________________________________________________, 
+            @else
+                <strong> {{$contrato->direccion_solidaria}}</strong>, 
+            @endif
+
+            correo electrónico:
+            @if ($contrato->email_solidaria == '')
+            _________________________, 
+            @else
+                <strong> {{$contrato->email_solidaria}}</strong>, 
+            @endif
+
+            y número telefónico
+            @if ($contrato->telefono_solidaria == '')
+            _____________________
+            @else
+                <strong> {{$contrato->telefono_solidaria}}</strong>
+            @endif
+            ,  con el carácter de fiador solidario, así mismo bajo protesta de decir verdad manifiesta tener propiedades bastantes y suficientes para cumplir con  todas y cada una obligaciones contraídas por “El ARRENDATARIO”, en el presente contrato y firma solidariamente, y reconoce que no cesara su responsabilidad solidaria sino hasta que el “EL ARRENDADOR”, se dé por conforme de las prestaciones otorgadas
                 </p>
 
             <p><strong>DECIMA OCTAVA:</strong> Para todo lo relativo a la interpretación y cumplimiento de este Contrato de Arrendamiento, las partes contratantes declaran su conformidad en someterse a los Tribunales del Fuero Común en esta ciudad de Oaxaca de Juárez, Oaxaca. Renunciando a cualquier otro fuero que pueda corresponderle en virtud de su nuevo domicilio actual ó futuro. La firma de este contrato no compromete a “EL ARRENDATARIO” a la compra de los cilindros a envases y/o sus accesorios ni la opción de compra del mismo.</p>

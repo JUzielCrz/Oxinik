@@ -81,7 +81,7 @@
 
             <p><strong>PRIMERA:</strong> “El Contratante”, entrega a “El Contratista” en calidad de alquiler:
                 @foreach ($tanques as $item)
-                    <span>{{$item->cilindros}}</span> cilindro(s) de <span>{{$item->material}}</span> de <span>{{$item->nombre}}</span> <span>{{$item->tipo_tanque}}</span>
+                    <span>{{$item->cilindros}}</span> cilindro(s) de <span>{{$item->material}}</span> de <span>{{$item->nombre}}</span> <span>{{$item->tipo_tanque}}</span>, 
                 @endforeach
                 @if ($contrato->reguladores>0)
                 y {{$contrato->reguladores}} regulador(es) {{$contrato->modelo_regulador}},
@@ -97,7 +97,13 @@
 
             <p><strong>QUINTA:</strong> “El Contratista” debe entregar un depósito en garantía de ${{number_format($tanques->sum('deposito_garantia'), 2, '.', ',')}} ({{$precioLetras}} 00/100 m.n.), por CADA UNO de los envases solicitados en alquiler y proporcionados por “El Contratante”, el cual podrá satisfacerse mediante tarjeta de crédito, transferencia bancaria o en efectivo en el domicilio del establecimiento OXI NIK GASES ESPECIALES, ubicado en la calle Ignacio Zaragoza, número 213, letra “A”, en la colonia Fernando Gómez Sandoval, del Municipio de Santa Lucia del Camino, Oaxaca, c. p. 71243, cuyo justificante se adjuntará al presente contrato.</p>
 
-            <p>En la ciudad de Oaxaca de Juárez, Oaxaca, debo y pagaré incondicionalmente y a la orden del señor Juan Manuel Contreras Gómez, la cantidad de $ 15,000 (Quince mil pesos 00/100 moneda nacional), valor recibido a mi entera satisfacción, con fecha de vencimiento _______________, sujeto a la condición de que de no hacer pago de acuerdo al artículo 79 y 152 de la Ley General de Títulos y Operaciones de Crédito, causara en interes moratorio de _____%, por cada mes o fracción.</p>
+            @php
+                $multa=0;
+                $multa=$tanques->sum('cilindros') * 15000;
+                
+            @endphp
+             @inject('num_letras','App\Http\Controllers\ConvertNumberController')
+            <p>En la ciudad de Oaxaca de Juárez, Oaxaca, debo y pagaré incondicionalmente y a la orden del señor Juan Manuel Contreras Gómez, la cantidad de ${{number_format($multa, 2, '.', ',')}} ({{$num_letras->toMoney($multa, 2, 'PESOS','CENTAVOS')}} 00/100 MONEDA NACIONAL), valor recibido a mi entera satisfacción, con fecha de vencimiento _______________, sujeto a la condición de que de no hacer pago de acuerdo al artículo 79 y 152 de la Ley General de Títulos y Operaciones de Crédito, causara en interes moratorio de _____%, por cada mes o fracción.</p>
 
 
             <br>
