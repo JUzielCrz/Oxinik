@@ -439,6 +439,10 @@ $(document).ready(function () {
         $("#label-adeudo").replaceWith(
             "<label id='label-adeudo'>"+Intl.NumberFormat('es-MX').format(adeudo)+"</label>"
         );
+        var cambio= parseFloat($("#ingreso-efectivo").val())-parseFloat($("#monto_pago").val());
+        $("#label-cambio").replaceWith(
+                "<label id='label-cambio'>$ "+Intl.NumberFormat('es-MX').format(cambio)+"</label>"
+        );
     });
 
     function guardar_nota(){
