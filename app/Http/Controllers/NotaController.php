@@ -142,17 +142,19 @@ class NotaController extends Controller
         }
     }
 
-    public function salida_save(Request $request){        
+    public function salida_save(Request $request){
+               
         if($this->slug_permiso('nota_salida')){
             $request->validate([
                 'contrato_id' => ['required'],
                 'input-total' => ['required', 'numeric'],
                 'monto_pago' => ['required', 'numeric'],
             ]);
-
+            
             $fechaactual=date("Y")."-" . date("m")."-".date("d");
 
             if(count($request->inputNumSerie) > 0){ ///validar si hay tanques en la lista
+                
                 $pagocubierto=false;
                 if(floatval($request->input('monto_pago')) >= floatval( $request->input('input-total'))){
                     $pagocubierto=true;
@@ -171,6 +173,7 @@ class NotaController extends Controller
                 $notas->user_id = auth()->user()->id;
 
                 if($notas->save()){
+                    
                     if($pagocubierto == false){
                         $pagos = new NotaPagos;
                         $pagos->nota_id = $notas->id;
@@ -178,14 +181,14 @@ class NotaController extends Controller
                         $pagos->metodo_pago = $request->input('metodo_pago');
                         $pagos->save();
                     }
-
+                    
                     foreach( $request->inputNumSerie AS $series => $g){
+                        
                         $notaTanque=new NotaTanque;
                         $notaTanque->nota_id =  $notas->id;
                         $notaTanque->num_serie = $request->inputNumSerie[$series];
                         $notaTanque->cantidad = $request->input_cantidad[$series];
                         $notaTanque->unidad_medida = $request->input_unidad_medida[$series];
-                        $notaTanque->precio_unitario = $request->input_precio_unitario[$series];
                         $notaTanque->tapa_tanque = $request->inputTapa[$series];
                         $notaTanque->iva_particular = $request->input_iva_particular[$series];
                         $notaTanque->importe = $request->input_importe[$series];
