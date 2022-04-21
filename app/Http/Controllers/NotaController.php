@@ -143,7 +143,7 @@ class NotaController extends Controller
     }
 
     public function salida_save(Request $request){
-               
+        
         if($this->slug_permiso('nota_salida')){
             $request->validate([
                 'contrato_id' => ['required'],
@@ -159,6 +159,7 @@ class NotaController extends Controller
                 if(floatval($request->input('monto_pago')) >= floatval( $request->input('input-total'))){
                     $pagocubierto=true;
                 }   
+                
                 $notas = new Nota;
                 $notas->contrato_id = $request->input('contrato_id');
                 $notas->fecha = $fechaactual;
@@ -171,8 +172,7 @@ class NotaController extends Controller
                 $notas->metodo_pago = $request->input('metodo_pago');
                 $notas->observaciones =  $request->observaciones;
                 $notas->user_id = auth()->user()->id;
-
-                if($notas->save()){
+                $notas->save();
                     
                     if($pagocubierto == false){
                         $pagos = new NotaPagos;
@@ -185,7 +185,7 @@ class NotaController extends Controller
                     foreach( $request->inputNumSerie AS $series => $g){
                         
                         $notaTanque=new NotaTanque;
-                        $notaTanque->nota_id =  $notas->id;
+                        $notaTanque->nota_id = $notas->id;
                         $notaTanque->num_serie = $request->inputNumSerie[$series];
                         $notaTanque->cantidad = $request->input_cantidad[$series];
                         $notaTanque->unidad_medida = $request->input_unidad_medida[$series];
@@ -197,8 +197,8 @@ class NotaController extends Controller
                         $tanque=Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
                         $tanque->estatus = 'ENTREGADO-CLIENTE';
                         $tanque->save();
-                    }
-                }
+                        
+                    }                
                 return response()->json(['mensaje'=>'Registrado Correctamente', 'notaId'=>$notas->id]);
             }
             return response()->json(['mensaje'=>'Error, No hay tanques que registrar']);

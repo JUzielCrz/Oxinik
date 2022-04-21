@@ -182,7 +182,7 @@ $(document).ready(function () {
                                         "<td class='width-column p-0 m-0'><select name='inputTapa[]' id='inputTapa' class='form-control form-control-sm p-0 m-0'><option value=''>Selecciona</option><option value='SI'>SI</option><option value='NO'>NO</option></select></td>"+
                                         "<td class='width-column p-0 m-0'>"+msg.gas_nombre +"</td>"+ "<input type='hidden' name='input_tipo_gas[]' value='"+msg.tipo_gas +"'></input>"+
                                         "<td class='width-column p-0 m-0'><input type='number' name='input_cantidad[]' class='form-control form-control-sm p-0 m-0'></input></td>"+
-                                        "<td class='width-column p-0 m-0'><select name='input_unidad_medida' id='input_unidad_medida' class='form-control form-control-sm p-0 m-0'><option value=''>Selecciona</option><option value='CARGA'>CARGA</option><option value='kg'>kg</option><option value='M3'>M3</option></select></td>"+
+                                        "<td class='width-column p-0 m-0'><select name='input_unidad_medida[]' id='input_unidad_medida' class='form-control form-control-sm p-0 m-0'><option value=''>Selecciona</option><option value='CARGA'>CARGA</option><option value='kg'>kg</option><option value='M3'>M3</option></select></td>"+
                                         "<td class='width-column p-0 m-0'><input type='number' name='input_importe[]' id='input_importe' class='import_unit form-control form-control-sm p-0 m-0'></input></td>"+
                                         "<td class='width-column p-0 m-0'><input type='number' name='input_iva_particular[]' class='result_iva form-control form-control-sm p-0 m-0' readonly></input></td>"+    
                                         "<td class='width-column p-0 m-0'>"+observaciones+"</td>"+
@@ -402,7 +402,7 @@ $(document).ready(function () {
                 $(elemento).removeClass("is-invalid");
             }
         });
-        $("input[name='input_unidad_medida[]']").each(function(indice, elemento) {
+        $("select[name='input_unidad_medida[]']").each(function(indice, elemento) {
             if($(elemento).val()=="" || $(elemento).val() < 1){
                 $(elemento).addClass("is-invalid");
                 banderamensaje=true;
