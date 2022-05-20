@@ -2,15 +2,17 @@ $(document).ready(function () {
     
     //Link de botones
 
+    $(document).on("click","#btn-tanque_no_existe", tanque_no_existe);
+    $(document).on("click","#btn-diferente_cliente", diferente_cliente);
 
-    $(document).on("click","#btn-registrar-tanque", registrar_tanque);
+    //$(document).on("click","#btn-registrar-tanque", registrar_tanque);
 
     $(document).on("click","#btn-pagar-nota", pagar_nota);
     $(document).on("click","#guardar-nota", guardar_nota);
     $(document).on("click","#btnCancelar", cancelarnota);
 
     $(document).on("click","#btnInsertFila", validar_fila);
-    $(document).on("click","#btn-continuar-RXtapa", recargo_xtapa);
+    // $(document).on("click","#btn-continuar-RXtapa", recargo_xtapa);
     $(document).on("click","#btnEliminarFila", eliminarFila);
 
     $(document).on("click","#btn-insertar-nuevo-tanque", insertar_nuevo_tanque);
@@ -46,7 +48,6 @@ $(document).ready(function () {
                 data: {'_token': $('input[name=_token]').val(),},
             })
             .done(function(msg) {
-                console.log(msg.contrato.contrato_id);
                 $('#contrato_id').val(msg.contrato.contrato_id)
                 $('#tipo_contrato').val(msg.contrato.tipo_contrato)
                 $("#nombre_cliente").val('#'+msg.contrato.cliente_id+' - '+contrato[1]);
@@ -121,7 +122,11 @@ $(document).ready(function () {
 
     //FUNCIONES INSERTAR FILA 
     function validar_fila(evnt) {
-        evnt.preventDefault();
+        $('#serie_tanque').removeClass('is-invalid');
+        $('#serie_tanqueError').empty();
+        $('#span_no_existe').empty();
+        
+
         var numserie= $('#serie_tanque').val().replace(/ /g,'').toUpperCase();
 
         if($(".class-tanques-nota").length == 0) {
@@ -132,17 +137,6 @@ $(document).ready(function () {
             $('#serie_tanqueError').text('Necesario');
             return false;
         }
-        $('#serie_tanque').removeClass('is-invalid');
-        $('#serie_tanqueError').empty();
-        if($('#tapa_tanque').val() == ''){
-            $('#tapa_tanque').addClass('is-invalid');
-            $('#tapa_tanqueError').text('Necesario');
-            return false;
-        }
-        $('#tapa_tanque').removeClass('is-invalid');
-        $('#tapa_tanqueError').empty();
-
-        
 
         var boolRepetido=false;
         $(".classfilatanque").each(function(index, value){
@@ -161,17 +155,24 @@ $(document).ready(function () {
 
         //validar si el tanque existe
         $.get('/tanque/show_numserie/'+numserie, function(msg) {
-            if(msg==''){//tanque no existe
-                tanque_no_existe();
+            var observaciones ="-";
+            if(msg==''){//si tanque no existe, muestra mensaje con opcion de registrar
+                //tanque_no_existe();
+                $("#serie_tanqueError").text('Cilindro con serie: '+numserie+' no existe -> ');
+                $("#span_no_existe").append('<button type="button" class="btn btn-link" data-id="'+numserie+'" id="btn-tanque_no_existe"> Registrar </button>');
+                $('#serie_tanque').val('');
+                return false;
             }else{//tanque si existe
                 $.get('/tanque/validar_ph/' + msg.ph, function(respuesta) {
                     if(respuesta.alert=='vencido'){
                         //detener 
-                        mensaje("error","PH: "+msg.ph, respuesta.mensaje, null, null);
+                        $("#serie_tanqueError").text('PH: '+msg.ph+' -> Prueba hidrostática vencida');
+                        $('#serie_tanque').val('');
                         return false;
                     }
                     if(respuesta.alert){
-                        mensaje("warning","PH: "+msg.ph, respuesta.mensaje, null, null);
+                        observaciones = 'PH: '+msg.ph+', '+respuesta.mensaje;
+                        $('#serie_tanque').val('');
                     }
                     var bandera_pendiete=false; //validar si el tanque es de los que adeuda
                         var tapa_tanque_estatus="";
@@ -187,36 +188,26 @@ $(document).ready(function () {
                             // si es de los que adeuda, el tanque le pertenece al contrato del cliente.
                             if( msg.estatus == "ENTREGADO-CLIENTE"){
                                 if($('#tapa_tanque').val() == 'NO' && tapa_tanque_estatus == 'SI'){ ///si no viene con tapa
-                                    tanque_sin_tapa(numserie, msg.id);
-                                }else{
-                                    insertar_fila(msg.id, 0);
+                                    //tanque_sin_tapa(numserie, msg.id);
+                                    observaciones = 'Tanque con serie: '+numserie+'; Fue entregado con tapa';
                                 }
+                                insertar_fila(msg.id, 0, observaciones);
+                                $('#serie_tanque').val('');
                             }else{
                                 //#serie si esta en su contrato pero su estatus es reportado o esta entregado a otro cliente;
-                                Swal.fire({
-                                    icon: 'warning',
-                                    html: 'Este tanque se muestra con estatus: <br> <strong> '+msg.estatus+'</strong> <br> <p> Debes modificar estatus del tanque a <strong> "ENTREGADO-CLIENTE" </strong> si deseas agregarlo a esta nota <p>',
-                                    footer: '<a class="btn btn-link" target="_blank" href="/tanque/history/'+msg.id+'">ver historial <strong>'+msg.num_serie+'</strong></a>'
-                                })
+                                $("#serie_tanqueError").append('<p>Este tanque se muestra con estatus: <strong> '+msg.estatus+'</strong> <br> Debes modificar estatus del tanque a <strong> "ENTREGADO-CLIENTE" </strong> si deseas agregarlo a esta nota'+
+                                '<br>  <a class="btn btn-link" target="_blank" href="/tanque/history/'+msg.id+'">ver historial <strong>'+msg.num_serie+'</strong></a> </p>');
+                                $('#serie_tanque').val('');
                             }
                             
                         }else{
                             
                             //#serie no encontrado en su contrato pero si existe;
-                            Swal.fire({
-                                icon: 'warning',
-                                html: 'Este tanque esta registrado en el sistema, pero no es de los entregados a este cliente <br> Estatus:  <strong> '+msg.estatus+'</strong> <br>',
-                                showCancelButton: true,
-                                confirmButtonText: 'Continuar de todos modos',
-                                footer: '<a class="btn btn-link" target="_blank" href="/tanque/history/'+msg.id+'">ver historial <strong>'+msg.num_serie+'</strong></a>'+
-                                '<a class="btn btn-link" target="_blank" href="/tanque/reportados/create">Levantar reporte <strong>'+msg.num_serie+'</strong></a>',
-                                
-                            }).then((result) => {
-                                /* Read more about isConfirmed, isDenied below */
-                                if (result.isConfirmed) {
-                                    diferente_cliente(msg.id, 0);
-                                } 
-                            })
+                            $("#serie_tanqueError").append('<p>Este tanque esta registrado en el sistema, pero no es de los entregados a este cliente. Estatus:  <strong> '+msg.estatus+'</strong> <br>'+
+                                '<a class="btn btn-link" target="_blank" href="/tanque/history/'+msg.id+'">ver historial <strong>'+msg.num_serie+'</strong></a>'+
+                                '<a class="btn btn-link" target="_blank" href="/tanque/reportados/create">Levantar reporte <strong>'+msg.num_serie+'</strong></a>'+
+                                '<button type="button" class="btn btn-link" data-id="'+msg.id+'" id="btn-diferente_cliente"> Continuar de todos modos </button>'+'</p>');
+                                $('#serie_tanque').val('');
                         }
                 });
                 
@@ -226,42 +217,12 @@ $(document).ready(function () {
     return false
     }
 
-    function tanque_sin_tapa(num_serie, tanque_id){
-        $('#modal_generico_titulo').replaceWith('<h4 class="modal-title" id="modal_generico_titulo" style="color: red">Advertencia</h4>');
-        
-        $('#modal_general_contenido').empty();
-        $('#modal_general_botones').empty();
-
-        $('#modal_general_contenido').append(
-            '<h5 class="text-center mt-3" style="font-size:16px">Tanque con serie: <strong>'+num_serie+'</strong>; Fue entregado con tapa</h5>'+
-            '<div class="row justify-content-center mb-4 mt-4"> <div class="col-7">'+
-            '<div class="input-group input-group-sm  ">'+
-                '<div class="input-group-prepend">'+
-                    '<span class="input-group-text">Recargos: $</span>'+
-                '</div>'+
-                '<input id="inputModal-recargos-xTapa" type="number" class="form-control form-control numero-decimal-positivo" value=0 aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">'+
-            '</div></div></div><hr> '
-        );
-        $('#modal_general_botones').append(
-            '<button type="button" class="btn btn-amarillo" id="btn-continuar-RXtapa"   data-id="'+tanque_id+'">Aceptar</button>'+
-            '<button class="btn btn-amarillo ml-2" data-dismiss="modal">Cancelar</button>'
-        );
-        $("#modal_generico").css("width", "40%");
-        $("#modal_generico").css("left", "30%");
-        $('#modal_generico').modal('show');
-        
-    }
-    
-    function recargo_xtapa(){
-        insertar_fila($(this).data('id'), $('#inputModal-recargos-xTapa').val());
-        $('#modal_generico').modal('hide');
-        
-    }
-
     function tanque_no_existe(){
         $('#modal_generico_titulo').replaceWith('<h4 class="modal-title" id="modal_generico_titulo" style="color: red">Intercambio</h4>');
         $('#modal_general_contenido').empty();
         $('#modal_general_botones').empty();
+
+        var temp_serie=$(this).data('id');
 
         $.get('/nota/contrato/entrada/tanques_pendientes/' + $('#contrato_id').val(), function(data) {
 
@@ -302,7 +263,7 @@ $(document).ready(function () {
                         optiongases += '<option value="'+value.id+'">'+value.nombre+'</option>'
                     });
 
-                    var numserie =  $('#serie_tanque').val().replace(/ /g,'').toUpperCase();
+                    var numserie = temp_serie.replace(/ /g,'').toUpperCase();
                     $('#modal_general_contenido').append(
                         '<h5 style="font-size:13px">Tanque con #serie: <strong>'+numserie+'</strong> no existe en inventario</h5>'+
                         '<hr>'+
@@ -498,7 +459,7 @@ $(document).ready(function () {
         })
     }
 
-    function insertar_fila(id_tanque, recargo){
+    function insertar_fila(id_tanque, recargo, observaciones){
         
         $.get('/tanque/show/'+ id_tanque, function(msg) {
             var descrp=msg.capacidad+", "+msg.material+", "+msg.fabricante+", "+msg.tipo_gas;
@@ -508,15 +469,14 @@ $(document).ready(function () {
                     "<td>"+msg.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie +"'></input>"+
                     "<td>"+descrp+"</td>"+"<input type='hidden' name='inputDescripcion[]' value='"+descrp +"'></input>"+
                     "<td>"+msg.ph +"</td>"+  "<input type='hidden' name='inputPh[]' value='"+msg.ph +"'></input>"+
-                    "<td>"+$('#tapa_tanque').val() +"</td>"+ "<input type='hidden' name='inputTapa[]' value='"+$('#tapa_tanque').val() +"'></input>"+
+                    "<td class='width-column p-0 m-0'><select name='inputTapa[]' id='inputTapa' class='form-control form-control-sm p-0 m-0'><option value=''>Selecciona</option><option value='SI'>SI</option><option value='NO'>NO</option></select></td>"+
                     "<td>"+"SN"+"</td>"+ "<input type='hidden' name='inputCambio[]' value='SN'></input>"+
-                    "<td>"+recargo+"</td>"+
-                    // "<input type='hidden' name='inputIdNota[]' value="+nota_id+"></input>"+
+                    "<td class='width-column p-0 m-0'><input type='number' value="+recargo+" class='recargotapa form-control form-control-sm p-0 m-0'></input></td>"+
+                    "<td>"+observaciones+"</td>"+
                     "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
                 "</tr>");
             $("#serie_tanque").val('');
             $("#tapa_tanque").val('');
-            actualizarrecargos();
         })
     }
 
@@ -530,7 +490,6 @@ $(document).ready(function () {
         var nota_id="";
         
             $(".class-tanques-nota").each(function(index, value){
-                console.log($(this).find("td")[0].innerHTML);
                 if($('input:radio[name=exampleRadios]:checked').val() == $(this).find("td")[1].innerHTML){
                     nota_id=parseInt($(this).find("td")[5].innerHTML);
                 }
@@ -547,21 +506,24 @@ $(document).ready(function () {
                     "<td>"+msg.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie +"'></input>"+
                     "<td>"+descrp+"</td>"+"<input type='hidden' name='inputDescripcion[]' value='"+descrp +"'></input>"+
                     "<td>"+msg.ph +"</td>"+  "<input type='hidden' name='inputPh[]' value='"+msg.ph +"'></input>"+
-                    "<td>"+$('#tapa_tanque').val() +"</td>"+ "<input type='hidden' name='inputTapa[]' value='"+$('#tapa_tanque').val() +"'></input>"+
+                    "<td class='width-column p-0 m-0'><select name='inputTapa[]' id='inputTapa' class='form-control form-control-sm p-0 m-0'><option value=''>Selecciona</option><option value='SI'>SI</option><option value='NO'>NO</option></select></td>"+
                     "<td>"+$('input:radio[name=exampleRadios]:checked').val()+"</td>"+ "<input type='hidden' name='inputCambio[]' value='"+$('input:radio[name=exampleRadios]:checked').val()+"'></input>"+
-                    "<td>"+$("#inputModal-recargos-xTapa").val()+"</td>"+
+                    "<td class='width-column p-0 m-0'><input type='number' value="+$("#inputModal-recargos-xTapa").val()+" class='recargotapa form-control form-control-sm p-0 m-0'></input></td>"+
                     "<input type='hidden' name='inputIdNota[]' value="+nota_id+"></input>"+
+                    "<td>Cilindro de cambiado</td>"+
                     "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
                 "</tr>");
             $("#serie_tanque").val('');
             $("#tapa_tanque").val('');
-            actualizarrecargos();
+            $("#serie_tanqueError").empty();
         })
     }
 
     function insertar_nuevo_tanque(){
+        $("#serie_tanqueError").empty();
+        $("#span_no_existe").empty();
         var campo= [
-            'serie_tanque',
+            'num_serie',
             'unidadmedida',
             'capacidadnum',
             'material',
@@ -571,18 +533,19 @@ $(document).ready(function () {
             'ph_mes',
             'tipo_gas'];
         var campovacio = [];
-
+        
         $.each(campo, function(index){
             $('#'+campo[index]+'Error').empty();
             $('#'+campo[index]).removeClass('is-invalid');
         });
-
+        
         $.each(campo, function(index){
             if($("#"+campo[index]).val()=='' || $("#"+campo[index]).val()<=0    ){
                 campovacio.push(campo[index]);
             }
         });
-
+        
+        
         if(campovacio.length != 0){
             $.each(campovacio, function(index){
                 $("#"+campovacio[index]).addClass('is-invalid');
@@ -590,7 +553,7 @@ $(document).ready(function () {
             });
             return false;
         }
-
+        
         var fabri;
         if($("#fabricanteoficial").val() == "Otros"){
             fabri = $("#otrofabricante").val();
@@ -614,7 +577,7 @@ $(document).ready(function () {
             return false;
         }
         $('#modal_generico').modal('hide');
-
+        
         $("#phError").empty();
         $("#ph_anio").removeClass('is-invalid');
         if($('#ph_anio').val()<1950){
@@ -623,7 +586,7 @@ $(document).ready(function () {
             return false;
         }
 
-
+        
         var descrp=
         cap+", "+
         $("#material").val()+", "+
@@ -633,8 +596,11 @@ $(document).ready(function () {
         $("#tipo_gas").val()+" "+$("#tipo_gas option:selected").text();
 
         var nota_id="";
+        
             $(".class-tanques-nota").each(function(index, value){
-                if($('input:radio[name=exampleRadios]:checked').val() == $(this).find("td")[0].innerHTML){
+
+                if($('input:radio[name=exampleRadios]:checked').val() == $(this).find("td")[1].innerHTML){
+                    
                     nota_id=parseInt($(this).find("td")[4].innerHTML);
                 }
             }); 
@@ -642,24 +608,25 @@ $(document).ready(function () {
                 mensaje_error("Id de nota no encontrado");
                 return false;
             };
-            var numserie =  $('#serie_tanque').val().replace(/ /g,'').toUpperCase();
+            var numserie =  $('#num_serie').val().replace(/ /g,'').toUpperCase();
             $('#tablelistaTanques').append(
                 "<tr class='classfilatanque'>"+
                     "<td>"+numserie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+numserie +"'></input>"+
                     "<td>"+descrp+"</td>"+"<input type='hidden' name='inputDescripcion[]' value='"+descrp +"'></input>"+
                     "<td>"+$('#ph_anio').val()+'-'+$('#ph_mes').val()+"</td>"+  "<input type='hidden' name='inputPh[]' value='"+$('#ph_anio').val()+'-'+$('#ph_mes').val()+"'></input>"+
-                    "<td>"+$('#tapa_tanque').val() +"</td>"+ "<input type='hidden' name='inputTapa[]' value='"+$('#tapa_tanque').val() +"'></input>"+
+                    "<td class='width-column p-0 m-0'><select name='inputTapa[]' id='inputTapa' class='form-control form-control-sm p-0 m-0'><option value=''>Selecciona</option><option value='SI'>SI</option><option value='NO'>NO</option></select></td>"+
                     "<td>"+$('input:radio[name=exampleRadios]:checked').val()+"</td>"+ "<input type='hidden' name='inputCambio[]' value='"+$('input:radio[name=exampleRadios]:checked').val()+"'></input>"+
-                    "<td>"+$("#inputModal-recargos-xTapa").val()+"</td>"+
+                    "<td class='width-column p-0 m-0'><input type='number' value="+$("#inputModal-recargos-xTapa").val()+" class='recargotapa form-control form-control-sm p-0 m-0'></input></td>"+
+                    "<td>Nuevo Registro</td>"+
                     "<input type='hidden' name='inputIdNota[]' value="+nota_id+"></input>"+
                     "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
                 "</tr>");
             $("#serie_tanque").val('');
             $("#tapa_tanque").val('');
-            actualizarrecargos();
     }
 
-    function diferente_cliente(tanque_id){
+    function diferente_cliente(){
+        var tanque_id= $(this).data('id');
         $('#modal_generico_titulo').replaceWith('<h4 class="modal-title" id="modal_generico_titulo" style="color: red">Intercambio</h4>');
         $('#modal_general_contenido').empty();
         $('#modal_general_botones').empty();
@@ -735,101 +702,9 @@ $(document).ready(function () {
     }
 
 
-    function actualizarrecargos(){
-        var recargos = 0;
-
-        $(".classfilatanque").each(function(){
-            var recargoImporte=$(this).find("td")[5].innerHTML;
-            recargos=recargos+parseFloat(recargoImporte);
-        })
-        $('#recargosXtapa').val(recargos);
-
-        actualizar_total();
-    }
-
     function eliminarFila(){
         $(this).closest('tr').remove();
-        actualizarrecargos();
-    }
-
-    function registrar_tanque(){
-        limpiar_errores_tanqueRegistro("Error");
-        // VALIDACIONES
-        var  campovacio =[];
-        var  msgerror =[];
-        if($('#num_seriefila').val() == '' ){ campovacio.push('num_seriefila'); msgerror.push('número de serie');}
-        if($('#phfila').val() == '' ){        campovacio.push('phfila'); msgerror.push('prueba hidroestatica');}
-        if($('#capacidadnum').val() == '' ){  campovacio.push('capacidadfila'); msgerror.push('capacidad');}
-        if($('#materialfila').val() == '' ){  campovacio.push('materialfila'); msgerror.push('tipo de material');}
-        if($('#tipo_gasfila').val() == '' ){  campovacio.push('tipo_gasfila');msgerror.push('tipo de gas'); }
-        if($('#fabricanteoficial').val() == 'Otros' ){
-            if($("#otrofabricante").val() == ''){
-                campovacio.push('fabricantefila');
-                msgerror.push('fabricante');
-            }
-        }else{
-            if($("#fabricanteoficial").val() == ''){
-                campovacio.push('fabricantefila');
-                msgerror.push('fabricante'); 
-            }
-        }
-        if($('#reguladormodal2').val() == '' ){  campovacio.push('reguladormodal2');msgerror.push('regulador'); }
-        if($('#tapa_tanquemodal2').val() == '' ){  campovacio.push('tapa_tanquemodal2');msgerror.push('tapa'); }
-
-        if(campovacio.length != 0){
-            $.each(campovacio, function(index){
-                $('#'+campovacio[index]+'Error').text('Campo '+msgerror[index]+ ' obligatorio');
-            });
-            return false;
-        }
-
-        var fabri;
-        if($("#fabricanteoficial").val() == "Otros"){
-            fabri = $("#otrofabricante").val();
-        }else{
-            fabri = $("#fabricanteoficial").val();
-        }
-
-        var cap=$('#capacidadnum').val()+' '+ $('#unidadmedida').val();
-
-        var descrp=cap+", "+$('#materialfila').val()+", "+fabri+", "+$('#tipo_gasfila').val();
-        $('#tablelistaTanques').append(
-            "<tr class='classfilasdevolucion'>"+
-            "<td>"+$('#num_seriefila').val() +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+$('#num_seriefila').val() +"'></input>"+
-            "<td>"+descrp+"</td>"+"<input type='hidden' name='inputDescripcion[]' value='"+descrp +"'></input>"+
-            "<td>"+$('#phfila').val() +"</td>"+ "<input type='hidden' name='inputPh[]' value='"+$('#phfila').val() +"'></input>"+
-            "<td>"+$('#tapa_tanque').val() +"</td>"+ "<input type='hidden' name='inputTapa[]' value='"+$('#tapa_tanque').val() +"'></input>"+
-            "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
-            "</tr>"
-        );
-            limpiar_campos_tanqueRegistro();
-            $('#modal-registrar-tanque').modal("hide");
-    
-    }
-
-    function limpiar_errores_tanqueRegistro(nombreerror){
-        $("#num_seriefila"+ nombreerror).empty();
-        $("#phfila"+ nombreerror).empty();
-        $("#capacidadfila"+ nombreerror).empty();
-        $("#materialfila"+ nombreerror).empty();
-        $("#fabricantefila"+ nombreerror).empty();
-        $("#tipo_gasfila"+ nombreerror).empty();
-        $("#reguladormodal2"+ nombreerror).empty();
-        $("#tapa_tanquemodal2"+ nombreerror).empty();
-        $("#multamodal2"+ nombreerror).empty();        
-    }
-    function limpiar_campos_tanqueRegistro(){
-        $("#num_seriefila").val("");
-        $("#phfila").val("");
-        $("#capacidadnum").val("");
-        $("#unidadmedida").val("m3");
-        $("#materialfila").val("");
-        $("#otrofabricante").val("");
-        $("#fabricanteoficial").val("");
-        $("#tipo_gasfila").val("");
-
-        $('#serie_tanque').val("");
-        $("#tapa_tanque").val('');
+        
     }
 
     $("#fabricanteoficial").change( function() {
@@ -848,31 +723,69 @@ $(document).ready(function () {
     function pagar_nota(){
 
         if($('#contrato_id').val() == '') {
-            mostrar_mensaje("#msg-contrato",'Error, falta información de contrato', "alert-danger",null);
+            mostrar_mensaje("error",'Error', 'falta información de contrato', 2000);
             return false;
         }
 
 
         //SI no hay tanques agregados manda error
         if($('input[id=idInputNumSerie]').length === 0) {
-            mostrar_mensaje("#msg-tanques",'Error, No hay tanques en la lista', "alert-danger",null);
+            mostrar_mensaje("error",'Error','No hay tanques en la lista', 2000);
             return false;
         }
 
+        $("select[name='inputTapa[]']").each(function(indice, elemento) {
+            
+            if($(elemento).val()==""){
+                $(elemento).addClass("is-invalid");
+                mensaje('error','Error','Faltan campos por rellenar', 1500, null);
+                return false;
+            }else{
+                actualizar_operaciones()
+                $(elemento).removeClass("is-invalid");
+                $('#static-modal-pago').modal("show");
+            }
+        });
+    }
 
-        if(parseFloat($('#monto_pago').val()) <= 0) {
-            $("#metodo_pagoError").text('Monto debe ser mayor a 0');
-            return false;
+
+    $("#recargos").keyup( function() {
+        actualizar_operaciones();
+    });
+
+    function actualizar_operaciones(){
+        var recargosxtapa = 0;
+        var otrosrecargos=0;
+
+        if($('#recargos').val() < 0 || $('#recargos').val() == '' ) {
+            otrosrecargos=0;
+        }else{
+            otrosrecargos=parseFloat($("#recargos").val());
         }
 
+        $('.recargotapa').each(function(){
+            recargosxtapa += parseFloat($(this).val());
+        });
+
+        $("#recargosXtapa").val(recargosxtapa);
+
+        var total=otrosrecargos+recargosxtapa;
+        $('#label-total').replaceWith( 
+            "<label id='label-total'>$ "+Intl.NumberFormat('es-MX').format(total) +"</label>"
+        );
+        $('#input-total').val(total);
+    }
+
+
+    function guardar_nota(){
         $("#ingreso-efectivoError").empty();
         if($("#metodo_pago").val()=='Efectivo'){
-            if(parseFloat($("#ingreso-efectivo").val()) == 0){
+            if(parseFloat($("#ingreso-efectivo").val()) == 0 || $("#ingreso-efectivo").val() == ''){
                 $("#ingreso-efectivoError").text('Campo ingreso de efectivo obligatorio');
                 return false;
             }
-            if(parseFloat($("#ingreso-efectivo").val()) < parseFloat($("#monto_pago").val())){
-                $("#ingreso-efectivoError").text('INGRESI EFECTIVO no puede ser menor a MONTO A PAGAR');
+            if(parseFloat($("#ingreso-efectivo").val()) < parseFloat($("#input-total").val())){
+                $("#ingreso-efectivoError").text('INGRESO EFECTIVO no puede ser menor a MONTO A PAGAR');
                 return false;
             }
         }
@@ -887,57 +800,6 @@ $(document).ready(function () {
         }
 
 
-        if(parseFloat($("#monto_pago").val()) > parseFloat($("#input-total").val())){
-            $("#ingreso-efectivoError").text('Monto de pago no puede ser mayor al total de la nota');
-            return false;
-        }else{
-            $("#ingreso-efectivoError").empty();
-        }
-
-
-        $('#static-modal-pago').modal("show");
-
-        var adeudo = parseFloat($("#input-total").val())- parseFloat($("#monto_pago").val());
-        
-        
-        $("#label-adeudo").replaceWith(
-            "<label id='label-adeudo'>"+Intl.NumberFormat('es-MX').format(adeudo)+"</label>"
-        );
-    
-        var cambio = 0;
-        if($("#metodo_pago").val() == "Efectivo"){
-            cambio = parseFloat($("#ingreso-efectivo").val())-parseFloat($("#input-total").val());
-            $("#label-cambio").replaceWith(
-                "<label id='label-cambio'>$ "+Intl.NumberFormat('es-MX').format(cambio)+"</label>"
-            );
-        }else{
-            $("#label-cambio").replaceWith(
-                "<label id='label-cambio'>$ "+Intl.NumberFormat('es-MX').format(cambio)+"</label>"
-            );
-        }
-
-    }
-
-    $('#recargos').keyup(function(){
-        actualizar_total();
-    });
-
-    function actualizar_total(){
-        var recargos=0;
-        if($('#recargos').val() < 0 || $('#recargos').val() == '' ) {
-            recargos=0;
-        }else{
-            recargos=parseFloat($("#recargos").val());
-        }
-        var total=recargos+parseFloat($("#recargosXtapa").val());
-        $('#label-total').replaceWith( 
-            "<label id='label-total'>$ "+Intl.NumberFormat('es-MX').format(total) +"</label>"
-        );
-        $('#input-total').val(total);
-        $("#monto_pago").val(total);
-    }
-
-    function guardar_nota(){
         // envio al controlador 
         $("#guardar-nota").prop("disabled", true);
         $.ajax({
@@ -964,6 +826,18 @@ $(document).ready(function () {
 
     }
 
+    $("#ingreso-efectivo").keyup( function() {
+        var ingreso=$("#ingreso-efectivo").val();
+        if(ingreso=='' || ingreso<0){
+            ingreso=0;
+        }
+        var cambio= parseFloat(ingreso)-parseFloat($("#input-total").val());
+        $("#label-cambio").replaceWith(
+                "<label id='label-cambio'>$ "+Intl.NumberFormat('es-MX').format(cambio)+"</label>"
+        );
+    });
+
+
     //FIN Funcion registrar nota
     
     //FUNCIONES GENERALES
@@ -978,11 +852,14 @@ $(document).ready(function () {
     $("#metodo_pago").change( function() {
         if ($(this).val() == "Efectivo") {
             $("#ingreso-efectivo").prop("disabled", false);
-
+            var cambio= parseFloat($("#ingreso-efectivo").val())-parseFloat($("#input-total").val());
+            $("#label-cambio").replaceWith(
+                "<label id='label-cambio'>$ "+Intl.NumberFormat('es-MX').format(cambio)+"</label>"
+            );
         }else{
             $("#ingreso-efectivo").prop("disabled", true);
             $("#ingreso-efectivo").val(0);
-
+            $("#label-cambio").replaceWith("<label id='label-cambio'>$ "+Intl.NumberFormat('es-MX').format(0)+"</label>");
         } 
     });
 

@@ -106,15 +106,15 @@ class TanqueController extends Controller
         $mesesdiferencia= 12-$diferencia->m;
             
             if( $diferencia->y >= 10){
-                return response()->json(['alert'=>'vencido', 'mensaje'=>'Prueba hidroestatica vencida']);
+                return response()->json(['alert'=>'vencido', 'mensaje'=>'Prueba hidrostática vencida']);
             };
 
             if( $diferencia->y >= 9 &&  $diferencia->m >= 10 || $diferencia->y >= 10){
 
-                return response()->json(['alert'=>true, 'mensaje'=>'Prueba hidroestatica '.$mesesdiferencia.' meses a vencer']);
+                return response()->json(['alert'=>true, 'mensaje'=>'Prueba hidrostática '.$mesesdiferencia.' meses a vencer']);
             };
             if( $diferencia->y >= 9 &&  $diferencia->m >= 7 ){
-                return response()->json(['alert'=>true, 'mensaje'=>'Prueba hidroestatica '.$mesesdiferencia.' meses a vencer']);
+                return response()->json(['alert'=>true, 'mensaje'=>'Prueba hidrostática '.$mesesdiferencia.' meses a vencer']);
             };
         return response()->json(['alert'=>false]);
     }

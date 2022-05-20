@@ -6,9 +6,13 @@
 
 @section('content-sidebar')
 
+<style>
+    .width-column {
+        width: 5rem;
+    }
+</style>
 
-
-<div class="container">
+<div class="container-fluid">
     
     <form id="form-entrada-nota">
     
@@ -26,18 +30,24 @@
                             <div class="col">
                                 {!! Form::label('# Serie') !!}
                                 {!! Form::text('serie_tanque', null, ['id'=>'serie_tanque', 'class' => 'form-control form-control-sm', 'placeholder'=>'#Serie',  'required' ]) !!}
-                                <span  id="serie_tanqueError" class="text-danger"></span>
                             </div>
-                            <div class="col ">
+                            {{-- <div class="col">
                                 {!! Form::label('Tapa') !!}
-                                {{ Form::select('tapa_tanque',['SI' => 'SI', 'NO' => 'NO'],null,['id' => 'tapa_tanque','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
-                                <span  id="tapa_tanqueError" class="text-danger"></span>
-                            </div>
+                                <div class="input-group  input-group-sm">
+                                    {{ Form::select('tapa_tanque',['SI' => 'SI', 'NO' => 'NO'],null,['id' => 'tapa_tanque','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input id="tapa_tanque_check" type="checkbox" aria-label="Checkbox for following text input">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> --}}
 
                             <div class="col align-self-end">
                                 <button type="button" class="btn btn-verde" id="btnInsertFila"> <span class="fas fa-plus"></span>Add</button>
                             </div> 
                         </div>
+                        <span  id="serie_tanqueError" class="text-danger"></span> <span id="span_no_existe" ></span>
                         
                         <hr>
                         <div class="table-responsive mt-3">
@@ -50,6 +60,7 @@
                                         <th scope="col">TAPA</th>
                                         <th scope="col">CAMBIO</th>
                                         <th scope="col">RECARGOS</th>
+                                        <th scope="col">OBSERV.</th>
                                         
                                         <th scope="col"></th>
                                     </tr>
@@ -174,70 +185,9 @@
                             </div>
                     </div>
                 </div>
-                <fieldset class="InputsFilaEntrada" disabled="disabled">
+
                 <div class="card mt-2">
                     <div class="card-body">
-
-                        <div class="form-row">
-                            <div class="input-group input-group-sm mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">Recargos por tapa:</span>
-                                </div>
-                                <input id="recargosXtapa" name="recargosXtapa" type="number" class="form-control" value=0 aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" readonly>
-                            </div>
-                        </div> 
-
-                        <div class="form-row">
-                            <div class="input-group input-group-sm mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">Otros Recargos:</span>
-                                </div>
-                                <input id="recargos" name="recargos" type="number" value=0 class="form-control numero-decimal-positivo" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" >
-                            </div>
-                            <span id="recargosError" class="alert-danger  mb-3"></span>
-                        </div> 
-
-                        <hr>
-
-                        <div class="row">
-                            <div class="col-md-5">
-                                <label for="">TOTAL:</label>
-                            </div>
-                            <div class="col-md-6 text-right">
-                                <div id="div-total">
-                                    <label id='label-total'>$0.0</label>
-                                </div>
-                                <input type="hidden" id="input-total" name="input-total">
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="form-row">
-                            <div class="input-group input-group-sm mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">Metodo de Pago:</span>
-                                </div>
-                                {{ Form::select('metodo_pago',[
-                                    'Efectivo' => 'Efectivo',
-                                    'Transferencia' => 'Transferencia', 
-                                    'Tarjeta Credito' => 'Tarjeta Credito', 
-                                    'Tarjeta Debito' => 'Tarjeta Debito',  
-                                    'Cheque' => 'Cheque'
-                                    ],null,['id' => 'metodo_pago','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona'])}}
-                            </div>
-                            <span id="metodo_pagoError" class="alert-danger  mb-3"></span>
-                        </div> 
-
-                        
-                        <div class="form-row" id="row-ingreso-efectivo">
-                            <div class="input-group input-group-sm mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">Ingreso de Efectivo:</span>
-                                </div>
-                                <input id="ingreso-efectivo" type="number" class="form-control" value=0 disabled>
-                            </div>
-                            <span id="ingreso-efectivoError" class="alert-danger"></span>
-                        </div>
-                        
                         <div class="form-row">
                             <div class="col">
                                 <label for="">Observaciones</label>
@@ -245,7 +195,6 @@
                             </div>
                         </div>
                         <hr>
-
                         <div class="row justify-content-center">
                             <button type="button" class="btn btn-verde" id="btnCancelar">Cancelar</button>
                             <button type="button" class="btn btn-verde ml-2" id="btn-pagar-nota">Continuar</button>
@@ -253,7 +202,6 @@
                         </div>
                     </div>
                 </div>
-                </fieldset>
             </div>
 
         </div> 
@@ -270,30 +218,7 @@
                 </button>
                 </div>
                 <div class="modal-body">
-                
-                    {{-- FOrmulario --}}
-                    <div class="row justify-content-center">
-                        <div class="col-md-4">
-                            <label for="">Cambio:</label>
-                        </div>
-                        <div class="col-md-4 text-right">
-                            <div id="div-cambio">
-                                <label id='label-cambio'>$0.0</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- <div class="row justify-content-center">
-                        <div class="col-md-4">
-                            <label for="">Adeudo:</label>
-                        </div>
-                        <div class="col-md-4 text-right">
-                            <div id="div-adeudo">
-                                <label id='label-adeudo'>$0.0</label>
-                            </div>
-                        </div>
-                    </div> --}}
-                    
+                    @include('notas.contrato.modal_pago_entrada')                    
                 </div>
                 <div class="modal-footer">
                 {{-- <button type="button" class="btn btn-verde" data-dismiss="modal">Cancelar</button> --}}

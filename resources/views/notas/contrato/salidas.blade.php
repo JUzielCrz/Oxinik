@@ -11,7 +11,7 @@
         width: 5rem;
     }
 </style>
-<div class="container" >
+<div class="container-fluid" >
     <form id="form-salida-nota">
 
         <div class="row">
@@ -26,8 +26,53 @@
                         <div class="row justify-content-center">
                             @csrf
                             <div class="col">
-                                {!! Form::label('# Serie') !!}
+                                {!! Form::label('# Serie*') !!}
                                 {!! Form::text('serie_tanque', null, ['id'=>'serie_tanque', 'class' => 'form-control form-control-sm', 'placeholder'=>'#Serie',  'required' ]) !!}
+                            </div>
+
+                            <div class="col">
+                                {!! Form::label('Tapa') !!}
+                                <div class="input-group  input-group-sm">
+                                    {{ Form::select('tapa_tanque',['SI' => 'SI', 'NO' => 'NO'],null,['id' => 'tapa_tanque','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input id="tapa_tanque_check" type="checkbox" aria-label="Checkbox for following text input">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                {!! Form::label('Cantidad') !!}
+                                <div class="input-group  input-group-sm">
+                                    {!! Form::number('cantidad', null, ['id'=>'cantidad', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'0', 'required', 'readonly' ]) !!}
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input id="cantidad_check" type="checkbox" aria-label="Checkbox for following text input">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                {!! Form::label('U. M.') !!}
+                                <div class="input-group  input-group-sm">
+                                    {{ Form::select('unidad_medida',['CARGA' => 'CARGA','kg' => 'kg', 'M3' => 'M3'],null,['id' => 'unidad_medida','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input id="unidad_medida_check" type="checkbox" aria-label="Checkbox for following text input">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                {!! Form::label('Precio') !!}
+                                <div class="input-group  input-group-sm">
+                                    {!! Form::number('precio_unitario', null, ['id'=>'precio_unitario', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'$0.0', 'required' ]) !!}
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input id="precio_unitario_check" type="checkbox" aria-label="Checkbox for following text input">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col align-self-end">
                                 <button type="button" class="btn btn-verde" id="btnInsertFila"> <span class="fas fa-plus"></span>Add</button>
@@ -207,7 +252,7 @@
                 </button>
                 </div>
                 <div class="modal-body">
-                    @include('notas.contrato.modal_resumen_nota')                    
+                    @include('notas.contrato.modal_pago_salida')                    
                 </div>
                 <div class="modal-footer">
                 {{-- <button type="button" class="btn btn-verde" data-dismiss="modal">Cancelar</button> --}}

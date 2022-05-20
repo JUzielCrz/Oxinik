@@ -98,6 +98,16 @@ $(document).ready(function () {
         } 
     });
 
+    $("#unidad_medida").change( function() {
+        if ($(this).val() == "CARGA") {
+            $("#cantidad").prop("readonly", true);
+            $("#cantidad").val(1);
+
+        }else{
+            $("#cantidad").prop("readonly", false);
+        } 
+    });
+
     function insertfila() {
 
         var numserie= $('#serie_tanque').val().replace(/ /g,'').toUpperCase();
@@ -175,23 +185,40 @@ $(document).ready(function () {
                                     },
                             })
                             .done(function(msgasignacion){
+                                var tapa_tanque = "<option value=''>Selecciona</option><option value='SI'>SI</option><option value='NO'>NO</option>";
+                                if($('#tapa_tanque').val()=='SI'){tapa_tanque = "<option value=''>Selecciona</option><option selected value='SI'>SI</option><option value='NO'>NO</option>";}
+                                if($('#tapa_tanque').val()=='NO'){tapa_tanque = "<option value=''>Selecciona</option><option value='SI'>SI</option><option selected value='NO'>NO</option>";}
+                                var unidad_medida = "<option value=''>Selecciona</option><option value='CARGA'>CARGA</option><option value='kg'>kg</option><option value='M3'>M3</option>";
+                                if($('#unidad_medida').val()=='CARGA'){unidad_medida = "<option value=''>Selecciona</option><option selected value='CARGA'>CARGA</option><option value='kg'>kg</option><option value='M3'>M3</option>";}
+                                if($('#unidad_medida').val()=='kg'){unidad_medida = "<option value=''>Selecciona</option><option value='CARGA'>CARGA</option><option selected value='kg'>kg</option><option value='M3'>M3</option>";}
+                                if($('#unidad_medida').val()=='M3'){unidad_medida = "<option value=''>Selecciona</option><option value='CARGA'>CARGA</option><option value='kg'>kg</option><option selected value='M3'>M3</option>";}
+                                var cantidad=$('#cantidad').val();
+                                var precio_unitario=$('#precio_unitario').val();
+                                var ivaPart=0;
+
+                                ivaPart=0;
+                                if( msg.tipo_tanque == 'Industrial'){
+                                    ivaPart=precio_unitario * 0.16;
+                                }else{
+                                    ivaPart=0;
+                                }
+
                                 if(msgasignacion.mensaje){
                                     $('#tablelistaTanques').append(
                                         "<tr class='classfilatanque'>"+
-                                        "<td class='width-column p-0 m-0'>"+msg.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie +"'></input>"+
-                                        "<td class='width-column p-0 m-0'><select name='inputTapa[]' id='inputTapa' class='form-control form-control-sm p-0 m-0'><option value=''>Selecciona</option><option value='SI'>SI</option><option value='NO'>NO</option></select></td>"+
-                                        "<td class='width-column p-0 m-0'>"+msg.gas_nombre +"</td>"+ "<input type='hidden' name='input_tipo_gas[]' value='"+msg.tipo_gas +"'></input>"+
-                                        "<td class='width-column p-0 m-0'><input type='number' name='input_cantidad[]' class='form-control form-control-sm p-0 m-0'></input></td>"+
-                                        "<td class='width-column p-0 m-0'><select name='input_unidad_medida[]' id='input_unidad_medida' class='form-control form-control-sm p-0 m-0'><option value=''>Selecciona</option><option value='CARGA'>CARGA</option><option value='kg'>kg</option><option value='M3'>M3</option></select></td>"+
-                                        "<td class='width-column p-0 m-0'><input type='number' name='input_importe[]' id='input_importe' class='import_unit form-control form-control-sm p-0 m-0'></input></td>"+
-                                        "<td class='width-column p-0 m-0'><input type='number' name='input_iva_particular[]' class='result_iva form-control form-control-sm p-0 m-0' readonly></input></td>"+    
+                                        "<td class='p-0 m-0'>"+msg.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie +"'></input>"+
+                                        "<td class='width-column p-0 m-0'><select name='inputTapa[]' id='inputTapa' class='form-control form-control-sm p-0 m-0'>"+tapa_tanque +"</select></td>"+
+                                        "<td class='p-0 m-0'>"+msg.gas_nombre +"</td>"+ "<input type='hidden' name='input_tipo_gas[]' value='"+msg.tipo_gas +"'></input>"+
+                                        "<td class='width-column p-0 m-0'><input type='number' name='input_cantidad[]' value="+cantidad+" class='form-control form-control-sm p-0 m-0'></input></td>"+
+                                        "<td class='width-column p-0 m-0'><select name='input_unidad_medida[]' id='input_unidad_medida' class='form-control form-control-sm p-0 m-0'>"+unidad_medida+"</select></td>"+
+                                        "<td class='width-column p-0 m-0'><input type='number' name='input_importe[]' id='input_importe' value="+precio_unitario+" class='import_unit form-control form-control-sm p-0 m-0'></input></td>"+
+                                        "<td class='width-column p-0 m-0'><input type='number' name='input_iva_particular[]' value="+ivaPart+" class='result_iva form-control form-control-sm p-0 m-0' readonly></input></td>"+    
                                         "<td class='width-column p-0 m-0'>"+observaciones+"</td>"+
                                         "<td class='p-0 m-0 text-center align-self-center'>"+ "<button type='button' class='btn btn-naranja p-0 m-0' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
                                         "</tr>");
                                         
                                         
                                         $(".import_unit").keyup( function() {
-                                            console.log($(this).parents("tr").find("td").eq(0).html()); 
                                             var ivaPart=$(this).val() * 0.16;
                                             if( msg.tipo_tanque == 'Industrial'){
                                                 $(this).parents("tr").find(".result_iva").val(ivaPart);
@@ -199,10 +226,9 @@ $(document).ready(function () {
                                             }else{
                                                 $(this).parents("tr").find(".result_iva").val(0);
                                             }
-                                            
-                                            
                                         });
-                                        $('#serie_tanque').val('')
+
+                                        limpiar_campos_salida();
                                         return false;
                                 }else{
                                     $("#serie_tanqueError").text('No tiene asignado en contrato este tipo de tanque');
@@ -224,6 +250,21 @@ $(document).ready(function () {
         return false;
     }
 
+    function limpiar_campos_salida(){
+        $('#serie_tanque').val('')
+        if($('#tapa_tanque_check').is(':checked')!= true){
+            $("#tapa_tanque").val('');
+        }
+        if($('#cantidad_check').is(':checked') != true){
+            $("#cantidad").val(0);
+        }
+        if($('#unidad_medida_check').is(':checked') != true){
+            $("#unidad_medida").val('');
+        }
+        if($('#precio_unitario_check').is(':checked') != true){
+            $("#precio_unitario").val(0);
+        }
+    };
     function eliminarFila(){
         $(this).closest('tr').remove();
     }
