@@ -22,7 +22,6 @@ class CreateVentaTanqueTable extends Migration
             $table->string('num_serie');
             $table->float('cantidad')->nullable();
             $table->string('unidad_medida')->nullable();
-            $table->double('precio_unitario')->nullable();
             $table->enum('tapa_tanque', ['SI', 'NO'])->nullable();
             $table->float('iva_particular')->nullable();
             $table->float('importe')->nullable();

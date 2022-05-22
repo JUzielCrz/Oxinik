@@ -24,10 +24,9 @@ $(document).ready(function () {
             $('#listarclientes').fadeOut();  
             const clientes_sc = $(this).text().split(', ');
             show_datos(clientes_sc[0]);
-            $("#search_cliente").val("")
-            
+            $("#search_cliente").val("");
         }); 
-    
+
         function show_datos(id) {
             $.ajax({
                 method: "get",
@@ -39,9 +38,6 @@ $(document).ready(function () {
                     $("#"+index+"_show").val(value);
                 });
             })
-            if($("#input-group-envio").length){
-                removeenvio(); 
-            }
         }
 
         
@@ -49,7 +45,6 @@ $(document).ready(function () {
     $(document).on("click","#btn-cliente-create-save", create_save);
     //CREATE CLIENTE
     function create_save() {
-
         $.ajax({
             method: "POST",
             url: "/clientes_sc/create",

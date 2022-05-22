@@ -113,28 +113,6 @@ $(document).ready(function () {
         var numserie= $('#serie_tanque').val().replace(/ /g,'').toUpperCase();
         $("#serie_tanqueError").empty();
 
-        // var campo= ['serie_tanque','cantidad','unidad_medida','precio_unitario','tapa_tanque'];
-        // var campovacio = [];
-
-        // $.each(campo, function(index){
-        //     $('#'+campo[index]+'Error').empty();
-        //     $('#'+campo[index]).removeClass('is-invalid');
-        // });
-
-        // $.each(campo, function(index){
-        //     if($("#"+campo[index]).val()=='' || $("#"+campo[index]).val()<=0    ){
-        //         campovacio.push(campo[index]);
-        //     }
-        // });
-
-        // if(campovacio.length != 0){
-        //     $.each(campovacio, function(index){
-        //         $("#"+campovacio[index]).addClass('is-invalid');
-        //         $("#"+campovacio[index]+'Error').text('Necesario');
-        //     });
-        //     return false;
-        // }
-
         var boolRepetido=false;
         var deleteespacio=$.trim(numserie);
         $(".classfilatanque").each(function(index, value){
@@ -167,7 +145,10 @@ $(document).ready(function () {
                             return false;
                         }
                         if(respuesta.alert){
-                            mensaje("warning","PH: "+msg.ph, respuesta.mensaje, null, null);
+                            // mensaje("warning","PH: "+msg.ph, respuesta.mensaje, null, null);
+                            $("#serie_tanqueError").text("PH: "+msg.ph +", "+ respuesta.mensaje);
+                            $('#serie_tanque').val('');
+                            return false;
                         }
                         if(msg.estatus == 'LLENO-ALMACEN' || msg.estatus == 'TANQUE-RESERVA'){
                             var observaciones='';
@@ -193,7 +174,8 @@ $(document).ready(function () {
                                 if($('#unidad_medida').val()=='kg'){unidad_medida = "<option value=''>Selecciona</option><option value='CARGA'>CARGA</option><option selected value='kg'>kg</option><option value='M3'>M3</option>";}
                                 if($('#unidad_medida').val()=='M3'){unidad_medida = "<option value=''>Selecciona</option><option value='CARGA'>CARGA</option><option value='kg'>kg</option><option selected value='M3'>M3</option>";}
                                 var cantidad=$('#cantidad').val();
-                                var precio_unitario=$('#precio_unitario').val();
+                                var precio_unitario=0;
+                                precio_unitario=$('#precio_unitario').val();
                                 var ivaPart=0;
 
                                 ivaPart=0;
@@ -209,9 +191,9 @@ $(document).ready(function () {
                                         "<td class='p-0 m-0'>"+msg.num_serie +"</td>"+ "<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie +"'></input>"+
                                         "<td class='width-column p-0 m-0'><select name='inputTapa[]' id='inputTapa' class='form-control form-control-sm p-0 m-0'>"+tapa_tanque +"</select></td>"+
                                         "<td class='p-0 m-0'>"+msg.gas_nombre +"</td>"+ "<input type='hidden' name='input_tipo_gas[]' value='"+msg.tipo_gas +"'></input>"+
-                                        "<td class='width-column p-0 m-0'><input type='number' name='input_cantidad[]' value="+cantidad+" class='form-control form-control-sm p-0 m-0'></input></td>"+
+                                        "<td class='width-column p-0 m-0'><input type='number' name='input_cantidad[]' value='"+cantidad+"' class='form-control form-control-sm p-0 m-0'></input></td>"+
                                         "<td class='width-column p-0 m-0'><select name='input_unidad_medida[]' id='input_unidad_medida' class='form-control form-control-sm p-0 m-0'>"+unidad_medida+"</select></td>"+
-                                        "<td class='width-column p-0 m-0'><input type='number' name='input_importe[]' id='input_importe' value="+precio_unitario+" class='import_unit form-control form-control-sm p-0 m-0'></input></td>"+
+                                        "<td class='width-column p-0 m-0'><input type='number' name='input_importe[]' id='input_importe' value='"+precio_unitario+"' class='import_unit form-control form-control-sm p-0 m-0'></input></td>"+
                                         "<td class='width-column p-0 m-0'><input type='number' name='input_iva_particular[]' value="+ivaPart+" class='result_iva form-control form-control-sm p-0 m-0' readonly></input></td>"+    
                                         "<td class='width-column p-0 m-0'>"+observaciones+"</td>"+
                                         "<td class='p-0 m-0 text-center align-self-center'>"+ "<button type='button' class='btn btn-naranja p-0 m-0' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
