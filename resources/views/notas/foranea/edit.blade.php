@@ -6,7 +6,7 @@
 
 @section('content-sidebar')
 
-    <div class="container" >
+    <div class="container-fluid" >
         @inject('tipoeva','App\Http\Controllers\CatalogoGasController')
     <form id="idFormNewVenta">
         @csrf
@@ -34,26 +34,49 @@
                                 {!! Form::text('serie_tanque', null, ['id'=>'serie_tanque', 'class' => 'form-control form-control-sm', 'placeholder'=>'#Serie',  'required' ]) !!}
                                 
                             </div>
-                            <div class="col ">
+                            <div class="col">
                                 {!! Form::label('Tapa') !!}
-                                {{ Form::select('tapa_tanque',['SI' => 'SI', 'NO' => 'NO'],null,['id' => 'tapa_tanque','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
-                                <span  id="tapa_tanqueError" class="text-danger"></span>
+                                <div class="input-group  input-group-sm">
+                                    {{ Form::select('tapa_tanque',['SI' => 'SI', 'NO' => 'NO'],null,['id' => 'tapa_tanque','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input id="tapa_tanque_check" type="checkbox" aria-label="Checkbox for following text input">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col ">
-                                {!! Form::label('U. M.') !!}
-                                {{ Form::select('unidad_medida',['CARGA' => 'CARGA','kg' => 'kg', 'M3' => 'M3'],null,['id' => 'unidad_medida','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
-                                <span  id="unidad_medidaError" class="text-danger"></span>
-                            </div>  
                             <div class="col">
                                 {!! Form::label('Cantidad') !!}
-                                {!! Form::number('cantidad', null, ['id'=>'cantidad', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'0', 'required', 'readonly' ]) !!}
-                                <span  id="cantidadError" class="text-danger"></span>
+                                <div class="input-group  input-group-sm">
+                                    {!! Form::number('cantidad', null, ['id'=>'cantidad', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'0', 'required', 'readonly' ]) !!}
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input id="cantidad_check" type="checkbox" aria-label="Checkbox for following text input">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            
+                            <div class="col">
+                                {!! Form::label('U. M.') !!}
+                                <div class="input-group  input-group-sm">
+                                    {{ Form::select('unidad_medida',['CARGA' => 'CARGA','kg' => 'kg', 'M3' => 'M3'],null,['id' => 'unidad_medida','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input id="unidad_medida_check" type="checkbox" aria-label="Checkbox for following text input">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col">
                                 {!! Form::label('Precio') !!}
-                                {!! Form::number('precio_unitario', null, ['id'=>'precio_unitario', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'$0.0', 'required' ]) !!}
-                                <span  id="precio_unitarioError" class="text-danger"></span>
+                                <div class="input-group  input-group-sm">
+                                    {!! Form::number('importe', null, ['id'=>'importe', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'$0.0', 'required' ]) !!}
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input id="importe_check" type="checkbox" aria-label="Checkbox for following text input">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             
                             <div class="col align-self-end">
@@ -73,6 +96,7 @@
                                         <th scope="col">U. M.</th>
                                         <th scope="col">IMPORTE</th>
                                         <th scope="col">IVA 16%</th>
+                                        <th scope="col">OBSERV</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
@@ -85,8 +109,9 @@
                                             <td class="p-0">{{$tipoeva->nombre_gas($tanque->tipo_gas)}}</td>
                                             <td class="p-0">{{$tanque->cantidad}}</td>
                                             <td class="p-0">{{$tanque->unidad_medida}}</td>
-                                            <td class="p-0">{{$tanque->importe}}</td>
-                                            <td class="p-0">{{$tanque->iva_particular}}</td>
+                                            <td class="import_unit p-0">{{$tanque->importe}}</td>
+                                            <td class="p-0">{{$tanque->iva_particular}} </td>
+                                            <td></td>
                                             <td><button type="button" class="btn btn-naranja" id="btn-eliminar-salida"><span class="fas fa-window-close"></span></button></td>
                                         </tr>
                                     @endforeach
@@ -114,26 +139,13 @@
                                     </div>
                                     <input type="text" name="serie_tanque_entrada" id="serie_tanque_entrada" class="form-control form-control-sm disabled_entrada" placeholder="#Serie" >
                                 </div>
-                                <span  id="serie_tanque_entradaError" class="text-danger"></span>
-                            </div>
-                            <div class="col">
-                                <div class="input-group input-group-sm mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroup-sizing-sm"># Tapa:</span>
-                                    </div>
-                                    <select name="tapa_tanque_entrada" id="tapa_tanque_entrada" class="form-control form-control-sm disabled_entrada">
-                                        <option value="">Selecciona</option>
-                                        <option value="SI">SI</option>
-                                        <option value="NO">NO</option>
-                                    </select>
-                                </div>
-                                <span  id="tapa_tanque_entradaError" class="text-danger"></span>
                             </div>
 
                             <div class="col">
                                 <button type="button" class="btn btn-verde btn-sm bool_disabled" id="btn-insert-fila-entrada"> <span class="fas fa-plus"></span>Add</button>
                             </div> 
                         </div>
+                        <span  id="serie_tanque_entradaError" class="text-danger"></span>
                         <div class="table-responsive ">
                             <table class="table table-sm table-hover table-bordered">
                                 <thead>

@@ -6,7 +6,7 @@
 
 @section('content-sidebar')
 
-    <div class="container" >
+    <div class="container-fluid" >
         
     <form id="idFormNewVenta" style="font-size: 13px">
         @csrf
@@ -29,28 +29,50 @@
                             <div class="col">
                                 {!! Form::label('# Serie') !!}
                                 {!! Form::text('serie_tanque', null, ['id'=>'serie_tanque', 'class' => 'form-control form-control-sm', 'placeholder'=>'#Serie',  'required' ]) !!}
-                                
                             </div>
-                            <div class="col ">
+                            <div class="col">
                                 {!! Form::label('Tapa') !!}
-                                {{ Form::select('tapa_tanque',['SI' => 'SI', 'NO' => 'NO'],null,['id' => 'tapa_tanque','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
-                                <span  id="tapa_tanqueError" class="text-danger"></span>
+                                <div class="input-group  input-group-sm">
+                                    {{ Form::select('tapa_tanque',['SI' => 'SI', 'NO' => 'NO'],null,['id' => 'tapa_tanque','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input id="tapa_tanque_check" type="checkbox" aria-label="Checkbox for following text input">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col ">
-                                {!! Form::label('U. M.') !!}
-                                {{ Form::select('unidad_medida',['CARGA' => 'CARGA','kg' => 'kg', 'M3' => 'M3'],null,['id' => 'unidad_medida','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
-                                <span  id="unidad_medidaError" class="text-danger"></span>
-                            </div>  
                             <div class="col">
                                 {!! Form::label('Cantidad') !!}
-                                {!! Form::number('cantidad', null, ['id'=>'cantidad', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'0', 'required', 'readonly' ]) !!}
-                                <span  id="cantidadError" class="text-danger"></span>
+                                <div class="input-group  input-group-sm">
+                                    {!! Form::number('cantidad', null, ['id'=>'cantidad', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'0', 'required', 'readonly' ]) !!}
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input id="cantidad_check" type="checkbox" aria-label="Checkbox for following text input">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            
+                            <div class="col">
+                                {!! Form::label('U. M.') !!}
+                                <div class="input-group  input-group-sm">
+                                    {{ Form::select('unidad_medida',['CARGA' => 'CARGA','kg' => 'kg', 'M3' => 'M3'],null,['id' => 'unidad_medida','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona', 'required'])}}
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input id="unidad_medida_check" type="checkbox" aria-label="Checkbox for following text input">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col">
                                 {!! Form::label('Precio') !!}
-                                {!! Form::number('precio_unitario', null, ['id'=>'precio_unitario', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'$0.0', 'required' ]) !!}
-                                <span  id="precio_unitarioError" class="text-danger"></span>
+                                <div class="input-group  input-group-sm">
+                                    {!! Form::number('importe', null, ['id'=>'importe', 'class' => 'form-control form-control-sm numero-decimal-positivo', 'placeholder'=>'$0.0', 'required' ]) !!}
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input id="importe_check" type="checkbox" aria-label="Checkbox for following text input">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             
                             <div class="col align-self-end">
@@ -67,9 +89,9 @@
                                         <th scope="col">GAS</th>
                                         <th scope="col">CANTIDAD</th>
                                         <th scope="col">U. M.</th>
-                                        <th scope="col">PRECIO</th>
                                         <th scope="col">IMPORTE</th>
                                         <th scope="col">IVA 16%</th>
+                                        <th scope="col">OBSERV.</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
@@ -103,79 +125,7 @@
 
                 <div class="card mt-2">
                     <div class="card-body">
-                        <div class="form-row ">
-                            <div class="col-md-6">
-                                <label for="">Subtotal:</label>
-                            </div>
-                            <div class="col-md-5 text-right">
-                                <div id="div-subtotal">
-                                    <label id='label-subtotal'>$0.0</label>
-                                </div>
-                                <input type="hidden" id="input-subtotal" name="input-subtotal" value=0>
-                            </div>
-                        </div>
-                        <div class="form-row ">
-                            <div class="col-md-6">
-                                <label for="">Iva 16%:</label>
-                            </div>
-                            <div class="col-md-5 text-right">
-                                <div id="div-ivaGen">
-                                    <label id='label-ivaGen'>$0.0</label>
-                                </div>
-                                <input type="hidden" id="input-ivaGen" name="input-ivaGen" value=0>
-                            </div>
-                        </div>
 
-                        <div id="row-envio" >
-                            <button id="btn-addEnvio" type="button" class="btn btn-sm btn-amarillo" > <span class="fas fa-plus"></span> Agregar Envio</button>
-                        </div>
-
-                        <input id="precio_envio_nota" name="precio_envio_nota" type="hidden" value=0 >
-                        <hr>
-
-                        <div class="row">
-                            <div class="col-md-5">
-                                <label for="">TOTAL: $ </label>
-                            </div>
-                            <div class="col-md-6 text-right">
-                                <div id="div-total">
-                                    <label id='label-total'>$0.0</label>
-                                </div>
-                                <input type="hidden" id="input-total" name="input-total">
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <div class="form-row">
-                            <div class="input-group input-group-sm mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">Metodo de pago:</span>
-                                </div>
-                                {{ Form::select('metodo_pago',[
-                                    'Efectivo' => 'Efectivo',
-                                    'Transferencia' => 'Transferencia', 
-                                    'Tarjeta Credito' => 'Tarjeta Credito', 
-                                    'Tarjeta Debito' => 'Tarjeta Debito',  
-                                    'Cheque' => 'Cheque',
-                                    'Credito' => 'Credito'
-                                    ],null,['id' => 'metodo_pago','class'=>'form-control form-control-sm', 'placeholder'=>'Selecciona'])}}
-                            </div>
-                            <span id="metodo_pagoError" class="alert-danger  mb-2"></span>
-                        </div> 
-
-                        
-                        <div class="form-row" id="row-ingreso-efectivo">
-                            <div class="input-group input-group-sm mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">Ingreso de Efectivo:</span>
-                                </div>
-                                <input id="ingreso-efectivo" type="number" class="form-control" value=0 disabled>
-                            </div>
-                            <span id="ingreso-efectivoError" class="alert-danger"></span>
-                        </div>
-                        
-                        <hr>
 
                         <div class="row justify-content-center">
                             <button type="button" class="btn btn-verde" id="btnCancelar">Cancelar</button>
@@ -208,19 +158,7 @@
         </button>
         </div>
         <div class="modal-body">
-        
-            {{-- FOrmulario --}}
-            <div class="row justify-content-center">
-                <div class="col-md-4">
-                    <label for="">Cambio:</label>
-                </div>
-                <div class="col-md-4 text-right">
-                    <div id="div-cambio">
-                        <label id='label-cambio'>$0.0</label>
-                    </div>
-                </div>
-            </div>
-            
+            @include('notas.foranea.modal_pago_salida')
         </div>
         <div class="modal-footer">
         {{-- <button type="button" class="btn btn-verde" data-dismiss="modal">Cancelar</button> --}}

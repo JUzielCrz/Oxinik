@@ -214,10 +214,12 @@ $(document).ready(function () {
                                         return false;
                                 }else{
                                     $("#serie_tanqueError").text('No tiene asignado en contrato este tipo de tanque');
+                                    $('#serie_tanque').val('');
                                 }
                             }); 
                         }else{
                             $("#serie_tanqueError").text('Error Tanque - estatus: '+ msg.estatus);
+                            $('#serie_tanque').val('');
                         }
                     });
                 });

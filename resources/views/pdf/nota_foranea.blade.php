@@ -70,7 +70,6 @@
                             <th scope="col">GAS</th>
                             <th scope="col">TAPA</th>
                             <th scope="col">DESCRIPCIÓN</th>
-                            <th scope="col">P. U.</th>
                             <th scope="col">IVA</th>
                             <th scope="col">IMPORTE</th>
                         </tr>
@@ -86,7 +85,6 @@
                                     <td>{{$tipoeva->nombre_gas($tanq->tipo_gas)}} </td>
                                     <td>{{$tanq->tapa_tanque}}</td>
                                     <td>PH: {{$tanq->ph}}, {{$tanq->material}}, {{$tanq->fabricante}}, {{$tanq->tipo_tanque}}</td>
-                                    <td>${{number_format($tanq->precio_unitario,2)}}</td>
                                     <td>${{number_format($tanq->iva_particular,2)}}</td>
                                     <td>${{number_format($tanq->importe,2)}}</td>
                                 </tr>
