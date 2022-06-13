@@ -148,7 +148,17 @@
                 </tbody>
             </table>
             @endif
-            
+            <table class="table table-sm mt-2">
+                <tbody>
+                <tr>
+                    <td class="text-center">_________________________</td>
+                </tr>
+                <tr>
+                    <td class="text-center">Recibido (Nombre y Firma)</td>
+                    
+                </tr>
+                </tbody>
+            </table>
             <table class="table table-sm table-bordered mt-2" style="font-size: 12px">
                 <tbody >
                     <tr style="background: black">
