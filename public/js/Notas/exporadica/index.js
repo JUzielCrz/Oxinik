@@ -32,6 +32,20 @@ $(document).ready(function () {
     
 
 
+    //para lector de Cod barras
+    $('#serie_tanque_entrada').keypress(function (event) {
+        if (event.charCode == 13 ){
+            event.preventDefault();
+            validar_fila_entrada();
+        } 
+    });
+
+    $('#serie_tanque').keypress(function (event) {
+        if (event.charCode == 13 ){
+            event.preventDefault();
+            insertar_fila_salida();
+        } 
+    });
 
     //FUNCIONES INSERTAR FILA ENTRADA
     function validar_fila_entrada() {

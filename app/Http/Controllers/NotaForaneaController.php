@@ -129,10 +129,11 @@ class NotaForaneaController extends Controller
                 'input-subtotal' => ['required', 'numeric'],
                 'input-total' => ['required', 'numeric'],
             ]);
-
+            
             $fechaactual=date("Y")."-" . date("m")."-".date("d");
 
                 if(count($request->inputNumSerie) > 0 ){ ///validar si hay tanques en la lista
+                    
                     //Nota
                     $cliente = ClienteSinContrato::find($request->id_show);
                     //datos cliente
@@ -161,25 +162,26 @@ class NotaForaneaController extends Controller
                     $venta->user_id = auth()->user()->id;
                     $venta->observaciones = $request->observaciones;
                     $venta->save();
-
+                    
                     foreach( $request->inputNumSerie AS $salid => $ent){
+                        
                         //Cambiar estatus tanque
                         $searhTanque =Tanque::where('num_serie', $request->inputNumSerie[$salid])->first(); 
                         $searhTanque->estatus='VENTA-FORANEA';
                         $searhTanque->save();
-    
+                        
                         $ventatanque=new NotaForaneaTanque();
                         $ventatanque->nota_foranea_id = $venta->id;
                         $ventatanque->num_serie = $request->inputNumSerie[$salid];
                         $ventatanque->cantidad = $request->input_cantidad[$salid];
-                        $ventatanque->unidad_medida = $request->input_unidad_medida[$salid];
-                        $ventatanque->precio_unitario = $request->input_precio_unitario[$salid];
+                        $ventatanque->unidad_medida = $request->input_unidad_medida[$salid];                        
                         $ventatanque->tapa_tanque = $request->inputTapa[$salid];
                         $ventatanque->iva_particular = $request->input_iva_particular[$salid];
                         $ventatanque->importe = $request->input_importe[$salid];
                         $ventatanque->insidencia = 'SALIDA';
                         $ventatanque->save();
                     }
+                    
                     return response()->json(['mensaje'=>'Registro-Correcto', 'notaId'=>$venta->id]);
                 }
                 return response()->json(['mensaje'=>'Error, No hay tanques que registrar']);

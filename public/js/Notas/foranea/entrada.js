@@ -31,9 +31,17 @@ $(document).ready(function () {
 
 
     $('#serie_tanque_entrada').keypress(function (event) {
+        console.log('passs');
         if (event.charCode == 13 ){
             event.preventDefault();
-            insert_fila();
+            validar_fila_entrada();
+        } 
+    });
+
+    $('#serie_tanque').keypress(function (event) {
+        if (event.charCode == 13 ){
+            event.preventDefault();
+            insertar_fila_salida();
         } 
     });
 
@@ -168,7 +176,6 @@ $(document).ready(function () {
     }
     //FUNCIONES INSERTAR FILA ENTRADA
     function validar_fila_entrada(event) {
-        event.stopPropagation();
 
         //limpiar span input
         $('#serie_tanque_entradaError').empty();
@@ -414,14 +421,16 @@ $(document).ready(function () {
 
         //Operaciones
         $('.import_unit').each(function(){
-            importe += parseFloat($(this).val());
+            if($(this).val()==""){
+                importe+=0;
+            }else{
+                importe += parseFloat($(this).val());
+            }
         });
 
         $('.result_iva').each(function(){
-            console.log($(this).val());
             iva_general += parseFloat($(this).val());
         });
-        console.log(iva_general);
         
         subtotal= importe-iva_general;
         total=importe + parseFloat($("#precio_envio_nota").val());
@@ -442,58 +451,7 @@ $(document).ready(function () {
         $('#input-total').val(total);
     }
 
-    // function actualizar_subtotal(){
 
-    //     var importe = 0;
-
-    //     $(".tr-cilindros-salida").each(function(){
-    //         var preciotanque=$(this).find("td")[5].innerHTML;
-    //         importe=importe+parseFloat(preciotanque);
-    //     })
-    //     actualizar_ivageneral();
-
-    //     var subtotal = importe -  $('#input-ivaGen').val();
-    //     $('#label-subtotal').replaceWith( 
-    //         "<label id='label-subtotal'>"+Intl.NumberFormat('es-MX').format(subtotal) +"</label>"
-    //     );
-    //     $('#input-subtotal').val(subtotal);
-
-    //     actualizar_total();
-    // }
-
-    // function actualizar_ivageneral(){
-
-    //     var ivaGen = 0;
-    //     $(".tr-cilindros-salida").each(function(){
-    //         var preciotanque=$(this).find("td")[6].innerHTML;
-    //         ivaGen=ivaGen+parseFloat(preciotanque);
-    //     })
-    //     $('#label-ivaGen').replaceWith( 
-    //         "<label id='label-ivaGen'>"+Intl.NumberFormat('es-MX').format(ivaGen) +"</label>"
-    //     );
-    //     $('#input-ivaGen').val(ivaGen);
-    // }
-    // function actualizar_total(){
-    //     var importe = 0;
-
-    //     $(".tr-cilindros-salida").each(function(){
-    //         var preciotanque=$(this).find("td")[5].innerHTML;
-    //         importe=importe+parseFloat(preciotanque);
-    //     })
-    //     var precio_envio=$("#precio_envio_nota").val();
-        
-    //     if(precio_envio==""){
-    //         precio_envio=0;
-    //         $("#precio_envio_nota").val(0);
-    //     }
-    //     var total=parseFloat(precio_envio) + importe;
-
-    //     $('#label-total').replaceWith( 
-    //         "<label id='label-total'>"+Intl.NumberFormat('es-MX').format(total) +"</label>"
-    //     );
-    //     $('#input-total').val(total);
-    //     $("#monto_pago").val(total);
-    // }
 
     //Funciones finales de Nota General
 
@@ -506,7 +464,19 @@ $(document).ready(function () {
             mensaje("error","Error", "Número de tanques de entrada no puede ser mayor a los de salida" , null, null);
             return false;
         }
-
+        var boolBandera=false;
+        $("select[name='inputTapa_entrada[]']").each(function(indice, elemento) {
+            if($(elemento).val()==""){
+                $(elemento).addClass("is-invalid");
+                boolBandera=true;
+            }else{
+                $(elemento).removeClass("is-invalid");
+            }
+        });
+        if(boolBandera){
+            mensaje('error','Error','Faltan campos por rellenar', 1500, null);
+            return false;
+        }
         $.ajax({
             method: "post",
             url: "/nota/foranea/entrada/save/"+$("#idnota").val(),

@@ -15,7 +15,6 @@ class AdminSeeder extends Seeder
     public function run()
     {
 
-
      //crear usuario administrador
         $useradmin=User::create([
             'name'      => 'ADMIN OXINIK',

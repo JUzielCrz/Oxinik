@@ -18,6 +18,13 @@ $(document).ready(function () {
     $(document).on("click","#btn-insertar-nuevo-tanque", insertar_nuevo_tanque);
     $(document).on("click","#btn-insertar-tanque-clientediferente", insertar_tanque_clientediferente);
     
+//para lector de Cod barras
+    $('#serie_tanque').keypress(function (event) {
+        if (event.charCode == 13 ){
+            event.preventDefault();
+            validar_fila();
+        } 
+    });
 
     //BUSCAR CONTRATO
         $('#search-contrato-id').keyup(function(){ 
@@ -471,7 +478,7 @@ $(document).ready(function () {
                     "<td>"+msg.ph +"</td>"+  "<input type='hidden' name='inputPh[]' value='"+msg.ph +"'></input>"+
                     "<td class='width-column p-0 m-0'><select name='inputTapa[]' id='inputTapa' class='form-control form-control-sm p-0 m-0'><option value=''>Selecciona</option><option value='SI'>SI</option><option value='NO'>NO</option></select></td>"+
                     "<td>"+"SN"+"</td>"+ "<input type='hidden' name='inputCambio[]' value='SN'></input>"+
-                    "<td class='width-column p-0 m-0'><input type='number' value="+recargo+" class='recargotapa form-control form-control-sm p-0 m-0'></input></td>"+
+                    "<td class='width-column p-0 m-0'><input type='number' name='rTapa[]' value="+recargo+" class='recargotapa form-control form-control-sm p-0 m-0'></input></td>"+
                     "<td>"+observaciones+"</td>"+
                     "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
                 "</tr>");
@@ -508,7 +515,7 @@ $(document).ready(function () {
                     "<td>"+msg.ph +"</td>"+  "<input type='hidden' name='inputPh[]' value='"+msg.ph +"'></input>"+
                     "<td class='width-column p-0 m-0'><select name='inputTapa[]' id='inputTapa' class='form-control form-control-sm p-0 m-0'><option value=''>Selecciona</option><option value='SI'>SI</option><option value='NO'>NO</option></select></td>"+
                     "<td>"+$('input:radio[name=exampleRadios]:checked').val()+"</td>"+ "<input type='hidden' name='inputCambio[]' value='"+$('input:radio[name=exampleRadios]:checked').val()+"'></input>"+
-                    "<td class='width-column p-0 m-0'><input type='number' value="+$("#inputModal-recargos-xTapa").val()+" class='recargotapa form-control form-control-sm p-0 m-0'></input></td>"+
+                    "<td class='width-column p-0 m-0'><input name='rTapa[]' type='number' value="+$("#inputModal-recargos-xTapa").val()+" class='recargotapa form-control form-control-sm p-0 m-0'></input></td>"+
                     "<input type='hidden' name='inputIdNota[]' value="+nota_id+"></input>"+
                     "<td>Cilindro de cambiado</td>"+
                     "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
@@ -616,7 +623,7 @@ $(document).ready(function () {
                     "<td>"+$('#ph_anio').val()+'-'+$('#ph_mes').val()+"</td>"+  "<input type='hidden' name='inputPh[]' value='"+$('#ph_anio').val()+'-'+$('#ph_mes').val()+"'></input>"+
                     "<td class='width-column p-0 m-0'><select name='inputTapa[]' id='inputTapa' class='form-control form-control-sm p-0 m-0'><option value=''>Selecciona</option><option value='SI'>SI</option><option value='NO'>NO</option></select></td>"+
                     "<td>"+$('input:radio[name=exampleRadios]:checked').val()+"</td>"+ "<input type='hidden' name='inputCambio[]' value='"+$('input:radio[name=exampleRadios]:checked').val()+"'></input>"+
-                    "<td class='width-column p-0 m-0'><input type='number' value="+$("#inputModal-recargos-xTapa").val()+" class='recargotapa form-control form-control-sm p-0 m-0'></input></td>"+
+                    "<td class='width-column p-0 m-0'><input name='rTapa[]' type='number' value="+$("#inputModal-recargos-xTapa").val()+" class='recargotapa form-control form-control-sm p-0 m-0'></input></td>"+
                     "<td>Nuevo Registro</td>"+
                     "<input type='hidden' name='inputIdNota[]' value="+nota_id+"></input>"+
                     "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
@@ -733,19 +740,36 @@ $(document).ready(function () {
             mostrar_mensaje("error",'Error','No hay tanques en la lista', 2000);
             return false;
         }
-
+        
+        var bolpass=false;
         $("select[name='inputTapa[]']").each(function(indice, elemento) {
             
             if($(elemento).val()==""){
                 $(elemento).addClass("is-invalid");
                 mensaje('error','Error','Faltan campos por rellenar', 1500, null);
-                return false;
+                bolpass=true;
             }else{
-                actualizar_operaciones()
                 $(elemento).removeClass("is-invalid");
-                $('#static-modal-pago').modal("show");
+                
             }
         });
+        $("input[name='rTapa[]']").each(function(indice, elemento) {
+            if($(elemento).val()==""){
+                $(elemento).addClass("is-invalid");
+                mensaje('error','Error','Faltan campos por rellenar', 1500, null);
+                bolpass=true;
+            }else{
+                $(elemento).removeClass("is-invalid");
+            }
+        });
+
+        if(bolpass){
+            return false;
+        }else{
+            $('#static-modal-pago').modal("show");
+            actualizar_operaciones();
+        }
+        
     }
 
 

@@ -109,7 +109,7 @@
                                             <td class="p-0">{{$tipoeva->nombre_gas($tanque->tipo_gas)}}</td>
                                             <td class="p-0">{{$tanque->cantidad}}</td>
                                             <td class="p-0">{{$tanque->unidad_medida}}</td>
-                                            <td class="import_unit p-0">{{$tanque->importe}}</td>
+                                            <td class=" p-0"><input type='hidden' class="import_unit" value='{{$tanque->importe}}'> {{$tanque->importe}}</td>
                                             <td class="p-0">{{$tanque->iva_particular}} </td>
                                             <td></td>
                                             <td><button type="button" class="btn btn-naranja" id="btn-eliminar-salida"><span class="fas fa-window-close"></span></button></td>

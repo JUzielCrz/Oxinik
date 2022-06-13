@@ -191,55 +191,6 @@ $(document).ready(function () {
         $("#monto_pago").val(total);
 
     }
-    
-    // function actualizar_subtotal(){
-
-    //     var importe = 0;
-
-    //     $(".classfilatanque").each(function(){
-    //         var preciotanque=$(this).find("td")[6].innerHTML;
-    //         importe=importe+parseFloat(preciotanque);
-    //     })
-    //     actualizar_ivageneral();
-
-    //     var subtotal = importe -  $('#input-ivaGen').val();
-    //     $('#label-subtotal').replaceWith( 
-    //         "<label id='label-subtotal'>"+Intl.NumberFormat('es-MX').format(subtotal) +"</label>"
-    //     );
-    //     $('#input-subtotal').val(subtotal);
-
-    //     actualizar_total();
-    // }
-
-    // function actualizar_ivageneral(){
-
-    //     var ivaGen = 0;
-    //     $(".classfilatanque").each(function(){
-    //         var preciotanque=$(this).find("td")[7].innerHTML;
-    //         ivaGen=ivaGen+parseFloat(preciotanque);
-    //     })
-    //     $('#label-ivaGen').replaceWith( 
-    //         "<label id='label-ivaGen'>"+Intl.NumberFormat('es-MX').format(ivaGen) +"</label>"
-    //     );
-    //     $('#input-ivaGen').val(ivaGen);
-    // }
-
-    // function actualizar_total(){
-    //     var importe = 0;
-
-    //     $(".classfilatanque").each(function(){
-    //         var preciotanque=$(this).find("td")[6].innerHTML;
-    //         importe=importe+parseFloat(preciotanque);
-    //     })
-
-    //     var total=parseFloat($("#precio_envio_nota").val()) + importe;
-    //     $('#label-total').replaceWith( 
-    //         "<label id='label-total'>"+Intl.NumberFormat('es-MX').format(total) +"</label>"
-    //     );
-    //     $('#input-total').val(total);
-    //     $("#monto_pago").val(total);
-    // }
-
 
     // FUNCIONES DE ENVIO
     function addenvio(){
