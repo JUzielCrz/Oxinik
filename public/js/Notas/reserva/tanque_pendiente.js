@@ -28,6 +28,7 @@ $(document).ready(function () {
         columns:[
             {data: 'num_serie'},   
             {data: 'estatus'}, 
+            {data: 'tipo_tanque'}, 
             // {data: 'nota_id'},
             // {data: 'created_at'},
             // {data: 'incidencia'},

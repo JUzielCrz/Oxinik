@@ -31,7 +31,8 @@
                     <thead>
                         <tr >
                         <th scope="col">#Serie</th>
-                        <th scope="col">#Estatus</th>
+                        <th scope="col">Estatus</th>
+                        <th scope="col">Tipo</th>
                         </tr>
                     </thead>
                 </table>

@@ -145,7 +145,7 @@
                     </tr>
                     <tr>
                         <td>OBSERVACIONES: </td>
-                        <td colspan="5"> {{$nota->observaciones}}</td>
+                        <td colspan="5"> {{$contrato->observaciones}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -220,6 +220,7 @@
                 $fechacontrato= $nota->fecha;
                 $arrayFecha=explode("-", $fechacontrato);
                 $mesingles=$arrayFecha[1];
+                
                 if($mesingles == '01') $mes='Enero';
                 if($mesingles == '02') $mes='Febrero';
                 if($mesingles == '03') $mes='Marzo';
