@@ -221,6 +221,8 @@
                 $arrayFecha=explode("-", $fechacontrato);
                 $mesingles=$arrayFecha[1];
                 
+                if($mesingles == '00') $mes='SIN FECHA';
+
                 if($mesingles == '01') $mes='Enero';
                 if($mesingles == '02') $mes='Febrero';
                 if($mesingles == '03') $mes='Marzo';
@@ -233,6 +235,7 @@
                 if($mesingles == '10') $mes='Octubre';
                 if($mesingles == '11') $mes='Noviembre';
                 if($mesingles == '12') $mes='Diciembre';
+                
 
                 
                 $fechaactual= $arrayFecha[2] . " de " . $mes . " de " . $arrayFecha[0];
