@@ -98,8 +98,13 @@ class PDFController extends Controller
 
         $objeto = new ConvertNumberController();
         $precioLetras = $objeto->toMoney($tanques->sum('deposito_garantia'), 2, 'PESOS','CENTAVOS');
+        $preciorenta=0;
+        if ($contrato->frecuency != "") {
+            $preciorenta = $objeto->toMoney($contrato->precio_renta, 2, 'PESOS','CENTAVOS');
+        }
+        
 
-        $data=['contrato'=>$contrato, 'cliente'=>$cliente, 'tanques'=>$tanques, 'nota'=>$nota, 'precioLetras'=>$precioLetras];
+        $data=['contrato'=>$contrato, 'cliente'=>$cliente, 'tanques'=>$tanques, 'nota'=>$nota, 'precioLetras'=>$precioLetras, 'preciorenta'=>$preciorenta];
 
         if($contrato->tipo_contrato == 'Eventual'){
             $pdf = PDF::loadView('pdf.contrato_eventual', $data);

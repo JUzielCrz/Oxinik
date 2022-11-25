@@ -48,6 +48,7 @@ class ContratoController extends Controller
 
     public function create(Request $request){
 
+
         if($this->slug_permiso('contrato_create')){
             $request->validate([
                 'cliente_id' => ['required'],
@@ -98,6 +99,8 @@ class ContratoController extends Controller
             $contratos=new Contrato;
             $contratos->cliente_id = $request->input('cliente_id');
             $contratos->tipo_contrato = $request->tipo_contrato;
+            $contratos->precio_renta = $request->precio_renta;
+            $contratos->frecuency = $request->frecuency;
             $contratos->nombre_comercial = $request->nombre_comercial;
             $contratos->modelo_regulador = $request->modelo_regulador;
             $contratos->precio_transporte = $request->input('precio_transporte');

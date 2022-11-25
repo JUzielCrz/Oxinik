@@ -46,6 +46,7 @@
                 <span  id="modelo_reguladorError" class="text-danger"></span>
             </div>
         </div>
+        <div id="change_renta"></div>
         <hr>
         <div class="form-row">
                 <strong>Donde serán utilizado los cilindros</strong>
@@ -220,6 +221,31 @@
         $(document).on("click","#btn-anadir-asignacioncreate", aniadir);
         $(document).on("click","#btn-eliminar-filaasignacion", removefilaasignacion);
         
+        $("#tipo_contrato").change( function() {
+            if ($(this).val() == "Eventual") {
+                $("#change_renta").empty();
+                $("#change_renta").append(
+                    '<div class="form-row">'+
+                        '<div class="form-group col-md-3">'+
+                            '<label for="">Renta:</label>'+
+                            '<input type="number" name="precio_renta" class="form-control form-control-sm" placeholder="$0">'+
+                        '</div>'+
+                        '<div class="form-group col-md-3">'+
+                            '<label for="">Frecuencia:</label>'+
+                           '<select name="frecuency" class="form-control form-control-sm">'+
+                                '<option value="">Selecciona</option>'+
+                                '<option value="diarios">diarios</option>'+
+                                '<option value="mensual">mensual</option>'+
+                                '<option value="anual">anual</option>'+
+                            '</select>'+
+                        '</div>'+
+                    '</div>'
+                );
+            } else {
+                $("#change_renta").empty();
+            }
+        });
+
         function removefilaasignacion(){
             $(this).closest('tr').remove();
         }

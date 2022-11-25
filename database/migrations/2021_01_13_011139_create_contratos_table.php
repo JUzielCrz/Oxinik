@@ -20,6 +20,8 @@ class CreateContratosTable extends Migration
                 ->on('clientes')
                 ->onDelete('cascade');
             $table->string('tipo_contrato');
+            $table->string('precio_renta')->nullable();
+            $table->string('frecuency')->nullable();
             $table->string('nombre_comercial')->nullable();
             $table->integer('reguladores')->default(0)->nullable();
             $table->string('modelo_regulador')->nullable();

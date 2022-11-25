@@ -86,7 +86,12 @@
                 @if ($contrato->reguladores>0)
                 y {{$contrato->reguladores}} regulador(es) {{$contrato->modelo_regulador}},
                 @endif
-                con un costo de renta $80.00 (ochenta pesos 00/100 m.n.) diarios, que inicia el día {{date('Y-m-d', strtotime($contrato->created_at))}}, el cual será utilizado en el domicilio ubicado en {{$contrato->direccion}}, entre las calles de {{$contrato->calle1}} y {{$contrato->calle2}}, quien cuenta con número telefónico {{$cliente->telefono}} y {{$cliente->telefonorespaldo}}. </p>
+                @if ($contrato->frecuency == "")
+                con un costo de renta $80.00 (ochenta pesos 00/100 m.n.) diarios,
+                @else
+                con un costo de renta  {{$contrato->precio_renta}} ({{$preciorenta}} 00/100 m.n.) {{$contrato->frecuency}},
+                @endif
+                 que inicia el día {{date('Y-m-d', strtotime($contrato->created_at))}}, el cual será utilizado en el domicilio ubicado en {{$contrato->direccion}}, entre las calles de {{$contrato->calle1}} y {{$contrato->calle2}}, quien cuenta con número telefónico {{$cliente->telefono}} y {{$cliente->telefonorespaldo}}. </p>
 
 
             <p><strong>SEGUNDA:</strong> El equipo dado en renta a “El Contratista” por parte de “El Contratante”, no podrá bajo ninguna circunstancia ser prestado, sub arrendado ó cedido en forma alguna a terceras personas, constituyéndose “El Contratista” como el responsable directo del buen uso y de la conservación del equipo alquilado y se obliga a pagar el doble del importe de todo el equipo alquilado en el caso de robo, destrucción ó daños que sufra el equipo alquilado y tendrá que pagar las reparaciones que sufra el equipo mencionado.</p>

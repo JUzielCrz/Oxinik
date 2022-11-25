@@ -109,7 +109,7 @@
                         <div class="form-row">
                             <div class="input-group input-group-sm mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" >Nombre Comercial:</span>
+                                    <span class="input-group-text">Nombre Comercial:</span>
                                 </div>
                                 <input id="nombre_comercialShow" type="text" class="form-control form-control-sm" value="" readonly>
                             </div>
