@@ -110,7 +110,7 @@
                                         <th scope="col">TAPA</th>
                                         <th scope="col">CANT.</th>
                                         <th scope="col">U. M.</th>
-                                        <th scope="col">PRECIO</th>
+                                        {{-- <th scope="col">PRECIO</th> --}}
                                         <th scope="col">IMP.</th>
                                         <th scope="col">IVA</th>
                                         <th scope="col"></th>
@@ -125,9 +125,9 @@
                                             <td> {{$tanque->tapa_tanque}}</td>
                                             <td>{{$tanque->cantidad}}</td>
                                             <td>{{$tanque->unidad_medida}}</td>
-                                            <td>{{$tanque->precio_unitario}}</td>
-                                            <td>{{$tanque->importe}}</td>
-                                            <td>{{$tanque->iva_particular}}</td>
+                                            {{-- <td>{{$tanque->precio_unitario}}</td> --}}
+                                            <td>{{$tanque->importe}} <input type='hidden' class="import_unit" value='{{$tanque->importe}}'></td>
+                                            <td>{{$tanque->iva_particular}} <input type='hidden' class="result_iva" value='{{$tanque->iva_particular}}'></td>
                                             <td><button type="button" class="btn btn-naranja" id="btn-eliminar-salida"><span class="fas fa-window-close"></span></button></td>
                                         </tr>
                                     @endforeach
@@ -334,9 +334,7 @@
 
                         <div id="row-envio" >
                             <button id="btn-addEnvio" type="button" class="btn btn-sm btn-amarillo" > <span class="fas fa-plus"></span> Agregar Envio</button>
-                        </div>
-                        {{-- {{dump($nota)}}
-                        {{dump($nota->precio_envio)}} --}}
+                        </div> 
                         <input id="precio_envio_nota" name="precio_envio_nota" type="hidden" value={{$nota->precio_envio}} >
                         <hr>
 
@@ -472,7 +470,7 @@
             </div>
             <div class="modal-body">
             
-                {{-- FOrmulario --}}
+                
                 <div class="row justify-content-center">
                     <div class="col-md-4">
                         <label for="">Cambio:</label>
@@ -486,12 +484,32 @@
                 
             </div>
             <div class="modal-footer">
-            {{-- <button type="button" class="btn btn-verde" data-dismiss="modal">Cancelar</button> --}}
             <button id="guardar-nota" type="button" class="btn btn-verde">Guardar</button>
             </div>
         </div>
         </div>
     </div>
+
+    <!-- Modal Pagar-->
+    {{-- <div class="modal fade" id="static-modal-pago" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Resumén</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                @include('notas.talon.modal_pago_talon')                    
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-verde" data-dismiss="modal">Cancelar</button>
+            <button id="guardar-nota" type="button" class="btn btn-verde">Guardar</button>
+            </div>
+        </div>
+        </div>
+    </div> --}}
 
 
 
@@ -501,6 +519,8 @@
 @include('layouts.scripts')
 <!--Scripts-->
 <script src="{{ asset('js/notas/talon/edit.js') }}"></script>
+<script src="{{ asset('js/clientes_sc/edit_save.js') }}"></script>
+
 <script>
     $(document).ready(function () {
         $("#id-menu-talon").addClass('active');

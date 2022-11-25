@@ -16,17 +16,12 @@ $(document).ready(function () {
     $(document).on("click","#btn-addEnvio", addenvio);
     $(document).on("click","#btn-remove-envio", removeenvio);
 
-    //Editar Cliente
-    $(document).on("click","#btn-editar-cliente", editar_show);
-    $(document).on("click","#btn-cliente-edit-save", editar_save);
-
     //Crear Cliente
     $(document).on("click","#btn-cliente-create-save", create_save);
 
     actualizar_disables();
 
     $('#serie_tanque').keypress(function (event) {
-        // console.log(event.charCode);
         if (event.charCode == 13 ){
             event.preventDefault();
             insert_fila();
@@ -39,7 +34,6 @@ $(document).ready(function () {
 
         //Eliminar espacios
         var numserie= $('#serie_tanque').val().replace(/ /g,'').toUpperCase();
-        console.log(numserie);
         //validar campos no vacios
         var campo= ['serie_tanque','cantidad','unidad_medida','precio_unitario','tapa_tanque','iva_particular'];
         var campovacio = [];
@@ -107,17 +101,17 @@ $(document).ready(function () {
                         "<td>"+$("#tapa_tanque").val()+"</td>"+ "<input type='hidden' name='inputTapa[]' value='"+$("#tapa_tanque").val() +"'></input>"+
                         "<td>"+$("#cantidad").val()+"</td>"+ "<input type='hidden' name='inputCantidad[]' value='"+$("#cantidad").val() +"'></input>"+
                         "<td>"+$("#unidad_medida").val()+"</td>"+ "<input type='hidden' name='inputUnidad_medida[]' value='"+$("#unidad_medida").val() +"'></input>"+
-                        "<td>"+$("#precio_unitario").val()+"</td>"+ "<input type='hidden' name='inputPrecio_unitario[]' value='"+$("#precio_unitario").val() +"'></input>"+
-                        "<td>"+precio_importe +"</td>"+ "<input type='hidden' name='input_importe[]' value='"+precio_importe +"'></input>"+
-                        "<td>"+iva.toFixed(2) +"</td>"+ "<input type='hidden' name='input_iva_particular[]' value='"+iva.toFixed(2) +"'></input>"+
+                        // "<td>"+$("#precio_unitario").val()+"</td>"+ "<input type='hidden' name='inputPrecio_unitario[]' value='"+$("#precio_unitario").val() +"'></input>"+
+                        "<td>"+precio_importe +"</td>"+ "<input  class='import_unit' type='hidden' name='input_importe[]' value='"+precio_importe +"'></input>"+
+                        "<td>"+iva.toFixed(2) +"</td>"+ "<input class='result_iva' type='hidden' name='input_iva_particular[]' value='"+iva.toFixed(2) +"'></input>"+
                         "<td>"+ "<button type='button' class='btn btn-naranja' id='btnEliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
                         "</tr>"
                         );
 
                         mensaje("success","Exito", "Agregado Correctamente" , 1500, "#modal-registrar-tanque");
                         limpiar_campos();
-                        actualizar_subtotal();
                         actualizar_disables();
+                        actualizar_operaciones();
 
                 }else{
                     $("#serie_tanqueError").text('Error Tanque - estatus: '+ msg.estatus);
@@ -151,13 +145,13 @@ $(document).ready(function () {
     });
 
     //disables
-    function actualizar_disables(){
-        if($(".tr-cilindros-salida").length <= $(".tr-cilindros-entrada").length && $(".tr-cilindros-salida").length>0){
-            $('.disabled_saldia').prop('disabled', true);
-        }else{
-            $('.disabled_saldia').prop('disabled', false);
-        }   
-    }
+        function actualizar_disables(){
+            if($(".tr-cilindros-salida").length >= $(".tr-cilindros-entrada").length && $(".tr-cilindros-salida").length>0){
+                $('.disabled_saldia').prop('disabled', true);
+            }else{
+                $('.disabled_saldia').prop('disabled', false);
+            }   
+        }
 
     //CREATE CLIENTE
     function create_save() {
@@ -185,49 +179,6 @@ $(document).ready(function () {
         });
     }
 
-    //EDITAR CLIENTE
-    function editar_show() {
-        $.get('/clientes_sc/show/' + $("#id_show").val(), function(data) {
-            $.each(data, function (key, value) {
-                var variable = "#" + key + "_edit";
-                $(variable).val(value);
-                
-            });
-            $("#nombre_edit").removeClass("is-invalid");
-            $("#apPaterno_edit").removeClass("is-invalid");
-            $("#apMaterno_edit").removeClass("is-invalid");
-
-            const nombre_separado = data.nombre.split(' ');
-            $("#nombre_edit").val(nombre_separado[0]);
-            $("#apPaterno_edit").val(nombre_separado[1]);
-            $("#apMaterno_edit").val(nombre_separado[2]);
-            $("#modalmostrar").modal("show");
-        })
-        
-    }
-    function editar_save() {
-        $.ajax({
-            method: "POST",
-            url: "/clientes_sc/update/"+$("#id_edit"),
-            data: $("#form-cliente-sc-edit").serialize(),
-        })
-        .done(function (msg) {
-            show_datos(msg.cliente_id);
-            mensaje('success','Exito', "Guardado Correctamente", 1500,'#modal-editar-cliente')
-        })
-        .fail(function (jqXHR, textStatus) {
-            
-            var status = jqXHR.status;
-            if (status === 422) {
-                $.each(jqXHR.responseJSON.errors, function (key, value) {
-                    var idError = "#" + key ;
-                    $(idError).addClass('is-invalid');
-                });
-            }
-
-            mensaje("error","Error", "Error al actualizar, verifique sus datos.", null, null);
-        });
-    }
 
 
     // FUNCIONES DE ENVIO
@@ -256,7 +207,7 @@ $(document).ready(function () {
             '</div>'
         )
         $('#precio_envio_nota').val($('#precio_envio_show').val());
-        actualizar_total();
+        actualizar_operaciones();
         
     }
 
@@ -266,7 +217,7 @@ $(document).ready(function () {
             '<button id="btn-addEnvio" type="button" class="btn btn-sm btn-amarillo" > <span class="fas fa-plus"></span> Agregar Envio</button>'
         )
         $('#precio_envio_nota').val(0);
-        actualizar_total();
+        actualizar_operaciones();
     }
 
     //Funciones finales de Nota General
@@ -301,7 +252,7 @@ $(document).ready(function () {
             }
         }
 
-
+        actualizar_operaciones()
         $('#static-modal-pago').modal("show");
 
         var cambio = parseFloat($("#ingreso-efectivo").val())-parseFloat($("#input-total").val());
@@ -362,55 +313,45 @@ $(document).ready(function () {
             }
         })
     }
-
     //aritmeticas
-    function actualizar_subtotal(){
-        
+
+    function actualizar_operaciones(){
         var importe = 0;
+        var subtotal = 0;
+        var iva_general = 0;
+        var total = 0;
+        var precio_envio = 0;
 
-        $(".tr-cilindros-salida").each(function(){
-            var preciotanque=$(this).find("td")[7].innerHTML;
-            importe=importe+parseFloat(preciotanque);
-        })
-        actualizar_ivageneral();
+        //Operaciones
+        $('.import_unit').each(function(){
+            importe += parseFloat($(this).val());
+        });
 
-        var subtotal = importe -  $('#input-ivaGen').val();
+        $('.result_iva').each(function(){
+            iva_general += parseFloat($(this).val());
+        });
+
+        subtotal= importe-iva_general;
+        $("#precio_envio_nota").val() == "" ? precio_envio=0 : precio_envio = $("#precio_envio_nota").val()
+        total=importe + parseFloat(precio_envio);
+
+        //remplazos de valores
+        $('#label-ivaGen').replaceWith( 
+            "<label id='label-ivaGen'>"+Intl.NumberFormat('es-MX').format(iva_general) +"</label>"
+        );
         $('#label-subtotal').replaceWith( 
             "<label id='label-subtotal'>"+Intl.NumberFormat('es-MX').format(subtotal) +"</label>"
         );
-        $('#input-subtotal').val(subtotal   );
-
-        actualizar_total();
-    }
-
-    function actualizar_ivageneral(){
-
-        var ivaGen = 0;
-        $(".tr-cilindros-salida").each(function(){
-            var preciotanque=$(this).find("td")[8].innerHTML;
-            ivaGen=ivaGen+parseFloat(preciotanque);
-        })
-        $('#label-ivaGen').replaceWith( 
-            "<label id='label-ivaGen'>"+Intl.NumberFormat('es-MX').format(ivaGen) +"</label>"
-        );
-        $('#input-ivaGen').val(ivaGen);
-    }
-
-    function actualizar_total(){
-        var importe = 0;
-        
-        $(".tr-cilindros-salida").each(function(){
-            var preciotanque=$(this).find("td")[7].innerHTML;
-            importe=importe+parseFloat(preciotanque);
-        })
-        
-        var total=parseFloat($("#precio_envio_nota").val()) + importe;
         $('#label-total').replaceWith( 
             "<label id='label-total'>"+Intl.NumberFormat('es-MX').format(total) +"</label>"
         );
-        console.log($("#precio_envio_nota").val());
+
+
+        $('#input-ivaGen').val(iva_general);
+        $('#input-subtotal').val(subtotal);
         $('#input-total').val(total);
         $("#monto_pago").val(total);
+
     }
     
     //funciones generales
@@ -456,7 +397,7 @@ $(document).ready(function () {
                         timer: 1000
                     })
                     trfila.remove();
-                    actualizar_subtotal();
+                    actualizar_operaciones();
                     actualizar_disables()
                 });
             }
@@ -465,7 +406,7 @@ $(document).ready(function () {
 
     function eliminarFila(){
         $(this).closest('tr').remove();
-        actualizar_subtotal();
+        actualizar_operaciones();
         actualizar_disables();
     }
 
@@ -481,7 +422,6 @@ $(document).ready(function () {
     });
 
     $('.numero-entero-positivo').keypress(function (event) {
-        // console.log(event.charCode);
         if (
             event.charCode == 43 || //+
             event.charCode == 45 || //-
@@ -495,7 +435,6 @@ $(document).ready(function () {
     });
 
     $('.numero-decimal-positivo').keypress(function (event) {
-        // console.log(event.charCode);
         if (
             event.charCode == 43 || //+
             event.charCode == 45 || //-
@@ -508,7 +447,6 @@ $(document).ready(function () {
     });
 
     $('.solo-texto').keypress(function (event) {
-        // console.log(event.charCode);
         if (event.charCode >= 65 && event.charCode <= 90 || event.charCode >= 97 && event.charCode <= 122 || 
             event.charCode ==  32 ||
             event.charCode == 193 || 

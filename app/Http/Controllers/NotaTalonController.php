@@ -171,6 +171,7 @@ class NotaTalonController extends Controller
     }
 
     public function edit_save(Request $request){
+       
         $request->validate([
             'id_show' => ['required', 'numeric'],
             // 'metodo_pago' => ['required', 'string', 'max:255'],
@@ -227,7 +228,7 @@ class NotaTalonController extends Controller
                         $ventatanque->num_serie = $request->inputNumSerie_salida[$salid];
                         $ventatanque->cantidad = $request->inputCantidad[$salid];
                         $ventatanque->unidad_medida = $request->inputUnidad_medida[$salid];
-                        $ventatanque->precio_unitario = $request->inputPrecio_unitario[$salid];
+                        // $ventatanque->precio_unitario = $request->inputPrecio_unitario[$salid];
                         $ventatanque->tapa_tanque = $request->inputTapa[$salid];
                         $ventatanque->iva_particular = $request->input_iva_particular[$salid];
                         $ventatanque->importe = $request->input_importe[$salid];
