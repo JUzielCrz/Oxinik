@@ -17,7 +17,7 @@ $(document).ready(function () {
     $(document).on("click",".btnnota-devolucion", nota_devolucion);
     
 
-
+    
 
     $('#table-contratos').on('click','tr', function(evt){
 
@@ -94,6 +94,8 @@ $(document).ready(function () {
         });
     });
 
+
+    
 
     function metodo_insertar() {
         metodo_limpiar_span("Error");

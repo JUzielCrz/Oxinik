@@ -136,6 +136,7 @@
                         <th>CAPACIDAD</th>
                         <th>U.M.</th>
                         <th>PRECIO</th>
+                        <th>DEP UNITARIO</th>
                         <th>DEP GARANTIA</th>
                         <th></th>
                         <th></th>
@@ -145,7 +146,7 @@
                 <tbody>
                     <tr class="trasignacion">
                         <td class="tdWidth">
-                            <input name="cilindroscreate[]" id="cilindroscreate" type="number" class="form-control form-control-sm numero-entero-positivo"  placeholder="#" >
+                            <input name="cilindroscreate[]" id="cilindroscreate" type="number" class="num_cilin form-control form-control-sm numero-entero-positivo"  placeholder="#" >
                         </td>
                         <td>
                             <select name="tipo_gascreate[]" id="tipo_gascreate" class="form-control form-control-sm">
@@ -182,7 +183,10 @@
                             <input type="number" name="precio_unitariocreate[]" id="precio_unitariocreate" class="form-control form-control-sm numero-decimal-positivo" placeholder="$0">
                         </td>
                         <td>
-                            <input type="number" name="deposito_garantiacreate[]" id="deposito_garantiacreate" class="form-control form-control-sm numero-decimal-positivo" placeholder="$0">
+                            <input type="number"  class="dep_unit form-control form-control-sm numero-decimal-positivo" placeholder="$0">
+                        </td>
+                        <td>
+                            <input type="number" name="deposito_garantiacreate[]" id="deposito_garantiacreate" class="dep_garanty form-control form-control-sm numero-decimal-positivo" placeholder="$0">
                         </td>
                         <td>
                             <button type="button" class="btn btn-amarillo btn-sm" id="btn-anadir-asignacioncreate"><span class="fas fa-plus"></span></button>
@@ -225,6 +229,14 @@
             $(this).closest('tr').remove();
         });
 
+        $(".dep_unit").keyup( function() {
+        var dep=$(this).val() * $(this).parents("tr").find(".num_cilin").val();
+        $(this).parents("tr").find(".dep_garanty").val(dep);
+        });
+        $(".num_cilin").keyup( function() {
+            var dep=$(this).val() * $(this).parents("tr").find(".dep_unit").val();
+            $(this).parents("tr").find(".dep_garanty").val(dep);
+        });
 
         function aniadir(){
             var opcionesTanque='';
@@ -262,7 +274,7 @@
                 $('#tbody-tr-asignacioncreate').append(
                     '<tr class="trasignacion">'+
                         '<td class="tdWidth">'+
-                            '<input name="cilindroscreate[]" id="cilindroscreate" type="number" class="form-control form-control-sm numero-entero-positivo" placeholder="#">'+
+                            '<input name="cilindroscreate[]" id="cilindroscreate" type="number" class="num_cilin form-control form-control-sm numero-entero-positivo" placeholder="#">'+
                         '</td> '+
                         '<td>'+
                             '<select name="tipo_gascreate[]" id="tipo_gascreate" class="form-control form-control-sm select-search">'+
@@ -296,7 +308,10 @@
                             '<input type="number" name="precio_unitariocreate[]" id="precio_unitariocreate" class="form-control form-control-sm numero-decimal-positivo" placeholder="$0">'+
                         '</td>'+
                         '<td >'+
-                            '<input type="number" name="deposito_garantiacreate[]" id="deposito_garantiacreate" class="form-control form-control-sm numero-decimal-positivo" placeholder="$0">'+
+                            '<input type="number"  class="dep_unit form-control form-control-sm numero-decimal-positivo" placeholder="$0">'+
+                        '</td>'+
+                        '<td >'+
+                            '<input type="number" name="deposito_garantiacreate[]" id="deposito_garantiacreate" class="dep_garanty form-control form-control-sm numero-decimal-positivo" placeholder="$0">'+
                         '</td>'+
                         '<td>'+
                             '<button type="button" class="btn btn-sm btn-amarillo" id="btn-anadir-asignacioncreate"><span class="fas fa-plus"></span></button>'+
@@ -306,7 +321,18 @@
                         '</td>'+
                     '</tr>'
                 );
+
+                $(".dep_unit").keyup( function() {
+                var dep=$(this).val() * $(this).parents("tr").find(".num_cilin").val();
+                $(this).parents("tr").find(".dep_garanty").val(dep);
+                });
+                $(".num_cilin").keyup( function() {
+                    var dep=$(this).val() * $(this).parents("tr").find(".dep_unit").val();
+                    $(this).parents("tr").find(".dep_garanty").val(dep);
+                });
             });
+            
+            
         }
     });
 </script>
