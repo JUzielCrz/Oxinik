@@ -32,7 +32,7 @@ $(document).ready(function () {
                 {data: 'fabricante', className: "text-center"},
                 {data: 'material', className: "text-center"},
                 {data: 'estatus', className: "text-center"}, //aqui va estatus
-                {data: 'user_name', className: "text-center"},
+                {data: 'name', className: "text-center"},
                 {data: 'btnShow'},
                 {data: 'btnEdit'},
                 {data: 'btnHistory'},

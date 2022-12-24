@@ -3,7 +3,8 @@
         <h5 id="nota_id"></h5>
         <p>
             <span id="span-incidencia"></span> <br>
-            <span id="span-user"></span>
+            <span id="span-user"></span><br>
+            <span id="span-driver"></span>
         </p>
     </div>
 </div>

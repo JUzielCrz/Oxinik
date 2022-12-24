@@ -21,6 +21,8 @@ class TanqueSeeder extends Seeder
             'tipo_gas'=>'1',
             'tipo_tanque'=>'Industrial',
             'estatus'=>'VENTA-FORANEA',
+            'user_id'=>1,
+
         ]);
 
         Tanque::create([
@@ -32,6 +34,7 @@ class TanqueSeeder extends Seeder
             'tipo_gas'=>'1',
             'tipo_tanque'=>'Industrial',
             'estatus'=>'VENTA-FORANEA',
+            'user_id'=>1,
         ]);
 
         Tanque::create([
@@ -43,6 +46,7 @@ class TanqueSeeder extends Seeder
             'tipo_gas'=>'3',
             'tipo_tanque'=>'Industrial',
             'estatus'=>'LLENO-ALMACEN',
+            'user_id'=>1,
         ]);
 
         Tanque::create([
@@ -54,6 +58,7 @@ class TanqueSeeder extends Seeder
             'tipo_gas'=>'4',
             'tipo_tanque'=>'Industrial',
             'estatus'=>'LLENO-ALMACEN',
+            'user_id'=>1,
         ]);
 
         Tanque::create([
@@ -65,6 +70,7 @@ class TanqueSeeder extends Seeder
             'tipo_gas'=>'1',
             'tipo_tanque'=>'Industrial',
             'estatus'=>'LLENO-ALMACEN',
+            'user_id'=>1,
         ]);
 
         Tanque::create([
@@ -76,6 +82,7 @@ class TanqueSeeder extends Seeder
             'tipo_gas'=>'2',
             'tipo_tanque'=>'Industrial',
             'estatus'=>'LLENO-ALMACEN',
+            'user_id'=>1,
         ]);
 
         Tanque::create([
@@ -87,6 +94,7 @@ class TanqueSeeder extends Seeder
             'tipo_gas'=>'3',
             'tipo_tanque'=>'Industrial',
             'estatus'=>'LLENO-ALMACEN',
+            'user_id'=>1,
         ]);
 
         Tanque::create([
@@ -98,6 +106,7 @@ class TanqueSeeder extends Seeder
             'tipo_gas'=>'4',
             'tipo_tanque'=>'Industrial',
             'estatus'=>'LLENO-ALMACEN',
+            'user_id'=>1,
         ]);
 
 
@@ -111,6 +120,7 @@ class TanqueSeeder extends Seeder
             'tipo_gas'=>'1',
             'tipo_tanque'=>'Industrial',
             'estatus'=>'LLENO-ALMACEN',
+            'user_id'=>1,
         ]);
 
         Tanque::create([
@@ -122,6 +132,7 @@ class TanqueSeeder extends Seeder
             'tipo_gas'=>'2',
             'tipo_tanque'=>'Industrial',
             'estatus'=>'LLENO-ALMACEN',
+            'user_id'=>1,
         ]);
 
         Tanque::create([
@@ -133,6 +144,7 @@ class TanqueSeeder extends Seeder
             'tipo_gas'=>'3',
             'tipo_tanque'=>'Industrial',
             'estatus'=>'LLENO-ALMACEN',
+            'user_id'=>1,
         ]);
 
         Tanque::create([
@@ -144,6 +156,7 @@ class TanqueSeeder extends Seeder
             'tipo_gas'=>'4',
             'tipo_tanque'=>'Industrial',
             'estatus'=>'LLENO-ALMACEN',
+            'user_id'=>1,
         ]);
 
         Tanque::create([
@@ -155,6 +168,7 @@ class TanqueSeeder extends Seeder
             'tipo_gas'=>'1',
             'tipo_tanque'=>'Industrial',
             'estatus'=>'LLENO-ALMACEN',
+            'user_id'=>1,
         ]);
 
         Tanque::create([
@@ -166,6 +180,7 @@ class TanqueSeeder extends Seeder
             'tipo_gas'=>'1',
             'tipo_tanque'=>'Industrial',
             'estatus'=>'LLENO-ALMACEN',
+            'user_id'=>1,
         ]);
 
         Tanque::create([
@@ -177,6 +192,7 @@ class TanqueSeeder extends Seeder
             'tipo_gas'=>'3',
             'tipo_tanque'=>'Industrial',
             'estatus'=>'LLENO-ALMACEN',
+            'user_id'=>1,
         ]);
 
         Tanque::create([
@@ -188,6 +204,7 @@ class TanqueSeeder extends Seeder
             'tipo_gas'=>'4',
             'tipo_tanque'=>'Industrial',
             'estatus'=>'LLENO-ALMACEN',
+            'user_id'=>1,
         ]);
         
 

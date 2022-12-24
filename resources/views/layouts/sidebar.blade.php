@@ -73,10 +73,15 @@
                             <a onclick="salir_pagina(event, '/mantenimiento/index')"  href="{{ url('/mantenimiento/index') }}" ><i class="fas fa-dolly-flatbed"></i> Manteni- <br> miento</a>
                         </li>
                     @endif
-                {{-- Usuarios --}}
+                    {{-- Usuarios --}}
+                    @if($user->permiso_con_admin('drivers_show') )
+                        <li id="nav-ico-usuario" ><a href="{{ url('/drivers') }}"><i class="fas fa-truck"></i>Choferes</a></li>
+                    @endif
+                    {{-- users --}}
                     @if($user->soloParaUnRol('admin'))
                         <li id="nav-ico-usuario" ><a onclick="salir_pagina(event, '/user/index')" href="{{ url('/user/index') }}"><i class="fas fa-users-cog"></i>Usuarios</a></li>
                     @endif
+                
 
                 {{-- Configuraciones--}}
                 @if($user->soloParaUnRol('admin'))

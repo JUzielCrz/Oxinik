@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\NotaReserva;
 use App\Models\NotaReservaTanque;
 use App\Models\Tanque;
+use App\Models\Driver;
+use App\Models\CatalogoGas;
 use App\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -24,7 +26,8 @@ class NotaReservaController extends Controller
 
     public function index(){
         if($this->slug_permiso('nota_reserva')){
-            return view('notas.reserva.index');
+            $drivers=Driver::all();
+            return view('notas.reserva.index', compact('drivers'));
         }
         return view('home');
     }
@@ -56,14 +59,15 @@ class NotaReservaController extends Controller
     }
     public function tanques_data(){
         if($this->slug_permiso('nota_talon')){
-            $notas=Tanque::where('tanques.estatus', 'TANQUE-RESERVA');
+            $notas=NotaReservaTanque::
+            join('tanques','tanques.num_serie','nota_reserva_tanque.num_serie')
+            ->join('nota_reserva','nota_reserva.id','nota_reserva_tanque.nota_id')
+            ->select('tanques.num_serie','CONCAT("tanques.tipo_tanque","tanques.fabricante")')
+            ->where('tanques.estatus', 'TANQUE-RESERVA');
+            // ->addSelect(['gas_name' => CatalogoGas::select('nombre')->whereColumn( 'catalogo_gases.id', 'tanques.tipo_gas')]);
             return DataTables::of(
                 $notas
             )
-            ->editColumn('created_at', function ($notas) {
-                return $notas->created_at->format('Y/m/d - H:i:s A');
-            })
-            // ->addColumn( 'btnShow', '<button class="btn btn-sm btn-verde btn-show" data-id="{{$nota_id}}" data-toggle="tooltip" data-placement="top" title="Ver"><i class="fas fa-eye"></i> Nota</button>')
             ->rawColumns(['btnShow'])
             ->toJson();
         }
@@ -74,6 +78,7 @@ class NotaReservaController extends Controller
             $nota=new NotaReserva;
             $nota->user_id =auth()->user()->id;
             $nota->incidencia = $request->incidencia;
+            $nota->driver = $request->driver;
             $nota->save();
 
             if($request->incidencia == 'ENTRADA'){

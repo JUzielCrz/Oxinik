@@ -193,6 +193,10 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/mantenimiento/registro_entrada', 'MantenimientoController@registro_entrada');
     Route::post('/mantenimiento/registro_salida', 'MantenimientoController@registro_salida');
 
+     //MANTENIMIENTO
+     Route::resource('drivers', 'DriversController');
+     Route::get('/drivers/table/data', 'DriversController@data');
+
 
   /* Usuarios */
     Route::get('/user/index', 'UserController@index');

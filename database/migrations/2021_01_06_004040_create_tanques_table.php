@@ -19,6 +19,8 @@ class CreateTanquesTable extends Migration
             $table->foreignId('tipo_gas')->references('id')->on('catalogo_gases')->onDelete('restrict');
             $table->string('tipo_tanque');
             $table->string('estatus');
+            // $table->foreignId('user_id')->references('id')->on('users')->onDelete('restrict');
+
             $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
         });

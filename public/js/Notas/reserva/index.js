@@ -141,6 +141,7 @@ $(document).ready(function () {
             $("#nota_id").replaceWith("<h5 id='nota_id'>Nota id: "+msg.nota.id+"</h5>");
             $("#span-incidencia").replaceWith('<span id="span-incidencia">Incidencia: '+msg.nota.incidencia+'</span>');
             $("#span-user").replaceWith('<span id="span-user">Usuario: '+msg.user_name+'</span>');
+            $("#span-driver").replaceWith('<span id="span-driver">Chofer: '+msg.nota.driver+'</span>');
             $.each(msg.tanques, function (key, value) {
                 $("#tbody-reserva-show").append(
                     "<tr><td>"+value.num_serie+"</td><td>"+value.tipo_gas+", "+value.capacidad+", "+value.material+", "+value.fabricante+", "+value.nombre+", "+value.tipo_tanque+", PH: "+value.ph +"</td></tr>"
@@ -156,12 +157,17 @@ $(document).ready(function () {
             mensaje('error','Error', 'Faltan campos por rellenar', null, null);
             return false;
         }
+        $("#driver").removeClass('is-invalid');
+        if($("#driver").val()==""){
+            $("#driver").addClass('is-invalid');
+            mensaje('error','Error', 'Faltan campos por rellenar', null, null);
+            return false;
+        }
         //SI no hay tanques agregados en entrada manda error
         if($('#idInputNumSerie').length === 0) {
             mensaje('error','Error', 'No hay registro de tanques', null, null);
             return false;
         }
-
         // envio al controlador
         $.ajax({
             method: "post",

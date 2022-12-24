@@ -182,5 +182,12 @@ class PermisosSeeder extends Seeder
             'description'=>'El usuario puede levantar reporte de un cinlindro',
         ]);
 
+         //Drivers
+        Permissions::create([
+            'name'=>'Choferes (Ver)',
+            'slug'=>'driver_show',
+            'description'=>'El usuario puede ver listado de Choferes',
+        ]);
+
     }
 }

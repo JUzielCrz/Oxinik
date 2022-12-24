@@ -62,20 +62,15 @@ class TanqueController extends Controller
         if($this->slug_permiso('tanque_show')){
             $tanques=Tanque::
             join('catalogo_gases','catalogo_gases.id','=','tanques.tipo_gas')
-            ->select('catalogo_gases.nombre as gas_nombre','tanques.*')
+            ->join('users','users.id','=','tanques.user_id')
+            ->select('catalogo_gases.nombre as gas_nombre','tanques.*', 'users.name')
+            // ->with('users')
             ->where('estatus',"!=","BAJA-TANQUE")
-            ->where('estatus',"!=","TANQUE-REPORTADO");
+            ->where('estatus',"!=","TANQUE-REPORTADO")
+            ;
             return DataTables::of(
                 $tanques
             )
-            ->editColumn('user_name', function ($user) {
-                if($user->user_id == null){
-                    return null;
-                }else{
-                    $nombre=User::select('name')->where('id', $user->user_id)->first();
-                    return $nombre->name;
-                }
-            })
             ->editColumn('ph', function ($pruebaH) {
                 $fechaactual=new DateTime(date("Y")."-" . date("m")."-".date("d"));
                 $fechaPh=new DateTime($pruebaH->ph);
