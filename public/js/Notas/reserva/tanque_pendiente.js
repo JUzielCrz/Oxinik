@@ -9,7 +9,12 @@ $(document).ready(function () {
         columns:[
             {data: 'num_serie'},   
             {data: 'estatus'}, 
-            {data: 'tipo_tanque'}, 
+            { data: null, render: function ( data, type, row ) {
+                // Combinar campos
+                return data.tipo_tanque+', '+data.gas_name+', PH: '+data.ph+', '+data.capacidad+', '+data.material+', '+data.fabricante;
+            } }, 
+    
+            // {data: 'tipo_tanque'+ ' ' +'material'}, 
         ]
     });
 

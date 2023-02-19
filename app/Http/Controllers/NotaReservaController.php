@@ -62,9 +62,9 @@ class NotaReservaController extends Controller
             $notas=NotaReservaTanque::
             join('tanques','tanques.num_serie','nota_reserva_tanque.num_serie')
             ->join('nota_reserva','nota_reserva.id','nota_reserva_tanque.nota_id')
-            ->select('tanques.num_serie','CONCAT("tanques.tipo_tanque","tanques.fabricante")')
+            ->select("tanques.*")
+            ->addSelect(['gas_name' => CatalogoGas::select('nombre')->whereColumn( 'catalogo_gases.id', 'tanques.tipo_gas')])
             ->where('tanques.estatus', 'TANQUE-RESERVA');
-            // ->addSelect(['gas_name' => CatalogoGas::select('nombre')->whereColumn( 'catalogo_gases.id', 'tanques.tipo_gas')]);
             return DataTables::of(
                 $notas
             )
