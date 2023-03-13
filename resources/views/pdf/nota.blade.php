@@ -11,6 +11,7 @@
 
     <body style="font-size: 14px">
         <main>
+            
             <table class="table table-borderless">
                 <tbody>
                     <tr id="tablaencabezado">
@@ -128,12 +129,16 @@
                 </tr>
                 <tr>
                     <td class="text-center">Recibido (Nombre y Firma)</td>
-                    
+                </tr>
+                <tr>
+                    <td>
+                        <p style="font-size: 12px"> <strong>OBSERVACIONES:</strong> {{$nota->observaciones}}</p>
+                    </td>
                 </tr>
                 </tbody>
             </table>
             
-            <table class="table table-sm table-bordered mt-2" style="font-size: 12px">
+            <table class="table table-sm table-bordered mt-2" style="font-size: 11px">
                 <tbody >
                     <tr style="background: black">
                         <td colspan="2"><div class="text-center text-white" > CUENTAS BANCARIAS PARA TRANSFERENCIAS</div></td>

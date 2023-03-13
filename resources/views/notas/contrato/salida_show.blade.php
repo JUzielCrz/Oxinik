@@ -11,9 +11,10 @@
                 NOTA SALIDA
             </div>
         </div>
+
         <div class="row mt-1">
             <div class="col-md-4 mr-0">
-                <div class="card" style="height: 25rem">
+                <div class="card" >
                     <div class="card-body">
                         <span><i class="far fa-clipboard fa-1x"></i> INFORMACIÓN</span>
                         <table class="table table-sm mt-3" style="font-size: 13px">
@@ -69,14 +70,8 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <span style="font-size: 13px"><i class="fas fa-search"></i> OBSERVACIONES</span>
-                        <table class="table table-sm mt-1" style="font-size: 13px">
-                            <tbody>
-                                <tr>
-                                    <td>{{$nota->obaservaciones}} </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        
+                        <p style="font-size: 13px"><i class="fas fa-search"></i> <strong>OBSERVACIONES</strong> <br>{{$nota->observaciones}}</p> 
                     </div>
                 </div>
             </div>
