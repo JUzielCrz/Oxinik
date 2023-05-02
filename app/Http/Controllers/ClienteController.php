@@ -6,6 +6,7 @@ use App\Models\Cliente;
 use Illuminate\Http\Request;
 use App\User;
 use Yajra\DataTables\DataTables;
+use App\Models\Contrato;
 
 class ClienteController extends Controller
 {
@@ -37,8 +38,7 @@ class ClienteController extends Controller
             return DataTables::of(
                 $clientes
             )
-            ->addColumn( 'btnContrato', '<a class="btn btn-sm btn-verde" href="{{route(\'contrato.index\', $id)}}" data-toggle="tooltip" data-placement="top" title="Contrato"><span class="fas fa-clipboard"></span></a>')
-            ->addColumn( 'btnShow',     '<button class="btn btn-sm btn-verde btn-show-modal" data-id="{{$id}}" data-toggle="tooltip" data-placement="top" title="Ver"><span class="far fa-eye"></span></button>')
+            ->addColumn( 'btnShow', '<a class="btn btn-sm btn-verde" href="{{route(\'client.show\', $id)}}" data-toggle="tooltip" data-placement="top" title="Visualizar Datos"><span class="far fa-eye"></span> ver</a>')
             ->addColumn( 'btnEdit',     '<button class="btn btn-sm btn-verde btn-edit-modal" data-id="{{$id}}" data-toggle="tooltip" data-placement="top" title="Editar"><span class="far fa-edit"></span></button>')
             ->addColumn( 'btnDelete',   '<button class="btn btn-sm btn-verde btn-delete-modal" data-id="{{$id}}" data-toggle="tooltip" data-placement="top" title="Eliminar"><span class="fas fa-trash"></span></button>')
             ->rawColumns(['btnContrato','btnShow','btnEdit','btnDelete'])
@@ -88,12 +88,11 @@ class ClienteController extends Controller
         return response()->json(['mensaje'=>'Sin permisos']);
     }
 
-    public function show(Cliente $id){
-        if($this->slug_permiso('cliente_show')){
-            $data=['clientes'=>$id];
-            return $data;
-        }
-        return response()->json(['mensaje'=>'Sin permisos']);
+    public function show($id){
+        $client = Cliente::find($id);
+        $agreements= Contrato::where("cliente_id", $id)->get();
+        $data=["client" => $client, "agreements"=>$agreements];
+        return view('clientes.show', $data);
     }
 
     public function update(Request $request, $id)

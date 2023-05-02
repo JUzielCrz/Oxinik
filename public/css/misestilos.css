@@ -26,17 +26,12 @@
     } /*para centrar navbar*/
 
 
-    /*CARD*/
-    .card-header{
+    /*Blue dark*/
+    .bg-blue-dark, .card-header, .modal-header{
         background: #2F4858;
         color: #fff;
     }
 
-    /*MODAL */
-    .modal-header{
-        background: #2F4858;
-        color: #fff;
-    }
     /* Botenes */
         /* verde */
         .bg-verde, .btn-verde{
