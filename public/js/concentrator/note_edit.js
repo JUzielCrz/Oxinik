@@ -72,7 +72,6 @@ $(document).ready(function () {
 
     });
 
-
     $("#day").change( () => {rent_subtotal('day'); sum_date();}); 
     $("#price_day").keyup( () => rent_subtotal('day')); 
     $("#week").change( () => {rent_subtotal('week'); sum_date();}); 
@@ -179,11 +178,13 @@ $(document).ready(function () {
             '<td> $'+msg.deposit_garanty+'</td>'+
             '<td> $'+msg.total+'</td>'+
             '<td></td>'+
-            '<td>'+msg.status+'</td>'+
+            '<td>'+msg.status+
+            '</td>'+
             '<td>'+msg.user_id+'</td>'+
             '<td>'+
-                '<a class="btn btn-sm btn-verde text-white" href="/payment/pdf/'+msg.id+'" target="_blank" data-toggle="tooltip" data-placement="top" title="Tooltip on top"><i class="fas fa-file-pdf"></i></a>'+
-                '<button class="btn btn-sm btn-verde" data-id="'+msg.id+'" data-toggle="tooltip" data-placement="top" title="Tooltip on top"><span class="fas fa-trash"></span></button>'+
+            '<button class="btn btn-sm btn-verde btn_paymen_edit" data-id="'+msg.id+'" data-toggle="tooltip" data-placement="top" title="Editar Pago"><i class="fas fa-money-check-alt"></i></button>'+
+                '<a class="btn btn-sm btn-verde text-white" href="/payment/pdf/'+msg.id+'" target="_blank" data-toggle="tooltip" data-placement="top" title="Ver PDF"><i class="fas fa-file-pdf"></i></a>'+
+                '<button class="btn btn-sm btn-verde btn_destroy_paymen" data-id="'+msg.id+'" data-toggle="tooltip" data-placement="top" title="Eliminar"><span class="fas fa-trash"></span></button>'+
            '</td>'+
             '</tr>'
         );
@@ -192,8 +193,8 @@ $(document).ready(function () {
 
     //Delete row Rents
     $(document).on("click",".btn_destroy_paymen", function (){
-
-
+         let row=$(this).closest('tr')
+         
         Swal.fire({
             title: '¿Estas seguro?',
             text: "Se eliminara esta pago definitivamente",
@@ -209,10 +210,8 @@ $(document).ready(function () {
                     method: "delete",
                     url: "/payment/destroy/"+ $(this).data('id'),
                     data: $("#form-payment").serialize(),
-                }).done(function () {
-                    console.log($(this).closest('tr'));
-                    $(this).closest('tr').remove();
-
+                }).done(function () {                   
+                    row.remove();
                     Swal.fire(
                         'Exito',
                         'Eliminado correctamente.',
@@ -229,4 +228,53 @@ $(document).ready(function () {
         });
 
     });
+
+
+    //EDIT PAYMENT
+    $(document).on("click","#insert-rent", function (){
+        
+        if(input_required() != true) {
+            return false;
+        };
+
+        if(price_day.value == ''){price_day.value = 0};
+        if(price_week.value == ''){price_week.value = 0};
+        if(price_mount.value == ''){price_mount.value = 0};
+
+        Swal.fire({
+            title: '¿Estas seguro?',
+            text: "Se guardarán todos los cambios",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#F9C846',
+            cancelButtonColor: '#329F5B',
+            confirmButtonText: 'Si, Continuar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    method: "post",
+                    url: "/payment/store/"+note_id.value,
+                    data: $("#form-payment").serialize(),
+                }).done(function (msg) {
+                    Swal.fire(
+                        'Exito',
+                        'Eliminado correctamente.',
+                        'success'
+                    )
+                    add_row_payment(msg);
+                    $('#modal-rent').modal("hide");
+                }).fail(function (){
+                    Swal.fire(
+                        'Error',
+                        'Verifica tus datos',
+                        'error'
+                    )
+                });
+            }
+        });
+
+    });
+
+    btn_paymen_edit
 });

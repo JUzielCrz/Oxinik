@@ -228,6 +228,14 @@ Route::get('/home', 'HomeController@index')->name('home');
      Route::delete('/payment/destroy/{payment_id}', 'ConcentratorPaymentsController@destroy')->name('payment.destroy');
 
 
+     //Concentrator Maintenance
+     Route::get('/concentratorsMaintenance', 'ConcentratorMaintenanceController@index')->name('concentratorsMaintenance.index');
+     Route::get('/concentratorsMaintenance/data', 'ConcentratorMaintenanceController@data');
+     Route::post('/concentratorsMaintenance/store', 'ConcentratorMaintenanceController@store');
+     Route::get('/concentratorsMaintenance/edit/{id}', 'ConcentratorMaintenanceController@edit');
+     Route::post('/concentratorsMaintenance/update/{id}', 'ConcentratorMaintenanceController@update');
+     Route::get('/concentratorsMaintenance/destroy/{id}', 'ConcentratorMaintenanceController@destroy');
+
   /* Usuarios */
     Route::get('/user/index', 'UserController@index');
     Route::post('/user/create', 'UserController@create');

@@ -37,7 +37,7 @@ class AdminSeeder extends Seeder
      Concentrator::create([
         'serial_number'=>'123',
         'brand'=>'Beker',
-        'work_hours'=>'48', 
+        'work_hours'=>'5000', 
         'capacity'=>'38',
         'status'=>'ALMACEN',
         'description'=>'SIN DESCRIPCION POR EL MOMENTO',
@@ -45,8 +45,8 @@ class AdminSeeder extends Seeder
     Concentrator::create([
         'serial_number'=>'234',
         'brand'=>'RANGER',
-        'work_hours'=>'48', 
-        'capacity'=>'38',
+        'work_hours'=>'5000', 
+        'capacity'=>'45',
         'status'=>'ALMACEN',
         'description'=>'SIN DESCRIPCION POR EL MOMENTO',
     ]);
