@@ -69,7 +69,6 @@ $(document).ready(function () {
                 {data: 'nombre'},
                 {data: 'empresa'},
                 {data: 'direccion'},
-                {data: 'btnContrato'},
                 {data: 'btnShow'},
                 {data: 'btnEdit'},
                 {data: 'btnDelete'},
@@ -83,7 +82,7 @@ $(document).ready(function () {
 
 
     $(document).on("click","#btnaccept",metodo_insertar);
-    $(document).on("click",".btn-show-modal",metodo_detalle);
+    // $(document).on("click",".btn-show-modal",metodo_detalle);
     $(document).on("click",".btn-edit-modal",metodo_detalle_edit);
     $(document).on("click","#btnactualizar",metodo_actualizar);
     $(document).on("click",".btn-delete-modal", eliminar);
@@ -222,16 +221,16 @@ $(document).ready(function () {
     }
     
     
-    function metodo_detalle() {
-        $.get('/cliente/show/' + $(this).data('id') + '', function(data) {
-            $.each(data.clientes, function (key, value) {
-                var variable = "#" + key + "info";
-                $(variable).val(value);
-            });
-            $("#modalmostrar").modal("show");
-        })
+    // function metodo_detalle() {
+    //     $.get('/cliente/show/' + $(this).data('id') + '', function(data) {
+    //         $.each(data.clientes, function (key, value) {
+    //             var variable = "#" + key + "info";
+    //             $(variable).val(value);
+    //         });
+    //         $("#modalmostrar").modal("show");
+    //     })
         
-    }
+    // }
     
     function metodo_detalle_edit() {
         metodo_limpiar_span("editError");

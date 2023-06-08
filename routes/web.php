@@ -202,22 +202,31 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/mantenimiento/registro_salida', 'MantenimientoController@registro_salida');
 
      //Driver
-     Route::resource('drivers', 'DriversController');
-     Route::get('/drivers/table/data', 'DriversController@data');
+    Route::resource('drivers', 'DriversController');
+    Route::get('/drivers/table/data', 'DriversController@data');
 
-     //COncentrator
-     Route::resource('concentrators', 'ConcentratorController');
+     //Concentrator
+     Route::resource('/concentrators', 'ConcentratorController');
      Route::get('/concentrators/table/data', 'ConcentratorController@data');
      Route::get('/concentrators/show_serial/{serial_number}', 'ConcentratorController@show_serial');
+     Route::post('/concentrators/update/hours/{concentrator_id}', 'ConcentratorController@update_hours')->name('concentrator.update.hours');;
+
     //COncentrator nota
-     Route::get('/nota/concentrators', 'ConcentratorsNoteController@index');
-     // Route::get('/nota/concentrators/data', 'ConcentratorsNoteController@data');
-     // Route::post('/nota/concentrators/create', 'ConcentratorsNoteController@create');
-    //  Route::get('/nota/concentrators/show/{serial_number}', 'ConcentratorsNoteController@show');
-     // Route::get('/nota/concentrators/delete/{id}', 'ConcentratorsNoteController@delete');
-     // Route::get('/nota/concentrators/tanques_pendientes', 'ConcentratorsNoteController@tanques_pendientes');
-     // Route::get('/nota/concentrators/tanques_data', 'ConcentratorsNoteController@tanques_data');
-     // Route::get('/nota/concentrators/show_history/{id}', 'ConcentratorsNoteController@show_history');
+     Route::get('/concentrator/listNote', 'ConcentratorsNoteController@index')->name('concentrator.notes');
+     Route::get('/concentrator/listNote/data', 'ConcentratorsNoteController@data');
+     Route::get('/concentrator/note/create', 'ConcentratorsNoteController@note_create');
+     Route::get('/concentrator/note/{note_id}', 'ConcentratorsNoteController@note');
+     Route::post('/concentrator/note/store', 'ConcentratorsNoteController@store');
+     Route::get('/concentrator/note/pdf/{note_id}', 'ConcentratorsNoteController@pdf')->name('concentrator.note.pdf');
+     
+     
+     Route::get('/concentrator/note/edit/{note_id}', 'ConcentratorsNoteController@note_edit')->name('concentrator.note.edit');;
+     
+     //COncentrator payments
+     Route::post('/payment/store/{note_id}', 'ConcentratorPaymentsController@store')->name('payment.store');
+     Route::get('/payment/pdf/{note_id}', 'ConcentratorPaymentsController@pdf')->name('payment.pdf');
+     Route::delete('/payment/destroy/{payment_id}', 'ConcentratorPaymentsController@destroy')->name('payment.destroy');
+
 
   /* Usuarios */
     Route::get('/user/index', 'UserController@index');

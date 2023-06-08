@@ -6,7 +6,7 @@
         $user=App\User::find($idauth);
     @endphp
 
-<!--Container Main end-->
+    <!--Container Main end-->
     <div class="wrapper">
         <!-- Sidebar  -->
         <nav id="sidebar" class="active">
@@ -65,7 +65,7 @@
                     @endif
                 {{-- Contratos --}}
                     @if($user->permiso_con_admin('concentrators_show'))    
-                        <li id="nav-ico-contratos" ><a href="{{ url('/concentrators') }}"><i class="fas fa-suitcase-rolling"></i> Concentradores</a></li>
+                        <li id="nav-ico-contratos" ><a href="{{ route('concentrators.index') }}"><i class="fas fa-suitcase-rolling"></i> Concentradores</a></li>
                     @endif
                     
                 {{-- Infra --}}

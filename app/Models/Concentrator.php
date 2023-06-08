@@ -14,6 +14,7 @@ class Concentrator extends Model
                         'brand',
                         'work_hours', 
                         'capacity',
+                        'status',
                         'description',
                         ];
     public $incrementing = true;

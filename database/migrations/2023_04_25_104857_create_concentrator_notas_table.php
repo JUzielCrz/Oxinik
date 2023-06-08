@@ -23,23 +23,23 @@ class CreateConcentratorNotasTable extends Migration
             $table->string('rfc')->nullable();
             $table->string('cfdi')->nullable();
             $table->string('address_facture')->nullable();
+            $table->enum('status_concentrator', ['EN ALMACEN', 'CON EL CLIENTE']);
 
-            $table->string('shipping_address')->nullable();
-            $table->string('shipping_reference')->nullable();
-            $table->float('shipping_price')->default(0)->nullable();
-            $table->string('link_location')->nullable();
-
-            //fin add
-            $table->float('subtotal');
-            $table->float('iva')->nullable();
-            $table->float('total');
-
-            $table->string('metodo_pago')->nullable();
-            $table->enum('status', ['ACTIVA', 'CANCELADA'])->default('ACTIVA');
+            $table->unsignedBigInteger('concentrator_id');
+            $table->foreign('concentrator_id')->references('id')
+                ->on('concentrators')
+                ->onDelete('restrict');
+            $table->string('observations')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
 
-            $table->string('observations')->nullable();
+            
+
             $table->timestamps();
+
+
+
+            
+
         });
     }
 

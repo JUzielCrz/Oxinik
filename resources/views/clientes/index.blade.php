@@ -70,30 +70,6 @@ $user=App\User::find($idauth);
         </div>
         </div>
     </div>
-    
-    <!-- Modal mostrar datos-->
-    <div class="modal fade bd-example-modal-md" id="modalmostrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-onix">
-            <h5 class="modal-title" id="modalmostrarTitle">Informacion</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff">
-                <span aria-hidden="true" class="fas fa-times"></span>
-            </button>
-            </div>
-            <div class="modal-body">
-            @include('clientes.info')
-            <!-- botones Aceptar y cancelar-->
-            <div class="row justify-content-center" >
-                <div class="btn-group col-auto" style="margin:10px">
-                <button type="reset" class="btn btn-amarillo" data-dismiss="modal">Aceptar</button>
-                </div>
-            </div>
-            </div>
-            
-        </div>
-        </div>
-    </div>
 
     <!-- Modal actualizar datos-->
     <div class="modal fade bd-example-modal-md" id="modalactualizar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

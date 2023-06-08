@@ -79,35 +79,6 @@
     </div>
     
 
-    {{-- <!-- Modal actualizar datos-->
-    <div class="modal fade bd-example-modal-lg" id="modal-tanqueedit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-onix">
-            <h5 class="modal-title" id="modalactualizarTitle">Actualizar</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff">
-                <span aria-hidden="true" class="fas fa-times"></span>
-            </button>
-            </div>
-            <div class="modal-body">
-            @include('gas.edit')
-            <!-- botones Aceptar y cancelar-->
-            <div class="row justify-content-center" >
-                <div class="btn-group col-auto "  >
-                <button type="button" class="btn btn-sm btn-amarillo form-control" id="btnactualizar">Actualizar</button>
-                </div>
-                <div class="btn-group col-auto" >
-                <button type="reset" class="btn  btn-sm btn-amarillo form-control" data-dismiss="modal">Cancelar</button>
-                </div>
-            </div>
-            </div>
-            
-        </div>
-        </div>
-  </div> --}}
-
-
-
 
 @endsection
 
@@ -115,9 +86,3 @@
 <!--Scripts-->
 <script src="{{ asset('js/drivers/index.js') }}"></script>
 <!--Fin Scripts-->
-
-{{-- <script>
-    $(document).ready(function () {
-        $("#id-menu-gas").addClass('active');
-    });
-</script> --}}

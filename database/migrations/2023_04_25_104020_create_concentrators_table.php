@@ -15,11 +15,12 @@ class CreateConcentratorsTable extends Migration
     {
         Schema::create('concentrators', function (Blueprint $table) {
             $table->id();
-            $table->string('serial_number');
+            $table->string('serial_number')->unique();
             $table->string('brand');
             $table->string('work_hours');
             $table->float('capacity');
-            $table->string('description')->nullabel();
+            $table->enum('status', ['ALMACEN', 'EN RENTA', 'MANTENIMIENTO']);
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

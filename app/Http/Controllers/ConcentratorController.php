@@ -28,7 +28,7 @@ class ConcentratorController extends Controller
     public function index()
     {
         $this->slug_permiso();
-        return view('concentrator.index');
+        return view('concentrator.concentrators');
     }
 
     public function data(){
@@ -57,6 +57,7 @@ class ConcentratorController extends Controller
         $concentrator->brand = $request->input('brand');
         $concentrator->work_hours = $request->input('work_hours');
         $concentrator->capacity = $request->input('capacity');
+        $concentrator->status = "ALMACEN";
         $concentrator->description = $request->input('description');
         $concentrator->save();
         return response()->json(['type_alert'=>'success', 'msg_text'=>'Registrado Correctamente']);
@@ -87,5 +88,13 @@ class ConcentratorController extends Controller
         $concentrator->description = $request->input('description');
         $concentrator->save();
         return response()->json(['type_alert'=>'success', 'msg_text'=>'Editado Correctamente']);
+    }
+
+    public function update_hours(Request $request, $concentrator_id){
+        $concentrator=Concentrator::find( $concentrator_id);
+        $concentrator->work_hours = $request->result_operation_edit;
+        $concentrator->save();
+        return $concentrator->work_hours;
+        // $concentrator->work_hours = $request->input('work_hours');
     }
 }
