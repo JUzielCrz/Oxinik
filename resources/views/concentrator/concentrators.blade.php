@@ -91,9 +91,4 @@
 @include('layouts.scripts')
 <!--Scripts-->
 <script src="{{ asset('js/concentrator/index.js') }}"></script>
-<script>
-    $(document).ready(function () {
-        $("#navbar_concentrators").addClass('active');
-    });
-</script>
 <!--Fin Scripts-->

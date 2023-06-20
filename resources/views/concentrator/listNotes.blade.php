@@ -46,7 +46,7 @@
 
 <script>
     $(document).ready(function () {
-        $("#navbar_concentrators_notes").addClass('active');
+        $("#id-menu-concentrators").addClass('active');
     });
 </script>
 <!--Fin Scripts-->

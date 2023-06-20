@@ -56,7 +56,7 @@ class ConcentratorsNoteController extends Controller
             })
             ->addColumn( 'buttons', 
                 '<a class="btn btn-sm btn-verde btn-xs" target="_blank" href="{{route(\'concentrator.note.pdf\', $id)}}" title="Nota"><i class="fas fa-file-pdf"></i></a>'.
-                '<a class="btn btn-sm btn-verde btn-xs mx-2" href="{{route(\'concentrator.note.edit\', $id)}}" title="Nota"><i class="fas fa-edit"></i></a>'.
+                '<a class="btn btn-sm btn-verde btn-xs mx-2" href="{{route(\'concentrator.note.edit\', $id)}}" title="Nota"><i class="far fa-eye"></i></a>'.
                 '<button class="btn btn-sm btn-verde btn-cancelar" data-id="{{$id}}" title="Cancelar"><span class="fas fa-trash"></span></button>'
             )
             ->rawColumns(['buttons'])

@@ -133,10 +133,10 @@
                         <h5>Rentas y Pagos</h5>
                     </div>
                     <div class="col text-right">
-                        {{-- <button type="button" class="btn  btn-sm btn-amarillo" id="rent-discount">
+                        <button type="button" class="btn  btn-sm btn-amarillo" id="rent-discount">
                             <span class="fas fa-plus"></span>
                             Descuento
-                        </button> --}}
+                        </button>
                         <button type="button" class="btn  btn-sm btn-amarillo" id="new-rent" >
                             <span class="fas fa-plus"></span>
                             Agregar
@@ -183,20 +183,24 @@
                                     <td>$ {{$payment->deposit_garanty}}</td>
                                     <td>$ {{$payment->total}}</td>
                                     <td>{{$payment->payment_method}}</td>
-                                    <td>
-                                        {{$payment->status}}
-                                    </td>
+                                    <td>{{$payment->status}}</td>
                                     <td>{{$payment->user_id}}</td>
                                     <td>
-                                        <button class="btn btn-sm btn-verde btn_paymen_edit" data-id="{{$payment->id}}" data-toggle="tooltip" data-placement="top" title="Editar Pago"><i class="fas fa-money-check-alt"></i></button>
-                                        <a class="btn btn-sm btn-verde text-white" href="{{route('payment.pdf', $payment->id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Ver PDF"><i class="fas fa-file-pdf"></i></a>
-                                        <button class="btn btn-sm btn-verde btn_destroy_paymen" data-id="{{$payment->id}}" data-toggle="tooltip" data-placement="top" title="Eliminar"><span class="fas fa-trash"></span></button>
+                                        <a class="btn btn-sm btn-verde text-white" href="{{route('payment.pdf', $payment->id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Tooltip on top"><i class="fas fa-file-pdf"></i></a>
+                                        <button class="btn btn-sm btn-verde btn_destroy_paymen" data-id="{{$payment->id}}" data-toggle="tooltip" data-placement="top" title="Tooltip on top"><span class="fas fa-trash"></span></button>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>                            
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">Estatus Nota</div>
+            <div class="card-body">
+
             </div>
         </div>
 
