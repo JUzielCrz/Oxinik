@@ -63,11 +63,6 @@
                             @endif
                             ><i class="fas fa-prescription-bottle"></i> Tanques</a></li>
                     @endif
-                {{-- Contratos --}}
-                    @if($user->permiso_con_admin('concentrators_show'))    
-                        <li id="nav-ico-contratos" ><a href="{{ url('/concentrators') }}"><i class="fas fa-suitcase-rolling"></i> Concentradores</a></li>
-                    @endif
-                    
                 {{-- Infra --}}
                     @if($user->permiso_con_admin('infra_salida') || $user->permiso_con_admin('infra_entrada'))    
                         <li id="nav-ico-infra" ><a onclick="salir_pagina(event, '/infra/index')" href="{{ url('/infra/index') }}"><i class="fas fa-building"></i>Infra</a></li>

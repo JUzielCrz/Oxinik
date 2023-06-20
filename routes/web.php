@@ -88,18 +88,12 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/nota/reserva/tanques_data', 'NotaReservaController@tanques_data');
     Route::get('/nota/reserva/show_history/{id}', 'NotaReservaController@show_history');
 
-    // CONCENTRADOR /nota/reserva/index
-
-
 
   /* Clientes */
-    Route::get('/client/{cliente_id}', 'clienteController@show')->name('client.show');
-
-
     Route::get('/cliente/index', 'clienteController@index');
     Route::get('/cliente/data/{estatus}', 'clienteController@data');
     Route::post('/cliente/create', 'clienteController@create');
-    // Route::get('/cliente/show/{id}', 'clienteController@show');
+    Route::get('/cliente/show/{id}', 'clienteController@show');
     Route::post('/cliente/update/{id}', 'clienteController@update');
     Route::get('/cliente/delete/{id}', 'clienteController@destroy');
 
@@ -119,8 +113,6 @@ Route::get('/home', 'HomeController@index')->name('home');
     
     Route::get('/contrato/envio/show/{contrato_id}', 'ContratoController@envio_show');
 
-    //agreement
-    Route::get('/agreement/{id}', 'agreementController@create')->name('agreement.create');
 
   /* Tanques */
     Route::get('/tanque/index', 'TanqueController@index');
@@ -201,23 +193,10 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/mantenimiento/registro_entrada', 'MantenimientoController@registro_entrada');
     Route::post('/mantenimiento/registro_salida', 'MantenimientoController@registro_salida');
 
-     //Driver
+     //MANTENIMIENTO
      Route::resource('drivers', 'DriversController');
      Route::get('/drivers/table/data', 'DriversController@data');
 
-     //COncentrator
-     Route::resource('concentrators', 'ConcentratorController');
-     Route::get('/concentrators/table/data', 'ConcentratorController@data');
-     Route::get('/concentrators/show_serial/{serial_number}', 'ConcentratorController@show_serial');
-    //COncentrator nota
-     Route::get('/nota/concentrators', 'ConcentratorsNoteController@index');
-     // Route::get('/nota/concentrators/data', 'ConcentratorsNoteController@data');
-     // Route::post('/nota/concentrators/create', 'ConcentratorsNoteController@create');
-    //  Route::get('/nota/concentrators/show/{serial_number}', 'ConcentratorsNoteController@show');
-     // Route::get('/nota/concentrators/delete/{id}', 'ConcentratorsNoteController@delete');
-     // Route::get('/nota/concentrators/tanques_pendientes', 'ConcentratorsNoteController@tanques_pendientes');
-     // Route::get('/nota/concentrators/tanques_data', 'ConcentratorsNoteController@tanques_data');
-     // Route::get('/nota/concentrators/show_history/{id}', 'ConcentratorsNoteController@show_history');
 
   /* Usuarios */
     Route::get('/user/index', 'UserController@index');
