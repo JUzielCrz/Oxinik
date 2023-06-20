@@ -12,7 +12,7 @@
     </div>
     <div class="card-body">
         <div class="row">
-            <input type="hidden" id="contrato_id">
+            <input type="hidden"  name="contrato_id" id="contrato_id">
             <div class="input-group input-group-sm ">
                 <div class="input-group-prepend">
                     <span class="input-group-text fas fa-search" id="inputGroup-sizing-sm"></span>
