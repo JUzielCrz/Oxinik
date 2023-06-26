@@ -88,12 +88,18 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/nota/reserva/tanques_data', 'NotaReservaController@tanques_data');
     Route::get('/nota/reserva/show_history/{id}', 'NotaReservaController@show_history');
 
+    // CONCENTRADOR /nota/reserva/index
+
+
 
   /* Clientes */
+    Route::get('/client/{cliente_id}', 'clienteController@show')->name('client.show');
+
+
     Route::get('/cliente/index', 'clienteController@index');
     Route::get('/cliente/data/{estatus}', 'clienteController@data');
     Route::post('/cliente/create', 'clienteController@create');
-    Route::get('/cliente/show/{id}', 'clienteController@show');
+    // Route::get('/cliente/show/{id}', 'clienteController@show');
     Route::post('/cliente/update/{id}', 'clienteController@update');
     Route::get('/cliente/delete/{id}', 'clienteController@destroy');
 
@@ -113,6 +119,8 @@ Route::get('/home', 'HomeController@index')->name('home');
     
     Route::get('/contrato/envio/show/{contrato_id}', 'ContratoController@envio_show');
 
+    //agreement
+    Route::get('/agreement/{id}', 'agreementController@create')->name('agreement.create');
 
   /* Tanques */
     Route::get('/tanque/index', 'TanqueController@index');
@@ -193,10 +201,43 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/mantenimiento/registro_entrada', 'MantenimientoController@registro_entrada');
     Route::post('/mantenimiento/registro_salida', 'MantenimientoController@registro_salida');
 
-     //MANTENIMIENTO
-     Route::resource('drivers', 'DriversController');
-     Route::get('/drivers/table/data', 'DriversController@data');
+     //Driver
+    Route::resource('drivers', 'DriversController');
+    Route::get('/drivers/table/data', 'DriversController@data');
 
+     //Concentrator
+     Route::resource('/concentrators', 'ConcentratorController');
+     Route::get('/concentrators/table/data', 'ConcentratorController@data');
+     Route::get('/concentrators/show_serial/{serial_number}', 'ConcentratorController@show_serial');
+    //  Route::post('/concentrators/update/hours/{concentrator_id}', 'ConcentratorController@update_hours')->name('concentrator.update.hours');;
+
+    //COncentrator nota
+     Route::get('/concentrator/listNote', 'ConcentratorsNoteController@index')->name('concentrator.notes');
+     Route::get('/concentrator/listNote/data', 'ConcentratorsNoteController@data');
+     Route::get('/concentrator/note/create', 'ConcentratorsNoteController@note_create');
+     Route::get('/concentrator/note/{note_id}', 'ConcentratorsNoteController@note');
+     Route::post('/concentrator/note/store', 'ConcentratorsNoteController@store');
+     Route::get('/concentrator/note/pdf/{note_id}', 'ConcentratorsNoteController@pdf')->name('concentrator.note.pdf');
+     Route::post('/concentrator/note/return_concentrator/{note_id}', 'ConcentratorsNoteController@return_concentrator')->name('concentrator.note.return_concentrator');
+     Route::post('/concentrator/note/close/{note_id}', 'ConcentratorsNoteController@close')->name('concentrator.note.close');
+     
+     
+     Route::get('/concentrator/note/edit/{note_id}', 'ConcentratorsNoteController@note_edit')->name('concentrator.note.edit');
+     
+     //COncentrator payments
+     Route::post('/payment/store/{note_id}', 'ConcentratorPaymentsController@store')->name('payment.store');
+     Route::get('/payment/pdf/{note_id}/{payment_id}', 'ConcentratorPaymentsController@pdf')->name('payment.pdf');
+     Route::delete('/payment/destroy/{payment_id}', 'ConcentratorPaymentsController@destroy')->name('payment.destroy');
+     Route::post('/payment/update_pay/{payment_id}', 'ConcentratorPaymentsController@update_pay')->name('payment.destroy');
+
+
+     //Concentrator Maintenance
+     Route::get('/concentratorsMaintenance', 'ConcentratorMaintenanceController@index')->name('concentratorsMaintenance.index');
+     Route::get('/concentratorsMaintenance/data', 'ConcentratorMaintenanceController@data');
+     Route::post('/concentratorsMaintenance/store', 'ConcentratorMaintenanceController@store');
+     Route::get('/concentratorsMaintenance/edit/{id}', 'ConcentratorMaintenanceController@edit');
+     Route::post('/concentratorsMaintenance/update/{id}', 'ConcentratorMaintenanceController@update');
+     Route::get('/concentratorsMaintenance/destroy/{id}', 'ConcentratorMaintenanceController@destroy');
 
   /* Usuarios */
     Route::get('/user/index', 'UserController@index');

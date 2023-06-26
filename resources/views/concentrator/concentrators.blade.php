@@ -1,13 +1,15 @@
 @extends('layouts.sidebar')
 
 @section('menu-navbar') 
-   
+    @include('concentrator.submenu_navbar')
 @endsection
 
 @php
         $idauth=Auth::user()->id;
         $user=App\User::find($idauth);
 @endphp
+
+
 
 @section('content-sidebar')
 
@@ -19,10 +21,10 @@
         </center>
 
         <div class="card">
-            <div class="card-header">
+            <div class="card-header bg-gris">
                 <div class="row">
                     <div class="col">
-                        <h5>Choferes</h5>
+                        <h5>Concentradores</h5>
                     </div>
                     <div class="col text-right">
                         <button type="button" class="btn  btn-sm btn-amarillo" id="btn_add">
@@ -37,9 +39,13 @@
                     <table id="tablecruddata" class="table table-sm" style="font-size: 13px">
                         <thead>
                             <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Apellidos</th>
-                            <th scope="col">Nombre(s)</th>
+                            <th scope="col">#Id</th>
+                            <th scope="col">#Serie</th>
+                            <th scope="col">Marca</th>
+                            <th scope="col">Horas-Trabajo</th>
+                            <th scope="col">Capacidad</th>
+                            <th scope="col">Estatus</th>
+                            <th scope="col">Descripcion</th>
                             <th scope="col"></th>
                             </tr>
                         </thead>
@@ -52,7 +58,7 @@
 
 
     <!-- Modal insertar-->
-    <div class="modal fade bd-example-modal-md" id="modal_driver" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade bd-example-modal-md" id="modal_concentrators" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header bg-onix">
@@ -62,7 +68,7 @@
             </button>
             </div>
             <div class="modal-body">
-            @include('drivers.form_inputs')
+            @include('concentrator.form_inputs')
             <!--Botones Aceptar y Cancelar-->
             <div class="row justify-content-center" >
                 <div class="btn-group col-auto">
@@ -84,5 +90,10 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/drivers/index.js') }}"></script>
+<script src="{{ asset('js/concentrator/index.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        $("#navbar_concentrators").addClass('active');
+    });
+</script>
 <!--Fin Scripts-->

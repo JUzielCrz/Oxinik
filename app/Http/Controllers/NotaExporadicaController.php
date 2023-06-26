@@ -185,10 +185,11 @@ class NotaExporadicaController extends Controller
         ->where('venta_tanque.venta_id', $nota->id)->get();
             
         $data=['nota'=>$nota,'tanques'=>$tanques, 'cliente'=>$cliente];
-        return view('notas.mostrador.show', $data);
+            return view('notas.mostrador.show', $data);
         }
         return response()->json(['mensaje'=>'Sin permisos']);
     }
+
 
     public function salida_cancelar ($nota_id){
         
