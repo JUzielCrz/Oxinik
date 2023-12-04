@@ -13,10 +13,10 @@ $(document).ready(function () {
                 // Combinar campos
                 return data.tipo_tanque+', '+data.gas_name+', PH: '+data.ph+', '+data.capacidad+', '+data.material+', '+data.fabricante;
             } }, 
-    
-            // {data: 'tipo_tanque'+ ' ' +'material'}, 
+            {data: 'driver'},
+            {data: 'car'},
+            {data: 'nota_id'},
+            {data: 'buttons'},
         ]
     });
-
-
 });

@@ -27,14 +27,37 @@
                 <table id="tablecruddata" class="table table-sm " style="font-size:13px">
                     <thead>
                         <tr >
-                        <th scope="col">#Serie</th>
-                        <th scope="col">Estatus</th>
-                        <th scope="col">Tipo</th>
+                            <th scope="col">#Serie</th>
+                            <th scope="col">Estatus</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Chofer</th>
+                            <th scope="col">Automovil</th>
+                            <th scope="col">#Nota</th>
+                            <th ></th>
                         </tr>
                     </thead>
                 </table>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-show" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal-showLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="modal-showLabel">Visualizar</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            @include('notas.reserva.show')
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+        </div>
+    </div>
     </div>
 </div>
 

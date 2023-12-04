@@ -78,16 +78,18 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/nota/pagos/index/{not_id}', 'NotaPagosController@index')->name('nota.pagos.index');
     Route::post('/nota/pagos/create', 'NotaPagosController@create')->name('nota.pagos.create');
 
-    // RESERVA /nota/reserva/index
-    Route::get('/nota/reserva/index', 'NotaReservaController@index');
+    // RESERVA
+    Route::get('/nota/reserva/index', 'NotaReservaController@index')->name("nota.reserva.index");
     Route::get('/nota/reserva/data', 'NotaReservaController@data');
-    Route::post('/nota/reserva/create', 'NotaReservaController@create');
     Route::get('/nota/reserva/show/{id}', 'NotaReservaController@show');
     Route::get('/nota/reserva/delete/{id}', 'NotaReservaController@delete');
     Route::get('/nota/reserva/tanques_pendientes', 'NotaReservaController@tanques_pendientes');
     Route::get('/nota/reserva/tanques_data', 'NotaReservaController@tanques_data');
     Route::get('/nota/reserva/show_history/{id}', 'NotaReservaController@show_history');
 
+    Route::get('/nota/reserva/create', 'NotaReservaController@create')->name("notas.reserva.create");
+    Route::post('/nota/reserva/save', 'NotaReservaController@save');
+    Route::get('/nota/reserva/pdf/{id}', 'NotaReservaController@pdf')->name("notas.reserva.pdf");
     // CONCENTRADOR /nota/reserva/index
 
 
@@ -204,6 +206,10 @@ Route::get('/home', 'HomeController@index')->name('home');
      //Driver
     Route::resource('drivers', 'DriversController');
     Route::get('/drivers/table/data', 'DriversController@data');
+
+    //Driver
+    Route::resource('cars', 'CarController');
+    Route::get('/cars/table/data', 'CarController@data');
 
      //Concentrator
      Route::resource('/concentrators', 'ConcentratorController');

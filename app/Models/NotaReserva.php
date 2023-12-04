@@ -12,6 +12,7 @@ class NotaReserva extends Model
                         'user_id',
                         'incidencia',
                         'driver',
+                        'car',
                         ];
     public $incrementing = true;
 }

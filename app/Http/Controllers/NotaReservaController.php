@@ -1,15 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\DatosEmpresa;
 use App\Models\NotaReserva;
 use App\Models\NotaReservaTanque;
 use App\Models\Tanque;
 use App\Models\Driver;
+use App\Models\Car;
 use App\Models\CatalogoGas;
 use App\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class NotaReservaController extends Controller
 {
@@ -26,8 +28,7 @@ class NotaReservaController extends Controller
 
     public function index(){
         if($this->slug_permiso('nota_reserva')){
-            $drivers=Driver::all();
-            return view('notas.reserva.index', compact('drivers'));
+            return view('notas.reserva.index');
         }
         return view('home');
     }
@@ -36,16 +37,18 @@ class NotaReservaController extends Controller
             $notas=NotaReserva::
                 join('users', 'users.id','=', 'nota_reserva.user_id')
                 ->select('nota_reserva.id as nota_id','nota_reserva.*','users.name')
-                ->where('user_id', auth()->user()->id);
+                ->where('user_id', auth()->user()->id)->orderBy('nota_id','DESC')->limit(200);
             return DataTables::of(
                 $notas
             )
             ->editColumn('created_at', function ($notas) {
                 return $notas->created_at->format('Y/m/d - H:i:s A');
             })
-            ->addColumn( 'btnShow', '<button class="btn btn-sm btn-verde btn-show" data-id="{{$nota_id}}" data-toggle="tooltip" data-placement="top" title="Ver"><i class="fas fa-eye"></i> Nota</button>')
-            ->addColumn( 'btnDelete', '<button class="btn btn-sm btn-verde btn-delete" data-id="{{$nota_id}}" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fas fa-trash-alt"></i> Eliminar</button>')
-            ->rawColumns(['btnShow', 'btnDelete'])
+            ->addColumn( 'buttons', '<button class="btn btn-sm btn-verde btn-show mx-1" data-id="{{$nota_id}}" data-toggle="tooltip" data-placement="right" title="Nota"><i class="fas fa-sticky-note"></i></button>'.
+                '<button class="btn btn-sm btn-verde btn-delete mx-1" data-toggle="tooltip" data-placement="right" title="Eliminar"><i class="fas fa-trash-alt"></i></button>'.
+                '<a class="btn btn-sm btn-verde mx-1" target="_blank" href="{{route(\'notas.reserva.pdf\', $nota_id)}}" title="PDF"><i class="fas fa-file-pdf"></i></a>'
+                )
+            ->rawColumns(['buttons'])
             ->toJson();
         }
         return view('home');
@@ -62,23 +65,35 @@ class NotaReservaController extends Controller
             $notas=NotaReservaTanque::
             join('tanques','tanques.num_serie','nota_reserva_tanque.num_serie')
             ->join('nota_reserva','nota_reserva.id','nota_reserva_tanque.nota_id')
-            ->select("tanques.*")
+            ->select("tanques.*","nota_reserva.id as nota_id", "nota_reserva.car", "nota_reserva.driver")
             ->addSelect(['gas_name' => CatalogoGas::select('nombre')->whereColumn( 'catalogo_gases.id', 'tanques.tipo_gas')])
             ->where('tanques.estatus', 'TANQUE-RESERVA');
             return DataTables::of(
                 $notas
             )
-            ->rawColumns(['btnShow'])
+            ->addColumn( 'buttons', '<button class="btn btn-sm btn-verde btn-show mx-1" data-id="{{$nota_id}}" data-toggle="tooltip" data-placement="right" title="Nota"><i class="fas fa-sticky-note"></i></button>'.
+                '<a class="btn btn-sm btn-verde mx-1" target="_blank" href="{{route(\'notas.reserva.pdf\', $nota_id)}}" title="PDF"><i class="fas fa-file-pdf"></i></a>'
+                )
+            ->rawColumns(['buttons'])
             ->toJson();
         }
         return view('home');
     }
-    public function create(Request $request){   
+
+    public function create(Request $request){
+        $drivers=Driver::all();
+        $cars=Car::all();
+        return view('notas.reserva.create', compact('drivers','cars'));
+    }
+
+    public function save(Request $request){   
+        // dd($request->all());
         if($this->slug_permiso('nota_reserva')){
             $nota=new NotaReserva;
             $nota->user_id =auth()->user()->id;
             $nota->incidencia = $request->incidencia;
             $nota->driver = $request->driver;
+            $nota->car = $request->car;
             $nota->save();
 
             if($request->incidencia == 'ENTRADA'){
@@ -100,6 +115,20 @@ class NotaReservaController extends Controller
             return response()->json(['alert'=>'success']);
         }
         return view('home');
+    }
+
+    public function pdf($id){
+        $nota=NotaReserva::find($id);
+        $tanques=NotaReservaTanque::
+        join('tanques', 'tanques.num_serie','=','nota_reserva_tanque.num_serie' )
+        ->where('nota_id', $nota->id)->get();
+        $empresa=DatosEmpresa::find(1);
+
+        $data=['nota'=>$nota,'tanques'=>$tanques,'empresa'=>$empresa];
+        $pdf = PDF::loadView('notas.reserva.pdf', $data);
+    
+        return $pdf->stream('nota_reserva_'.$nota->id.'.pdf');
+        return $pdf->dowload('name.pdf');
     }
 
     public function show(NotaReserva $id){   

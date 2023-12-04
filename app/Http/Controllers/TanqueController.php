@@ -66,8 +66,7 @@ class TanqueController extends Controller
             ->select('catalogo_gases.nombre as gas_nombre','tanques.*', 'users.name')
             // ->with('users')
             ->where('estatus',"!=","BAJA-TANQUE")
-            ->where('estatus',"!=","TANQUE-REPORTADO")
-            ;
+            ->where('estatus',"!=","TANQUE-REPORTADO");
             return DataTables::of(
                 $tanques
             )

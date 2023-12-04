@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <title>Nota Remisión</title>
         <!--Styles -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="bootstrap-4.4.1-dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- icon -->
     </head>
 

@@ -18,6 +18,7 @@ class CreateNotaReservaTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->enum('incidencia', ['ENTRADA', 'SALIDA']);
             $table->string('driver');
+            $table->string('car');
             $table->timestamps();
         });
     }

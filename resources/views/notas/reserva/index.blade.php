@@ -18,10 +18,11 @@
                         <i class="fas fa-sync-alt"></i> 
                         Tabla
                     </button >
-                        <button type="button" class="btn btn-amarillo btn-primary" data-toggle="modal" data-target="#modal-create">
+                        {{-- <button type="button" class="btn btn-amarillo btn-primary" data-toggle="modal" data-target="#modal-create">
                             <span class="fas fa-plus"></span>
                             Agregar
-                        </button>
+                        </button> --}}
+                        <a href="{{route("notas.reserva.create")}}" class="btn btn-amarillo btn-primary"> <span class="fas fa-plus"></span> Agregar</a>
                 </div>
             </div>
         </div>
@@ -31,10 +32,10 @@
                     <thead>
                         <tr >
                         <th scope="col">#ID Nota</th>
-                        <th scope="col">Usuario</th>
                         <th scope="col">Fecha</th>
                         <th scope="col">Incidencia</th>
-                        <th scope="col"></th>
+                        <th scope="col">Chofer</th>
+                        <th scope="col">Vehículo</th>
                         <th scope="col"></th>
                         </tr>
                     </thead>
@@ -46,7 +47,7 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="modal-create" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal-createLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="modal-create" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal-createLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content">
             <div class="modal-header">
@@ -64,7 +65,7 @@
             </div>
         </div>
         </div>
-    </div>
+    </div> --}}
     <!-- Modal -->
     <div class="modal fade" id="modal-show" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal-showLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-md">
