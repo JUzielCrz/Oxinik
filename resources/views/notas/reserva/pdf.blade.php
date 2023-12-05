@@ -68,6 +68,7 @@
                         <th>#</th>
                         <th># Serie</th>
                         <th>Descripcion</th>
+                        <th>Observaciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,6 +77,7 @@
                             <td>{{$cont+=1}}</td>
                             <td>{{$item->num_serie}}</td>
                             <td>{{$item->num_serie." - ".$item->ph." - ".$item->capacidad." - ".$item->material." - ".$item->fabricante." - ".$tipoeva->nombre_gas($item->tipo_gas)." - ".$item->tipo_tanque }}</td>
+                            <td ></td>
                         </tr>
                     @endforeach
                 </tbody>
