@@ -23,7 +23,8 @@ $(document).ready(function () {
                 {data: 'id'},
                 {data: 'nombre'},
                 {data: 'modelo'},
-                {data: 'kilometraje'},
+                {data: 'marca'},
+                {data: 'placa'},
                 {data: 'btnEdit'},
             ]
         });

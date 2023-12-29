@@ -11,8 +11,8 @@ class NotaReserva extends Model
     protected $fillable = ['id',
                         'user_id',
                         'incidencia',
-                        'driver',
-                        'car',
+                        'driver_id',
+                        'car_id',
                         ];
     public $incrementing = true;
 }

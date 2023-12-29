@@ -211,6 +211,16 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('cars', 'CarController');
     Route::get('/cars/table/data', 'CarController@data');
 
+      //Driver
+    // Route::resource('cars', 'CarController');
+    Route::get('/transporte', 'TransporteController@index')->name('transporte.index');
+    Route::post('/transporte', 'TransporteController@store')->name('transporte.store');
+    Route::put('/transporte', 'TransporteController@update')->name('transporte.update');
+    Route::get('/transporte/filter', 'TransporteController@filter')->name('transporte.filter');
+
+    Route::get('/transporte/create', 'TransporteController@create')->name('transporte.create');
+    Route::get('/transporte/bitacora/{id}', 'TransporteController@bitacora')->name('transporte.bitacora');
+
      //Concentrator
      Route::resource('/concentrators', 'ConcentratorController');
      Route::get('/concentrators/table/data', 'ConcentratorController@data');

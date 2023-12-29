@@ -75,12 +75,12 @@
                 {{-- Mantenimiento --}}
                     @if($user->permiso_con_admin('mantenimiento_salida') || $user->permiso_con_admin('mantenimiento_entrada'))    
                         <li id="nav-ico-mantenimiento" >
-                            <a onclick="salir_pagina(event, '/mantenimiento/index')"  href="{{ url('/mantenimiento/index') }}"  data-toggle="tooltip" data-placement="right" title="Mantenimiento"><i class="fas fa-wrench"></i></a>
+                            <a onclick="salir_pagina(event, '/mantenimiento/index')"  href="{{ url('/mantenimiento/index') }}"  data-toggle="tooltip" data-placement="right" title="Mantenimiento"><i class="fas fa-dolly-flatbed"></i></a>
                         </li>
                     @endif
                     {{-- Drivers --}}
-                    @if($user->permiso_con_admin('transporte_show') )
-                        <li id="nav-ico-driver" ><a href="{{ url('/transporte') }}" data-toggle="tooltip" data-placement="right" title="Transporte"><i class="fas fa-dolly-flatbed"></i></a></li>
+                    @if($user->permiso_con_admin('drivers_show') )
+                        <li id="nav-ico-driver" ><a href="{{ url('/drivers') }}" data-toggle="tooltip" data-placement="right" title="Choferes"><i class="fas fa-user-friends"></i></a></li>
                     @endif
                     {{-- Drivers --}}
                     @if($user->permiso_con_admin('drivers_show') )
@@ -88,7 +88,7 @@
                     @endif
                     {{-- Cars --}}
                     @if($user->permiso_con_admin('cars_show') )
-                        <li id="nav-ico-car"><a href="{{ url('/cars') }}" data-toggle="tooltip" data-placement="right" title="Vehículos"><i class="fas fa-truck"></i></a></li>
+                        <li id="nav-ico-car"><a href="{{ url('/cars') }}" data-toggle="tooltip" data-placement="right" title="Cars"><i class="fas fa-truck"></i></a></li>
                     @endif
                     {{-- users --}}
                     @if($user->soloParaUnRol('admin'))

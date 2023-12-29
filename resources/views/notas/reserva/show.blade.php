@@ -3,8 +3,8 @@
         <h5 id="nota_id"></h5>
         <p>
             <span id="span-incidencia"></span> <br>
-            <span id="span-user"></span><br>
-            <span id="span-driver"></span>
+            <span id="span-user"></span> <br>
+            <span id="span-driver"></span> <br>
             <span id="span-car"></span>
         </p>
     </div>
@@ -32,8 +32,8 @@
             $("#nota_id").replaceWith("<h5 id='nota_id'>Nota id: "+msg.nota.id+"</h5>");
             $("#span-incidencia").replaceWith('<span id="span-incidencia">Incidencia: '+msg.nota.incidencia+'</span>');
             $("#span-user").replaceWith('<span id="span-user">Usuario: '+msg.user_name+'</span>');
-            $("#span-driver").replaceWith('<span id="span-driver">Chofer: '+msg.nota.driver+'</span>');
-            $("#span-car").replaceWith('<span id="span-car">Automóvil: '+msg.nota.car+'</span>');
+            $("#span-driver").replaceWith('<span id="span-driver">Chofer: '+msg.driver.nombre+'</span>');
+            $("#span-car").replaceWith('<span id="span-car">Automóvil: '+msg.car.nombre+'</span>');
             $.each(msg.tanques, function (key, value) {
                 $("#tbody-reserva-show").append(
                     "<tr><td>"+value.num_serie+"</td><td>"+value.tipo_gas+", "+value.capacidad+", "+value.material+", "+value.fabricante+", "+value.nombre+", "+value.tipo_tanque+", PH: "+value.ph +"</td></tr>"

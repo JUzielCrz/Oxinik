@@ -48,11 +48,14 @@ class CarController extends Controller
         $request->validate([
             'nombre' => ['required', 'string', 'max:255'],
             'modelo' => ['required', 'string', 'max:255'],
+            'marca' => ['required', 'string', 'max:255'],
+            'placa' => ['required', 'string', 'max:255'],
         ]);
         $car = new Car();
         $car->nombre = $request->input('nombre');
         $car->modelo = $request->input('modelo');
-        $car->kilometraje = $request->input('kilometraje');
+        $car->marca = $request->input('marca');
+        $car->placa = $request->input('placa');
         $car->save();
         return response()->json(['type_alert'=>'success', 'msg_text'=>'Registrado Correctamente']);
     }
@@ -70,7 +73,8 @@ class CarController extends Controller
         $car=Car::find( $id);
         $car->nombre = $request->input('nombre');
         $car->modelo = $request->input('modelo');
-        $car->kilometraje = $request->input('kilometraje');
+        $car->marca = $request->input('marca');
+        $car->placa = $request->input('placa');
         $car->save();
         return response()->json(['type_alert'=>'success', 'msg_text'=>'Editado Correctamente']);
     }

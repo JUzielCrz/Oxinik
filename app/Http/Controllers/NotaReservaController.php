@@ -35,8 +35,9 @@ class NotaReservaController extends Controller
     public function data(){
         if($this->slug_permiso('nota_talon')){
             $notas=NotaReserva::
-                join('users', 'users.id','=', 'nota_reserva.user_id')
-                ->select('nota_reserva.id as nota_id','nota_reserva.*','users.name')
+                join('drivers', 'drivers.id','=', 'nota_reserva.driver_id')
+                ->join('cars', 'cars.id','=', 'nota_reserva.car_id')
+                ->select('drivers.nombre as driver','cars.nombre as car','nota_reserva.id as nota_id','nota_reserva.*')
                 ->where('user_id', auth()->user()->id)->orderBy('nota_id','DESC')->limit(200);
             return DataTables::of(
                 $notas
@@ -62,12 +63,14 @@ class NotaReservaController extends Controller
     }
     public function tanques_data(){
         if($this->slug_permiso('nota_talon')){
-            $notas=NotaReservaTanque::
-            join('tanques','tanques.num_serie','nota_reserva_tanque.num_serie')
-            ->join('nota_reserva','nota_reserva.id','nota_reserva_tanque.nota_id')
-            ->select("tanques.*","nota_reserva.id as nota_id", "nota_reserva.car", "nota_reserva.driver")
-            ->addSelect(['gas_name' => CatalogoGas::select('nombre')->whereColumn( 'catalogo_gases.id', 'tanques.tipo_gas')])
-            ->where('tanques.estatus', 'TANQUE-RESERVA');
+            $notas=NotaReserva::
+            join('nota_reserva_tanque','nota_reserva_tanque.nota_id','nota_reserva.id')
+            ->join('drivers','drivers.id','nota_reserva.driver_id')
+            ->join('cars','cars.id','nota_reserva.car_id')
+            ->join('Tanques', 'Tanques.num_serie', '=', 'nota_reserva_tanque.num_serie')
+            ->join('catalogo_gases', 'catalogo_gases.id', '=', 'tanques.tipo_gas')
+            ->select('nota_reserva_tanque.*', 'nota_reserva.*', 'nota_reserva.created_at as fecha' , 'drivers.nombre as driver', 'cars.nombre as car', 'tanques.*', 'catalogo_gases.nombre as gas');
+            
             return DataTables::of(
                 $notas
             )
@@ -87,13 +90,13 @@ class NotaReservaController extends Controller
     }
 
     public function save(Request $request){   
-        // dd($request->all());
+        //  dd($request->all());
         if($this->slug_permiso('nota_reserva')){
             $nota=new NotaReserva;
             $nota->user_id =auth()->user()->id;
             $nota->incidencia = $request->incidencia;
-            $nota->driver = $request->driver;
-            $nota->car = $request->car;
+            $nota->driver_id = $request->driver;
+            $nota->car_id = $request->car;
             $nota->save();
 
             if($request->incidencia == 'ENTRADA'){
@@ -138,7 +141,9 @@ class NotaReservaController extends Controller
             join("nota_reserva_tanque", "tanques.num_serie","=","nota_reserva_tanque.num_serie")
             ->join("catalogo_gases", "catalogo_gases.id","=","tanques.tipo_gas")
             ->where('nota_id',$id->id)->get();
-            $data = ['nota'=>$id, 'tanques'=>$tanques, 'user_name'=>$user_name->name];
+            $driver=Driver::find($id->driver_id);
+            $car=Car::find($id->car_id);
+            $data = ['nota'=>$id, 'tanques'=>$tanques, 'user_name'=>$user_name->name, 'driver'=>$driver,'car'=>$car,];
             return $data;
         }
         return view('home');

@@ -4,26 +4,7 @@ $(document).ready(function () {
     var listtabla = $('#tablecruddata').DataTable({
         "ordering": true,
         "order": [[ 0, 'desc' ]],
-        language: {
-            "decimal": "",
-            "emptyTable": "No hay información",
-            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-            "infoPostFix": "",
-            "thousands": ",",
-            "lengthMenu": "Mostrar _MENU_ Entradas",
-            "loadingRecords": "Cargando...",
-            "processing": "Procesando...",
-            "search": "Buscar:",
-            "zeroRecords": "Sin resultados encontrados",
-            "paginate": {
-                "first": "Primero",
-                "last": "Ultimo",
-                "next": "Siguiente",
-                "previous": "Anterior"
-            }
-        },
+        language: {"url": "/js/language_dt_spanish.json"},
         processing: true,
         serverSider: true,
         ajax: '/nota/reserva/data',
@@ -38,22 +19,15 @@ $(document).ready(function () {
         ]
     });
 
-    $(document).on("click","#btnEliminarFila", eliminarFila);
+    // $(document).on("click","#btnEliminarFila", eliminarFila);
     
     $(document).on("click",".btn-delete", nota_delete);
     $(document).on("click","#refresh-table", refresh_table);
 
-    $('#serie_tanque').keypress(function (event) {
-        // console.log(event.charCode);
-        if (event.charCode == 13 ){
-            event.preventDefault();
-            insertar_cilindro();
-        } 
-    });
 
-    function eliminarFila(){
-        $(this).closest('tr').remove();
-    }
+    // function eliminarFila(){
+    //     $(this).closest('tr').remove();
+    // }
 
     function mensaje(icono,titulo, mensaje, tiempo, modal){
         $(modal).modal("hide");

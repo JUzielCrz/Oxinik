@@ -33,6 +33,7 @@
                             <th scope="col">Chofer</th>
                             <th scope="col">Automovil</th>
                             <th scope="col">#Nota</th>
+                            <th scope="col">Fecha</th>
                             <th ></th>
                         </tr>
                     </thead>

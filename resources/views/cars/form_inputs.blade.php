@@ -15,9 +15,14 @@
                 <span  id="modeloError" class="text-danger"></span>
             </div>
             <div class="form-group col-12">
-                {!! Form::label('kilometraje*') !!}
-                {!! Form::text('kilometraje', null, ['id'=>'kilometraje', 'class' => 'form-control form-control-sm', 'placeholder'=>'...', 'required' ]) !!}
-                <span  id="kilometrajeError" class="text-danger"></span>
+                {!! Form::label('marca*') !!}
+                {!! Form::text('marca', null, ['id'=>'marca', 'class' => 'form-control form-control-sm', 'placeholder'=>'...', 'required' ]) !!}
+                <span  id="marcaError" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12">
+                {!! Form::label('placa*') !!}
+                {!! Form::text('placa', null, ['id'=>'placa', 'class' => 'form-control form-control-sm', 'placeholder'=>'...', 'required' ]) !!}
+                <span  id="placaError" class="text-danger"></span>
             </div>
         </div>
 

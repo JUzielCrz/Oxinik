@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Car extends Model
 {
     public $timestamps =  true;
-    protected $fillable = ['nombre',  'modelo', 'kilometraje'];
+    protected $fillable = ['nombre',  'modelo', 'marca', 'placa'];
     public $incrementing = true;
 }

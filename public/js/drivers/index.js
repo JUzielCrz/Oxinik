@@ -21,8 +21,10 @@ $(document).ready(function () {
             ajax: '/drivers/table/data',
             columns:[
                 {data: 'id'},
-                {data: 'last_name'},
-                {data: 'name'},
+                {data: 'apellido'},
+                {data: 'nombre'},
+                {data: 'licencia_tipo'},
+                {data: 'licencia_numero'},
                 {data: 'btnEdit'},
             ]
         });
@@ -81,10 +83,14 @@ $(document).ready(function () {
     }
 
     function clean_inputs() {
-        $("#last_name").val("");
-        $("#name").val("");
-        $("#last_nameError").empty();
-        $("#nameError").empty();
+        $("#apellido").val("");
+        $("#nombre").val("");
+        $("#licencia_tipo").val("");
+        $("#licencia_numero").val("");
+        $("#apellidoError").empty();
+        $("#nombreError").empty();
+        $("#licencia_tipoError").empty();
+        $("#licencia_numeroError").empty();
     }
 
     function mensaje(icono,titulo, mensaje, modal){

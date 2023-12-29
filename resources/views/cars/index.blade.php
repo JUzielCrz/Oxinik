@@ -40,7 +40,8 @@
                             <th scope="col">#</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Modelo</th>
-                            <th scope="col">kilometraje</th>
+                            <th scope="col">Marca</th>
+                            <th scope="col">Placa</th>
                             <th scope="col"></th>
                             </tr>
                         </thead>

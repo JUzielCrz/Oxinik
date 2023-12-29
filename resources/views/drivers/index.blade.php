@@ -40,6 +40,8 @@
                             <th scope="col">#</th>
                             <th scope="col">Apellidos</th>
                             <th scope="col">Nombre(s)</th>
+                            <th scope="col">Tipo Licencia</th>
+                            <th scope="col"># Licencia</th>
                             <th scope="col"></th>
                             </tr>
                         </thead>

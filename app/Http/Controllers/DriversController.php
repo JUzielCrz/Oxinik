@@ -48,12 +48,16 @@ class DriversController extends Controller
     {
         $this->slug_permiso();
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
+            'nombre' => ['required', 'string', 'max:255'],
+            'apellido' => ['required', 'string', 'max:255'],
+            'licencia_tipo' => ['required', 'string', 'max:255'],
+            'licencia_numero' => ['required', 'string', 'max:255'],
         ]);
         $driver = new Driver();
-        $driver->name = $request->input('name');
-        $driver->last_name = $request->input('last_name');
+        $driver->nombre = $request->input('nombre');
+        $driver->apellido = $request->input('apellido');
+        $driver->licencia_tipo = $request->input('licencia_tipo');
+        $driver->licencia_numero = $request->input('licencia_numero');
         $driver->save();
         return response()->json(['type_alert'=>'success', 'msg_text'=>'Registrado Correctamente']);
     }
@@ -69,8 +73,10 @@ class DriversController extends Controller
     {
         $this->slug_permiso();
         $driver=Driver::find( $id);
-        $driver->name = $request->input('name');
-        $driver->last_name = $request->input('last_name');
+        $driver->nombre = $request->input('nombre');
+        $driver->apellido = $request->input('apellido');
+        $driver->licencia_tipo = $request->input('licencia_tipo');
+        $driver->licencia_numero = $request->input('licencia_numero');
         $driver->save();
         return response()->json(['type_alert'=>'success', 'msg_text'=>'Editado Correctamente']);
     }
