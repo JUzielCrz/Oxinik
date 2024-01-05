@@ -1,61 +1,37 @@
 $(document).ready(function () {
 
     var listtabla = $('#tablecruddata').DataTable({
-        language: {"url": "js/language_dt_spanish.json"},
+        language: {"url": "/js/language_dt_spanish.json"},
         processing: true,
         serverSider: true,
-        ajax: '/transporte/filter',
+        ajax: '/transporte/bitacora/data/'+bitacora_id.value,
         columns:[
-            {data: 'id'},
-            {data: 'car'},
-            {data: 'driver'},
-            {data: 'fecha'},
+            {data: 'lugar_salida'},
+            {data: 'lugar_llegada'},
+            {data: 'hora_salida'},
+            {data: 'hora_entrada'},
+            {data: 'descarga'},
+            {data: 'carga'},
+            {data: 'total'},
+            {data: 'observaciones'},
             {
                 data: null, 
                 render: function(data, type, row) {
-                    return '<a class="btn btn-sm btn-amarillo mx-1" href="/transporte/bitacora/' + data.id + '"><i class="far fa-newspaper"></i></a>'+
-                    '<a class="btn btn-sm btn-amarillo mx-1" href="/transporte/bitacora/pdf/' + data.id + '"><i class="fas fa-file-pdf"></i></a>'+
-                    '<button class="btn btn-sm btn-amarillo btnDestroy mx-1" data-id="'+data.id+'"><i class="fas fa-trash"></i></a>';
+                    return '<button class="btn btn-sm btn-amarillo btnDestroy mx-1" data-id="'+data.id+'"><i class="fas fa-trash"></i></a>';
                 }
             },
         ]
     });
-    
-    $(document).on("click","#filtro", function (){
-            $.ajax({
-                url: '/transporte/filter', // Reemplaza con la ruta correcta
-                method: 'GET',
-                data: $("#formFilter").serialize(),
-                success: function(response) {
-                    // Actualiza la tabla con los datos filtrados
-                    $('#tablecruddata').DataTable().clear().rows.add(response.data).draw();
-                },
-                error: function(xhr, status, error) {
-                    // Manejo de errores si es necesario
-                }
-            });
-    });
 
-    $(document).on("click","#btn_save", function (){
-        if($("#id").val() == "" ){
-            save("POST", "transporte")
-        }else{
-            var link = "transporte/" + $("#id").val()
-            save("PUT", link)
-        }
-    });
-
-    function save(method, link) {
+    $(document).on("click","#guardar_nota", function (){
         $.ajax({
-            method: method,
-            url: link,
-            data: $("#form_create").serialize(),
+            method: 'POST',
+            url: '/transporte/update/'+bitacora_id.value,
+            data: $("#formDatosGenerales").serialize(),
         })
         .done(function (msg) {
-            // listtabla.ajax.reload(null,false);
-            mensaje(msg.type_alert, msg.alert_type, "Los datos se guardaron correctamente", "", "#modalCreate");
-            clean_inputs()
-            listtabla.ajax.reload(null,false);
+            mensaje(msg.type_alert, msg.titulo, "Los datos se guardaron correctamente", "", "#modalCreate");
+
         }).fail(function (jqXHR, textStatus, errorThrown) {
             var errorMessage = 'Error al procesar la solicitud';
             if (jqXHR.responseJSON && jqXHR.responseJSON.errors) {
@@ -69,13 +45,31 @@ $(document).ready(function () {
             mensaje('error', 'ERROR', '', errorMessage, '');
         });
         return false;
-    }
+    });
 
-    function clean_inputs() {
-        $("#fecha").val("");
-        $("#car_id").val("");
-        $("#driver_id").val("");
-    }
+    $(document).on("click","#guardar_incidencia", function (){
+        $.ajax({
+            method: 'POST',
+            url: '/transporte/bitacora/create/'+bitacora_id.value,
+            data: $("#formIncidencia").serialize(),
+        })
+        .done(function () {
+            listtabla.ajax.reload(null,false);
+            limpiar_inputs();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            var errorMessage = 'Error al procesar la solicitud';
+            if (jqXHR.responseJSON && jqXHR.responseJSON.errors) {
+                errorMessage = ''; // Reiniciar el mensaje de error
+                var errors = jqXHR.responseJSON.errors;
+                $.each(errors, function (key, value) {
+                    errorMessage += value + '<br>'; // Puedes modificar el formato según tu necesidad
+                });
+            }
+            // Mostrar el mensaje de error
+            mensaje('error', 'ERROR', '', errorMessage, '');
+        });
+        return false;
+    });
 
     function mensaje(icono,titulo, mensaje,mensaje_html, modal){
         $(modal).modal("hide");
@@ -89,6 +83,16 @@ $(document).ready(function () {
         })
     }
 
+    function limpiar_inputs(){
+        $("#lugar_salida").val('');
+        $("#lugar_llegada").val('');
+        $("#hora_salida").val('');
+        $("#hora_entrada").val('');
+        $("#descarga").val('');
+        $("#carga").val('');
+        $("#total").val('');
+        $("#observaciones").val('');
+    }
 
     $(document).on("click",".btnDestroy", function () {
         Swal.fire({
@@ -104,7 +108,7 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 $.ajax({
                     method: "delete",
-                    url: "/transporte/destroy/"+$(this).data('id'),
+                    url: "/transporte/bitacora/destroy/"+$(this).data('id'),
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Obtener el token CSRF del meta tag
                     },
@@ -129,5 +133,4 @@ $(document).ready(function () {
             }
         })
     });
-        
 });

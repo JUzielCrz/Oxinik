@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Driver;
 use App\Models\Transporte;
+use App\Models\TransporteBitacora;
 use App\Models\Car;
 
 use Illuminate\Http\Request;
@@ -56,6 +57,17 @@ class TransporteController extends Controller
         return response()->json(['type_alert'=>'success', 'msg_text'=>'Registrado Correctamente']);
     }
 
+    public function update(Request $request,Transporte $transporte)
+    {
+        $transporte->kilometraje_inicial = $request->input('kilometraje_inicial');
+        $transporte->kilometraje_final = $request->input('kilometraje_final');
+        $transporte->envases = $request->input('envases');
+        $transporte->acomuladores = $request->input('acomuladores');
+        $transporte->observaciones = $request->input('observaciones');
+        $transporte->save();
+        return response()->json(['type_alert'=>'success','titulo'=>'Exito', 'msg_text'=>'Registrado Correctamente']);
+    }
+
     public function filter(Request $request)
     {
         $fecha = $request->input('filter_fecha');
@@ -86,10 +98,10 @@ class TransporteController extends Controller
         return response()->json(['data' => $datosFiltrados]);
     }
 
-    public function bitacora(Transporte $id){
-        $driver=Driver::find($id->driver_id);
-        $car=Car::find($id->car_id);
-        $data = ['bitacora'=> $id,'driver'=> $driver, 'car'=>$car ];
-        return view('transporte.bitacora', $data);
+    public function destroy(Transporte $transporte)
+    {
+        TransporteBitacora::where('transporte_id', $transporte->id)->delete();
+        $transporte->delete();
     }
+
 }

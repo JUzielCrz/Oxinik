@@ -217,9 +217,15 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/transporte', 'TransporteController@store')->name('transporte.store');
     Route::put('/transporte', 'TransporteController@update')->name('transporte.update');
     Route::get('/transporte/filter', 'TransporteController@filter')->name('transporte.filter');
-
     Route::get('/transporte/create', 'TransporteController@create')->name('transporte.create');
-    Route::get('/transporte/bitacora/{id}', 'TransporteController@bitacora')->name('transporte.bitacora');
+    Route::post('/transporte/update/{transporte}', 'TransporteController@update')->name('transporte.update');
+    Route::delete('/transporte/destroy/{transporte}', 'TransporteController@destroy')->name('transporte.destroy');
+
+    Route::get('/transporte/bitacora/{id}', 'TransporteBitacoraController@index')->name('transporte.bitacora');
+    Route::get('/transporte/bitacora/data/{transporte}', 'TransporteBitacoraController@data')->name('transporte.bitacora.data');
+    Route::post('/transporte/bitacora/create/{transporte}', 'TransporteBitacoraController@create')->name('transporte.bitacora.update');
+    Route::delete('/transporte/bitacora/destroy/{bitacora}', 'TransporteBitacoraController@destroy')->name('transporte.bitacora.update');
+    Route::get('/transporte/bitacora/pdf/{transporte}', 'TransporteBitacoraController@pdf')->name('transporte.bitacora.pdf');
 
      //Concentrator
      Route::resource('/concentrators', 'ConcentratorController');

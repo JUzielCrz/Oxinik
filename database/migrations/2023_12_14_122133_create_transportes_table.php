@@ -20,6 +20,11 @@ class CreateTransportesTable extends Migration
             $table->foreign('car_id')->references('id')->on('cars')->onDelete('SET NULL');
             $table->unsignedBigInteger('driver_id')->nullable();
             $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('SET NULL');
+            $table->integer('kilometraje_inicial')->nullable();
+            $table->integer('kilometraje_final')->nullable();
+            $table->string('envases')->nullable();
+            $table->string('acomuladores')->nullable();
+            $table->string('observaciones')->nullable();
             $table->timestamps();
         });
     }

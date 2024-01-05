@@ -27,11 +27,11 @@
                 <div class="row justify-content-end  ">
                     <div class="col-2">
                         <label for="fecha">#Bitácora</label>
-                        <input type="text" value="{{$bitacora->id}}" class="form-control form-control-sm" readonly >
+                        <input type="text" value="{{$transporte->id}}" id="bitacora_id" class="form-control form-control-sm" readonly >
                     </div>
                     <div class="col-2">
                         <label for="fecha">Fecha</label>
-                        <input type="text" value="{{$bitacora->fecha}}" class="form-control form-control-sm" disabled>
+                        <input type="text" value="{{$transporte->fecha}}" class="form-control form-control-sm" disabled>
                     </div>
                 </div>
                 <div class="row mt-2">
@@ -66,7 +66,41 @@
                         <input type="text" value="{{$car->placa}}" class="form-control form-control-sm" disabled>
                     </div>
                 </div>
+                <form id="formDatosGenerales">
+                    @csrf
+                    <div class="row mt-2">
+                        <div class="col-md-3 form-group">
+                            <label for="">Kilometraje Inicial</label>
+                            <input type="number" value="{{$transporte->kilometraje_inicial}}" name="kilometraje_inicial" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label for="">Kilometraje Final</label>
+                            <input type="number" value="{{$transporte->kilometraje_final}}" name="kilometraje_final" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label for="">Envases</label>
+                            <input type="number" value="{{$transporte->envases}}" name="envases" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label for="">Acomuladores</label>
+                            <input type="number" value="{{$transporte->acomuladores}}" name="acomuladores" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label for="">Observaciones Generales</label>
+                            <textarea name="observaciones" id="observaciones" cols="30" rows="1" class="form-control">{{$transporte->observaciones}}</textarea>
+                        </div>
+                    </div>
+                </form>
+                <div class="row justify-content-end mt-4">
+                    <div class="col col-auto ">
+                        <button type="button" class="btn  btn-sm btn-amarillo" id="guardar_nota" >
+                            <span class="fas fa-plus"></span>
+                            Guardar
+                        </button>
+                    </div>
+                </div>
             </div>
+            
 
         </div>
 
@@ -83,24 +117,73 @@
                             Agregar
                         </button>
                     </div> --}}
+                    
                 </div>
-                <div></div>
+                
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm " id="tablecruddata">
+                        <thead>
+                            <th>Lugar Salida</th>
+                            <th>Lugar Llegada</th>
+                            <th>Hora Salida</th>
+                            <th>Hora Entrada</th>
+                            <th>Descarga</th>
+                            <th>Carga</th>
+                            <th>Total</th>
+                            <th>Observacion</th>
+                            <th></th>
+                        </thead>
+                        
+                    </table>
+                </div>
+                <hr>
+                <form id="formIncidencia">
+                    <div class="row">
+                        @csrf
+                        <div class="col-md-3">
+                            <label for="">Lugar Salida</label>
+                            <input type="text" value="" name="lugar_salida" id="lugar_salida" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Lugar Llegada</label>
+                            <input type="text" value="" name="lugar_llegada" id="lugar_llegada"  class="form-control form-control-sm">
+                        </div>
+                        <div class="col">
+                            <label for="">Hora Salida</label>
+                            <input type="time" value=""  name="hora_salida" id="hora_salida"class="form-control form-control-sm">
+                        </div>
+                        <div class="col">
+                            <label for="">Hora Entrada</label>
+                            <input type="time" value="" name="hora_entrada" id="hora_entrada" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Descarga E/A</label>
+                            <input type="text" value="" name="descarga" id="descarga" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Carga E/A</label>
+                            <input type="text" value="" name="carga" id="carga" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Total</label>
+                            <input type="text" value="" name="total" id="total" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Observación</label>
+                            <textarea name="observaciones"  id="observaciones" class="form-control  form-control-sm" id="" cols="1" rows="1"></textarea>
+                        </div>
+                        <div class="col align-self-end">
+                            <button type="button" class="btn  btn-sm btn-amarillo" id="guardar_incidencia" >
+                                <span class="fas fa-plus"></span>
+                                Añadir
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
     
-        </div>
-
-
-
-        {{-- OBSERVACIONES --}}
-        <div class="card mt-2">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6 form-group">
-                        <label for="">Observaciones Generales</label>
-                        <textarea name="observaciones" id="observaciones" cols="30" rows="1" class="form-control"></textarea>
-                    </div>
-                </div>
-            </div>
         </div>
 
 

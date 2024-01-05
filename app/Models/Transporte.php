@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Transporte extends Model
 {
     protected $table = 'transportes';
-    protected $fillable = ['id','fecha', 'car_id', 'driver_id'];
+    protected $fillable = ['id','fecha', 'car_id', 'driver_id','Kilimetraje_inicial','Kilimetraje_final','envases','acomuladores'];
 }
