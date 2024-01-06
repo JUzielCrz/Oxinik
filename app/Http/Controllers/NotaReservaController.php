@@ -67,9 +67,10 @@ class NotaReservaController extends Controller
             join('nota_reserva_tanque','nota_reserva_tanque.nota_id','nota_reserva.id')
             ->join('drivers','drivers.id','nota_reserva.driver_id')
             ->join('cars','cars.id','nota_reserva.car_id')
-            ->join('Tanques', 'Tanques.num_serie', '=', 'nota_reserva_tanque.num_serie')
+            ->join('tanques', 'tanques.num_serie', '=', 'nota_reserva_tanque.num_serie')
             ->join('catalogo_gases', 'catalogo_gases.id', '=', 'tanques.tipo_gas')
-            ->select('nota_reserva_tanque.*', 'nota_reserva.*', 'nota_reserva.created_at as fecha' , 'drivers.nombre as driver', 'cars.nombre as car', 'tanques.*', 'catalogo_gases.nombre as gas');
+            ->select('nota_reserva_tanque.*', 'nota_reserva.*', 'nota_reserva.created_at as fecha' , 'drivers.nombre as driver', 'cars.nombre as car', 'tanques.*', 'catalogo_gases.nombre as gas')
+            ->where('tanques.estatus','TANQUE-RESERVA');
             
             return DataTables::of(
                 $notas
