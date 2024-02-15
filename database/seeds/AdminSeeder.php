@@ -19,7 +19,7 @@ class AdminSeeder extends Seeder
      //crear usuario administrador
         $useradmin=User::create([
             'name'      => 'ADMIN OXINIK',
-            'email'     =>  'sge.oxinik@gmail.com',
+            'email'     =>  'oxigamex@gmail.com',
             'email_verified_at'     =>  '2020-01-17 13:00:00',
             'password'  => Hash::make('oxinik#2020'),
         ]);
