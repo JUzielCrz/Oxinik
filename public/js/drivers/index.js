@@ -53,6 +53,7 @@ $(document).ready(function () {
             .done(function (msg) {
                 listtabla.ajax.reload(null,false);
                 mensaje(msg.type_alert, msg.alert_type, "Los datos se guardaron correctamente", "#modal_driver");
+                clean_inputs()
             })
             return false;
         }
@@ -83,6 +84,7 @@ $(document).ready(function () {
     }
 
     function clean_inputs() {
+        $("#id").val("");
         $("#apellido").val("");
         $("#nombre").val("");
         $("#licencia_tipo").val("");
