@@ -14,7 +14,7 @@
                 <tbody>
                     <tr id="tablaencabezado">
                         <td class="text-center p-0">
-                            <img src="img/logo.svg" style="width: 200px" alt=""></td>
+                            <img src="img/logo.png" style="width: 200px" alt=""></td>
                         <td class="p-0">
                             <p >
                                 {{$empresa->direccion}}<br>
