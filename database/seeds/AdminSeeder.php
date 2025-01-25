@@ -33,23 +33,5 @@ class AdminSeeder extends Seeder
         //crear relacion en la tabla rol_user para admin
         $useradmin->roles()->sync([$roladmin->id]);
      //end
-
-     Concentrator::create([
-        'serial_number'=>'123',
-        'brand'=>'Beker',
-        'work_hours'=>'5000', 
-        'capacity'=>'38',
-        'status'=>'ALMACEN',
-        'description'=>'SIN DESCRIPCION POR EL MOMENTO',
-    ]);
-    Concentrator::create([
-        'serial_number'=>'234',
-        'brand'=>'RANGER',
-        'work_hours'=>'5000', 
-        'capacity'=>'45',
-        'status'=>'ALMACEN',
-        'description'=>'SIN DESCRIPCION POR EL MOMENTO',
-    ]);
-
     }
 }

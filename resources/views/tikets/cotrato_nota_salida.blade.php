@@ -28,7 +28,7 @@
     <body>
         <main>
             <div class="text-center mt-0" style="">
-                <img src="img/logo.svg" style="width: 200px" alt="">
+                <img src="img/logo.jpg" style="width: 200px" alt="">
             </div>
             <p>
                 Calle Ignacio Zaragoza 213 A <br> 

@@ -76,7 +76,7 @@
         <header>
             <table class="table table-borderless ">
                 <tbody>
-                    <td> <img src="img/logo.svg" style="width: 200px" alt=""></td></td>
+                    <td> <img src="img/logo.jpg" style="width: 200px" alt=""></td></td>
                     <td class="mt-4 mr-3 text-right"> <img src="img/email.svg" style="height: 25px;" alt=""> </td>
                 </tbody>
             </table> 

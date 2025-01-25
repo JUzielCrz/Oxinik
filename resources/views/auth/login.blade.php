@@ -28,7 +28,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col mt-5 mb-4 text-center" >
-                        <img src="img/logo-gris.svg" width="250px" alt="" >
+                        <img src="img/logo-gris.jpg" width="250px" alt="" >
                     </div>
                 </div>
                 <form method="POST" action="{{ route('login') }}">

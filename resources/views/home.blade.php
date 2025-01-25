@@ -26,7 +26,7 @@
             <div class="card">
                 <div class="row mt-5 mb-5">
                     <div class="col text-center">
-                        <img src="img/logo.svg" width="370rem" alt="" >
+                        <img src="img/logo.jpg" width="370rem" alt="" >
                     </div>
                 </div>
                 <div class="row">
