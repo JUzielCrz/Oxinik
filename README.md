@@ -32,6 +32,8 @@ Si el proyecto usa base de datos y tienes migraciones que debes correr, puedes h
 
 ```sh
 php artisan migrate
+# Migrar ejecutando los seeders
+ php artisan migrate:refresh --seed
 ```
 
 5. Levantar el servidor de desarrollo
