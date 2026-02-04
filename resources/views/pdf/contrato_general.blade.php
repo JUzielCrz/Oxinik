@@ -1,316 +1,311 @@
 <!DOCTYPE html>
-<html >
-    <head lang="es">
-        <meta charset="utf-8">
-        <title>Contrato</title>
-        <!--Styles -->
-        <link href="bootstrap-4.4.1-dist/css/bootstrap.min.css" rel="stylesheet">
+<html lang="es">
 
-        <style>
-            @page {
-                margin: 0cm 0cm;
-                font-size: 1.5em;
-            }
-            /* .logo {
-                background-image: url("./img/logo.png");
-            } */
+<head>
+  <title>Contrato General</title>
+  <meta charset="UTF-8"/>
+    <link href="bootstrap-4.4.1-dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    @page {
+    size: Letter;
+    margin: 0;
+  }
 
+  .page-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("{{ public_path('img/oxigamex/membrete_carta.jpg') }}") no-repeat top left;
+      background-size: 8.5in 11in;
+      z-index: -1;
+    }
+    
+    body {
+      margin: 3.5cm 1cm 3.5cm 1cm;
+      font-family: 'Times New Roman', serif;
+      font-size: 12pt;
+      line-height: 1.2;
+    }
+    
+    h1 {
+      text-align: center;
+      margin: 6pt 0;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 14pt;
+      font-weight: bold;
+    }
 
-            
-            body {
-                margin: 2cm 2cm 2cm;
-                font-family: Arial, Helvetica, Sans-serif;
-                color: black;
-                font-size: 14px;
-                text-align: justify;
-                /* text-indent: 1.5em; */
-                
-            }
+    h2 {
+      text-align: center;
+      margin: 6pt 0;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 12pt;
+      font-weight: bold;
+    }
 
-            .page-break {
-                page-break-after: always;
-            }
+    h4 {
+      text-align: center;
+      margin: 6pt 0;
+    }
 
-            span {
-                text-transform: uppercase;
-            }
-        </style>
-    </head>
+    h5 {
+      text-align: center;
+      margin: 6pt 0;
+    }
 
+    p {
+      margin: 12pt 0;
+      text-align: justify;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 12pt;
+    }
 
-    {{-- <style>
-        
-        div {
-        background-image: url("./img/tanque2.png");
-        }
+    table {
+      width: 100%;
+    }
 
-    </style> --}}
+    .header-info {
+      border-collapse: collapse;
+    }
 
-    <body>
+    .header-info tbody tr td {
+      border: 1px solid black;
+    }
 
-        
+    .header-info thead tr th {
+      border: 1px solid black;
+    }
 
-        <main>
-            <p class="text-right">Convenio: <strong>{{$contrato->id}}</strong></p>
-            <h5 style="font-size: 20px; text-align: center">CONTRATO DE ARRENDAMIENTO DE CILINDROS DE OXIGÉNO MEDICINAL E INDUSTRIAL, GASES ESPECIALES Y ACCESORIOS.</h5>
-            
-            <p class="mt-4">Que celebran por una parte el <strong>C. Juan Manuel Contreras Gómez</strong>, como responsable y/o propietario del establecimiento que comercialmente se denomina OXI NIK Gases Especiales, persona que en lo subsecuente se le denominara “EL ARRENDADOR” y por la otra el <span><strong>C. {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}</strong></span> con  @if ($cliente->email != '') correo electrónico <span><strong>{{$cliente->email}}</strong></span> @endif y número telefónico <span><strong>{{$cliente->telefono}}</strong></span>, quien en  lo subsecuente se le denominara “EL ARRENDATARIO”, quienes se sujetan al tenor de las siguientes declaraciones y clausulas: </p>
-            
-            <h5 style="font-size: 16px; text-align: center">DECLARACIONES:</h5>
- 
-            <p><strong>“EL ARRENDADOR”</strong>, declara que:</p>
-            <p >
-                <ul style="list-style-type: lower-latin; ">
-                    <li style="">                
-                        Es el responsable y/o propietario del establecimiento que comercialmente se denomina OXI   NIK Gases Especiales, con domicilio, en la calle Ignacio Zaragoza, número 213, letra “A”, en la Colonia Fernando Gómez Sandoval, del Municipio de Santa Lucia del Camino, Oaxaca, c. p. 71243.                    </li>
-                    <li>Declara que es propietario de cilindros de oxígeno y de diversos gases y tamaños de los cuales se sirve para venderlos, así como de los equipos descritos en el anexo A, que se adjunta al presente contrato, y que se dedica profesionalmente a la venta, alquiler, distribución, suministro de diversos gases y accesorios, de los mismos. Para la prestación de sus servicios cuenta con los medios fiscales, organizativos y técnicos necesarios para su desempeño. </li>
-                </ul>
-            </p>
-            <p><strong>“EL ARRENDATARIO"</strong>, declara que:</p>
-            <p >
-                <ul style="list-style-type: lower-latin; ">
-                    <li style="">                
-                        Que está interesado en recibir por parte de “EL ARRENDADOR” los bienes que posteriormente se describirán en los términos y condiciones designados en el presente contrato, a los efectos de arrendar por el precio estipulado en el presente contrato. De tal modo que adquiere la posesión y uso mientras se satisfaga el precio y se cumplan las condiciones estipuladas y convenidas, en el Anexo A.                    </li>
-                    <li>
-                        Señala como domicilio para todos los efectos de este contrato el ubicado en la <strong>{{$contrato->direccion}}</strong>
-                        @if ($contrato->nombre_comercial != null)
-                        , con nombre del establecimiento que se denomina <strong>{{$contrato->nombre_comercial }}</strong>
-                        @else
-                            .
-                        @endif
-                    </li>
-                </ul>
-            </p>
+    .page-break {
+    page-break-before: always;
+    }
 
-            <p><strong>AMABAS PARTES</strong>, declaran que:</p>
+    .center-text {
+    text-align: center;
+    }
 
-            <p>
-                Ambas partes se reconocen mutuamente capacidad jurídica suficiente para intervenir en este acto, así como el carácter y representación con que respectivamente lo hacen, las partes convienen en celebrar el presente contrato sujetándose libremente al tenor de las siguientes:
-            </p>
+  </style>
+  
+</head>
 
-            <h5 style="font-size: 16px; text-align: center">CLÁUSULAS:</h5>
+<body>
+  <div class="page-bg"></div>
+  <h1>CONTRATO DE COMODATO</h1>
+  <p>
+    Que celebran por una parte la C. Virginia García López, a quien en lo subsecuente será denominará como “LA PROVEEDORA”, con domicilio ubicado en la calle Ignacio Zaragoza, número 213, Interior 4, Colonia Fernando Gómez Sandoval, Santa Lucia Del Camino, Oaxaca, C.P. 71243, con nombre del establecimiento OXIGAMEX OXIGENO GASES ACCESORIOS. Y por la otra parte el C. {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}} a quien en lo subsecuente se le denominara como “EL CONSUMIDOR”, con domicilio {{$contrato->direccion}} al tenor de las siguientes declaraciones y clausulas: 
+  </p>
 
-            <p><strong>PRIMERA:</strong> “EL ARRENDADOR”, se compromete a:</p>
-            <p>
-                <ul style="list-style-type: lower-latin; ">
-                    <li>Que por medio del presente contrato “EL ARRENDADOR” se obliga a suministrar los gases en envases de diversos tamaños y servicios que comercializa, para el uso y disfrute en perfecto estado de funcionamiento.</li>
-                    <li>Garantizar el suministro de los gases en envases de diversos tamaños y servicios que comercializa; así como del equipo por parte de “EL ARRENDATARIO”, durante el periodo de duración del contrato, siempre que este haga un buen uso debido y acorde con las instrucciones entregadas.
-                    </li>
-                </ul>	
-            </p>
+    <h2>DECLARACIONES.</h2>
+  <p>
+    DECLARA “LA PROVEEDORA”:
 
-            <p><strong>SEGUNDA:</strong> “EL ARRENDATARIO”, se compromete a:</p>
-            <p>Que durante la vigencia de este Contrato se compromete a consumir todos los gases y servicios que necesite con “EL ARRENDADOR”, los cuales solicitará por escrito mediante un mensaje de texto vía WhatsApp, mensaje de texto o llamada telefónica, siempre y cuando se encuentre al corriente en todas las obligaciones contraídas, y solo en caso de que “EL ARRENDADOR” no le suministre el servicio en tres días, podrá solicitar el suministro a cualquier otra compañía, salvo en caso fortuito, desastre natural, queda bien claro que el supuesto previsto en esta cláusula no podrá exceder de diez días hábiles. Si transcurre dicho plazo y “EL ARRENDADOR” no ha podido suministrar “EL ARRENDATARIO”, tendrá derecho a dar por terminado el presente contrato sin responsabilidad para él. </p>
+    <br/><br/>
 
-            <p><strong>TERCERA:</strong> “EL ARRENDATARIO” se responsabiliza en mantener y preservar con la diligencia debida los productos cedidos en alquiler, y se obliga a pagar el doble del importe de su valor tomando como referencia el costo en el mercado actual en el momento en el que ocurrió el hecho, de todo el equipo alquilado, en el caso de robo, destrucción ó daños que sufra el equipo alquilado y tendrá que pagar las reparaciones que sufra el equipo mencionado, salvo en caso de catástrofe reconocida por  “EL ARRENDADOR”, o por vicios ocultos (que deberán ser aprobados por “EL ARRENDATARIO”).</p>
+    a). “LA PROVEEDORA” Virginia García López, cuenta con la capacidad y personalidad para celebrar el presente contrato, persona física sin personalidad jurídica, constituida conforme a las leyes de la República Mexicana el día primero de agosto de dos mil veintitrés, registrada ante la Secretaria de Hacienda y Crédito Público (SHCP), por parte Servicio de Administración Tributaria (SAT), para ejercer como persona física empresa legal en la República Mexicana, dedicada a la venta y suministro de gases especiales, propietaria de envases ó cilindros de diversos tipos y tamaños, los cuales sirven para vender los gases especiales, como lo especifica en el clausulado de este contrato. 
 
-            <p><strong>CUARTA:</strong> “EL ARRENDATARIO” solicitara el suministro de gases y de los productos en el establecimiento comercial denominado OXI NIK Gases Especiales, con domicilio, en la calle Ignacio Zaragoza, número 213, letra “A”, en la colonia Fernando Gómez Sandoval, del Municipio de Santa Lucia del Camino, Oaxaca, c. p. 71243, en un horario de lunes a viernes de 08:00 a 18:00 horas y los días sábados de 08:00 a 15:00 horas, en los siguientes números telefónicos 951 195 02 00 y 951 240 06 67, en caso que el proveedor no laborará en un día sea por disposición oficial, festivo o por cuestiones meramente administrativos dará aviso al consumidor por medio de una circular con 15 días de anticipación.</p>
+    <br/><br/>
 
-            <p><strong>QUINTA:</strong> “EL ARRENDATARIO” no podrá ceder, transferir o sub arrendar bajo ninguna circunstancia a terceros los Derechos consignados en este Contrato, sin la autorización fehaciente y por escrito de “EL ARRENDADOR”. Así mismo, queda prohibido que “EL ARRENDATARIO” suministre, canje o rellene los cilindros de oxígeno, ó envases por su cuenta en otra empresa y de realizarlo pagará a “EL ARRENDADOR” el costo íntegro del gas adquirido rellenado en otro establecimiento.</p>
+    DECLARA “EL CONSUMIDOR”: 
 
-            <p><strong>SEXTA:</strong> “EL ARRENDATARIO” está obligado a conservar en buen estado los cilindros  obtenidos en arrendamiento y, si no utilizara el servicio por más de seis meses, deberá pagar por gastos de mantenimiento de los cilindros o envases de diversos gases, la cantidad de $200.00 doscientos pesos, cero centavos, moneda nacional, por cada envase que arrende, de no hacerlo, “EL ARRENDADOR” podrá dar por cancelado el contrato, y “EL ARRENDATARIO” deberá realizar la devolución y entrega de los cilindros o envases de diversos gases, que tenga a su cargo.</p>
+     <br/><br/>
 
-            
+     b). Que tiene capacidad y la personalidad para celebrar el presente contrato de comodato y requiere el suministro de los gases y de envases o cilindros, para uso en las instalaciones establecidas en la dirección {{$contrato->direccion}} con nombre {{$contrato->nombre_comercial}}, y así mismo, manifiesta que ha cumplido con todos y cada uno de los requisitos establecidos en el Anexo 1.
 
-            <p><strong>SEPTIMA:</strong> “EL ARRENDATARIO” deberá entregar un depósito en garantía de por cada uno de los cilindros ó envases solicitados en alquiler y proporcionados por “EL ARRENDADOR”, que no representa de ninguna manera el precio de el o los envases que requiera, y que ampara el presente contrato, los cuales se mencionan en el cuadro siguiente y que se encuentran documentados, en la siguiente tabla. </p>
+    <br/><br/>
 
+    En atención de lo anterior las partes se comprometen y manifiestan que es su voluntad expresa en celebrar el CONTRATO DE COMODATO en el presente convenio al tenor de las siguientes: 
 
-            <table class="table table-sm mt-4 mb-4 text-center">
+  </p>
+
+  <h2>CLÁUSULAS.</h2>
+
+  <p>
+    PRIMERA. - “EL CONSUMIDOR” reconoce y tiene pleno conocimiento que “LA PROVEEDORA” es la única y legítima propietaria de los envases que le presta y entrega para su uso, cuya propiedad en ningún momento podrá ser transmitida a “EL CONSUMIDOR”, por ningún concepto; se señala como lugar de pago del presente contrato el domicilio ubicado en calle  Ignacio Zaragoza, número 213, interior 4, Colonia Fernando Gómez Sandoval, Santa Lucia Del Camino, Oaxaca C.P. 71243, también se recibe el pago por medio de transferencias electrónicas ó de la manera que se convenga con “EL CONSUMIDOR”. 
+    
+    <br/><br/>
+
+    Además de lo antes estipulado, tendrá la obligación “EL CONSUMIDOR” de entregar un depósito en efectivo como garantía, que no representa de ninguna manera el precio del o de los envases que requiera de “LA PROVEEDORA”, cantidad de dinero que estará sujeta de la forma siguiente: 
+
+    <br/><br/>
+
+    Los depósitos que se refiere esta cláusula son los siguientes: un depósito en garantía de<strong> {{number_format($tanques->sum('deposito_garantia'), 2, '.', ',')}} {{$precioLetras}} </strong>, por CADA UNO de los envases proporcionados al “CONSUMIDOR” 
+
+    <br/><br/>
+
+    “EL CONSUMIDOR” tendrá derecho a recuperar la cantidad que haya entregado como depósito en garantía en los términos del artículo 11 de la Ley Federal de Protección al Consumidor que a la letra dice: “El consumidor que al adquirir un bien haya entregado una cantidad como depósito por envase o empaque, tendrá derecho a recuperar en el momento de su devolución, la suma integra que haya erogado por ese concepto”. Lo anterior operara siempre y cuando “EL CONSUMIDOR” se encuentre al corriente en el cumplimiento de sus obligaciones.
+    
+    <br/><br/>
+
+    Los envases los recibe “EL CONSUMIDOR” a su entera satisfacción; no obstante, este último “EL CONSUMIDOR” quedara liberado de cualquier responsabilidad en el caso de que existan vicios o defectos ocultos en los envases, siempre y cuando “EL CONSUMIDOR” haya seguido todas y cada una de las recomendaciones de “LA PROVEEDORA”, de carácter técnico, mismas que proporciona por escrito, y en este acto a “EL CONSUMIDOR”. Anexo 5 
+    
+    <br/><br/>
+
+    TABLA
+  </p>
+
+<table class="table table-sm mt-4 mb-4 text-center">
                 <thead>
                     <tr>
+                        <th>DESCRIPCION</th>
+                        <th>CLASE DE GAS</th>
                         <th>CILINDROS</th>
-                        {{-- <th>U.M.</th> --}}
-                        <th>GAS</th>
-                        <th>TIPO</th>
-                        <th>MATERIAL</th>
-                        <th>CAPACIDAD</th>
-                        <th>DEP. GAR.</th>
                     </tr>
                 </thead>
                 <tbody>
 
                     @foreach ($tanques as $item)
                     <tr>
-                        <td>{{$item->cilindros}}</td>
-                        <td>{{$item->nombre}}</td> 
-                        <td>{{$item->tipo_tanque}}</td>
                         <td>{{$item->material}}</td>
-                        <td>{{$item->capacidad}} {{$item->unidad_medida}}</td>
-                        <td>{{number_format($item->deposito_garantia, 2, '.', ',')}}</td>
+                        <td>{{$item->nombre}} {{$item->tipo_tanque}} {{$item->capacidad}} {{$item->unidad_medida}}</td>
+                        <td>{{$item->cilindros}}</td>
                     </tr>
                     @endforeach
-                    <tr>
-                        <td colspan="5" class="text-right">Total: </td>
-                        <td>{{number_format($tanques->sum('deposito_garantia'), 2, '.', ',')}}</td>
-                    </tr>
-                    <tr>
-                        <td>OBSERVACIONES: </td>
-                        <td colspan="5"> {{$contrato->observaciones}}</td>
-                    </tr>
                 </tbody>
             </table>
 
-            <p><strong>OCTAVA:</strong> “EL ARRENDATARIO” deberá consignar el importe de garantía descrito en la tabla de la clausula septima, el cual podrá satisfacerse mediante tarjeta de crédito, tarjeta de débito, transferencia bancaria o en efectivo en el domicilio del establecimiento comercial denominado OXI NIK Gases Especiales, con domicilio en la calle Ignacio Zaragoza, número 213, letra “A”, en la Colonia Fernando Gómez Sandoval, del Municipio de Santa Lucia del Camino, Oaxaca c. p. 71243, cuyo justificante se adjuntará al presente contrato.</p>
+  <p>
+    Los envases que amparan el presente contrato y que se mencionan en el cuadro anterior, se encuentran documentados. 
 
-            <ul style="list-style-type: lower-latin; ">
-                <li>
-                    Esta cantidad consignada será devuelta por el arrendador al final del período de alquiler, todo ello en un plazo no superior a 15 días y siempre después de la verificación sobre el estado de integridad del equipo alquilado. “EL ARRENDADOR” está obligado a mantener el dispositivo en condiciones óptimas de uso, al igual que “EL ARRENDATARIO” está obligado a dar un uso correcto al equipo arrendado, tal como se establece en el instructivo de uso correspondiente y entregado simultáneamente con el producto alquilado.
-                </li>
-            </ul>	
+    <br/><br/>
 
-            <p><strong>NOVENA:</strong> La cantidad de envases suministrados podrá aumentar o disminuir de acuerdo con las necesidades del volumen del consumo de “EL ARRENDATARIO”, esta modificación se hará agregando el anexando del Formato de Aumento de Dotación ó Disminución de Cilindros.</p>
+    SEGUNDA. -  Cuando el consumidor extravié o deterioré alguno o algunos de los envases por negligencia leve “LA PROVEEDORA” podrá exigir íntegramente su valor, tomando como referencia el costo en el mercado actual. Si el deterioro ocurre por el uso normal de los envases, y sin culpa de “EL CONSUMIDOR”, este no será responsable de dicho deterioro. 
 
-            <p><strong>DECIMA:</strong> La fecha de recepción y entrega del suministro de los cilindros o envases de diversos gases, ó dispositivos alquilados deben ser puestos a disposición de “EL ARRENDADOR”, el cual se hará cargo de la recepción y los costos de transporte relacionados por cada día de retraso por causa de “EL ARRENDATARIO” y respecto a la fecha de puesta a disposición acordada tendrá el costo de transporte a su cargo del ARRENDATARIO. </p>
+    <br/><br/>
 
-            <ul style="list-style-type: lower-latin; ">
-                <li>
-                    “EL ARRENDATARIO” tiene derecho a dar por rescindido el presente contrato siempre que se cumpla con un preaviso de 7 días, el preaviso se ha de comunicar por escrito por medio de carta certificada, correo electrónico, WhatsApp, vía telefónica, o cualquier otro método que deje constancia fehaciente del desistimiento.
-                </li>
-            </ul>	
+    Las partes convienen y acuerdan que la cantidad de envases podrán aumentar o disminuir de acuerdo con las necesidades del volumen de consumo de “EL CONSUMIDOR” siempre dentro de los lineamientos de este Contrato, este se hará anexando EL FORMATO DE AUMENTO DE DOTACIÓN O DISMINUCIÓN DE CILINDROS a convenio DEL CONSUMIDOR. Anexo 4 
 
-            <p><strong>DECIMA PRIMERA:</strong> “EL ARRENDATARIO” se obliga muy especialmente a hacer respetar los derechos de propiedad que tiene “EL ARRENDADOR” sobre los referidos envases suministrados, en el caso de que esos derechos pudieran verse lesionados como consecuencia de un embargo en los bienes de “EL ARRENDATARIO”, quien dará aviso inmediatamente a “EL ARRENDADOR” para retirar del domicilio de “EL ARRENDATARIO”, los suministros arrendados, con el objeto de recuperarlos, en caso contrario, se obliga a pagar el doble del importe de su valor tomando como referencia el costo en el mercado actual en el momento en el que ocurrió el hecho, en caso contrario el monto de los gastos legales que se tengan que devengar para la  recuperación de los suministros arrendados,  correrán a cargo de “EL ARRENDATARIO”, de todo el equipo alquilado, en el caso de huelga o si recibe envases defectuosos o deteriorados, dará aviso inmediatamente para retirarlos del domicilio “EL ARRENDATARIO”.</p>
+    <br/><br/>
 
-            <p><strong>DECIMA SEGUNDA:</strong> Ambas partes están de acuerdo en que “EL ARRENDADOR” asentara el tipo y cantidad de envases en las notas de venta y/o de remisión y/o facturas, y en los demás documentos y formularios que expida. Así como en los libros y registros donde lleve cuenta y razón del movimiento de entregas y salidas de dichos envases, “EL ARRENDADOR” en cualquiera de los documentos anteriormente mencionados recabará la firma de “EL ARRENDATARIO” o en su defecto de alguno de los dependientes o empleados en el cual se entenderá que obra por cuenta y en representación de “EL ARRENDATARIO”.</p>
+    TERCERA-.  Si “EL CONSUMIDOR” solicita más envases ó cilindros para la compra de gases a “LA PROVEEDORA”, esta facilitara a “EL CONSUMIDOR” los envases que necesite de suministro; si esta necesidad de más envases excediera el número de cilindros establecidos en este contrato convienen las partes que en un plazo no mayor a 30 días de conformidad entregara los envases excedidos, si transcurrido el plazo anterior “EL CONSUMIDOR” no devolviera el o los envases de más facilitados y consecuentemente optare por conservarlos en su poder “LA PROVEEDORA” tendrá derecho exigir a “EL CONSUMIDOR” la devolución de los envases de su propiedad antes de concluido el plazo indicado si “EL CONSUMIDOR” da una causa de que se le rescinda el contrato. 
 
-            <p><strong>DECIMA TERCERA:</strong> “EL ARRENDATARIO” solo deberá usar los suministros de gases en envases que le facilite “EL ARRENDADOR” para los fines ya indicados en el domicilio señalado en la primera plana de este Contrato, y tendrá obligación de dar aviso inmediatamente de cualquier cambio de domicilio o razón social; si transcurrió un lapso de diez días después de haber dado aviso “EL ARRENDADOR” no manifiesta su inconformidad, se entenderá que autoriza el cambio de domicilio dentro de la misma ciudad. La negativa injustificada de “EL ARRENDATARIO” dará derecho a “EL ARRENDADOR” a exigir el cumplimiento forzoso del Contrato o bien a optar por su rescisión.</p>
-            <ul style="list-style-type: lower-latin; ">
-                <li>
-                    El derecho de rescindir el presente contrato de arrendamiento se podrá ejercitar por incumplimiento del contrato en cualquier momento; así mismo, “EL ARRENDATARIO” se compromete a devolver el producto en las mismas condiciones en las que se encontraba en el momento de su entrega, sin derecho a la devolución de las cantidades de dinero entregadas.
-                </li>
-            </ul>	
+    <br/><br/>
 
-            <p><strong>DECIMA CUARTA:</strong> En el caso de falta de pago o incumplimiento de cualquiera de las obligaciones que se establecen en este contrato “EL ARRENDADOR” tendrá derecho a dar por concluido el contrato de alquiler y exigir la devolución de los suministros arrendados, todo ello con el cargo a “EL ARRENDATARIO” sobre el abono de los costos/indemnización que puedan haberse generado en virtud de la falta de pago o incumplimiento del contrato.</p>
-            <p><strong>DECIMA QUINTA:</strong> Todas y cada una de las modificaciones que se deseen aplicar y que no estén dispuestas en el presente contrato, deberán ser realizadas por escrito, y anexadas con el numeral que corresponda. Del mismo modo deberán ser firmadas por ambas partes e incorporadas al presente contrato de no desarrollarse tales modificaciones conforme a lo dispuesto en el presente contrato, se tendrán por no puestas y serán entendidas como nulas de pleno derecho.</p>
-            <p><strong>DECIMA SEXTA:</strong> El presente Contrato será forzoso para ambas partes por un término de un año,  dentro de los 30 días naturales anteriores a la conclusión del plazo, cualquiera de las partes podrá darlo por terminado por medio de un aviso proporcionado a la otra por escrito; de no recibir dicho aviso por algunas de las partes, se entenderá prorrogado el Contrato por un término igual al iniciar y después, continuara por tiempo indeterminado, termino dentro del cual cualquiera de las partes podrá darlo por terminado con un aviso dado por escrito con 180 días naturales de anticipación, en el entendido que de no dar aviso, las partes contratantes continuaran obligándose a todos los derechos y obligaciones inherentes de este contrato.</p>
-            <p><strong>DECIMA SEPTIMA:</strong> Para garantía de lo estipulado en el presente Contrato lo firma solidariamente el 
-                Sr (a):
-            @if ($contrato->nombre_solidaria == '')
-                ________________________________________________________, 
-            @else
-                <strong> {{$contrato->nombre_solidaria}}</strong>
-            @endif
+    CUARTA. - Si ocurre cualquiera de los supuestos previstos en las dos Clausulas anteriores “LA PROVEEDORA” reintegrara a “EL CONSUMIDOR” el importe de los gases no consumidos (sellados), cuyo costo será calculado al mismo precio que el consumidor haya pagado, salvo que este adeude alguna cantidad; en tal supuesto se hará la compensación respectiva, además de cubrir ·EL CONSUMIDOR” en su caso, la diferencia a su cargo si la hubiere. 
 
-            con domicilio en:
-            @if ($contrato->direccion_solidaria == '')
-            __________________________________________________________________________________
-            __________________________________________________________________________________, 
-            @else
-                <strong> {{$contrato->direccion_solidaria}}</strong>, 
-            @endif
+    <br/><br/>
 
-            correo electrónico:
-            @if ($contrato->email_solidaria == '')
-            _________________________, 
-            @else
-                <strong> {{$contrato->email_solidaria}}</strong>, 
-            @endif
+    QUINTA. - “EL CONSUMIDOR” no podrá por derecho propio ceder o transferir a terceros los Derechos consignados en este Contrato, sin la autorización fehaciente y de manera ESCRITA de “LA PROVEEDORA”, quedando prohibido que el “EL CONSUMIDOR” rellene dichos envases por su cuenta o por alguna otra empresa. Reiteramos las partes están de acuerdo en que los envases no pueden, no deben ser rellenados por ninguna otra empresa, persona física, distinta a “LA PROVEEDORA” para el caso de que se viola esta disposición pagara en forma íntegra el gas rellenado a “LA PROVEEDORA”. 
 
-            y número telefónico
-            @if ($contrato->telefono_solidaria == '')
-            _____________________
-            @else
-                <strong> {{$contrato->telefono_solidaria}}</strong>
-            @endif
-            ,  con el carácter de fiador solidario, así mismo bajo protesta de decir verdad manifiesta tener propiedades bastantes y suficientes para cumplir con  todas y cada una obligaciones contraídas por “El ARRENDATARIO”, en el presente contrato y firma solidariamente, y reconoce que no cesara su responsabilidad solidaria sino hasta que el “EL ARRENDADOR”, se dé por conforme de las prestaciones otorgadas
-                </p>
+    <br/><br/>
 
-            <p><strong>DECIMA OCTAVA:</strong> Para todo lo relativo a la interpretación y cumplimiento de este Contrato de Arrendamiento, las partes contratantes declaran su conformidad en someterse a los Tribunales del Fuero Común en esta ciudad de Oaxaca de Juárez, Oaxaca. Renunciando a cualquier otro fuero que pueda corresponderle en virtud de su nuevo domicilio actual ó futuro. La firma de este contrato no compromete a “EL ARRENDATARIO” a la compra de los cilindros a envases y/o sus accesorios ni la opción de compra del mismo.</p>
-            
-            @php
-                $fechacontrato= $nota->fecha;
-                $arrayFecha=explode("-", $fechacontrato);
-                $mesingles=$arrayFecha[1];
-                
-                if($mesingles == '00') $mes='SIN FECHA';
+    SEXTA. - “EL CONSUMIDOR” está obligado a conservar en buen estado de uso los envases, por lo que los gastos de mantenimiento por un importe de \$200.00 por cada envase serán a su cargo, si el consumidor no realizara en un máximo de 4 meses una compra por cada envase, “LA PROVEEDORA” dará por cancelada el contrato y “EL CONSUMIDOR” deberá hacer la devolución de los cilindros que tenga a su cargo. 
 
-                if($mesingles == '01') $mes='Enero';
-                if($mesingles == '02') $mes='Febrero';
-                if($mesingles == '03') $mes='Marzo';
-                if($mesingles == '04') $mes='abril';
-                if($mesingles == '05') $mes='Mayo';
-                if($mesingles == '06') $mes='Junio';
-                if($mesingles == '07') $mes='Julio';
-                if($mesingles == '08') $mes='Agosto';
-                if($mesingles == '09') $mes='Septiembre';
-                if($mesingles == '10') $mes='Octubre';
-                if($mesingles == '11') $mes='Noviembre';
-                if($mesingles == '12') $mes='Diciembre';
-                
+    <br/><br/>
 
-                
-                $fechaactual= $arrayFecha[2] . " de " . $mes . " de " . $arrayFecha[0];
-                $fechaactual2 = $arrayFecha[2]." ".$mes." ".$arrayFecha[0];
-            @endphp
-            <p><strong>DECIMA NOVENA:</strong> Dicho contrato de arrendamiento fue firmado por voluntad de las partes, sin que existiera violencia, intimidación, error ó engaño. Una vez enteradas las partes del contenido y alcance legal del presente contrato de arrendamiento, manifestaron estar conformes con todas las cláusulas del presente y bien impuestos del valor y fuerza del mismo procedieron a la firma de su puño y letra. 
-                En la ciudad de Oaxaca de Juárez, Oaxaca, a  {{$fechaactual}}.
-            </p>
+    SÉPTIMA. - “EL CONSUMIDOR” se obliga muy especialmente a hacer respetar los derechos de propiedad que tiene “LA PROVEEDORA” sobre los referidos envases. En caso de que esos derechos pudieran verse lesionados como consecuencia de un embargo efectuado en los bienes de “EL CONSUMIDOR”, de una huelga, o si los recibe “LA PROVEEDORA” deteriorados o con demora considerable cuando ello ocurra por causa imputable a “EL CONSUMIDOR” el monto de los gastos legales que haya efectuado “LA PROVEEDORA”, con objeto de recuperarlos, serán cubiertos totalmente por “EL CONSUMIDOR”, previo a su acreditamiento. 
 
-            <br>
-            <br>
-            <p class="text-center">"EL ARRENDADOR”.</p>
-            <p class="text-center">________________________ <br>
-                LIC. JUAN MANUEL CONTRERAS GÓMEZ <br>
-                OXINIK GASES ESPECIALES
-            </p>
+    <br/><br/>
 
-            <br>
-            <br>
+    OCTAVA.- En virtud de que se entregara a “EL CONSUMIDOR” envases ó cilindros en cantidad adecuada a sus necesidades del consumo de gases conforme a lo establecido en la Cláusula Primera, ambas partes convierten en que “LA PROVEEDORA” asentara el tipo y cantidad de los envases ó cilindros, en las notas de venta  y/o de remisión  y/o facturas con las que se amparan los gases que le suministre a “EL CONSUMIDOR” y/o en los demás documentos y formularios que se expida al mismo; así como en los libros y registros donde lleve cuenta y razón del movimiento de entregas y salidas de dichos envases. “LA PROVEEDORA” en cualquiera de los documentos anteriormente mencionados, recabará la firma de “EL CONSUMIDOR” o en su defecto de alguno de los factores o dependientes o empleados en el cual se entenderá que obra por cuenta y en representación de “EL CONSUMIDOR” en términos de los art. 309 y 310 del Código de Comercio. 
 
-            <p class="text-center">"EL ARRENDATARIO".</p>
-            <p class="text-center">________________________ <br>
-                {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}</p>
+    <br/><br/>
 
-            <br>
-            <br>
+    Convienen las partes que “EL CONSUMIDOR” autorizara a dos de sus empleados, los cuales firmaran las notas de recepción en su nombre y representación de ” EL CONSUMIDOR” al momento de recibirlos en sus instalaciones los insumos solicitados por “EL CONSUMIDOR”; así mismo, autorizara a dos de sus empleados para firmar en nombre y representación de “EL CONSUMIDOR” cuando exista la necesidad de realizar el aumentos o la disminución de cilindros o equipos  dentro de las instalaciones del uso de los gases solicitados. Anexo 2 y 3. 
 
-            <p class="text-center">FIADOR SOLIDARIO</p>
-            <p class="text-center">________________________</p>
+    <br/><br/>
 
-            {{-- salto de pagina --}}
-            <div class="page-break"></div>
+    Ambos contratantes convienen expresadamente en que los documentos firmados por “EL CONSUMIDOR” o sus factores o dependientes o empleados; así como, los demás comprobantes, libros o registro de “LA PROVEEDORA”, en donde se anote el movimiento de sus envases, formaran parte integrante de este contrato y consistirán una evidencia para determinar en cualquier momento, cuáles son los envases que tiene en su poder “EL CONSUMIDOR” pendientes de devolver a “LA PROVEEDORA”, de acuerdo con los términos y sujetos a las obligaciones y responsabilidades que establece este Contrato. 
 
-            <br>
-            <br>
-            <br>
-            <p class="text-center">RECIBO</p>
-            <br>
-            <br>
-            <br>
-            <p> EN LA CIUDAD DE OAXACA DE JUÁREZ, OAXACA, A  <span>{{$fechaactual2}}</span> </p>
-            <br>
-            <br>
+    <br/><br/>
 
-            @php
-                $precioFormat= number_format($tanques->sum('deposito_garantia'), 2, '.', ',')
-            @endphp
+    NOVENA. - “EL CONSUMIDOR” solo deberá usar los envases que le facilite “LA PROVEEDORA” para los fines ya indicados en el domicilio señalado en la primera plana de este Contrato y tendrá obligación de notificar fehacientemente cualquier cambio de domicilio o razón social; si transcurrió un lapso de diez días después de hecha la notificación “LA PROVEEDORA” no manifiesta su inconformidad, se entenderá que autoriza el cambio de domicilio dentro de la misma ciudad. La negativa injustificada de “LA PROVEEDORA” dará derecho a “EL CONSUMIDOR” a exigir el cumplimiento forzoso del Contrato o bien a optar por su rescisión. 
 
-            <p>RECIBI DEL C.{{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}} LA CANTIDAD DE ${{$precioFormat}} ({{$precioLetras}} 00/100 MONEDA NACIONAL), 
-                COMO CONCEPTO DE DEPOSITO DE 
-                @foreach ($tanques as $item)
-                    <span>{{$item->cilindros}}</span> CILINDROS DE <span>{{$item->material}}</span> DE <span>{{$item->nombre}}</span> <span>{{$item->tipo_tanque}}</span>, 
+    <br/><br/>
+
+    DECIMA. - En el caso de terminación o violación de este Contrato no cesarán las obligaciones y responsabilidades que hayan contraído las partes por el término de su vigencia, sino hasta que “LA PROVEEDORA” se dé por recibida a su entera satisfacción de los envases ó cilindros facilitados y de todas las prestaciones estipuladas a su favor; así mismo, no cesarán las obligaciones y responsabilidades de “LA PROVEEDORA” hasta que cumpla con las mismas. 
+
+    <br/><br/>
+
+    DECIMA PRIMERA. - En caso de violación de cualquiera de las cláusulas del presente Contrato por alguna de las partes dará lugar a que la parte que si cumplió exija de la otra el cumplimiento forzoso o la rescisión, debiendo pagarse en ambos casos los daños y perjuicios que se originen conforme a la pena convencional establecida en la cláusula siguiente. 
+
+    <br/><br/>
+
+    DECIMA SEGUNDA.-  En el caso de que “EL CONSUMIDOR” viole su obligación contenida en las cláusulas PRIMERA y SEGUNDA del presente CONVENIO DE COMODATO, por la necesidad del uso de gas, le sea suministrado  por parte de otra persona física o jurídica, ya sea en los envases de “LA PROVEEDORA” o en  envases propiedad de esa otra persona” igualmente en caso de la no devolución de los envases ó cilindros  por parte de “EL CONSUMIDOR” a “LA PROVEEDORA” en los plazos fijados y, en caso de la transición del uso de los envases por  parte de “EL CONSUMIDOR” a terceras personas, dará lugar a que “ LA PROVEEDORA” le exija el cumplimiento forzoso o le rescinda el contrato; debiendo pagar en dichos casos los daños y perjuicios que causare a “LA PROVEEDORA”. 
+
+    <br/><br/>
+
+    En caso de que el incumplimiento en el suministro del producto sea imputable a “LA PROVEEDORA” y no hubiere causa justificada para ello, pagara a “EL CONSUMIDOR”, los daños y perjuicios que causare. 
+
+    <br/><br/>
+
+    DECIMA TERCERA. - El presente Contrato será forzoso para ambas partes por un término de un año. Dentro de los 30 días naturales anteriores a la conclusión del plazo, cualquiera de las partes podrá darlo por terminado por medio de un aviso proporcionado a la otra por escrito; de no recibir dicho aviso por algunas de las partes, se entenderá prorrogado el Contrato por un término igual al iniciar y después, continuara por tiempo indefinido, termino dentro del cual cualquiera de las partes podrá darlo por terminado con un aviso dado por escrito con 180 días naturales de anticipación, en el entendido que de no dar aviso, las partes contratantes continuaran obligándose a todos los derechos y obligaciones inherentes de este contrato. 
+
+    <br/><br/>
+
+    DECIMA CUARTA. - “LA PROVEEDORA” durante la vigencia de este contrato podrá hacer Cesión del mismo a otro proveedor obligándose solidaria y mancomunadamente con aquel al fiel cumplimiento del presente Contrato de comodato en todos sus términos. 
+
+    <br/><br/>
+
+    DECIMA QUINTA.- Para garantía de lo estipulado en el presente Contrato de comodato en términos del artículo 2794 del Código Civil, conjuntamente con “EL CONSUMIDOR” firma el presente contrato de comodato solidariamente en calidad de testigo y con él en carácter de fiador, el señor ________________, quien en este acto renuncia en forma expresa a todos los beneficios de orden y exclusión que consignan los artículos 2814, 2815 y 2817 y demás relativos del Código Civil vigente en la Ciudad de México, y correlativos de su domicilio. 
+
+    <br/><br/>
+
+    El fiador y testigo el señor ____________, quien en este acto se obliga solidaria y mancomunadamente con “EL CONSUMIDOR”, garantizado de esta manera el exacto cumplimiento de todas y cada una de las obligaciones contraídas por el “EL CONSUMIDOR”, de acuerdo con los términos de este Contrato, comprendiendo el fiador en que no cesara su responsabilidad, sino hasta el momento en que “LA PROVEEDORA” se dé por recibido de todas y cada uno de los envases o cilindros que haya facilitado a “EL CONSUMIDOR” y de todo cuanto este le deba de dinero, en virtud de este Contrato, renunciando de igual manera a los beneficios y derechos consignados en los artículos 2846, 2847, 2848, 2849 y además relativo del Código Civil.  
+
+    <br/><br/>
+
+    DECIMA SEXTA. - Para todo lo relativo para la interpretación y cumplimiento del presente Contrato las partes se someten a la jurisdicción de los tribunales competentes de la ciudad de Oaxaca de Juárez, Oaxaca, renunciando desde luego a cualquier otro fuero que por razón de sus domicilios presentes o futuros o cualquier otra causa pudiera corresponderles, sin perjuicio de la competencia que en derecho le corresponde a la Procuraduría Federal del Consumidor. 
+
+    <br/><br/>
+
+    DECIMA SÉPTIMA. -  Las partes contratantes y el fiador aceptan en todos sus términos el presente Contrato de Comodato con las cláusulas transcritas que preceden. Enteradas las partes de alcance y fuerza legal de todas y cada una de las estipulaciones que se contienen en este Contrato, lo firman en la ciudad de Oaxaca de Juárez, Oaxaca, a los ${date}. 
+  </p>
+
+  <div class="page-break"></div>
+
+  <p class="center-text">
+  “EL CONSUMIDOR”
+
+  <br/><br/><br/><br/>
+
+    C. {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}
+
+    <br/><br/><br/>
+
+    C. 
+    <br/>
+    FIADOR Y TESTIGO SOLIDARIO
+
+    <br/><br/><br/><br/>
+
+    “LA PROVEEDORA”
+
+    <br/><br/><br/><br/>
+
+    C. VIRGINIA GARCÍA LÓPEZ.
+    <br/>
+    PROPIETARIA DE OXIGAMEX.
+    <br/>
+    OXÍGENO, GASES, ACCESORIOS
+  </p>
+
+  <div class="page-break"></div>
+
+  <p class="center-text">
+    RECIBO POR EL DEPOSITO DE CILINDROS O ENVASES DE GAS.
+  </p>
+
+  <br/>
+
+  <p>
+    RECIBÍ DEL C. {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}, LA CANTIDAD DE ${{number_format($tanques->sum('deposito_garantia'), 2, '.', ',')}} ({{$precioLetras}} 00/100 MONEDA NACIONAL) POR CONCEPTO DEL DEPOSITO DE 
+    
+    @foreach ($tanques as $item)
+                    <span>{{$item->cilindros}}</span> ENVASES Ó CILINDROS DE <span>{{$item->material}}</span> DE <span>{{$item->nombre}}</span> <span>{{$item->tipo_tanque}}</span>, 
                 @endforeach
-                PARA SU USO EN {{$contrato->direccion}}. 
-            </p>
-            <br>
-            <br>
-            <br>
-            <p class="text-center">________________________ <br> 
-                C. JUAN MANUEL CONTRERAS GÓMEZ <br> 
-                OXINIK GASES ESPECIALES
-            </p>
+    , PARA SU USO EN LAS INSTALACIONES ESTABLECIDAS DEL {{$contrato->direccion}} DE LA CIUDAD DE ${businessCity}, A LOS ${longDate}.
+  </p>
 
+  <br/><br/><br/><br/><br/><br/>
 
-            <script type="text/php">
-                if ( isset($pdf) ) {
-                    $pdf->page_script('
-                        $font = $fontMetrics->get_font("Arial", "normal");
-                        $pdf->text(270, 820, "Pág $PAGE_NUM de $PAGE_COUNT", $font, 10);
-                    ');
-                }
-            </script>
-        </main>
-        
-
-    </body>
-
+  <p class="center-text">
+    C. VIRGINIA GARCÍA LÓPEZ.
+    <br/>
+    PROPIETARIA DE OXIGAMEX.
+    <br/>
+    OXÍGENO, GASES, ACCESORIOS
+  </p>
+</body>
 </html>
