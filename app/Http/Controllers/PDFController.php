@@ -25,6 +25,8 @@ use App\Models\NotaTalonTanque;
 use App\Models\Tanque;
 use App\Models\VentaExporadica;
 use App\Models\VentaTanque;
+use Carbon\Carbon;
+
 
 // include 'App\Funciones\ConvertNumber';
 
@@ -86,7 +88,12 @@ class PDFController extends Controller
     public function generar_contrato($idcontrato){
         $contrato=Contrato::find($idcontrato);
         $cliente=Cliente::find($contrato->cliente_id);
-        
+
+        $fecha = $contrato->created_at;
+        $date = Carbon::parse($fecha)
+        ->locale('es')
+        ->translatedFormat('d \\d\\e F \\d\\e Y');
+
         $nota=AsignacionNota::where('contrato_id', $contrato->id)->first();
 
         $tanques=AsignacionNotaDetalle::
@@ -104,13 +111,14 @@ class PDFController extends Controller
         }
         
 
-        $data=['contrato'=>$contrato, 'cliente'=>$cliente, 'tanques'=>$tanques, 'nota'=>$nota, 'precioLetras'=>$precioLetras, 'preciorenta'=>$preciorenta];
+        $data=['contrato'=>$contrato, 'cliente'=>$cliente, 'tanques'=>$tanques, 'nota'=>$nota, 'precioLetras'=>$precioLetras, 'preciorenta'=>$preciorenta, 'date'=>$date];
 
         if($contrato->tipo_contrato == 'Eventual'){
             $pdf = PDF::loadView('pdf.contrato_eventual', $data);
         }else{
             $pdf = PDF::loadView('pdf.contrato_general', $data);
         }
+        $pdf->setPaper('letter', 'portrait');
         return $pdf->stream('contrato_'. $contrato->id.'.pdf');
     }
 

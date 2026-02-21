@@ -5,98 +5,95 @@
   <title>Contrato General</title>
   <meta charset="UTF-8"/>
     <link href="bootstrap-4.4.1-dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    @page {
-    size: Letter;
-    margin: 0;
+<style>
+  /* 1. Configuración de Página */
+  @page {
+    margin: 3.5cm 1cm 2.9cm 1cm;
+    size: letter;
   }
 
-  .page-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url("{{ public_path('img/oxigamex/membrete_carta.jpg') }}") no-repeat top left;
-      background-size: 8.5in 11in;
-      z-index: -1;
-    }
-    
-    body {
-      margin: 3.5cm 1cm 3.5cm 1cm;
-      font-family: 'Times New Roman', serif;
-      font-size: 12pt;
-      line-height: 1.2;
-    }
-    
-    h1 {
-      text-align: center;
-      margin: 6pt 0;
-      font-family: "Times New Roman", Times, serif;
-      font-size: 14pt;
-      font-weight: bold;
-    }
+  /* 2. Estilo Global (Tipo de texto e Interlineado) */
+  body {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 12pt;
+    line-height: 1.5; /* Interlineado general */
+    margin: 0;
+    padding: 0;
+    color: #000;
+  }
 
-    h2 {
-      text-align: center;
-      margin: 6pt 0;
-      font-family: "Times New Roman", Times, serif;
-      font-size: 12pt;
-      font-weight: bold;
-    }
+  /* 3. Membrete y Fondo */
+  .background-image {
+    position: fixed;
+    top: -3.5cm; 
+    left: -1cm;  
+    width: 21.59cm; 
+    height: 27.94cm; 
+    z-index: -1000;
+  }
 
-    h4 {
-      text-align: center;
-      margin: 6pt 0;
-    }
-
-    h5 {
-      text-align: center;
-      margin: 6pt 0;
-    }
-
-    p {
-      margin: 12pt 0;
-      text-align: justify;
-      font-family: "Times New Roman", Times, serif;
-      font-size: 12pt;
-    }
-
-    table {
-      width: 100%;
-    }
-
-    .header-info {
-      border-collapse: collapse;
-    }
-
-    .header-info tbody tr td {
-      border: 1px solid black;
-    }
-
-    .header-info thead tr th {
-      border: 1px solid black;
-    }
-
-    .page-break {
-    page-break-before: always;
-    }
-
-    .center-text {
+  /* 4. Encabezados (Heredan la fuente del body, solo cambian tamaño/peso) */
+  h1 {
     text-align: center;
-    }
+    margin: 0 0 12pt 0;
+    font-size: 14pt;
+    font-weight: bold;
+    line-height: 1.2; /* Un poco más cerrado para títulos largos */
+  }
 
-  </style>
+  h2 {
+    text-align: center;
+    margin: 0 0 10pt 0;
+    font-size: 12pt;
+    font-weight: bold;
+  }
+
+  h4, h5 {
+    text-align: center;
+    margin: 6pt 0;
+    font-weight: bold;
+  }
+
+  /* 5. Párrafos */
+  p {
+    margin: 0 0 12pt 0; /* Margen inferior para separar párrafos */
+    text-align: justify;
+    /* El interlineado lo hereda del body */
+  }
+
+  /* 6. Tablas (Importante: forzar fuente aquí también) */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 11pt; /* A veces las tablas requieren letra un poco más pequeña */
+    margin-bottom: 15pt;
+  }
+
+  .header-info td, .header-info th {
+    border: 1px solid black;
+    padding: 5px;
+  }
+
+  /* 7. Utilidades */
+  .page-break {
+    page-break-before: always;
+  }
+
+  .center-text {
+    text-align: center;
+  }
+</style>
   
 </head>
 
-<body>
-  <div class="page-bg"></div>
+<body class="page-bg">
+  <img src="{{ public_path('img/oxigamex/membrete_carta.jpg') }}" class="background-image">
   <h1>CONTRATO DE COMODATO</h1>
-  <p>
+  <main>
+     <p>
     Que celebran por una parte la C. Virginia García López, a quien en lo subsecuente será denominará como “LA PROVEEDORA”, con domicilio ubicado en la calle Ignacio Zaragoza, número 213, Interior 4, Colonia Fernando Gómez Sandoval, Santa Lucia Del Camino, Oaxaca, C.P. 71243, con nombre del establecimiento OXIGAMEX OXIGENO GASES ACCESORIOS. Y por la otra parte el C. {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}} a quien en lo subsecuente se le denominara como “EL CONSUMIDOR”, con domicilio {{$contrato->direccion}} al tenor de las siguientes declaraciones y clausulas: 
   </p>
-
     <h2>DECLARACIONES.</h2>
   <p>
     DECLARA “LA PROVEEDORA”:
@@ -150,7 +147,7 @@
                     <tr>
                         <th>DESCRIPCION</th>
                         <th>CLASE DE GAS</th>
-                        <th>CILINDROS</th>
+                        <th>CANTIDAD</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -190,7 +187,7 @@
 
     <br/><br/>
 
-    SEXTA. - “EL CONSUMIDOR” está obligado a conservar en buen estado de uso los envases, por lo que los gastos de mantenimiento por un importe de \$200.00 por cada envase serán a su cargo, si el consumidor no realizara en un máximo de 4 meses una compra por cada envase, “LA PROVEEDORA” dará por cancelada el contrato y “EL CONSUMIDOR” deberá hacer la devolución de los cilindros que tenga a su cargo. 
+    SEXTA. - “EL CONSUMIDOR” está obligado a conservar en buen estado de uso los envases, por lo que los gastos de mantenimiento por un importe de $200.00 por cada envase serán a su cargo, si el consumidor no realizara en un máximo de 4 meses una compra por cada envase, “LA PROVEEDORA” dará por cancelada el contrato y “EL CONSUMIDOR” deberá hacer la devolución de los cilindros que tenga a su cargo. 
 
     <br/><br/>
 
@@ -238,11 +235,11 @@
 
     <br/><br/>
 
-    DECIMA QUINTA.- Para garantía de lo estipulado en el presente Contrato de comodato en términos del artículo 2794 del Código Civil, conjuntamente con “EL CONSUMIDOR” firma el presente contrato de comodato solidariamente en calidad de testigo y con él en carácter de fiador, el señor ________________, quien en este acto renuncia en forma expresa a todos los beneficios de orden y exclusión que consignan los artículos 2814, 2815 y 2817 y demás relativos del Código Civil vigente en la Ciudad de México, y correlativos de su domicilio. 
+    DECIMA QUINTA.- Para garantía de lo estipulado en el presente Contrato de comodato en términos del artículo 2794 del Código Civil, conjuntamente con “EL CONSUMIDOR” firma el presente contrato de comodato solidariamente en calidad de testigo y con él en carácter de fiador, el señor {{$contrato->nombre_solidaria}}, quien en este acto renuncia en forma expresa a todos los beneficios de orden y exclusión que consignan los artículos 2814, 2815 y 2817 y demás relativos del Código Civil vigente en la Ciudad de México, y correlativos de su domicilio. 
 
     <br/><br/>
 
-    El fiador y testigo el señor ____________, quien en este acto se obliga solidaria y mancomunadamente con “EL CONSUMIDOR”, garantizado de esta manera el exacto cumplimiento de todas y cada una de las obligaciones contraídas por el “EL CONSUMIDOR”, de acuerdo con los términos de este Contrato, comprendiendo el fiador en que no cesara su responsabilidad, sino hasta el momento en que “LA PROVEEDORA” se dé por recibido de todas y cada uno de los envases o cilindros que haya facilitado a “EL CONSUMIDOR” y de todo cuanto este le deba de dinero, en virtud de este Contrato, renunciando de igual manera a los beneficios y derechos consignados en los artículos 2846, 2847, 2848, 2849 y además relativo del Código Civil.  
+    El fiador y testigo el señor {{$contrato->nombre_solidaria}}, quien en este acto se obliga solidaria y mancomunadamente con “EL CONSUMIDOR”, garantizado de esta manera el exacto cumplimiento de todas y cada una de las obligaciones contraídas por el “EL CONSUMIDOR”, de acuerdo con los términos de este Contrato, comprendiendo el fiador en que no cesara su responsabilidad, sino hasta el momento en que “LA PROVEEDORA” se dé por recibido de todas y cada uno de los envases o cilindros que haya facilitado a “EL CONSUMIDOR” y de todo cuanto este le deba de dinero, en virtud de este Contrato, renunciando de igual manera a los beneficios y derechos consignados en los artículos 2846, 2847, 2848, 2849 y además relativo del Código Civil.  
 
     <br/><br/>
 
@@ -250,10 +247,8 @@
 
     <br/><br/>
 
-    DECIMA SÉPTIMA. -  Las partes contratantes y el fiador aceptan en todos sus términos el presente Contrato de Comodato con las cláusulas transcritas que preceden. Enteradas las partes de alcance y fuerza legal de todas y cada una de las estipulaciones que se contienen en este Contrato, lo firman en la ciudad de Oaxaca de Juárez, Oaxaca, a los ${date}. 
+    DECIMA SÉPTIMA. -  Las partes contratantes y el fiador aceptan en todos sus términos el presente Contrato de Comodato con las cláusulas transcritas que preceden. Enteradas las partes de alcance y fuerza legal de todas y cada una de las estipulaciones que se contienen en este Contrato, lo firman en la ciudad de Oaxaca de Juárez, Oaxaca, a los {{$date}}. 
   </p>
-
-  <div class="page-break"></div>
 
   <p class="center-text">
   “EL CONSUMIDOR”
@@ -264,7 +259,7 @@
 
     <br/><br/><br/>
 
-    C. 
+    C. {{$contrato->nombre_solidaria}}
     <br/>
     FIADOR Y TESTIGO SOLIDARIO
 
@@ -295,10 +290,11 @@
     @foreach ($tanques as $item)
                     <span>{{$item->cilindros}}</span> ENVASES Ó CILINDROS DE <span>{{$item->material}}</span> DE <span>{{$item->nombre}}</span> <span>{{$item->tipo_tanque}}</span>, 
                 @endforeach
-    , PARA SU USO EN LAS INSTALACIONES ESTABLECIDAS DEL {{$contrato->direccion}} DE LA CIUDAD DE ${businessCity}, A LOS ${longDate}.
+    , PARA SU USO EN LAS INSTALACIONES ESTABLECIDAS DEL {{$contrato->direccion}} DE LA CIUDAD DE OAXACA DE JUÁREZ, A LOS {{$date}}.
   </p>
 
-  <br/><br/><br/><br/><br/><br/>
+  <div style="height: 17rem;"></div>
+
 
   <p class="center-text">
     C. VIRGINIA GARCÍA LÓPEZ.
@@ -307,5 +303,6 @@
     <br/>
     OXÍGENO, GASES, ACCESORIOS
   </p>
+  </main>
 </body>
 </html>
