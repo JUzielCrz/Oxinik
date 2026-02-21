@@ -41,8 +41,23 @@ Una vez que tengas todo configurado, puedes levantar el servidor de desarrollo c
 
 
 ```sh
-php artisan serve
+php artisan serve --host=0.0.0.0 --port=8086
 ```
 
 6. Comprobar que el proyecto funciona
-Abre tu navegador y visita http://127.0.0.1:8000 (o la URL que indique el comando php artisan serve). Si todo está correctamente configurado, deberías ver la página de inicio del proyecto.
+Abre tu navegador y visita http://127.0.0.1:8086 (o la URL que indique el comando php artisan serve). Si todo está correctamente configurado, deberías ver la página de inicio del proyecto.
+
+# Docker
+
+Para construir y ejecutar el contenedor:
+
+```sh
+docker build -t oxinik .
+docker run -d --name oxinik-app --network networck-oxigamex -p 8086:8086 oxinik
+```
+
+Si prefieres docker-compose:
+
+```sh
+docker compose up --build
+```
