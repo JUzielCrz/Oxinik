@@ -8,40 +8,26 @@
 
         <style>
             @page {
-                margin: 0cm 0cm;
+                margin: 3.5cm 2cm 3cm 2cm;
                 font-size: 1.5em;
             }
-            /* .logo {
-                background-image: url("./img/logo.png");
-            } */
-            header {
-                position: fixed;
-                top: 0cm;
-                left: 0cm;
-                right: 0cm;
-                height: 2cm;
-                /* background-color: #46C66B;
-                color: white; */
-                text-align: center;
-                line-height: 30px;
+
+            body {
+                font-family: "Times New Roman", Times, serif;
+                font-size: 12pt;
+                line-height: 1.5; /* Interlineado general */
+                margin: 0;
+                padding: 0;
+                color: #000;
             }
 
-            footer {
+            .background-image {
                 position: fixed;
-                bottom: 0.7cm;
-                left: 0cm;
-                right: 0cm;
-                height: 2cm;
-                text-align: center;
-                line-height: 35px;
-            }
-            
-            body {
-                margin: 3cm 2cm 2cm;
-                font-family: Arial, Helvetica, Sans-serif;
-                color: black;
-                font-size: 14px;
-                text-align: justify;
+                top: -3.5cm; 
+                left: -2cm;  
+                /* width: 21.59cm; 
+                height: 27.94cm;  */
+                z-index: -1000;
             }
 
             .page-break {
@@ -54,14 +40,7 @@
         </style>
     </head>
     <body style="font-size: 14px">
-        <header>
-            <table class="table table-borderless ">
-                <tbody>
-                    <td> <img src="img/logo.png" style="width: 200px" alt=""></td></td>
-                    <td class="mt-4 mr-3 text-right"> <img src="img/email.svg" style="height: 25px;" alt=""> </td>
-                </tbody>
-            </table> 
-        </header>
+          <img src="{{ public_path('img/oxigamex/membrete_carta.jpg') }}" class="background-image">
 
         <main>
             <p class="text-center"><strong>{{$nota->incidencia}}</strong> DE DOTACION CON EL CLIENTE</p>
@@ -199,7 +178,7 @@
         </main>
 
         <footer>
-            <img src="img/membrete_footer.svg" style="width: 650px" alt="">
+            <!-- <img src="img/membrete_footer.svg" style="width: 650px" alt=""> -->
         </footer>
     </body>
 </html>
