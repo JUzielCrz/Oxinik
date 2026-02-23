@@ -83,12 +83,16 @@
   .center-text {
     text-align: center;
   }
+
+  .uppercase {
+    text-transform: uppercase;
+  }
 </style>
   
 </head>
 
 <body class="page-bg">
-  <img src="{{ public_path('img/oxigamex/membrete_carta.jpg') }}" class="background-image">
+<img src="{{ public_path('img/oxigamex/membrete_carta.jpg') }}" class="background-image">
   <h1>CONTRATO DE COMODATO</h1>
   <main>
      <p>
@@ -278,31 +282,33 @@
 
   <div class="page-break"></div>
 
-  <p class="center-text">
-    RECIBO POR EL DEPOSITO DE CILINDROS O ENVASES DE GAS.
-  </p>
+  <div class="uppercase">
+    <p class="center-text">
+      RECIBO POR EL DEPOSITO DE CILINDROS O ENVASES DE GAS.
+    </p>
 
-  <br/>
-
-  <p>
-    RECIBÍ DEL C. {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}, LA CANTIDAD DE ${{number_format($tanques->sum('deposito_garantia'), 2, '.', ',')}} ({{$precioLetras}} 00/100 MONEDA NACIONAL) POR CONCEPTO DEL DEPOSITO DE 
-    
-    @foreach ($tanques as $item)
-                    <span>{{$item->cilindros}}</span> ENVASES Ó CILINDROS DE <span>{{$item->material}}</span> DE <span>{{$item->nombre}}</span> <span>{{$item->tipo_tanque}}</span>, 
-                @endforeach
-    , PARA SU USO EN LAS INSTALACIONES ESTABLECIDAS DEL {{$contrato->direccion}} DE LA CIUDAD DE OAXACA DE JUÁREZ, A LOS {{$date}}.
-  </p>
-
-  <div style="height: 17rem;"></div>
-
-
-  <p class="center-text">
-    C. VIRGINIA GARCÍA LÓPEZ.
     <br/>
-    PROPIETARIA DE OXIGAMEX.
-    <br/>
-    OXÍGENO, GASES, ACCESORIOS
-  </p>
+
+    <p>
+      RECIBÍ DEL C. {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}, LA CANTIDAD DE ${{number_format($tanques->sum('deposito_garantia'), 2, '.', ',')}} ({{$precioLetras}} 00/100 MONEDA NACIONAL) POR CONCEPTO DEL DEPOSITO DE 
+      
+      @foreach ($tanques as $item)
+                      <span>{{$item->cilindros}}</span> ENVASES Ó CILINDROS DE <span>{{$item->material}}</span> DE <span>{{$item->nombre}}</span> <span>{{$item->tipo_tanque}}</span>, 
+                  @endforeach
+      , PARA SU USO EN LAS INSTALACIONES ESTABLECIDAS DEL {{$contrato->direccion}} DE LA CIUDAD DE OAXACA DE JUÁREZ, A LOS {{$date}}.
+    </p>
+
+    <div style="height: 17rem;"></div>
+
+
+    <p class="center-text">
+      C. VIRGINIA GARCÍA LÓPEZ.
+      <br/>
+      PROPIETARIA DE OXIGAMEX.
+      <br/>
+      OXÍGENO, GASES, ACCESORIOS
+    </p>
+  </div>
   </main>
 </body>
 </html>
