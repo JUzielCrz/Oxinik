@@ -115,11 +115,27 @@ class PDFController extends Controller
 
         if($contrato->tipo_contrato == 'Eventual'){
             $pdf = PDF::loadView('pdf.contrato_eventual', $data);
-        }else{
+            $pdf->setPaper('letter', 'portrait');
+            return $pdf->stream('contrato_'. $contrato->id.'.pdf');
+        }else if($contrato->tipo_contrato == 'Medicinal'){
+            $part = request('part');
+            if ($part === 'general') {
+                $pdf = PDF::loadView('pdf.contrato_general', $data);
+                $pdf->setPaper('letter', 'portrait');
+                return $pdf->stream('contrato_'. $contrato->id.'.pdf');
+            }
+            if ($part === 'anexo') {
+                $pdf = PDF::loadView('pdf.anexo_contrato_medicinal', $data);
+                $pdf->setPaper('letter', 'portrait');
+                return $pdf->stream('anexo_contrato_'. $contrato->id.'.pdf');
+            }
+
+            return $this->medicinalLauncherResponse($contrato->id);
+        }else {
             $pdf = PDF::loadView('pdf.contrato_general', $data);
+            $pdf->setPaper('letter', 'portrait');
+            return $pdf->stream('contrato_'. $contrato->id.'.pdf');
         }
-        $pdf->setPaper('letter', 'portrait');
-        return $pdf->stream('contrato_'. $contrato->id.'.pdf');
     }
 
     public function infra_nota($idnota){
@@ -188,6 +204,37 @@ class PDFController extends Controller
         $pdf = PDF::loadView('pdf.etiqueta_tanque', $tanque);
         return $pdf->setPaper(array(0, 0, 100, 200), 'landscape')->stream('nota_mantenimiento_'.$tanque->num_serie.'.pdf');
     }
+
+    private function medicinalLauncherResponse($contratoId){
+        $generalUrl = route('pdf.contrato', ['idcontrato' => $contratoId, 'part' => 'general']);
+        $anexoUrl = route('pdf.contrato', ['idcontrato' => $contratoId, 'part' => 'anexo']);
+        $generalHref = e($generalUrl);
+        $anexoHref = e($anexoUrl);
+        $generalJs = json_encode($generalUrl);
+        $anexoJs = json_encode($anexoUrl);
+
+        $html = <<<HTML
+            <!doctype html>
+            <html lang="es">
+            <head>
+            <meta charset="UTF-8">
+            <title>Contrato Medicinal</title>
+            </head>
+            <body>
+            <p>Se abrirán dos ventanas con los PDFs.</p>
+            <p>Si tu navegador bloquea las ventanas emergentes, usa estos enlaces:</p>
+            <p>
+                <a href="{$generalHref}" target="_blank" rel="noopener">Contrato general</a><br>
+                <a href="{$anexoHref}" target="_blank" rel="noopener">Anexo contrato medicinal</a>
+            </p>
+            <script>
+                window.open({$generalJs}, '_blank');
+                window.open({$anexoJs}, '_blank');
+            </script>
+            </body>
+            </html>
+            HTML;
+
+        return response($html);
+    }
 }
-
-
