@@ -12,7 +12,7 @@
         <nav id="sidebar" class="active">
             <div class="sidebar-header">
                 <a href="{{URL('/home')}}">
-                    <h3>OXINIK</h3>
+                    <h3>OXIGAMEX</h3>
                     <strong>OX</strong>
                 </a>
             </div>
@@ -40,16 +40,16 @@
                             onclick="salir_pagina(event, '/nota/contrato/entrada')"
                             href="{{ url('/nota/contrato/entrada') }}"
                             @endif
-                            data-toggle="tooltip" data-placement="right" title="Notas"><i class="fas fa-clipboard"></i></a>
+                            data-toggle="tooltip" data-placement="right" title="Notas"><i class="fas fa-clipboard"></i><span class="sidebar-label">Notas</span></a>
                         </li>
                     @endif
                 {{-- Clientes --}}
                     @if($user->permiso_con_admin('cliente_show'))    
-                        <li id="nav-ico-cliente" ><a  onclick="salir_pagina(event, '/cliente/index')"href="{{ url('/cliente/index') }}" data-toggle="tooltip" data-placement="right" title="Clientes"><i class="fas fa-users"></i></a></li>
+                        <li id="nav-ico-cliente" ><a  onclick="salir_pagina(event, '/cliente/index')"href="{{ url('/cliente/index') }}" data-toggle="tooltip" data-placement="right" title="Clientes"><i class="fas fa-users"></i><span class="sidebar-label">Clientes</span></a></li>
                     @endif
                 {{-- Contratos --}}
                     @if($user->permiso_con_admin('contrato_show'))    
-                        <li id="nav-ico-contratos" ><a onclick="salir_pagina(event, '/contrato/listar')" href="{{ url('/contrato/listar') }}" data-toggle="tooltip" data-placement="right" title="Contratos"><i class="fas fa-file-signature"></i></a></li>
+                        <li id="nav-ico-contratos" ><a onclick="salir_pagina(event, '/contrato/listar')" href="{{ url('/contrato/listar') }}" data-toggle="tooltip" data-placement="right" title="Contratos"><i class="fas fa-file-signature"></i><span class="sidebar-label">Contratos</span></a></li>
                     @endif
                 {{-- Tanques --}}
                     @if($user->permiso_con_admin('tanque_show') || $user->permiso_con_admin('gas_show'))    
@@ -61,47 +61,47 @@
                                 onclick="salir_pagina(event, '/gas/index')" 
                                 href="{{ url('/gas/index') }}"
                             @endif
-                            data-toggle="tooltip" data-placement="right" title="Tanques"><i class="fas fa-prescription-bottle"></i> </a></li>
+                            data-toggle="tooltip" data-placement="right" title="Tanques"><i class="fas fa-prescription-bottle"></i><span class="sidebar-label">Tanques</span></a></li>
                     @endif
                 {{-- Contratos --}}
                     @if($user->permiso_con_admin('concentrators_show'))    
-                        <li id="nav-ico-contratos" ><a href="{{ route('concentrators.index') }}" data-toggle="tooltip" data-placement="right" title="Concentradores"><i class="fas fa-suitcase-rolling"></i> </a></li>
+                        <li id="nav-ico-contratos" ><a href="{{ route('concentrators.index') }}" data-toggle="tooltip" data-placement="right" title="Concentradores"><i class="fas fa-suitcase-rolling"></i><span class="sidebar-label">Concentradores</span></a></li>
                     @endif
                     
                 {{-- Infra --}}
                     @if($user->permiso_con_admin('infra_salida') || $user->permiso_con_admin('infra_entrada'))    
-                        <li id="nav-ico-infra" ><a onclick="salir_pagina(event, '/infra/index')" href="{{ url('/infra/index') }}" data-toggle="tooltip" data-placement="right" title="Infra"><i class="fas fa-building"></i></a></li>
+                        <li id="nav-ico-infra" ><a onclick="salir_pagina(event, '/infra/index')" href="{{ url('/infra/index') }}" data-toggle="tooltip" data-placement="right" title="Infra"><i class="fas fa-building"></i><span class="sidebar-label">Infra</span></a></li>
                     @endif
                 {{-- Mantenimiento --}}
                     @if($user->permiso_con_admin('mantenimiento_salida') || $user->permiso_con_admin('mantenimiento_entrada'))    
                         <li id="nav-ico-mantenimiento" >
-                            <a onclick="salir_pagina(event, '/mantenimiento/index')"  href="{{ url('/mantenimiento/index') }}"  data-toggle="tooltip" data-placement="right" title="Mantenimiento"><i class="fas fa-wrench"></i></a>
+                            <a onclick="salir_pagina(event, '/mantenimiento/index')"  href="{{ url('/mantenimiento/index') }}"  data-toggle="tooltip" data-placement="right" title="Mantenimiento"><i class="fas fa-wrench"></i><span class="sidebar-label">Mantenimiento</span></a>
                         </li>
                     @endif
                     {{-- Drivers --}}
                     @if($user->permiso_con_admin('transporte_show') )
-                        <li id="nav-ico-driver" ><a href="{{ url('/transporte') }}" data-toggle="tooltip" data-placement="right" title="Transporte"><i class="fas fa-dolly-flatbed"></i></a></li>
+                        <li id="nav-ico-driver" ><a href="{{ url('/transporte') }}" data-toggle="tooltip" data-placement="right" title="Transporte"><i class="fas fa-dolly-flatbed"></i><span class="sidebar-label">Transporte</span></a></li>
                     @endif
                     {{-- Drivers --}}
                     @if($user->permiso_con_admin('drivers_show') )
-                        <li id="nav-ico-driver" ><a href="{{ url('/drivers') }}" data-toggle="tooltip" data-placement="right" title="Choferes"><i class="fas fa-user-friends"></i></a></li>
+                        <li id="nav-ico-driver" ><a href="{{ url('/drivers') }}" data-toggle="tooltip" data-placement="right" title="Choferes"><i class="fas fa-user-friends"></i><span class="sidebar-label">Choferes</span></a></li>
                     @endif
                     {{-- Cars --}}
                     @if($user->permiso_con_admin('cars_show') )
-                        <li id="nav-ico-car"><a href="{{ url('/cars') }}" data-toggle="tooltip" data-placement="right" title="Vehículos"><i class="fas fa-truck"></i></a></li>
+                        <li id="nav-ico-car"><a href="{{ url('/cars') }}" data-toggle="tooltip" data-placement="right" title="Vehículos"><i class="fas fa-truck"></i><span class="sidebar-label">Vehículos</span></a></li>
                     @endif
                     {{-- users --}}
                     @if($user->soloParaUnRol('admin'))
-                        <li id="nav-ico-usuario" ><a onclick="salir_pagina(event, '/user/index')" href="{{ url('/user/index') }}" data-toggle="tooltip" data-placement="right" title="Usuarios"><i class="fas fa-users-cog"></i></a></li>
+                        <li id="nav-ico-usuario" ><a onclick="salir_pagina(event, '/user/index')" href="{{ url('/user/index') }}" data-toggle="tooltip" data-placement="right" title="Usuarios"><i class="fas fa-users-cog"></i><span class="sidebar-label">Usuarios</span></a></li>
                     @endif
                 
 
                 {{-- Configuraciones--}}
                 @if($user->soloParaUnRol('admin'))
-                    <li id="nav-ico-config" ><a onclick="salir_pagina(event, '/config/empresa/index')" href="{{ url('/config/empresa/index') }}" data-toggle="tooltip" data-placement="right" title="Ajustes"><i class="fas fa-tools"></i></a></li>
+                    <li id="nav-ico-config" ><a onclick="salir_pagina(event, '/config/empresa/index')" href="{{ url('/config/empresa/index') }}" data-toggle="tooltip" data-placement="right" title="Ajustes"><i class="fas fa-tools"></i><span class="sidebar-label">Ajustes</span></a></li>
                 @endif
                 {{-- Perfil--}}
-                <li id="nav-ico-perfil" ><a onclick="salir_pagina(event, '/perfil/index')" href="{{ url('/perfil/index') }}" data-toggle="tooltip" data-placement="right" title="Perfil"><i class="fas fa-user-circle"></i></a></li>
+                <li id="nav-ico-perfil" ><a onclick="salir_pagina(event, '/perfil/index')" href="{{ url('/perfil/index') }}" data-toggle="tooltip" data-placement="right" title="Perfil"><i class="fas fa-user-circle"></i><span class="sidebar-label">Perfil</span></a></li>
             </ul>
 
             <ul class="list-unstyled CTAs">
