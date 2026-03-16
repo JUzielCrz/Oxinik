@@ -8,7 +8,7 @@
 <style>
   /* 1. Configuración de Página */
   @page {
-    margin: 3.5cm 1cm 2.9cm 1cm;
+    margin: 3.5cm 1.5cm 2.9cm 2.3cm;
     size: letter;
   }
 
@@ -16,7 +16,7 @@
   body {
     font-family: "Times New Roman", Times, serif;
     font-size: 11pt;
-    line-height: 1.5; /* Interlineado general */
+    line-height: 1.3; /* Interlineado general */
     margin: 0;
     padding: 0;
     color: #000;
@@ -163,29 +163,44 @@
 
     <p>DECIMA SÉPTIMA. -  Las partes contratantes y el fiador aceptan en todos sus términos el presente Convenio de Suministro de Gas, con las cláusulas transcritas que preceden. Enteradas las partes de alcance y fuerza legal de todas y cada una de las estipulaciones que se contienen en este Convenio, lo firman en la ciudad de Oaxaca de Juárez, Oaxaca, a los {{$date}}.</p>
 
-    <p class="text-center mt-5">“EL CONSUMIDOR”</p>
 
-
-    <p class="text-center uppercase">
+    <p class="text-center" style="margin-top: 3 rem;">“EL CONSUMIDOR”</p>
+    <p class="text-center uppercase" style="margin-top: 3 rem;">
+      ____________________________ <br>
       EL {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}} <br>
       REPRESENTANTE LEGAL <br>
       {{$contrato->nombre_comercial}} <br>
     </p>
       
 
-    <p class="text-center uppercase">
+    <p class="text-center uppercase" style="margin-top: 3 rem;">
+      ____________________________ <br>
       EL SEÑOR {{$contrato->nombre_solidaria}} <br>
       FIADOR Y TESTIGO SOLIDARIO
     </p>
 
-    <p class="text-center">“LA PROVEEDORA”</p>
+    <p class="text-center" style="margin-top: 3 rem;">“LA PROVEEDORA”</p>
 
-    <p class="text-center">
+    <p class="text-center" style="margin-top: 3 rem;">
+      ____________________________ <br>
       C. VIRGINIA GARCÍA LÓPEZ. <br>
       PROPIETARIA DE OXIGAMEX. <br>
       OXÍGENO, GASES, ACCESORIOS.
     </p>
 
   </main>
+
+  <script type="text/php">
+    if (isset($pdf)) {
+      $pdf->page_script('
+        $font = $fontMetrics->get_font("Arial, Helvetica, sans-serif", "normal");
+        $size = 11;
+        $text = "Página $PAGE_NUM de $PAGE_COUNT";
+        $x = $pdf->get_width() - $fontMetrics->getTextWidth($text, $font, $size) - 28;
+        $y = $pdf->get_height() - 37;
+        $pdf->text($x, $y, $text, $font, $size);
+      ');
+    }
+  </script>
 </body>
 </html>

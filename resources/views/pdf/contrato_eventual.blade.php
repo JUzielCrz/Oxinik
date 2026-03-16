@@ -187,6 +187,18 @@
 
     </main>
             
-    </body>
+    <script type="text/php">
+      if (isset($pdf)) {
+        $pdf->page_script('
+          $font = $fontMetrics->get_font("Arial, Helvetica, sans-serif", "normal");
+          $size = 11;
+          $text = "Página $PAGE_NUM de $PAGE_COUNT";
+          $x = $pdf->get_width() - $fontMetrics->getTextWidth($text, $font, $size) - 28;
+          $y = $pdf->get_height() - 37;
+          $pdf->text($x, $y, $text, $font, $size);
+        ');
+      }
+    </script>
+  </body>
 
 </html>

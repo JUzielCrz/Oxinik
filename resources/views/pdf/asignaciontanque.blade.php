@@ -37,12 +37,20 @@
             span {
                 text-transform: uppercase;
             }
+
+            .noteid {
+                position: absolute;
+                top: -2cm; 
+                right: 1;
+                font-size: 12pt;
+            }
         </style>
     </head>
     <body style="font-size: 14px">
           <img src="{{ public_path('img/oxigamex/membrete_carta.jpg') }}" class="background-image">
 
         <main>
+            <span class="noteid"><strong>NOTA: {{$nota->id}}</strong></span>
             <p class="text-center"><strong>{{$nota->incidencia}}</strong> DE DOTACION CON EL CLIENTE</p>
             
             <p> FECHA: <strong>{{$nota->fecha}}</strong><br>
@@ -72,7 +80,7 @@
                         <th style="padding: 0">{{$thgarantia}}</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody style="text-transform: uppercase;">
                     @foreach ($detalleNota as $tanques)
                         @if ($tanques->cilindros > 0)
                             <tr>
@@ -100,7 +108,7 @@
                         <th style="padding: 0">CAPACIDAD</th>
                     </tr>
                 </thead>
-                <tbody >
+                <tbody style="text-transform: uppercase;">
                     @foreach ($asignaciones_all as $tanque)
                         @if ($tanque->cilindros > 0)
                             <tr>
@@ -116,7 +124,7 @@
             </table>
 
             
-            <p>LOS ENVASES RECIBIDOS MEDIANTE LA FIRMA DE ESTE DOCUMENTO ARRIBA RELACIONADOS SON PROPIEDAD DE OXINIK GASES ESPECIALES. </p>
+            <p>LOS ENVASES RECIBIDOS MEDIANTE LA FIRMA DE ESTE DOCUMENTO ARRIBA RELACIONADOS SON PROPIEDAD DE OXIGAMEX GASES ESPECIALES. </p>
             <p>EL PRESENTE DOCUMENTO HACE CONSTAR EL ACUERDO DE LAS PARTES QUE CELEBRARON EN EL CONVENIO ARRIBA MENCIONADO, PARA AUMENTAR O DISMINUIR LA DOTACIÓN DE ENVASES, RECONOCIENDO LOS FIRMANTES DEL PRESENTE INSTRUMENTO QUE ESTE FORMA PARTE INTEGRANTE DEL MISMO. </p>
                 
             <table class="table table-borderless mt-5">

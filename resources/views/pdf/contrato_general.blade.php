@@ -43,7 +43,7 @@
 
   h2 {
     text-align: center;
-    margin: 0 0 10pt 0;
+    margin: 0 0 5pt 0;
     font-size: 12pt;
     font-weight: bold;
   }
