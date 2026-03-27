@@ -126,7 +126,7 @@
       Además de lo antes estipulado, tendrá la obligación “EL CONSUMIDOR” de entregar un depósito en efectivo como garantía, que no representa de ninguna manera el precio del o de los envases que requiera de “LA PROVEEDORA”, cantidad de dinero que estará sujeta de la forma siguiente: 
     </p>
     <p>
-      Los depósitos que se refiere esta cláusula son los siguientes: un depósito en garantía de<strong> $ {{number_format($tanques->sum('deposito_garantia'), 2, '.', ',')}} {{$precioLetras}} </strong>, por CADA UNO de los envases proporcionados al “CONSUMIDOR” 
+      Los depósitos que se refiere esta cláusula son los siguientes: un depósito en garantía de<strong> $ {{number_format($depositoUnitarioTotal, 2, '.', ',')}} {{$depUnitLetra}} </strong>, por CADA UNO de los envases proporcionados al “CONSUMIDOR” 
     </p>
     <p>
       “EL CONSUMIDOR” tendrá derecho a recuperar la cantidad que haya entregado como depósito en garantía en los términos del artículo 11 de la Ley Federal de Protección al Consumidor que a la letra dice: “El consumidor que al adquirir un bien haya entregado una cantidad como depósito por envase o empaque, tendrá derecho a recuperar en el momento de su devolución, la suma integra que haya erogado por ese concepto”. Lo anterior operara siempre y cuando “EL CONSUMIDOR” se encuentre al corriente en el cumplimiento de sus obligaciones.
@@ -259,7 +259,7 @@
     </p>
 
     <p style="margin-top: 4rem;">
-      RECIBÍ DEL C. {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}, LA CANTIDAD DE $ {{number_format($tanques->sum('deposito_garantia'), 2, '.', ',')}} ({{$precioLetras}} 00/100 MONEDA NACIONAL) POR CONCEPTO DEL DEPOSITO DE 
+      RECIBÍ DEL C. {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}}, LA CANTIDAD DE $ {{number_format($tanques->sum('deposito_garantia'), 2, '.', ',')}} ({{$depGarantiaLetra}} 00/100 MONEDA NACIONAL) POR CONCEPTO DEL DEPOSITO DE 
       
       @foreach ($tanques as $item)
                       <span>{{$item->cilindros}}</span> ENVASES Ó CILINDROS DE <span>{{$item->material}}</span> DE <span>{{$item->nombre}}</span> <span>{{$item->tipo_tanque}}</span>, 

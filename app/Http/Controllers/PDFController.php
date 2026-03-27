@@ -103,15 +103,33 @@ class PDFController extends Controller
         ->where('incidencia','INICIO-CONTRATO')
         ->get();
 
+        $depositoUnitarioTotal = $tanques->sum(function ($tanque) {
+            if ((float) $tanque->cilindros <= 0) {
+                return 0;
+            }
+
+            return $tanque->deposito_garantia / $tanque->cilindros;
+        });
+
         $objeto = new ConvertNumberController();
-        $precioLetras = $objeto->toMoney($tanques->sum('deposito_garantia'), 2, 'PESOS','CENTAVOS');
+        $depUnitLetra = $objeto->toMoney($depositoUnitarioTotal, 2, 'PESOS','CENTAVOS');
+        $depGarantiaLetra = $objeto->toMoney($tanques->sum('deposito_garantia'), 2, 'PESOS','CENTAVOS');
         $preciorenta=0;
         if ($contrato->frecuency != "") {
             $preciorenta = $objeto->toMoney($contrato->precio_renta, 2, 'PESOS','CENTAVOS');
         }
-        
 
-        $data=['contrato'=>$contrato, 'cliente'=>$cliente, 'tanques'=>$tanques, 'nota'=>$nota, 'precioLetras'=>$precioLetras, 'preciorenta'=>$preciorenta, 'date'=>$date];
+        $data=[
+            'contrato'=>$contrato,
+            'cliente'=>$cliente,
+            'tanques'=>$tanques,
+            'nota'=>$nota,
+            'depGarantiaLetra'=>$depGarantiaLetra,
+            'depUnitLetra'=>$depUnitLetra,
+            'preciorenta'=>$preciorenta,
+            'date'=>$date,
+            'depositoUnitarioTotal'=>$depositoUnitarioTotal,
+        ];
 
         if($contrato->tipo_contrato == 'Eventual'){
             $pdf = PDF::loadView('pdf.contrato_eventual', $data);

@@ -105,7 +105,7 @@
 
     <p>DECLARA “EL CONSUMIDOR”:</p>
 
-    <p>b). Que tiene capacidad y la personalidad para celebrar el presente contrato, y requiere el suministro de los gases y de los envases o cilindros, para uso en las instalaciones establecidas del Hospital regional de alta especialidad de Oaxaca así mismo, manifiesta que ha cumplido con todos y cada uno de los requisitos establecidos en el Anexo 1,</p>
+    <p>b). Que tiene capacidad y la personalidad para celebrar el presente contrato, y requiere el suministro de los gases y de los envases o cilindros, para uso en las instalaciones establecidas en la dirección {{$contrato->direccion}} con nombre {{$contrato->nombre_comercial}} así mismo, manifiesta que ha cumplido con todos y cada uno de los requisitos establecidos en el Anexo 1,</p>
 
     <p>En atención de lo anterior las partes se comprometen y manifiestan que es su voluntad expresa en celebrar el presente CONVENIO DE SUMINISTRO DE GAS, al tenor de las siguientes:</p>
 
