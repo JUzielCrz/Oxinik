@@ -79,7 +79,10 @@ class PDFController extends Controller
         $asignaciones_all=Asignacion::join('catalogo_gases','catalogo_gases.id','=','asignacion.tipo_gas')
         ->where('contratos_id',$nota->contrato_id)->get();
 
-        $data=['detalleNota'=>$detalleNota, 'nota'=>$nota, 'contrato'=>$contrato, 'cliente'=>$cliente, 'asignaciones_all'=>$asignaciones_all];
+        $objeto = new ConvertNumberController();
+        $depGarantiaLetra = $objeto->toMoney($detalleNota->sum('deposito_garantia'), 2, 'PESOS','CENTAVOS');
+
+        $data=['detalleNota'=>$detalleNota, 'nota'=>$nota, 'contrato'=>$contrato, 'cliente'=>$cliente, 'asignaciones_all'=>$asignaciones_all, 'depGarantiaLetra'=>$depGarantiaLetra];
 
         $pdf = PDF::loadView('pdf.asignaciontanque', $data);
         return $pdf->stream('asignaciontanque_'.$nota_id.'.pdf');

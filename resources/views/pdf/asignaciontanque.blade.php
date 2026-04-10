@@ -124,7 +124,7 @@
             </table>
 
             
-            <p>LOS ENVASES RECIBIDOS MEDIANTE LA FIRMA DE ESTE DOCUMENTO ARRIBA RELACIONADOS SON PROPIEDAD DE OXIGAMEX GASES ESPECIALES. </p>
+            <p>LOS ENVASES RECIBIDOS MEDIANTE LA FIRMA DE ESTE DOCUMENTO ARRIBA RELACIONADOS SON PROPIEDAD DE OXIGAMEX OXÍGENO, GASES, ACCESORIOS. </p>
             <p>EL PRESENTE DOCUMENTO HACE CONSTAR EL ACUERDO DE LAS PARTES QUE CELEBRARON EN EL CONVENIO ARRIBA MENCIONADO, PARA AUMENTAR O DISMINUIR LA DOTACIÓN DE ENVASES, RECONOCIENDO LOS FIRMANTES DEL PRESENTE INSTRUMENTO QUE ESTE FORMA PARTE INTEGRANTE DEL MISMO. </p>
                 
             <table class="table table-borderless mt-5">
@@ -142,14 +142,23 @@
 
             <div class="page-break"></div>
 
-            <p class="text-right">DEPO. XXXX</p>
+            @if ($nota->incidencia == 'AUMENTO')
+                <p class="text-center"><strong>RECIBO DE DEPÓSITO EN GARANTÍA POR AUMENTO DE DOTACIÓN</strong></p>
+            @else
+                <p class="text-center"><strong>RECIBO DE DEPÓSITO EN GARANTÍA POR DISMINUCIÓN DE DOTACIÓN</strong></p>
+            @endif
 
             @php
                 $precioFormat= number_format($detalleNota->sum('deposito_garantia'), 2, '.', ',')
             @endphp
             <p class="mt-4">
-                RECIBI DE: <strong> {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}} </strong><br>
-                LA CANTIDAD DE: <strong>$ {{$precioFormat}}</strong><br>
+                @if ($nota->incidencia == 'AUMENTO')
+                    RECIBI DE: <strong> {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}} </strong><br>
+                @else
+                    RECIBI DE: <strong>C. Virginia García López</strong><br>
+                @endif
+                
+                LA CANTIDAD DE: <strong>$ {{$precioFormat}}</strong> ({{ $depGarantiaLetra }})<br>
             </p>
 
             <p class="mt-5">POR CONCEPTO DE DEPÓSITO EN GARANTIA DE <strong>{{$nota->incidencia}}</strong> DE CILINDROS. </p>
