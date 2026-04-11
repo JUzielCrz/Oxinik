@@ -95,7 +95,7 @@ class PDFController extends Controller
         $fecha = $contrato->created_at;
         $date = Carbon::parse($fecha)
         ->locale('es')
-        ->translatedFormat('d \\d\\e F \\d\\e Y');
+        ->translatedFormat('d \\d\\í\\a\\s \\d\\e F \\d\\e Y');
 
         $nota=AsignacionNota::where('contrato_id', $contrato->id)->first();
 
