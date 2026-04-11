@@ -172,6 +172,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/asignaciones/show/{contrato_id}', 'AsignacionController@show');
     Route::post('/asignaciones/aumento/{contrato_id}', 'AsignacionController@asignacion_plus');
     Route::post('/asignaciones/disminucion/{contrato_id}', 'AsignacionController@asignacion_minus');
+    Route::post('/asignaciones/precio/{asignacion_id}', 'AsignacionController@update_precio');
 
   //pdf
     Route::get('/pdf/asignacion_tanque/{idasignacion}', 'PDFController@asignacion_tanques')->name('pdf.nota.asignacion');; 

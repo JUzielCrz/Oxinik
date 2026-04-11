@@ -220,4 +220,25 @@ class AsignacionController extends Controller
         return response()->json(['Sin permisos']);
     }
 
+    public function update_precio(Request $request, $asignacion_id){
+        if($this->slug_permiso('contrato_update')){
+            if($request->precio_unitario === null || $request->precio_unitario === '' || $request->precio_unitario < 0){
+                return response()->json(['alert' => 'alert-danger', 'mensaje' => 'Precio unitario inválido']);
+            }
+
+            $asignacion = Asignacion::find($asignacion_id);
+
+            if($asignacion == null){
+                return response()->json(['alert' => 'alert-danger', 'mensaje' => 'Asignación no encontrada']);
+            }
+
+            $asignacion->precio_unitario = $request->precio_unitario;
+            $asignacion->save();
+
+            return response()->json(['alert' => 'alert-primary', 'mensaje' => 'Precio actualizado correctamente', 'asignacion' => $asignacion]);
+        }
+
+        return response()->json(['mensaje' => 'Sin permisos']);
+    }
+
 }

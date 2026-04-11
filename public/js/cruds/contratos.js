@@ -9,6 +9,8 @@ $(document).ready(function () {
     $(document).on("click",".btn-delete-modal", metodo_detalle_delete);
     $(document).on("click","#btneliminar",metodo_eliminar);
     $(document).on("click","#btnactualizar",metodo_actualizar);
+    $(document).on("click",".btn-edit-precio-asignacion", modal_edit_precio_asignacion);
+    $(document).on("click","#btn-save-edit-precio-asignacion", save_edit_precio_asignacion);
 
     // $(document).on("click","#btncontrato", insertartabla);
     $(document).on("click",".btnnota-edit", nota_edit);
@@ -617,13 +619,74 @@ $(document).ready(function () {
         })  
     }
 
+    function modal_edit_precio_asignacion(){
+        var fila = $(this).closest('tr');
+        var descripcion = fila.find('td').eq(1).text()+' - '+fila.find('td').eq(2).text()+' - '+fila.find('td').eq(4).text();
+
+        $("#edit_asignacion_precio_unitarioError").empty();
+        $("#edit_asignacion_precio_unitario").removeClass("is-invalid");
+        $("#divmsg-edit-precio-asignacion").hide().empty().removeClass("alert-danger alert-primary");
+
+        $("#edit_asignacion_id").val($(this).data('id'));
+        $("#edit_asignacion_descripcion").val(descripcion);
+        $("#edit_asignacion_precio_unitario").val($(this).data('precio'));
+
+        $("#modal-editar-precio-asignacion").modal("show");
+    }
+
+    function save_edit_precio_asignacion(){
+        $("#edit_asignacion_precio_unitarioError").empty();
+        $("#edit_asignacion_precio_unitario").removeClass("is-invalid");
+
+        if($("#edit_asignacion_precio_unitario").val() === "" || Number($("#edit_asignacion_precio_unitario").val()) < 0){
+            $("#edit_asignacion_precio_unitarioError").text("Precio unitario inválido");
+            $("#edit_asignacion_precio_unitario").addClass("is-invalid");
+            return false;
+        }
+
+        $.ajax({
+            method: "POST",
+            url: "/asignaciones/precio/" + $("#edit_asignacion_id").val(),
+            data: {
+                '_token': $('input[name=_token]').val(),
+                'precio_unitario': $("#edit_asignacion_precio_unitario").val()
+            },
+        }).done(function(msg){
+            if(msg.mensaje == 'Sin permisos'){
+                mensaje("error","Sin permisos", "No tienes los permisos suficientes para hacer este cambio", null, null);
+                return false;
+            }
+
+            if(msg.alert == 'alert-danger'){
+                mostrar_mensaje('#divmsg-edit-precio-asignacion', msg.mensaje, 'alert-danger', null);
+            }else{
+                show_table_asignaciones($("#idShow").val(), 'tableasignaciones', 'content-asignaciones');
+                mostrar_mensaje('#divmsgindex', msg.mensaje, 'alert-primary', '#modal-editar-precio-asignacion');
+            }
+        }).fail(function (){
+            mostrar_mensaje('#divmsg-edit-precio-asignacion', 'Error al actualizar el precio.', 'alert-danger', null);
+        });
+    }
+
     function show_table_asignaciones(contrato_id, idTabla, idDiv) {
         
         $.get('/asignaciones/show/' + contrato_id, function(data) {
             var columnas='';
+            var canEditPrice = $("#can_edit_assignment_price").val() == "1";
             $.each(data.asigTanques, function (key, value) {
-                columnas+='<tr><td>'+value.cilindros+'</td><td>'+value.nombreGas+'</td><td>'+value.tipo_tanque+'</td><td>'+value.precio_unitario+'</td><td>'+value.capacidad+" "+value.unidad_medida+'</td></tr>';
+                var botones = '';
+                if(canEditPrice){
+                    botones = '<td>'+
+                        '<button type="button" class="btn btn-amarillo btn-sm btn-edit-precio-asignacion" data-id="'+value.id+'" data-precio="'+value.precio_unitario+'">'+
+                            '<span class="fas fa-edit"></span>'+
+                        '</button>'+
+                    '</td>';
+                }
+
+                columnas+='<tr><td>'+value.cilindros+'</td><td>'+value.nombreGas+'</td><td>'+value.tipo_tanque+'</td><td>'+value.precio_unitario+'</td><td>'+value.capacidad+" "+value.unidad_medida+'</td>'+botones+'</tr>';
             });
+
+            var columnaAcciones = canEditPrice ? '<th>ACCIONES</th>' : '';
 
             $('#'+idTabla).remove();
             $('#'+idDiv).append(
@@ -635,6 +698,7 @@ $(document).ready(function () {
                             '<th>TIPO</th>'+
                             '<th>PRECIO</th>'+
                             '<th>CAP</th>'+
+                            columnaAcciones+
                         '</tr></thead>'+
                         '<tbody>'+
                             columnas+

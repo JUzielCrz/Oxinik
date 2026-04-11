@@ -14,6 +14,7 @@
         </center>
 
         <input type="hidden" name="cliente_id" id="cliente_id" value={{$cliente->id}}>
+        <input type="hidden" id="can_edit_assignment_price" value="{{ $user->permiso_con_admin('contrato_update') ? 1 : 0 }}">
         
         {{-- CARD TABLA DE CONTRATOS SEGUN CLIENTE--}}
         <div class="card">
@@ -237,6 +238,51 @@
                 <button type="reset" class="btn btn-amarillo form-control" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-md" id="modal-editar-precio-asignacion" tabindex="-1" role="dialog" aria-labelledby="modalEditarPrecioAsignacionTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-onix">
+            <h1 class="modal-title" id="modalEditarPrecioAsignacionTitle">Editar precio de asignación</h1>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff">
+                <span aria-hidden="true" class="fas fa-times"></span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <center>
+                    <div id="divmsg-edit-precio-asignacion" style="display:none" class="alert" role="alert"></div>
+                </center>
+
+                @csrf
+                <input type="hidden" id="edit_asignacion_id">
+
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <label for="">Asignación</label>
+                        <input id="edit_asignacion_descripcion" type="text" class="form-control form-control-sm" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row mt-3">
+                    <div class="col-md-12">
+                        <label for="">Precio unitario</label>
+                        <input id="edit_asignacion_precio_unitario" type="number" min="0" step="0.01" class="form-control form-control-sm numero-decimal-positivo">
+                        <span id="edit_asignacion_precio_unitarioError" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="btn-group col-auto" style="margin:10px">
+                        <button type="button" class="btn btn-amarillo form-control" id="btn-save-edit-precio-asignacion">Guardar</button>
+                    </div>
+                    <div class="btn-group col-auto" style="margin:10px">
+                        <button type="button" class="btn btn-amarillo form-control" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
             </div>
         </div>
         </div>
