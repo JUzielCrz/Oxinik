@@ -167,7 +167,7 @@
     <p class="text-center" style="margin-top: 3 rem;">“EL CONSUMIDOR”</p>
     <p class="text-center uppercase" style="margin-top: 3 rem;">
       ____________________________ <br>
-      EL {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}} <br>
+      EL C. {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}} <br>
       REPRESENTANTE LEGAL <br>
       {{$contrato->nombre_comercial}} <br>
     </p>
