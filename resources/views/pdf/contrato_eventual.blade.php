@@ -122,7 +122,7 @@
 
 		<p>CUARTA: “El Contratista” tiene la obligación de hacer su consumo exclusivamente con el establecimiento OXIGAMEX OXIGENO GASES ACCESORIOS, y no puede bajo ninguna circunstancia trasladar los tanques, para su llenado en ninguna otra empresa o cambio/ canjeo por su número de serie de dichos cilindros.</p>
 
-		<p>QUINTA: “El Contratista” debe entregar un depósito en garantía de ${{number_format($tanques->sum('deposito_garantia'), 2, '.', ',')}} ({{$precioLetras}} 00/100 m.n.), por CADA UNO de los envases solicitados en alquiler y proporcionados por “El Contratante”, el cual podrá satisfacerse mediante tarjeta de crédito, transferencia bancaria o en efectivo en el domicilio del establecimiento OXIGAMEX OXIGENO GASES ACCESORIOS, ubicado en la calle Ignacio Zaragoza, número 213 4, en la colonia Fernando Gómez Sandoval, del Municipio de Santa Lucia del Camino, Oaxaca, c. p. 71243, cuyo justificante se adjuntará al presente contrato.</p>
+		<p>QUINTA: “El Contratista” debe entregar un depósito en garantía de ${{number_format($tanques->sum('deposito_garantia'), 2, '.', ',')}} ({{$depGarantiaLetra}} 00/100 m.n.), por CADA UNO de los envases solicitados en alquiler y proporcionados por “El Contratante”, el cual podrá satisfacerse mediante tarjeta de crédito, transferencia bancaria o en efectivo en el domicilio del establecimiento OXIGAMEX OXIGENO GASES ACCESORIOS, ubicado en la calle Ignacio Zaragoza, número 213 4, en la colonia Fernando Gómez Sandoval, del Municipio de Santa Lucia del Camino, Oaxaca, c. p. 71243, cuyo justificante se adjuntará al presente contrato.</p>
 
 		@php
       $multa=0;
