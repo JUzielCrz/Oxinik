@@ -150,13 +150,13 @@
             <p style="text-align: justify">
                 En cumplimiento a lo dispuesto en la norma internacional 
                 <u>ISO 9001:2015 8.5.3 Propiedad perteneciente a los clientes o proveedores externo</u>  
-                y la norma mexicana NMX-H-156-NORMEX-<u>VIGENTE</u>, por este medio autorizo a OXINIK GASES ESPECIALES a destruir el envase de mi propiedad (aplastamiento para cilindros y tachados de los datos de ojiva en acumuladores), en caso de que no aprobara la 
+                y la norma mexicana NMX-H-156-NORMEX-<u>VIGENTE</u>, por este medio autorizo a OXIGAMEX Oxígeno, Gases, Accesorios a destruir el envase de mi propiedad (aplastamiento para cilindros y tachados de los datos de ojiva en acumuladores), en caso de que no aprobara la 
                 <u>prueba de recalificación</u> (Prueba hidrostática/Revisión General ó la inspección visual 
                 externa/<u>interna ó Prueba de corriente de Eddy</u>) a la que fuese sometido.
             </p>
             <p style="text-align: justify">
-                <u>De igual manera estoy informado que la OXINIK GASES ESPECIALES entregará vacío sin ninguna responsabilidad, los cilindros autorizados para el llenado que no aprueben el seguimiento y medición de los productos e las diversas etapas de sus procesos (previo, durante y final del llenado y almacenamiento).</u>
-                Así mismo, autorizo a OXINIK GASES ESPECIALES a desechar el cilindro dado de baja si en un plazo de 60 días no acudo a recibirlo.
+                <u>De igual manera estoy informado que la OXIGAMEX Oxígeno, Gases, Accesorios entregará vacío sin ninguna responsabilidad, los cilindros autorizados para el llenado que no aprueben el seguimiento y medición de los productos e las diversas etapas de sus procesos (previo, durante y final del llenado y almacenamiento).</u>
+                Así mismo, autorizo a OXIGAMEX Oxígeno, Gases, Accesorios a desechar el cilindro dado de baja si en un plazo de 60 días no acudo a recibirlo.
             </p>
             <p>
                 Nombre:  &nbsp; <strong>{{$nota->nombre}}</strong>  <br>

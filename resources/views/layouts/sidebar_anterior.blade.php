@@ -12,7 +12,7 @@
         <nav id="sidebar" class="active">
             <div class="sidebar-header">
                 <a href="{{URL('/home')}}">
-                    <h3>OXINIK</h3>
+                    <h3>OXIGAMEX</h3>
                     <strong>OX</strong>
                 </a>
             </div>

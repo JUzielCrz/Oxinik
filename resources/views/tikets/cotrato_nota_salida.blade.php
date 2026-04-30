@@ -35,7 +35,7 @@
                 Col. Fernando Gómez Sandoval. <br>
                 Santa Lucia del Camino, Oaxaca. <br>
                 951 195 02 00 / 951240 06 67 <br>
-                sge.oxinik@gmail.com
+                gases.oxigamex@gmail.com
             </p>
 
                 <div class="mt-2 mr-2 text-right">
@@ -96,8 +96,8 @@
                 <hr class="m-2">
                 <p style="margin: 0">
                     GRACIAS POR SU COMPRA <br>
-                    FACEBOOK: OXINIK GASES ESPECIALES<br>
-                    SGE.OXINIK@GMAIL.COM<br>
+                    FACEBOOK: OXIGAMEX GASES ESPECIALES<br>
+                    GASES.OXIGAMEX@GMAIL.COM<br>
                     ESTA VENTA SE FACTURA EN LA VENTA GLOBAL DEL DIA.<br>
                     PIDA SU FACTURA AL MOMENTO DE SU COMPRA<br>
                 </p>

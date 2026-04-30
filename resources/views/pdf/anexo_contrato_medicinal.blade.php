@@ -97,7 +97,7 @@
   <main>
     <h1>CONVENIO DE SUMINISTRO DE GAS.</h1>
 
-    <p>Que celebran por una parte la C. VIRGINIA GARCÍA LÓPEZ, a quien en lo subsecuente será denominará como “LA PROVEEDORA”, con domicilio ubicado en la calle Ignacio Zaragoza número 213, Interior 4, Colonia Fernando Gómez Sandoval, Santa Lucia Del Camino, Oaxaca, C.P. 71243, con nombre del establecimiento OXIGAMEX oxígeno, Gases, Accesorios. Y por la otra parte el C. {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}} en lo subsecuente se le denominara como “EL CONSUMIDOR”, con domicilio en {{$contrato->direccion}}.  al tenor de las siguientes declaraciones y clausulas:</p>
+    <p>Que celebran por una parte la C. VIRGINIA GARCÍA LÓPEZ, a quien en lo subsecuente será denominará como “LA PROVEEDORA”, con domicilio ubicado en la calle Ignacio Zaragoza número 213, Interior 4, Colonia Fernando Gómez Sandoval, Santa Lucia Del Camino, Oaxaca, C.P. 71243, con nombre del establecimiento OXIGAMEX Oxígeno, Gases, Accesorios. Y por la otra parte el C. {{$cliente->nombre}} {{$cliente->apPaterno}} {{$cliente->apMaterno}} en lo subsecuente se le denominara como “EL CONSUMIDOR”, con domicilio en {{$contrato->direccion}}.  al tenor de las siguientes declaraciones y clausulas:</p>
 
     <p><strong>DECLARA “LA PROVEEDORA”:</strong></p>
 
