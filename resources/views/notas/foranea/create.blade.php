@@ -172,7 +172,7 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/notas/foranea/salida.js') }}"></script>
+<script src="{{ asset('js/Notas/foranea/salida.js') }}"></script>
 <script src="{{ asset('js/clientes_sc/edit_save.js') }}"></script>
 <script>
     $(document).ready(function () {

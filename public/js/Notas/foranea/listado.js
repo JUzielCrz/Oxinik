@@ -28,7 +28,7 @@ $(document).ready(function () {
             }
         },
         processing: true,
-        serverSider: true,
+        serverSide: true,
         ajax: '/nota/foranea/data',
         columns:[
             {data: 'notaf_id'},   

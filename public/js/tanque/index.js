@@ -23,7 +23,7 @@ $(document).ready(function () {
                 }
             },
             processing: true,
-            serverSider: true,
+            serverSide: true,
             ajax: '/tanque/data',
             columns:[
                 {data: 'num_serie', className: "text-center"},

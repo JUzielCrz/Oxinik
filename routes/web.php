@@ -95,15 +95,15 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
   /* Clientes */
-    Route::get('/client/{cliente_id}', 'clienteController@show')->name('client.show');
+    Route::get('/client/{cliente_id}', 'ClienteController@show')->name('client.show');
 
 
-    Route::get('/cliente/index', 'clienteController@index');
-    Route::get('/cliente/data/{estatus}', 'clienteController@data');
-    Route::post('/cliente/create', 'clienteController@create');
-    // Route::get('/cliente/show/{id}', 'clienteController@show');
-    Route::post('/cliente/update/{id}', 'clienteController@update');
-    Route::get('/cliente/delete/{id}', 'clienteController@destroy');
+    Route::get('/cliente/index', 'ClienteController@index');
+    Route::get('/cliente/data/{estatus}', 'ClienteController@data');
+    Route::post('/cliente/create', 'ClienteController@create');
+    // Route::get('/cliente/show/{id}', 'ClienteController@show');
+    Route::post('/cliente/update/{id}', 'ClienteController@update');
+    Route::get('/cliente/delete/{id}', 'ClienteController@destroy');
 
     /* Clientes Sin Contrato*/
     Route::post('/clientes_sc/search', 'ClienteSinContratoController@search');
@@ -122,7 +122,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/contrato/envio/show/{contrato_id}', 'ContratoController@envio_show');
 
     //agreement
-    Route::get('/agreement/{id}', 'agreementController@create')->name('agreement.create');
+    Route::get('/agreement/{id}', 'AgreementController@create')->name('agreement.create');
 
   /* Tanques */
     Route::get('/tanque/index', 'TanqueController@index');

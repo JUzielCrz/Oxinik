@@ -23,7 +23,7 @@ $(document).ready(function () {
                 }
             },
             processing: true,
-            serverSider: true,
+            serverSide: true,
             ajax: '/tanque/lista_bajas/data',
             columns:[
                 {data: 'num_serie'},

@@ -59,7 +59,7 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/notas/foranea/listado.js') }}"></script>
+<script src="{{ asset('js/Notas/foranea/listado.js') }}"></script>
 <script>
     $(document).ready(function () {
         $("#id-menu-foranea").addClass('active');
