@@ -254,7 +254,7 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/notas/exporadica/index.js') }}"></script>
+<script src="{{ asset('js/Notas/exporadica/index.js') }}"></script>
 <script src="{{ asset('js/clientes_sc/edit_save.js') }}"></script>
 
 <script>

@@ -270,7 +270,7 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/notas/contrato/entrada.js') }}"></script>
+<script src="{{ asset('js/Notas/contrato/entrada.js') }}"></script>
 
 <script>
     $(document).ready(function () {

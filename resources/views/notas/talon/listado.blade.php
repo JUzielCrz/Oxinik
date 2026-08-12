@@ -50,7 +50,7 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/notas/talon/listado.js') }}"></script>
+<script src="{{ asset('js/Notas/talon/listado.js') }}"></script>
 <script>
     $(document).ready(function () {
         $("#id-menu-talon").addClass('active');

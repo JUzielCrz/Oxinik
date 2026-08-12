@@ -90,7 +90,7 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/notas/reserva/index.js') }}"></script>
+<script src="{{ asset('js/Notas/reserva/index.js') }}"></script>
 <script>
     $(document).ready(function () {
         $("#id-menu-reserva").addClass('active');

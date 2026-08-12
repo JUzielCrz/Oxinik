@@ -105,5 +105,5 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/notas/pagos/index.js') }}"></script>
+<script src="{{ asset('js/Notas/pagos/index.js') }}"></script>
 <!--Fin Scripts-->

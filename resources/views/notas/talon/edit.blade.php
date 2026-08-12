@@ -518,7 +518,7 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/notas/talon/edit.js') }}"></script>
+<script src="{{ asset('js/Notas/talon/edit.js') }}"></script>
 <script src="{{ asset('js/clientes_sc/edit_save.js') }}"></script>
 
 <script>

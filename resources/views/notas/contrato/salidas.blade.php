@@ -314,7 +314,7 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/notas/contrato/salida.js') }}"></script>
+<script src="{{ asset('js/Notas/contrato/salida.js') }}"></script>
 <script>
     $(document).ready(function () {
         $("#id-menu-contrato").addClass('active');

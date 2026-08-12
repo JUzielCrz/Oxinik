@@ -106,4 +106,4 @@
 @endsection
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/notas/reserva/create.js') }}"></script>
+<script src="{{ asset('js/Notas/reserva/create.js') }}"></script>

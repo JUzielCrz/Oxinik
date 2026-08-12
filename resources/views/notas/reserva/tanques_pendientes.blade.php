@@ -88,7 +88,7 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/notas/reserva/tanque_pendiente.js') }}"></script>
+<script src="{{ asset('js/Notas/reserva/tanque_pendiente.js') }}"></script>
 <script>
     $(document).ready(function () {
         $("#id-menu-reserva").addClass('active');

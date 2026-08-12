@@ -45,7 +45,7 @@
 
 @include('layouts.scripts')
 <!--Scripts-->
-<script src="{{ asset('js/notas/exporadica/listar.js') }}"></script>
+<script src="{{ asset('js/Notas/exporadica/listar.js') }}"></script>
 <script>
     $(document).ready(function () {
         $("#id-menu-mostrador").addClass('active');
