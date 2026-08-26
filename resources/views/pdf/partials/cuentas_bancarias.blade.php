@@ -2,11 +2,13 @@
     $cuenta1Visible = trim((string) $empresa->titular1) !== ''
         || trim((string) $empresa->banco1) !== ''
         || trim((string) $empresa->num_cuenta1) !== ''
-        || trim((string) $empresa->clave1) !== '';
+        || trim((string) $empresa->clave1) !== ''
+        || trim((string) $empresa->num_tarjeta1) !== '';
     $cuenta2Visible = trim((string) $empresa->titular2) !== ''
         || trim((string) $empresa->banco2) !== ''
         || trim((string) $empresa->num_cuenta2) !== ''
-        || trim((string) $empresa->clave2) !== '';
+        || trim((string) $empresa->clave2) !== ''
+        || trim((string) $empresa->num_tarjeta2) !== '';
     $cuentasVisibles = ($cuenta1Visible ? 1 : 0) + ($cuenta2Visible ? 1 : 0);
     $colspanCuenta = $cuentasVisibles === 1 ? 2 : 1;
 @endphp
@@ -30,6 +32,9 @@
                             BANCO: <strong>{{$empresa->banco1}}</strong> <br>
                             # CUENTA: <strong>{{$empresa->num_cuenta1}}</strong> <br>
                             CLABE: <strong>{{$empresa->clave1}}</strong> <br>
+                            @if (trim((string) $empresa->num_tarjeta1) !== '')
+                                # TARJETA: <strong>{{$empresa->num_tarjeta1}}</strong> <br>
+                            @endif
                         </p>
                     </td>
                 @endif
@@ -40,6 +45,9 @@
                             BANCO: <strong>{{$empresa->banco2}}</strong> <br>
                             # CUENTA: <strong>{{$empresa->num_cuenta2}}</strong> <br>
                             CLABE: <strong>{{$empresa->clave2}}</strong> <br>
+                            @if (trim((string) $empresa->num_tarjeta2) !== '')
+                                # TARJETA: <strong>{{$empresa->num_tarjeta2}}</strong> <br>
+                            @endif
                         </p>
                     </td>
                 @endif
