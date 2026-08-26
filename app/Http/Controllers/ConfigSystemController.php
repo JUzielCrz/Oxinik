@@ -41,10 +41,12 @@ class ConfigSystemController extends Controller
             $empresa->clave1=$request->clave1;
             $empresa->banco1=$request->banco1;
             $empresa->titular1=$request->titular1;
+            $empresa->num_tarjeta1=$request->num_tarjeta1;
             $empresa->num_cuenta2=$request->num_cuenta2;
             $empresa->clave2=$request->clave2;
             $empresa->banco2=$request->banco2;
             $empresa->titular2=$request->titular2;
+            $empresa->num_tarjeta2=$request->num_tarjeta2;
             $empresa->save();
         }
         return response()->json(['alert'=>'Sin Permisos']);

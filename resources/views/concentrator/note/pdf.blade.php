@@ -132,48 +132,7 @@
                 </tr>
                 </tbody>
             </table>
-            <table class="table table-sm table-bordered mt-2">
-                <tbody >
-                    <tr style="background: black">
-                        <td colspan="2"><div class="text-center text-white" > CUENTAS BANCARIAS PARA TRANSFERENCIAS</div></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"  class="text-center">
-                            RFC: <strong>{{$empresa->rfc}}</strong> <br>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p class="p-0 m-0">
-                                Titular: <strong>{{$empresa->titular1}} </strong> <br>
-                                BANCO: <strong>{{$empresa->banco1}}</strong> <br>
-                                # CUENTA: <strong>{{$empresa->num_cuenta1}}</strong> <br>
-                                CLABE: <strong>{{$empresa->clave1}}</strong> <br>                                
-                            </p>
-                        </td>
-                        <td>
-                            <p class="p-0 m-0">
-                                Titular: <strong>{{$empresa->titular2}} </strong> <br>
-                                BANCO: <strong>{{$empresa->banco2}}</strong> <br>
-                                # CUENTA: <strong>{{$empresa->num_cuenta2}}</strong> <br>
-                                CLABE: <strong>{{$empresa->clave2}}</strong> <br>                                
-                            </p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <p class="p-0 m-0">
-                                ASÍ MISMO SE LES PIDE ENVIAR COMPROBANTE DE PAGO AL SIGUIENTE CORREO: <strong>{{$empresa->email}}</strong><br>
-                                HACIENDO REFERENCIA EN CONCEPTO ALGUNO DE LOS SIGUIENTES:<br>
-                                    * FOLIO DE FACTURA<br>
-                                    * NÚMERO DE VALE O TICKET DE VENTA<br>
-                                    * NÚMERO DE FOLIO DE HOJA DE CONTRATO.<br>
-                                ESTAMOS A SUS ORDENES
-                            </p>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            @include('pdf.partials.cuentas_bancarias')
             
 
 
@@ -194,4 +153,3 @@
 
     </html>
     
-

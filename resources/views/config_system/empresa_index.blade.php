@@ -68,6 +68,11 @@
                         <input type="text" id="titular1" name="titular1" class="form-control form-control-sm" placeholder="Titular" value="{{$empresa->titular1}}">
                         <span  id="titular1Error" class="text-danger"></span>
                     </div>
+                    <div class="form-group col">
+                        <label for="">N° Tarjeta</label>
+                        <input type="text" id="num_tarjeta1" name="num_tarjeta1" class="form-control form-control-sm" placeholder="N° Tarjeta" value="{{$empresa->num_tarjeta1}}">
+                        <span  id="num_tarjeta1Error" class="text-danger"></span>
+                    </div>
                 </div>
                 <hr>
                 <div class="row">
@@ -91,6 +96,11 @@
                         <input type="text" id="titular2" name="titular2" class="form-control form-control-sm" placeholder="Titular" value="{{$empresa->titular2}}">
                         <span  id="titular2Error" class="text-danger"></span>
                     </div>
+                    <div class="form-group col">
+                        <label for="">N° Tarjeta</label>
+                        <input type="text" id="num_tarjeta2" name="num_tarjeta2" class="form-control form-control-sm" placeholder="N° Tarjeta" value="{{$empresa->num_tarjeta2}}">
+                        <span  id="num_tarjeta2Error" class="text-danger"></span>
+                    </div>
                 </div>
                 <hr>
                 <div class="form-row">
@@ -109,4 +119,3 @@
 <!--Scripts-->
 <script src="{{ asset('js/config_sytem/empresa_index.js') }}"></script>
 <!--Fin Scripts-->
-

@@ -37,10 +37,12 @@ $(document).ready(function () {
         $("#clave1").empty();
         $("#banco1").empty();
         $("#titular1").empty();
+        $("#num_tarjeta1").empty();
         $("#num_cuenta2").empty();
         $("#clave2").empty();
         $("#banco2").empty();
         $("#titular2").empty();
+        $("#num_tarjeta2").empty();
     }
 
     function mensaje(icono,titulo, mensaje, timer){
