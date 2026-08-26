@@ -66,7 +66,7 @@
             </div>
             <div class="form-group col-md-3">
                 {!! Form::label('Tipo') !!}
-                {{ Form::select('tipo_tanque',['Industrial' => 'Industrial', 'Medicinal' => 'Medicinal' ],null,['id' => 'tipo_tanque','class'=>'form-control form-control-sm', 'placeholder'=>'selecciona'])}}
+                {{ Form::select('tipo_tanque',['Industrial' => 'Industrial', 'Medicinal' => 'Medicinal', 'Alimentos' => 'Alimentos' ],null,['id' => 'tipo_tanque','class'=>'form-control form-control-sm', 'placeholder'=>'selecciona'])}}
                 <span  id="tipo_tanqueError" class="text-danger"></span>
             </div>
 
