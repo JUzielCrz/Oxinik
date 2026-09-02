@@ -50,8 +50,8 @@ $(document).ready(function () {
                 $("#modal-registrar-tanque").modal('show');
                 $('#num_serie').val(numserie);
                 $("#num_serie").prop("disabled", true);
-                $('#estatus').val('INFRA');
-                $("#estatus").prop("disabled", true);
+                $('#estatus').val('');
+                $("#estatus").prop("disabled", false);
                 $('#serie_tanque').val('');
                 return false;
             }
@@ -61,6 +61,7 @@ $(document).ready(function () {
                     "<tr class='trFilaTanque'>"+
                         "<td>"+contador+"</td>"+
                         "<td>"+msg.num_serie+"</td>"+"<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+msg.num_serie +"'></input>"+
+                        "<input type='hidden' name='inputEstatus[]' value='LLENO-ALMACEN'>"+
                         "<td>"+msg.capacidad+"</td>"+
                         "<td>"+msg.material+"</td>"+
                         "<td>"+msg.ph+"</td>"+
@@ -73,7 +74,7 @@ $(document).ready(function () {
                 
                 $('#serie_tanque').val('');
             }else{
-                $('#serie_tanqueError').text('Error, estatus tanque: '+ msg.estatus);
+                $('#serie_tanqueError').text('Error: estatus del tanque: '+ msg.estatus);
                 $("#tbody_errores").append('<tr><td>'+numserie+'</td><td>Estatus: '+msg.estatus+'</td></tr>');
                 $('#serie_tanque').val('');
                 return false;
@@ -106,7 +107,7 @@ $(document).ready(function () {
         })
         .fail(function (jqXHR, textStatus) {
             //Si existe algun error entra aqui
-            mensaje('error','Error','Verifica tus datos', null);
+            mensaje('error','Error','Verifica tus datos.', null);
             var status = jqXHR.status;
             if (status === 422) {
                 $.each(jqXHR.responseJSON.errors, function (key, value) {
@@ -166,7 +167,7 @@ $(document).ready(function () {
         if(campovacio.length != 0){
             $.each(campovacio, function(index){
                 $("#"+campovacio[index]).addClass('is-invalid');
-                $("#"+campovacio[index]+'Error').text('Necesario');
+                $("#"+campovacio[index]+'Error').text('Campo obligatorio');
             });
             return false;
         }
@@ -180,7 +181,7 @@ $(document).ready(function () {
         }
 
         if(fabri==""){
-            $("#fabricanteError").text('Necesario');
+            $("#fabricanteError").text('Campo obligatorio');
             $("#otrofabricante").addClass('is-invalid');
             $("#fabricanteoficial").addClass('is-invalid');
             return false;
@@ -195,12 +196,12 @@ $(document).ready(function () {
 
         var cap=$('#capacidadnum').val()+' '+ $('#unidadmedida').val();
         if($('#capacidadnum').val()==''){
-            $("#capacidad"+"Error").text('El campo Capacidad es Obligatorio');
+            $("#capacidad"+"Error").text('El campo Capacidad es obligatorio');
             return false;
         }
 
         if($('#ph_anio').val()<1950){
-            $("#phError").text('Campo Incorrecto');
+            $("#phError").text('Campo incorrecto');
             $("#ph_anio").addClass('is-invalid');
             return false;
         }
@@ -231,6 +232,7 @@ $(document).ready(function () {
                 "<tr class='trFilaTanque'>"+
                     "<td>"+contador +"</td>"+
                     "<td>"+$("#num_serie").val()+"</td>"+"<input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='"+$("#num_serie").val() +"'></input>"+
+                    "<input type='hidden' name='inputEstatus[]' value='"+$("#estatus").val()+"'>"+
                     "<td>"+$("#capacidadnum").val()+$("#unidadmedida").val()+"</td>"+
                     "<td>"+$("#material").val()+"</td>"+
                     "<td>"+$("#ph_anio").val()+"-"+$("#ph_mes").val()+"</td>"+
@@ -238,7 +240,7 @@ $(document).ready(function () {
                     "<td>"+ "<button type='button' class='btn btn-naranja' id='btn-EliminarFila'><span class='fas fa-window-close'></span></button>" +"</td>"+
                 "</tr>"
             );
-            mensaje("success","EXITO", "Guardado correctamente.", 1000, '#modal-registrar-tanque');
+            mensaje("success","ÉXITO", "Guardado correctamente.", 1000, '#modal-registrar-tanque');
             limpiar_campos_tanque();
             actualizar_numeros();
         })

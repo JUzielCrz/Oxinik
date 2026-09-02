@@ -14,7 +14,7 @@
             <div class="card-header p-2 bg-gris text-white">
                 <div class="row">
                     <div class="col-md-9">
-                        <h5 >ENTRADA TANQUES <strong>INFRA ID: {{$nota->id}}</strong></h5>
+                        <h5>ENTRADA DE TANQUES <strong>INFRA ID: {{$nota->id}}</strong></h5>
                     </div>
                 </div>
             </div>
@@ -26,9 +26,9 @@
                             <div class=" row">
                                 <div class="col-md-6">
                                     <div class="input-group mb-3">
-                                        <input type="text" name="serie_tanque" id="serie_tanque" class="form-control form-control-sm" placeholder="#Serie" >
+                                        <input type="text" name="serie_tanque" id="serie_tanque" class="form-control form-control-sm" placeholder="Número de serie" >
                                         <div class="input-group-append">
-                                            <button type="button" class="btn btn-sm btn-amarillo" id="btn-InsertFila"><span class="fas fa-plus"></span> Agredar</button>
+                                            <button type="button" class="btn btn-sm btn-amarillo" id="btn-InsertFila"><span class="fas fa-plus"></span> Agregar</button>
                                         </div>
                                     </div>
                                 </div>
@@ -45,7 +45,7 @@
                                             <th scope="col">CAPACIDAD</th>
                                             <th scope="col">MATERIAL</th>
                                             <th scope="col">PH</th>
-                                            <th>fabricante</th>
+                                            <th>FABRICANTE</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
@@ -57,7 +57,9 @@
                                         
                                             <tr class='trFilaTanque'>
                                                 <td>{{$contador+=1}}</td>
-                                                <td>{{$tanque->num_serie}}</td> <input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value={{$tanque->num_serie}}>
+                                                <td>{{$tanque->num_serie}}</td>
+                                                <input type='hidden' name='inputNumSerie[]' id='idInputNumSerie' value='{{$tanque->num_serie}}'>
+                                                <input type='hidden' name='inputEstatus[]' value='LLENO-ALMACEN'>
                                                 <td>{{$tanque->capacidad}}</td> 
                                                 <td>{{$tanque->material}}</td>
                                                 <td>{{$tanque->ph}}</td>
@@ -117,7 +119,7 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value=0 name="pendiente" @if ($nota->pendiente == false) checked @endif>
                             <label class="form-check-label" for="defaultCheck1">
-                                Selecciona si tanques faltantes fueron retenidos o enviados a mantenimiento.
+                                Selecciona si los tanques faltantes fueron retenidos o enviados a mantenimiento.
                             </label>
                         </div>
                         <hr>
@@ -132,7 +134,7 @@
     </form>
 </div>
 
-<!-- Modal registrar tanque-->
+<!-- Modal para registrar tanque -->
 <div class="modal fade bd-example-modal-lg" id="modal-registrar-tanque" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">

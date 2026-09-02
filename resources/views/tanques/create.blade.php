@@ -6,7 +6,7 @@
   <form id="idFormTanque">
     @csrf
 
-        <!-- Nombre Completo-->
+        <!-- Datos del tanque -->
         <div class="form-row">
             <div class="form-group col-md-4">
                 {!! Form::label('Número de serie') !!}
@@ -18,7 +18,7 @@
                 {!! Form::label('Capacidad') !!}
                 
                 <select name="unidadmedida" id="unidadmedida" class="form-control form-control-sm">
-                    <option value="">Selecione</option>
+                    <option value="">Seleccione</option>
                     <option value="Carga">Carga</option>
                     <option value="m3">m3</option>
                     <option value="kilos">kilos</option>
@@ -26,7 +26,7 @@
             </div>
             
             <div class="form-group col-md-2">
-                {!! Form::label('*') !!}
+                {!! Form::label('Cantidad') !!}
                 {!! Form::number('capacidadnum', null, ['id'=>'capacidadnum', 'class' => 'form-control form-control-sm', 'max'=>'10','placeholder'=>'#']) !!}
                 <span  id="capacidadError" class="text-danger"></span>
             </div>
@@ -51,7 +51,7 @@
                 <span  id="phError" class="text-danger"></span>
             </div>
             <div class="form-group col-md-2">
-                <label for="">.</label>
+                <label for="ph_anio">Año</label>
                 <input type="number" name="ph_anio" id="ph_anio" class="form-control form-control-sm anio_format" placeholder="Año">
             </div>
         </div>
@@ -61,22 +61,22 @@
             
             <div class="form-group col-md-3">
                 {!! Form::label('Material') !!}
-                {{ Form::select('material',['Acero' => 'Acero', 'Aluminio' => 'Aluminio' ],null,['id' => 'material','class'=>'form-control form-control-sm', 'placeholder'=>'selecciona'])}}
+                {{ Form::select('material',['Acero' => 'Acero', 'Aluminio' => 'Aluminio' ],null,['id' => 'material','class'=>'form-control form-control-sm', 'placeholder'=>'Seleccione'])}}
                 <span  id="materialError" class="text-danger"></span>
             </div>
             <div class="form-group col-md-3">
                 {!! Form::label('Tipo') !!}
-                {{ Form::select('tipo_tanque',['Industrial' => 'Industrial', 'Medicinal' => 'Medicinal', 'Alimentos' => 'Alimentos' ],null,['id' => 'tipo_tanque','class'=>'form-control form-control-sm', 'placeholder'=>'selecciona'])}}
+                {{ Form::select('tipo_tanque',['Industrial' => 'Industrial', 'Medicinal' => 'Medicinal', 'Alimentos' => 'Alimentos' ],null,['id' => 'tipo_tanque','class'=>'form-control form-control-sm', 'placeholder'=>'Seleccione'])}}
                 <span  id="tipo_tanqueError" class="text-danger"></span>
             </div>
 
             <div class="form-group col-md-2">
                 {!! Form::label('Fabricante') !!}
-                {{ Form::select('fabricanteoficial',['Infra' => 'Infra', 'Praxair' => 'Praxair', 'Otros' => 'Otros' ],null,['id' => 'fabricanteoficial','class'=>'form-control form-control-sm', 'placeholder'=>'selecciona'])}}
+                {{ Form::select('fabricanteoficial',['Infra' => 'Infra', 'Praxair' => 'Praxair', 'Otros' => 'Otros' ],null,['id' => 'fabricanteoficial','class'=>'form-control form-control-sm', 'placeholder'=>'Seleccione'])}}
                 <span  id="fabricanteError" class="text-danger"></span>
             </div>
             <div class="form-group col-md-4">
-                {!! Form::label('*') !!}
+                {!! Form::label('Especifique el fabricante') !!}
                 {!! Form::text('otrofabricante', null, ['id'=>'otrofabricante', 'class' => 'form-control form-control-sm',  'required', 'disabled' ]) !!}
                 <span  id="fabricanteotrosError" class="text-danger"></span>
             </div>
@@ -86,12 +86,12 @@
 
             <div class="form-group col-md-7">
                 {!! Form::label('Gas') !!}
-                {{ Form::select('tipo_gas', $catalogo, null, ['id'=>'tipo_gas', 'class' => 'form-control form-control-sm', 'required', 'placeholder'=>'selecciona' ]) }}
+                {{ Form::select('tipo_gas', $catalogo, null, ['id'=>'tipo_gas', 'class' => 'form-control form-control-sm', 'required', 'placeholder'=>'Seleccione' ]) }}
                 <span  id="tipo_gasError" class="text-danger"></span>
             </div>
 
             <div class="form-group col-md-4">
-                {!! Form::label('estatus') !!}
+                {!! Form::label('Estatus') !!}
                 {{ Form::select('estatus',[
                     'VACIO-ALMACEN' => 'VACIO-ALMACEN', 
                     'LLENO-ALMACEN' => 'LLENO-ALMACEN', 

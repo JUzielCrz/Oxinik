@@ -113,7 +113,9 @@ class InfraController extends Controller
         
         if($this->slug_permiso('infra_salida') || $this->slug_permiso('infra_entrada')){
             $request->validate([
-                'cantidad_entrada' => ['required', 'int']
+                'cantidad_entrada' => ['required', 'int'],
+                'inputEstatus' => ['required', 'array'],
+                'inputEstatus.*' => ['required', 'string', 'max:255']
             ]);
             if ($request->cantidad_entrada > $request->cantidad_salida) {
                 return response()->json(['alert'=>'error', 'mensaje'=>'Cantidad Entrada no puede ser mayor a cantidad salida']);
@@ -141,7 +143,7 @@ class InfraController extends Controller
                         $infratanque->save();
     
                         $tanque=Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
-                        $tanque->estatus = 'LLENO-ALMACEN';
+                        $tanque->estatus = $request->inputEstatus[$series];
                         $tanque->save();
                     }
                 }

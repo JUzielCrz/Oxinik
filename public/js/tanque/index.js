@@ -27,12 +27,12 @@ $(document).ready(function () {
             ajax: '/tanque/data',
             columns:[
                 {data: 'num_serie', className: "text-center"},
-                {data: 'gas_nombre', className: "text-center"},
+                {data: 'gas_nombre', name: 'catalogo_gases.nombre', className: "text-center"},
                 {data: 'ph', className: "text-center"},
                 {data: 'fabricante', className: "text-center"},
                 {data: 'material', className: "text-center"},
                 {data: 'estatus', className: "text-center"}, //aqui va estatus
-                {data: 'name', className: "text-center"},
+                {data: 'name', name: 'users.name', className: "text-center"},
                 {data: 'btnShow'},
                 {data: 'btnEdit'},
                 {data: 'btnHistory'},
