@@ -31,14 +31,17 @@ $(document).ready(function () {
         serverSide: true,
         ajax: '/nota/foranea/data',
         columns:[
-            {data: 'notaf_id'},   
-            {data: 'nombre'},
-            {data: 'created_at'},
-            {data: 'total'},
-            {data: 'telefono'},
-            {data: 'pago_cubierto'},
-            {data: 'tanques_devueltos'},
-            {data: 'user_name'},
+            // notaf_id es un alias del SELECT; indicar la columna física para
+            // que la búsqueda server-side no genere nota_foranea.notaf_id.
+            {data: 'notaf_id', name: 'nota_foranea.id'},
+            {data: 'nombre', name: 'nota_foranea.nombre'},
+            {data: 'created_at', name: 'nota_foranea.created_at'},
+            {data: 'total', name: 'nota_foranea.total'},
+            {data: 'telefono', name: 'nota_foranea.telefono'},
+            {data: 'pago_cubierto', name: 'nota_foranea.pago_cubierto'},
+            {data: 'tanques_devueltos', name: 'nota_foranea.tanques_devueltos'},
+            // user_name se calcula desde User::find(), no existe en nota_foranea.
+            {data: 'user_name', searchable: false},
             {data: 'btnEdit'},
             {data: 'btnPDF'},
             {data: 'btnDelete'}

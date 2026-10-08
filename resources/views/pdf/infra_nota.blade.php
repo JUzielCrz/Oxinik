@@ -57,8 +57,7 @@
         <header>
             <table class="table table-borderless ">
                 <tbody>
-                    <td> <img src="img/logo.png" style="width: 200px" alt=""></td></td>
-                    <td class="mt-4 mr-3 text-right"> <img src="img/email.svg" style="height: 25px;" alt=""> </td>
+                    <td> <img src="img/logo.png" style="width: 200px" alt=""></td>
                 </tbody>
             </table> 
         </header>
@@ -109,8 +108,6 @@
 
         </main>
 
-        <footer>
-            <img src="img/membrete_footer.svg" style="width: 650px" alt="">
-        </footer>
+        <footer></footer>
     </body>
 </html>
