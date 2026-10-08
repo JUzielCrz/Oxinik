@@ -4,18 +4,89 @@
     </center>
 
     <style>
-        .tdWidth{
-            width: 50px;
-            overflow: auto;
+        .contrato-form {
+            color: #2F4858;
+        }
+
+        .contrato-form .form-section {
+            margin: 1.25rem 0 1rem;
+            padding-bottom: .35rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .contrato-form .form-section-title {
+            margin: 0;
+            color: #2F4858;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .02em;
+        }
+
+        .contrato-form .form-section-help,
+        .contrato-form .field-help {
+            color: #6c757d;
+            font-size: .78rem;
+        }
+
+        .contrato-form label {
+            font-weight: 600;
+            margin-bottom: .3rem;
+        }
+
+        .contrato-form .required-mark {
+            color: #c0392b;
+        }
+
+        .contrato-form .assignment-table {
+            min-width: 1050px;
+        }
+
+        .contrato-form .assignment-table th {
+            white-space: nowrap;
+            vertical-align: middle;
+        }
+
+        .contrato-form .assignment-table td {
+            vertical-align: middle;
+        }
+
+        .contrato-form .assignment-table .form-control {
+            min-width: 90px;
+        }
+
+        .contrato-form .assignment-table .num_cilin {
+            min-width: 75px;
+        }
+
+        .contrato-form .assignment-table .dep_garanty {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .contrato-form .deposit-summary {
+            background: #eef8f1;
+            border: 1px solid #b7dfc2;
+            color: #246b3b;
+            font-size: .95rem;
         }
     </style>
 
-  <form id="idFormContrato" style="font-size: 13px">
+  <form id="idFormContrato" class="contrato-form" style="font-size: 13px">
     @csrf
-        <!-- Nombre Completo-->
+        <div class="alert alert-light border mb-3" role="note">
+            <strong>Nuevo contrato</strong>
+            <div class="field-help mt-1">Completa la información general, el domicilio de entrega y después agrega una fila por cada tipo de cilindro.</div>
+            <span class="field-help"><span class="required-mark">*</span> Campos obligatorios</span>
+        </div>
+
+        <div class="form-section">
+            <h4 class="form-section-title">1. Datos del contrato</h4>
+            <div class="form-section-help">Define el tipo de servicio y la configuración comercial del contrato.</div>
+        </div>
         <div class="form-row">
             <div class="form-group col">
-                {!! Form::label('Tipo de Contrato*') !!}
+                <label for="tipo_contrato">Tipo de contrato <span class="required-mark">*</span></label>
                 {{ Form::select('tipo_contrato',['Industrial' => 'Industrial', 
                                                 'Medicinal' => 'Medicinal',  
                                                 'Eventual' => 'Eventual' 
@@ -23,12 +94,12 @@
                 <span  id="tipo_contratoError" class="text-danger"></span>
             </div>
             <div class="form-group col">
-                <label for="">Nombre Comercial</label>
+                <label for="nombre_comercial">Nombre comercial</label>
                 <input name="nombre_comercial" id="nombre_comercial" type="text" class="form-control form-control-sm" >
                 <span  id="nombre_comercialError" class="text-danger"></span>
             </div>
             <div class="form-group col-md-2">
-                {!! Form::label('#Reguladores') !!}
+                <label for="reguladores">Número de reguladores</label>
                 <select name="reguladores" id="reguladores" class="form-control form-control-sm">
                     <option value="0">0</option>
                     <option value="1">1</option>
@@ -41,29 +112,29 @@
                 <span  id="reguladoresError" class="text-danger"></span>
             </div>
             <div class="form-group col">
-                <label for="">Mod. Regulador</label>
+                <label for="modelo_regulador">Modelo del regulador</label>
                 <input name="modelo_regulador" id="modelo_regulador" type="text" class="form-control form-control-sm" >
                 <span  id="modelo_reguladorError" class="text-danger"></span>
             </div>
         </div>
         <div id="change_renta"></div>
-        <hr>
-        <div class="form-row">
-                <strong>Donde serán utilizado los cilindros</strong>
+        <div class="form-section">
+            <h4 class="form-section-title">2. Ubicación de los cilindros</h4>
+            <div class="form-section-help">Indica dónde se utilizarán y cómo localizar el domicilio de entrega.</div>
         </div>
         <div class="form-row">
             <div class="col-md-6">
-                <label for="">Dirección</label>
+                <label for="direccion">Dirección <span class="required-mark">*</span></label>
                 <textarea name="direccion" id="direccion" class="form-control form-control-sm" cols="30" rows="2"></textarea>
                 <span  id="direccionError" class="text-danger"></span>
             </div>
             <div class="col-md-6">
-                <label for="">Referencia</label>
+                <label for="referencia">Referencia <span class="required-mark">*</span></label>
                 <textarea name="referencia" id="referencia" class="form-control form-control-sm" cols="30" rows="2"></textarea>
                 <span  id="referenciaError" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-row">Entre las calles:</div>
+        <div class="form-row"><div class="field-help mb-2">Entre las calles</div></div>
         <div class="form-row">
             <div class="col">
                 <textarea name="calle1" id="calle1" class="form-control form-control-sm" cols="30" rows="1"  placeholder="CALLE 1"></textarea>
@@ -81,27 +152,26 @@
                 <span  id="precio_transporteError" class="text-danger"></span>
             </div>
             <div class="col-md-6">
-                <label for="">URL Ubicación</label>
-                <textarea name="link_ubicacion" id="link_ubicacion" class="form-control form-control-sm" cols="30" rows="1" placeholder="www.exmaple_ubicacion.com"></textarea>
+                <label for="link_ubicacion">URL de ubicación</label>
+                <textarea name="link_ubicacion" id="link_ubicacion" class="form-control form-control-sm" cols="30" rows="1" placeholder="https://maps.google.com/..."></textarea>
             </div>
         </div>
         
-        <hr>
-        
-        <div class="form-row">
-                <strong>PERSONA SOLIDARIA</strong>
+        <div class="form-section">
+            <h4 class="form-section-title">3. Persona solidaria</h4>
+            <div class="form-section-help">Persona que firma como respaldo del contrato, si aplica.</div>
         </div>
         <div class="form-row">
             <div class="col">
-                <label for="">Nombre</label>
+                <label for="nombre_solidaria">Nombre</label>
                 <input type="text" name="nombre_solidaria" id="nombre_solidaria" class="form-control form-control-sm">
             </div>
             <div class="col">
-                <label for="">Teléfono</label>
+                <label for="telefono_solidaria">Teléfono</label>
                 <input type="number" name="telefono_solidaria" id="telefono_solidaria" class="form-control form-control-sm numero-entero-positivo lenght-telefono">
             </div>
             <div class="col">
-                <label for="">Correo Electronico</label>
+                <label for="email_solidaria">Correo electrónico</label>
                 <input type="email" name="email_solidaria" id="email_solidaria" class="form-control form-control-sm">
             </div>
             
@@ -115,10 +185,9 @@
         </div>
 
         
-        <hr>
-        
-        <div class="form-row">
-                <strong>ASIGNACIÓN TANQUES</strong>
+        <div class="form-section">
+            <h4 class="form-section-title">4. Asignación de tanques</h4>
+            <div class="form-section-help">Agrega una fila por cada combinación de gas, tipo, material y capacidad.</div>
         </div>
 
         
@@ -127,23 +196,25 @@
 
                 
             
-            <table class="table table-sm" id="table-asignaciones" style="font-size: 12px">
+            <div class="field-help mb-2">El depósito total de cada fila se calcula automáticamente: cilindros × depósito unitario.</div>
+            <div id="msg-alert-asignacion" class="mb-2"></div>
+            <div class="table-responsive">
+            <table class="table table-sm assignment-table" id="table-asignaciones" style="font-size: 12px">
                 <thead>
                     <tr>
-                        <th>CILINDROS</th>
-                        <th>GAS</th>
-                        <th>TIPO</th>
-                        <th>MATERIAL</th>
-                        <th>CAPACIDAD</th>
-                        <th>U.M.</th>
-                        <th>PRECIO</th>
-                        <th>DEP UNITARIO</th>
-                        <th>DEP GARANTIA</th>
-                        <th></th>
-                        <th></th>
+                        <th>Cilindros</th>
+                        <th>Gas</th>
+                        <th>Tipo de tanque</th>
+                        <th>Material</th>
+                        <th>Capacidad</th>
+                        <th>Unidad</th>
+                        <th>Precio unitario</th>
+                        <th>Depósito unitario</th>
+                        <th>Depósito total</th>
+                        <th><span class="sr-only">Agregar</span></th>
+                        <th><span class="sr-only">Eliminar</span></th>
                     </tr>
                 </thead>
-                <div id="msg-alert-asignacion"></div>
                 <tbody>
                     <tr class="trasignacion">
                         <td class="tdWidth">
@@ -184,26 +255,36 @@
                             <input type="number" name="precio_unitariocreate[]" id="precio_unitariocreate" class="form-control form-control-sm numero-decimal-positivo" placeholder="$0">
                         </td>
                         <td>
-                            <input type="number"  class="dep_unit form-control form-control-sm numero-decimal-positivo" placeholder="$0">
+                            <input type="number" min="0" step="0.01" class="dep_unit form-control form-control-sm numero-decimal-positivo" placeholder="$0" aria-label="Depósito unitario">
                         </td>
                         <td>
-                            <input type="number" name="deposito_garantiacreate[]" id="deposito_garantiacreate" class="dep_garanty form-control form-control-sm numero-decimal-positivo" placeholder="$0">
+                            <input type="number" name="deposito_garantiacreate[]" id="deposito_garantiacreate" class="dep_garanty form-control form-control-sm numero-decimal-positivo" placeholder="$0" readonly aria-label="Depósito total de la fila">
                         </td>
                         <td>
-                            <button type="button" class="btn btn-amarillo btn-sm" id="btn-anadir-asignacioncreate"><span class="fas fa-plus"></span></button>
+                            <button type="button" class="btn btn-amarillo btn-sm btn-anadir-asignacioncreate" title="Agregar otra asignación" aria-label="Agregar otra asignación"><span class="fas fa-plus"></span></button>
                         </td>
                     </tr>
                 </tbody>
                 <tbody id="tbody-tr-asignacioncreate">
                 </tbody>
+                <tfoot>
+                    <tr style="font-size: .95rem;">
+                        <td colspan="8" class="text-right font-weight-bold mt-3">Depósito total del contrato:</td>
+                        <td colspan="3" class="font-weight-bold mt-3" id="total-deposito-garantia">$0.00</td>
+                    </tr>
+                </tfoot>
             </table>
+            </div>
         </div>
 
-        <hr>
-
+        <div class="form-section">
+            <h4 class="form-section-title">5. Observaciones</h4>
+            <div class="form-section-help">Información adicional para el equipo que dará seguimiento al contrato.</div>
+        </div>
         <div class="form-row">
             <div class="col-md-6">
-                <label for="">Observaciones</label>
+                <label for="observaciones">Observaciones</label>
+                <div class="field-help mb-1">Agrega cualquier instrucción o nota importante para el contrato.</div>
                 <textarea name="observaciones" id="observaciones" class="form-control form-control-sm" cols="30" rows="2"></textarea>
             </div>
         </div>
@@ -218,8 +299,9 @@
 
 <script>
     $(document).ready(function () {
-        $(document).on("click","#btn-anadir-asignacioncreate", aniadir);
+        $(document).on("click", ".btn-anadir-asignacioncreate", aniadir);
         $(document).on("click","#btn-eliminar-filaasignacion", removefilaasignacion);
+        $(document).on("input", ".dep_unit, .num_cilin", actualizarDepositoFila);
         
         $("#tipo_contrato").change( function() {
             if ($(this).val() == "Eventual") {
@@ -248,6 +330,7 @@
 
         function removefilaasignacion(){
             $(this).closest('tr').remove();
+            actualizarTotalDeposito();
         }
 
         $(document).on('click', '.borrar', function (event) {
@@ -255,14 +338,24 @@
             $(this).closest('tr').remove();
         });
 
-        $(".dep_unit").keyup( function() {
-        var dep=$(this).val() * $(this).parents("tr").find(".num_cilin").val();
-        $(this).parents("tr").find(".dep_garanty").val(dep);
-        });
-        $(".num_cilin").keyup( function() {
-            var dep=$(this).val() * $(this).parents("tr").find(".dep_unit").val();
-            $(this).parents("tr").find(".dep_garanty").val(dep);
-        });
+        function actualizarDepositoFila(){
+            var fila = $(this).closest('tr');
+            var cilindros = parseFloat(fila.find('.num_cilin').val()) || 0;
+            var depositoUnitario = parseFloat(fila.find('.dep_unit').val()) || 0;
+            fila.find('.dep_garanty').val((cilindros * depositoUnitario).toFixed(2));
+            actualizarTotalDeposito();
+        }
+
+        function actualizarTotalDeposito(){
+            var total = 0;
+            $('.dep_garanty').each(function(){
+                total += parseFloat($(this).val()) || 0;
+            });
+            $('#total-deposito-garantia').text('$' + total.toLocaleString('es-MX', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }));
+        }
 
         function aniadir(){
             var opcionesTanque='';
@@ -334,31 +427,24 @@
                             '<input type="number" name="precio_unitariocreate[]" id="precio_unitariocreate" class="form-control form-control-sm numero-decimal-positivo" placeholder="$0">'+
                         '</td>'+
                         '<td >'+
-                            '<input type="number"  class="dep_unit form-control form-control-sm numero-decimal-positivo" placeholder="$0">'+
+                            '<input type="number" min="0" step="0.01" class="dep_unit form-control form-control-sm numero-decimal-positivo" placeholder="$0" aria-label="Depósito unitario">'+
                         '</td>'+
                         '<td >'+
-                            '<input type="number" name="deposito_garantiacreate[]" id="deposito_garantiacreate" class="dep_garanty form-control form-control-sm numero-decimal-positivo" placeholder="$0">'+
+                            '<input type="number" name="deposito_garantiacreate[]" id="deposito_garantiacreate" class="dep_garanty form-control form-control-sm numero-decimal-positivo" placeholder="$0" readonly aria-label="Depósito total de la fila">'+
                         '</td>'+
                         '<td>'+
-                            '<button type="button" class="btn btn-sm btn-amarillo" id="btn-anadir-asignacioncreate"><span class="fas fa-plus"></span></button>'+
+                            '<button type="button" class="btn btn-sm btn-amarillo btn-anadir-asignacioncreate" title="Agregar otra asignación" aria-label="Agregar otra asignación"><span class="fas fa-plus"></span></button>'+
                         '</td>'+
                         '<td>'+
-                            '<button type="button" class="btn btn-sm btn-amarillo ml-1  " id="btn-eliminar-filaasignacion"><span class="fas fa-minus"></span></button>'+
+                            '<button type="button" class="btn btn-sm btn-amarillo ml-1" id="btn-eliminar-filaasignacion" title="Eliminar esta asignación" aria-label="Eliminar esta asignación"><span class="fas fa-minus"></span></button>'+
                         '</td>'+
                     '</tr>'
                 );
 
-                $(".dep_unit").keyup( function() {
-                var dep=$(this).val() * $(this).parents("tr").find(".num_cilin").val();
-                $(this).parents("tr").find(".dep_garanty").val(dep);
-                });
-                $(".num_cilin").keyup( function() {
-                    var dep=$(this).val() * $(this).parents("tr").find(".dep_unit").val();
-                    $(this).parents("tr").find(".dep_garanty").val(dep);
-                });
+                actualizarTotalDeposito();
             });
-            
-            
+
+        actualizarTotalDeposito();
         }
     });
 </script>

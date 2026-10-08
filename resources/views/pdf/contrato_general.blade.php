@@ -123,10 +123,10 @@
     </p>
     
     <p>
-      Además de lo antes estipulado, tendrá la obligación “EL CONSUMIDOR” de entregar un depósito en efectivo como garantía, que no representa de ninguna manera el precio del o de los envases que requiera de “LA PROVEEDORA”, cantidad de dinero que estará sujeta de la forma siguiente: 
+      Además de lo antes estipulado, “EL CONSUMIDOR” deberá entregar un depósito total en efectivo como garantía por los envases recibidos. Este depósito no representa el precio de los envases y será devuelto conforme a lo establecido en este contrato, una vez que sean entregados en las condiciones correspondientes.
     </p>
     <p>
-      Los depósitos que se refiere esta cláusula son los siguientes: un depósito en garantía de<strong> $ {{number_format($depositoUnitarioTotal, 2, '.', ',')}} {{$depUnitLetra}} </strong>, por CADA UNO de los envases proporcionados al “CONSUMIDOR” 
+      El depósito total en garantía correspondiente a los envases proporcionados al “CONSUMIDOR” es de <strong>$ {{number_format($depositoGarantiaTotal, 2, '.', ',')}} ({{$depGarantiaLetra}} 00/100 MONEDA NACIONAL)</strong>.
     </p>
     <p>
       “EL CONSUMIDOR” tendrá derecho a recuperar la cantidad que haya entregado como depósito en garantía en los términos del artículo 11 de la Ley Federal de Protección al Consumidor que a la letra dice: “El consumidor que al adquirir un bien haya entregado una cantidad como depósito por envase o empaque, tendrá derecho a recuperar en el momento de su devolución, la suma integra que haya erogado por ese concepto”. Lo anterior operara siempre y cuando “EL CONSUMIDOR” se encuentre al corriente en el cumplimiento de sus obligaciones.

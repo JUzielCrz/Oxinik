@@ -155,6 +155,7 @@ class ContratoController extends Controller
 
                     if($detalleNota != null){
                         $detalleNota->cilindros = $detalleNota->cilindros + $request->cilindroscreate[$typeG];
+                        $detalleNota->deposito_garantia = $detalleNota->deposito_garantia + $request->deposito_garantiacreate[$typeG];
                         $detalleNota->save();
                     }else{
                         $newDetalle= new AsignacionNotaDetalle;
