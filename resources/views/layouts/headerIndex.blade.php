@@ -18,6 +18,8 @@
         {{-- <link href="{{asset('css/misestilos.css')}}" rel="stylesheet"> --}}
         <link href="{{asset('css/sidebar-menu.css')}}" rel="stylesheet"> 
 
+        @stack('styles')
+
         {{-- archivos para datatables --}}
         <link href="{{asset('datatables/datatables.min.css')}}" rel="stylesheet"> 
         

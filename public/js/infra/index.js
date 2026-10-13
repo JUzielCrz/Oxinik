@@ -1,52 +1,60 @@
 $(document).ready(function () {
-    
-    // Data Tables
-        var listtabla = $('#tablecruddata').DataTable({
-            language: {
-                "decimal": "",
-                "emptyTable": "No hay información",
-                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-                "infoPostFix": "",
-                "thousands": ",",
-                "lengthMenu": "Mostrar _MENU_ Entradas",
-                "loadingRecords": "Cargando...",
-                "processing": "Procesando...",
-                "search": "Buscar:",
-                "zeroRecords": "Sin resultados encontrados",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Ultimo",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
+    'use strict';
+
+    $('#tablecruddata').DataTable({
+        processing: true,
+        serverSide: true,
+        responsive: false,
+        searchDelay: 350,
+        order: [[0, 'desc']],
+        ajax: '/infra/data',
+        language: {
+            decimal: '',
+            emptyTable: 'No hay registros INFRA todavía.',
+            info: 'Mostrando _START_ a _END_ de _TOTAL_ registros',
+            infoEmpty: 'Mostrando 0 a 0 de 0 registros',
+            infoFiltered: '(filtrado de _MAX_ registros)',
+            lengthMenu: 'Mostrar _MENU_ registros',
+            loadingRecords: 'Cargando registros...',
+            processing: 'Consultando registros...',
+            search: 'Buscar:',
+            zeroRecords: 'No encontramos notas con esos datos.',
+            paginate: {
+                first: 'Primero',
+                last: 'Último',
+                next: 'Siguiente',
+                previous: 'Anterior'
+            }
+        },
+        columns: [
+            { data: 'id', className: 'text-center font-weight-bold' },
+            { data: 'cantidad_salida', className: 'text-center' },
+            { data: 'cantidad_entrada', className: 'text-center', render: function (data) { return data === null ? '—' : data; } },
+            {
+                data: 'mostrar_diferencia',
+                className: 'text-center',
+                render: function (data) {
+                    var diferencia = parseInt(data, 10) || 0;
+                    return '<span class="' + (diferencia > 0 ? 'infra-difference-positive' : 'infra-difference-zero') + '">' + diferencia + '</span>';
                 }
             },
-            processing: true,
-            serverSider: true,
-            ajax: '/infra/data',
-            
-            columns:[
-                {data: 'id', className: "text-center"},
-                {data: 'cantidad_salida', className: "text-center"},
-                {data: 'cantidad_entrada', className: "text-center"},
-                {data: 'mostrar_diferencia', className: "text-center"},
-                {data: 'created_at', className: "text-center"},
-                {data: 'btnEntrada', className: "text-center"},
-                {data: 'btnShow', className: "text-center"},
-                {data: 'btnPDF', className: "text-center"},
-                // {data: 'btnEdit'},
-                // {data: 'btnDelete'},
-            ],
-        });
-    
-    // CRUD
-    
-    $(document).on("click",".btn-show", show);
+            { data: 'estado', className: 'text-center' },
+            { data: 'created_at', className: 'text-center text-nowrap' },
+            { data: 'btnEntrada', className: 'text-center' },
+            { data: 'btnShow', className: 'text-center' },
+            { data: 'btnPDF', className: 'text-center' }
+        ],
+        drawCallback: function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        },
+        initComplete: function () {
+            $('#tablecruddata_filter input')
+                .attr('placeholder', 'ID, fecha o estado...')
+                .attr('aria-label', 'Buscar registros INFRA');
+        }
+    });
 
-    function show() {
-        window.location = "/infra/show/"+$(this).data('id');
-    }
-
-
+    $(document).on('click', '.btn-show', function () {
+        window.location = '/infra/show/' + $(this).data('id');
+    });
 });

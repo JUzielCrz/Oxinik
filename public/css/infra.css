@@ -1,0 +1,381 @@
+.infra-page {
+    padding-bottom: 2rem;
+}
+
+.infra-page .card {
+    border: 0;
+    box-shadow: 0 2px 10px rgba(47, 72, 88, .09);
+}
+
+.infra-page .card-header {
+    border-bottom: 0;
+}
+
+.infra-page-title {
+    margin-bottom: .15rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: .02em;
+}
+
+.infra-page-subtitle {
+    margin: 0;
+    color: rgba(255, 255, 255, .82);
+    font-size: .84rem;
+}
+
+.infra-context {
+    color: #2f4858;
+    background: #f4f7f8;
+    border: 1px solid #e1e8eb;
+    border-radius: .35rem;
+}
+
+.infra-context i {
+    color: #329f5b;
+}
+
+.infra-steps {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.infra-step {
+    display: flex;
+    align-items: center;
+    color: #8a969d;
+    font-size: .78rem;
+    font-weight: 600;
+}
+
+.infra-step:not(:last-child)::after {
+    width: 2.5rem;
+    height: 1px;
+    margin: 0 .7rem;
+    background: #d7dfe2;
+    content: '';
+}
+
+.infra-step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.65rem;
+    height: 1.65rem;
+    margin-right: .35rem;
+    color: #fff;
+    background: #aeb9be;
+    border-radius: 50%;
+    font-size: .78rem;
+}
+
+.infra-step.active {
+    color: #2f4858;
+}
+
+.infra-step.active .infra-step-number {
+    background: #329f5b;
+}
+
+.infra-step.complete .infra-step-number {
+    background: #2f4858;
+}
+
+.infra-instruction {
+    margin-bottom: 0;
+    color: #66757d;
+    font-size: .82rem;
+}
+
+.infra-capture-card .card-header,
+.infra-summary-card .card-header {
+    background: #fff;
+    color: #2f4858;
+    border-bottom: 1px solid #e8edef;
+}
+
+.infra-capture-label {
+    display: block;
+    margin-bottom: .35rem;
+    color: #2f4858;
+    font-size: .86rem;
+    font-weight: 700;
+}
+
+.infra-capture-input {
+    height: 2.7rem;
+    border-color: #bfcbd0;
+    font-size: .95rem;
+}
+
+.infra-capture-input:focus {
+    border-color: #329f5b;
+    box-shadow: 0 0 0 .2rem rgba(50, 159, 91, .15);
+}
+
+.infra-capture-help {
+    margin-top: .4rem;
+    color: #7a878e;
+    font-size: .75rem;
+}
+
+.infra-table {
+    margin-bottom: 0;
+}
+
+.infra-table thead th {
+    padding: .65rem .55rem;
+    border: 0;
+    font-size: .73rem;
+    letter-spacing: .02em;
+    vertical-align: middle;
+}
+
+.infra-table tbody td {
+    padding: .6rem .55rem;
+    vertical-align: middle;
+}
+
+.infra-table tbody tr:first-child td {
+    border-top: 0;
+}
+
+.infra-empty-state {
+    padding: 2rem 1rem;
+    color: #7a878e;
+    text-align: center;
+}
+
+.infra-empty-state i {
+    display: block;
+    margin-bottom: .65rem;
+    color: #b1bdc2;
+    font-size: 2rem;
+}
+
+.infra-empty-state strong {
+    display: block;
+    margin-bottom: .25rem;
+    color: #52636b;
+}
+
+.infra-counter {
+    padding: 1rem;
+    color: #fff;
+    background: #2f4858;
+    border-radius: .35rem;
+    text-align: center;
+}
+
+.infra-counter-label {
+    display: block;
+    color: rgba(255, 255, 255, .8);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+}
+
+.infra-counter-value {
+    display: block;
+    margin: .15rem 0;
+    font-size: 3.6rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.infra-counter-caption {
+    color: rgba(255, 255, 255, .76);
+    font-size: .78rem;
+}
+
+.infra-summary-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .55rem 0;
+    border-bottom: 1px solid #edf1f2;
+    color: #63727a;
+    font-size: .82rem;
+}
+
+.infra-summary-item:last-child {
+    border-bottom: 0;
+}
+
+.infra-summary-item strong {
+    color: #2f4858;
+}
+
+.infra-error-panel {
+    border: 1px solid #f0d5d5;
+    border-radius: .35rem;
+}
+
+.infra-error-panel .table {
+    margin-bottom: 0;
+}
+
+.infra-error-panel .table thead th {
+    color: #842029;
+    background: #f8d7da;
+    border-color: #f0d5d5;
+    font-size: .72rem;
+}
+
+.infra-error-panel .table tbody td {
+    font-size: .76rem;
+}
+
+.infra-status {
+    display: inline-block;
+    padding: .25rem .5rem;
+    border-radius: 20px;
+    font-size: .72rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.infra-status-complete {
+    color: #155724;
+    background: #d4edda;
+}
+
+.infra-status-pending {
+    color: #856404;
+    background: #fff3cd;
+}
+
+.infra-status-difference {
+    color: #721c24;
+    background: #f8d7da;
+}
+
+.infra-metric {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    min-height: 5.25rem;
+    padding: .8rem 1rem;
+    border: 1px solid #e3eaed;
+    border-radius: .35rem;
+    background: #fff;
+}
+
+.infra-metric-label {
+    color: #6f7d84;
+    font-size: .78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.infra-metric-value {
+    color: #2f4858;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.infra-metric-danger {
+    border-color: #f0d5d5;
+}
+
+.infra-metric-danger .infra-metric-value {
+    color: #c0392b;
+}
+
+.infra-note {
+    padding: .75rem 1rem;
+    border-left: 4px solid #329f5b;
+    background: #f4f7f8;
+    color: #617079;
+    font-size: .8rem;
+}
+
+.infra-sticky {
+    position: sticky;
+    top: 1rem;
+}
+
+.infra-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+.infra-actions .btn {
+    flex: 1 1 auto;
+}
+
+.infra-register-link {
+    color: #2f4858;
+    font-size: .8rem;
+}
+
+.infra-register-link:hover {
+    color: #329f5b;
+}
+
+.infra-list-card .card-body {
+    padding: 1.15rem;
+}
+
+.infra-list-card .dataTables_wrapper .dataTables_filter input {
+    min-width: 15rem;
+}
+
+.infra-record-actions {
+    display: flex;
+    justify-content: center;
+    gap: .25rem;
+}
+
+.infra-record-actions .btn {
+    min-width: 2.1rem;
+}
+
+.infra-difference-positive {
+    color: #c0392b;
+    font-weight: 700;
+}
+
+.infra-difference-zero {
+    color: #329f5b;
+    font-weight: 700;
+}
+
+@media (max-width: 767.98px) {
+    .infra-page {
+        padding-right: .35rem;
+        padding-left: .35rem;
+    }
+
+    .infra-steps {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .infra-step:not(:last-child)::after {
+        width: 1px;
+        height: .8rem;
+        margin: .2rem 0 .2rem .8rem;
+    }
+
+    .infra-sticky {
+        position: static;
+    }
+
+    .infra-list-card .dataTables_wrapper .dataTables_filter input {
+        min-width: 0;
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .infra-list-card .dataTables_filter,
+    .infra-list-card .dataTables_length {
+        float: none;
+        text-align: left;
+    }
+}

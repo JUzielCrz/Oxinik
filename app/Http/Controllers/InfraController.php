@@ -7,15 +7,20 @@ use App\Models\InfraLLenado;
 use App\Models\InfraTanque;
 use App\Models\Tanque;
 use App\User;
+use App\Http\Requests\InfraSalidaRequest;
+use App\Services\InfraSalidaService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
 class InfraController extends Controller
 {
 
-    public function __construct()
+    protected $infraSalidaService;
+
+    public function __construct(InfraSalidaService $infraSalidaService)
     {
         $this->middleware('auth');
+        $this->infraSalidaService = $infraSalidaService;
     }
 
     public function slug_permiso($slug_permiso){
@@ -49,10 +54,21 @@ class InfraController extends Controller
                     return 0;
                 }
             })
-            ->addColumn( 'btnEntrada', '<a class="btn btn-verde btn-sm" href="{{route(\'infra.entrada\', $id)}}" data-toggle="tooltip" data-placement="top" title="Registra Entrada"><i class="fas fa-warehouse"></i></a>')
-            ->addColumn( 'btnShow', '<button class="btn btn-verde btn-show btn-sm" data-id="{{$id}}"><span class="far fa-eye"></span></button>')
-            ->addColumn( 'btnPDF', '<a class="btn btn-verde btn-sm" href="{{route(\'pdf.infra_nota\', $id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Nota PDF"><i class="fas fa-file-pdf"></i></a>')
-            ->rawColumns(['btnEntrada','btnShow','btnPDF'])
+            ->addColumn('estado', function ($infra) {
+                if ($infra->cantidad_entrada === null) {
+                    return '<span class="infra-status infra-status-pending">Pendiente de entrada</span>';
+                }
+
+                if ($infra->pendiente == true && (int) $infra->cantidad_diferencia > 0) {
+                    return '<span class="infra-status infra-status-difference">Con diferencia</span>';
+                }
+
+                return '<span class="infra-status infra-status-complete">Completada</span>';
+            })
+            ->addColumn('btnEntrada', '<a class="btn btn-verde btn-sm" href="{{route(\'infra.entrada\', $id)}}" data-toggle="tooltip" data-placement="top" title="Registrar entrada"><i class="fas fa-warehouse"></i><span class="sr-only">Registrar entrada</span></a>')
+            ->addColumn('btnShow', '<button type="button" class="btn btn-verde btn-show btn-sm" data-id="{{$id}}" data-toggle="tooltip" data-placement="top" title="Ver detalle"><span class="far fa-eye"></span><span class="sr-only">Ver detalle</span></button>')
+            ->addColumn('btnPDF', '<a class="btn btn-verde btn-sm" href="{{route(\'pdf.infra_nota\', $id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Descargar PDF"><i class="fas fa-file-pdf"></i><span class="sr-only">Descargar PDF</span></a>')
+            ->rawColumns(['estado','btnEntrada','btnShow','btnPDF'])
             ->toJson();
         }
         return view('home');
@@ -66,32 +82,16 @@ class InfraController extends Controller
         return view('home');
     }
 
-    public function salida_save(Request $request){
+    public function salida_save(InfraSalidaRequest $request){
 
         if($this->slug_permiso('infra_salida') || $this->slug_permiso('infra_entrada')){
-            $request->validate([
-                'cantidad' => ['required', 'int']
-            ]);
+            $infra = $this->infraSalidaService->registrar(
+                $request->input('inputNumSerie'),
+                $request->input('cantidad'),
+                auth()->user()->id
+            );
 
-            $infra=new InfraLLenado;
-            $infra->cantidad_salida= $request->cantidad;
-            $infra->user_id = auth()->user()->id;
-
-            if($infra->save()){
-                foreach( $request->inputNumSerie AS $series => $g){
-                    $infratanque=new InfraTanque;
-                    $infratanque->num_serie = $request->inputNumSerie[$series];
-                    $infratanque->infrallenado_id = $infra->id;
-                    $infratanque->incidencia = 'SALIDA';
-                    $infratanque->save();
-
-                    $tanque=Tanque::where('num_serie',$request->inputNumSerie[$series])->first();
-                    $tanque->estatus = 'INFRA';
-                    $tanque->save();
-
-                }
-                return response()->json(['notaId'=>$infra->id]);
-            }
+            return response()->json(['notaId' => $infra->id]);
         }
         return response()->json(['mensaje'=>'Sin permisos']);
 

@@ -3,7 +3,9 @@
     </div>
   </center>
 
+  @if (empty($embedded))
   <form id="idFormTanque">
+  @endif
     @csrf
 
         <!-- Datos del tanque -->
@@ -104,4 +106,6 @@
 
         </div>
 
-</form>
+  @if (empty($embedded))
+  </form>
+  @endif

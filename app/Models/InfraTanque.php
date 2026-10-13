@@ -8,7 +8,7 @@ class InfraTanque extends Model
 {
     protected $table = 'infra_tanques';
     public $timestamps =  true;
-    protected $fillable = ['id','num_serie','infrallenado_id'];
+    protected $fillable = ['id','num_serie','infrallenado_id','incidencia'];
     public $incrementing = true;
 }
 
