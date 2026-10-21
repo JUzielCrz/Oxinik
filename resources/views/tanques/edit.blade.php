@@ -91,7 +91,14 @@
 
         <div class="form-group col-md-4">
             {!! Form::label('estatus') !!}
-            {{ Form::select('estatusedit',['VACIO-ALMACEN' => 'VACIO-ALMACEN', 'LLENO-ALMACEN' => 'LLENO-ALMACEN', 'INFRA' => 'INFRA', 'ENTREGADO-CLIENTE' => 'ENTREGADO-CLIENTE' ,'MANTENIMIENTO' => 'MANTENIMIENTO' ],null,['id' => 'estatusedit','class'=>'form-control form-control-sm', 'placeholder'=>'selecciona'])}}
+            {{ Form::select('estatusedit',[
+                'VACIO-ALMACEN' => 'VACIO-ALMACEN',
+                'LLENO-ALMACEN' => 'LLENO-ALMACEN',
+                'INFRA' => 'INFRA',
+                'ENTREGADO-CLIENTE' => 'ENTREGADO-CLIENTE',
+                'MANTENIMIENTO' => 'MANTENIMIENTO',
+                'VENTA-FORANEA' => 'VENTA-FORANEA',
+            ],null,['id' => 'estatusedit','class'=>'form-control form-control-sm', 'placeholder'=>'selecciona'])}}
             <span  id="estatuseditError" class="text-danger"></span>
         </div>
 

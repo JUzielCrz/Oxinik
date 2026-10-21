@@ -322,6 +322,96 @@
     padding: 1.15rem;
 }
 
+.infra-filter-card .card-header {
+    border-bottom: 1px solid #e8edef;
+}
+
+.infra-filter-card label {
+    display: block;
+    margin-bottom: .25rem;
+    color: #52636b;
+}
+
+.infra-filter-card .form-control {
+    border-color: #cbd6da;
+}
+
+.infra-filter-card .form-control:focus {
+    border-color: #329f5b;
+    box-shadow: 0 0 0 .15rem rgba(50, 159, 91, .12);
+}
+
+.infra-filter-shortcuts .btn-link {
+    color: #2f4858;
+    text-decoration: none;
+}
+
+.infra-filter-shortcuts .btn-link:hover,
+.infra-filter-shortcuts .btn-link:focus {
+    color: #329f5b;
+}
+
+.infra-dashboard-metric {
+    display: flex;
+    align-items: center;
+    min-height: 4.7rem;
+    padding: .7rem .8rem;
+    border: 1px solid #e3eaed;
+    border-radius: .35rem;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(47, 72, 88, .06);
+}
+
+.infra-dashboard-metric > span:last-child {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    margin-left: .65rem;
+}
+
+.infra-dashboard-metric small {
+    overflow: hidden;
+    color: #6f7d84;
+    font-size: .68rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.infra-dashboard-metric strong {
+    color: #2f4858;
+    font-size: 1.55rem;
+    line-height: 1.15;
+}
+
+.infra-dashboard-metric-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 2.2rem;
+    width: 2.2rem;
+    height: 2.2rem;
+    color: #fff;
+    border-radius: 50%;
+}
+
+.infra-records-table thead th {
+    color: #52636b;
+    background: #f5f8f9;
+    border-bottom: 2px solid #dce5e8;
+    font-size: .72rem;
+    letter-spacing: .03em;
+}
+
+.infra-records-table tbody tr:hover {
+    background: #f7fbf8;
+}
+
+.infra-records-table td {
+    vertical-align: middle;
+}
+
 .infra-list-card .dataTables_wrapper .dataTables_filter input {
     min-width: 15rem;
 }
@@ -377,5 +467,15 @@
     .infra-list-card .dataTables_length {
         float: none;
         text-align: left;
+    }
+
+    .infra-filter-shortcuts {
+        width: 100%;
+        margin-left: 0 !important;
+    }
+
+    .infra-filter-shortcuts .btn-link {
+        padding-left: 0;
+        margin-right: .65rem;
     }
 }

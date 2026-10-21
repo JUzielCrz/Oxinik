@@ -8,7 +8,8 @@ class InfraSalidaRequest extends FormRequest
 {
     public function authorize()
     {
-        // La autorización del módulo se conserva en InfraController.
+        // El módulo requiere autenticación general; la autorización por roles
+        // se definirá en una implementación posterior.
         return true;
     }
 

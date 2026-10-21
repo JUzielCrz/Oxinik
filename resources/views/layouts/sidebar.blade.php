@@ -68,10 +68,9 @@
                         <li id="nav-ico-contratos" ><a href="{{ route('concentrators.index') }}" data-toggle="tooltip" data-placement="right" title="Concentradores"><i class="fas fa-suitcase-rolling"></i><span class="sidebar-label">Concentradores</span></a></li>
                     @endif
                     
-                {{-- Infra --}}
-                    @if($user->permiso_con_admin('infra_salida') || $user->permiso_con_admin('infra_entrada'))    
-                        <li id="nav-ico-infra" ><a onclick="salir_pagina(event, '/infra/index')" href="{{ url('/infra/index') }}" data-toggle="tooltip" data-placement="right" title="Infra"><i class="fas fa-building"></i><span class="sidebar-label">Infra</span></a></li>
-                    @endif
+                {{-- Infra: temporalmente disponible para cualquier usuario autenticado.
+                     La autorización por roles se definirá en una implementación posterior. --}}
+                    <li id="nav-ico-infra" ><a onclick="salir_pagina(event, '/infra/index')" href="{{ url('/infra/index') }}" data-toggle="tooltip" data-placement="right" title="Infra"><i class="fas fa-building"></i><span class="sidebar-label">Infra</span></a></li>
                 {{-- Mantenimiento --}}
                     @if($user->permiso_con_admin('mantenimiento_salida') || $user->permiso_con_admin('mantenimiento_entrada'))    
                         <li id="nav-ico-mantenimiento" >
