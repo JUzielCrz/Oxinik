@@ -31,6 +31,10 @@ jobs:
           tools: composer:2.2
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist
+      - name: Prepare Laravel test environment
+        run: |
+          cp .env_example .env
+          php artisan key:generate --force --no-interaction
       - name: Run PHPUnit
         run: vendor/bin/phpunit
       - name: Build Docker image
