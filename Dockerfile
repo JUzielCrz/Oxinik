@@ -1,7 +1,17 @@
 FROM php:7.4-cli
 
-# System deps + PHP extensions needed by Laravel 7 and DOMPDF
-RUN apt-get update && apt-get install -y \
+# System deps + PHP extensions needed by Laravel 7 and DOMPDF.
+#
+# PHP 7.4 is legacy and its Debian 11 base image uses package indexes that
+# can reference packages already removed from the live security mirror. Use
+# the snapshot shipped in the base image comments so builds remain repeatable.
+RUN sed -i \
+      's|http://deb.debian.org/debian-security bullseye-security|https://snapshot.debian.org/archive/debian-security/20221114T000000Z bullseye-security|; \
+       s|http://deb.debian.org/debian bullseye|https://snapshot.debian.org/archive/debian/20221114T000000Z bullseye|g' \
+      /etc/apt/sources.list \
+  && rm -rf /var/lib/apt/lists/* \
+  && apt-get -o Acquire::Check-Valid-Until=false update \
+  && apt-get install -y --no-install-recommends \
     git \
     unzip \
     libzip-dev \
