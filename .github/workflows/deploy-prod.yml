@@ -1,0 +1,99 @@
+name: Oxinik CI/CD - PROD
+
+on:
+  push:
+    branches:
+      - PROD
+
+permissions:
+  contents: read
+
+concurrency:
+  group: oxinik-production
+  cancel-in-progress: false
+
+env:
+  IMAGE_NAME: jeft613/oxinik
+
+jobs:
+  test:
+    name: Tests and Docker build
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure PHP 7.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          extensions: mbstring, dom, fileinfo, gd, bcmath, pdo_mysql, sqlite3, pdo_sqlite
+          coverage: none
+          tools: composer:2.2
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit
+      - name: Build Docker image
+        run: docker build --tag "${IMAGE_NAME}:ci-${GITHUB_SHA}" .
+
+  publish:
+    name: Publish immutable image
+    needs: test
+    runs-on: ubuntu-22.04
+    environment:
+      name: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:prod-${{ github.sha }}
+
+  deploy:
+    name: Deploy to Droplet
+    needs: publish
+    runs-on: ubuntu-22.04
+    environment:
+      name: production
+      url: https://sistema.oxigamex.com
+    steps:
+      - name: Configure SSH
+        shell: bash
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          install -d -m 700 "$HOME/.ssh"
+          printf '%s\n' "$DEPLOY_SSH_KEY" > "$HOME/.ssh/oxigamex_deploy"
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/oxigamex_deploy" "$HOME/.ssh/known_hosts"
+      - name: Deploy exact commit image
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          IMAGE_TAG: prod-${{ github.sha }}
+        run: |
+          set -euo pipefail
+          ssh \
+            -i "$HOME/.ssh/oxigamex_deploy" \
+            -o IdentitiesOnly=yes \
+            -o BatchMode=yes \
+            "$DEPLOY_USER@$DEPLOY_HOST" \
+            "/opt/apps/oxinik/deploy.sh '$IMAGE_TAG'"
+      - name: Deployment summary
+        run: |
+          {
+            echo '## Oxinik deployed'
+            echo "- Commit: \`${GITHUB_SHA}\`"
+            echo "- Image: \`${IMAGE_NAME}:prod-${GITHUB_SHA}\`"
+            echo '- Environment: production'
+          } >> "$GITHUB_STEP_SUMMARY"
