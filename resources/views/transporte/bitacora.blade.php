@@ -1,4 +1,4 @@
-@extends("layouts.headerindex")
+@extends("layouts.headerIndex")
 @section('contenido')
 
 <style>

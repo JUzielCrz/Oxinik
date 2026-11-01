@@ -21,7 +21,7 @@
         </main>
         
         <!--Scripts-->
-        <script src="{{ asset('barcode.JsBarcode.all.min.js') }}"></script>
+        <script src="{{ asset('js/barcode/JsBarcode.all.min.js') }}"></script>
         <script>
             $(document).ready(function () {
                 JsBarcode("#barcode", "Hi world!");
