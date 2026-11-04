@@ -19,14 +19,12 @@ $(document).ready(function () {
                         '<th scope="col">Pendiente</th>'+
                         '<th scope="col">Telefono</th>'+
                         '<th scope="col">Usuario</th>'+
-                        '<th scope="col"></th>'+
-                        '<th scope="col"></th>'+
-                        '<th scope="col"></th>'+
+                '<th scope="col" class="text-center">Acciones</th>'+
                     '</tr>'+
                 '</thead>'+
             '</table>'
         );
-        $("#titulo-tabla").replaceWith('<h5 id="titulo-tabla"> TALONES '+$("#estatus option:selected").text()+'</h5>');
+        $("#titulo-tabla").text('Talones · '+$("#estatus option:selected").text());
 
         listtabla = $('#tablecruddata').DataTable({
             "ordering": true,
@@ -52,7 +50,7 @@ $(document).ready(function () {
                 }
             },
             processing: true,
-            serverSider: true,
+            serverSide: false,
             ajax:{
                 url : '/nota/talon/data',
                 type: "post",
@@ -70,9 +68,7 @@ $(document).ready(function () {
                 {data: 'pendiente'},
                 {data: 'telefono'},
                 {data: 'user_name'},
-                {data: 'btnPDF'},
-                {data: 'btnEdit'},
-                {data: 'btnDelete'},
+                {data: 'acciones', orderable: false, searchable: false, className: 'text-center'},
             ]
         });
     }

@@ -6,7 +6,7 @@ $(document).ready(function () {
         "order": [[ 0, 'desc' ]],
         language: {"url": "/js/language_dt_spanish.json"},
         processing: true,
-        serverSider: true,
+        serverSide: false,
         ajax: '/nota/reserva/data',
         columns:[
             {data: 'id'},   
@@ -14,7 +14,7 @@ $(document).ready(function () {
             {data: 'incidencia'},
             {data: 'driver'},
             {data: 'car'},
-            {data: 'buttons'},
+            {data: 'buttons', orderable: false, searchable: false, className: 'text-center'},
             
         ]
     });
@@ -23,6 +23,13 @@ $(document).ready(function () {
     
     $(document).on("click",".btn-delete", nota_delete);
     $(document).on("click","#refresh-table", refresh_table);
+    $(document).on("change", "#filtro-incidencia", function () {
+        listtabla.column(2).search(this.value).draw();
+    });
+    $(document).on("click", "#btn-limpiar-reserva", function () {
+        $("#filtro-incidencia").val("");
+        listtabla.search("").columns().search("").draw();
+    });
 
 
     // function eliminarFila(){
@@ -41,12 +48,9 @@ $(document).ready(function () {
     }
 
     function nota_delete(){
-        var estatus
-        if($(this).parents("tr").find("td")[3].innerHTML == "SALIDA"){
-            estatus="LLENO-ALMACEN";
-        }else{
-            estatus="TANQUE-RESERVA";
-        }
+        var button = $(this);
+        var incidencia = button.data('incidencia');
+        var estatus = incidencia === "SALIDA" ? "LLENO-ALMACEN" : "TANQUE-RESERVA";
 
         Swal.fire({
             title: 'ELIMINAR',
@@ -59,9 +63,11 @@ $(document).ready(function () {
             confirmButtonText: 'Si, Continuar!'
         }).then((result) => {
             if (result.isConfirmed) {
-                $.get('/nota/reserva/delete/' + $(this).data('id'), function(msg) { 
+                $.get('/nota/reserva/delete/' + button.data('id'), function(msg) {
                     mensaje("success","EXITO", "Eliminado Correctamente", "1000", null)
                     listtabla.ajax.reload(null,false);
+                }).fail(function () {
+                    mensaje("error", "Error", "No fue posible eliminar la nota.", null, null);
                 });
             }
         })

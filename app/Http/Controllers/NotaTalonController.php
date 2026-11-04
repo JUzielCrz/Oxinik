@@ -64,10 +64,12 @@ class NotaTalonController extends Controller
                     return "NO";
                 }
             })
-            ->addColumn( 'btnEdit', '<a class="btn btn-sm btn-verde" href="{{route(\'nota.talon.edit\', $id)}}" data-toggle="tooltip" data-placement="top" title="Contrato"><span class="fas fa-edit"></span></a>')
-            ->addColumn( 'btnPDF', '<a class="btn btn-sm btn-verde" href="{{route(\'pdf.nota_talon\', $id)}}" data-toggle="tooltip" data-placement="top" title="PDF"><i class="fas fa-file-pdf"></i></a>')
-            ->addColumn( 'btnDelete', '<button class="btn btn-sm btn-verde btn-eliminar-nota" data-id="{{$id}}" title="Eliminar"><span class="fas fa-trash"></span></button>')
-            ->rawColumns(['btnEdit', 'btnPDF', 'btnDelete'])
+            ->addColumn('acciones', '<div class="btn-group btn-group-sm" role="group" aria-label="Acciones del talón">'
+                .'<a class="btn btn-verde" href="{{route(\'nota.talon.edit\', $id)}}" data-toggle="tooltip" data-placement="top" title="Editar talón" aria-label="Editar talón"><span class="fas fa-edit"></span></a>'
+                .'<a class="btn btn-verde" href="{{route(\'pdf.nota_talon\', $id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Abrir PDF" aria-label="Abrir PDF"><i class="fas fa-file-pdf"></i></a>'
+                .'<button type="button" class="btn btn-verde btn-eliminar-nota" data-id="{{$id}}" data-toggle="tooltip" data-placement="top" title="Eliminar talón" aria-label="Eliminar talón"><span class="fas fa-trash"></span></button>'
+                .'</div>')
+            ->rawColumns(['acciones'])
             ->toJson();
         }
         return view('home');

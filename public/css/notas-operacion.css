@@ -1,0 +1,24 @@
+.notas-page { max-width: 1440px; }
+.notas-index-card { border: 0; border-radius: 12px; box-shadow: 0 6px 18px rgba(47,72,88,.08); overflow: hidden; }
+.notas-page-header { align-items: center; background: linear-gradient(135deg,#fff 0%,#f8fafb 100%); border-bottom: 1px solid #edf0f2; display: flex; justify-content: space-between; padding: 1.15rem 1.35rem; }
+.notas-page-title { color: #2f4858; font-size: 1.05rem; font-weight: 700; letter-spacing: .03em; margin: 0; text-transform: uppercase; }
+.notas-page-subtitle { color: #7a8790; font-size: .82rem; margin: .25rem 0 0; }
+.notas-page-actions { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: flex-end; }
+.notas-filter-panel { background: #f8fafb; border: 1px solid #edf0f2; border-radius: 8px; margin-bottom: 1rem; padding: .85rem 1rem; }
+.notas-filter-panel label { color: #2f4858; font-size: .78rem; font-weight: 700; margin-bottom: .35rem; text-transform: uppercase; }
+.notas-filter-help { color: #7a8790; font-size: .76rem; margin: .45rem 0 0; }
+.notas-table-shell { border: 1px solid #edf0f2; border-radius: 8px; padding: .2rem .65rem 0; }
+.notas-table-shell .dataTables_wrapper { padding-top: .65rem; }
+.notas-table-shell table.dataTable thead th { background: #f8fafb; border-bottom: 1px solid #dfe5e8; color: #2f4858; font-size: .74rem; letter-spacing: .02em; text-transform: uppercase; white-space: nowrap; }
+.notas-table-shell table.dataTable tbody td { color: #43515a; font-size: .82rem; vertical-align: middle; }
+.notas-table-shell table.dataTable tbody tr:hover { background-color: #fbfcfd; }
+.notas-table-shell .dataTables_info, .notas-table-shell .dataTables_length, .notas-table-shell .dataTables_filter { color: #7a8790; font-size: .78rem; }
+.notas-status { border-radius: 999px; display: inline-block; font-size: .7rem; font-weight: 700; padding: .25rem .55rem; text-transform: uppercase; }
+.notas-status--pending, .notas-status--salida { background: #fff3cd; color: #856404; }
+.notas-status--closed, .notas-status--entrada { background: #d4edda; color: #155724; }
+@media (max-width: 767.98px) {
+    .notas-page-header { align-items: flex-start; flex-direction: column; gap: .8rem; }
+    .notas-page-actions { justify-content: flex-start; width: 100%; }
+    .notas-page-actions .btn { flex: 1 1 auto; }
+    .notas-table-shell { padding-left: .35rem; padding-right: .35rem; }
+}

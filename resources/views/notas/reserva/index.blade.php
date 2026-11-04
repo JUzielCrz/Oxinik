@@ -6,37 +6,57 @@
 
 @section('content-sidebar')
 
-<div class="container">
-    <div class="card">
-        <div class="card-header">
-            <div class="row ">
-                <div class="col">
-                    <h5>RESERVA -> Notas</h5>
-                </div>
-                <div class="col text-right">
-                    <button type="button" class="btn btn-amarillo btn-primary" id="refresh-table">
+<div class="container notas-page">
+    <div class="card notas-index-card">
+        <div class="notas-page-header">
+            <div>
+                <h1 class="notas-page-title">Notas de reserva</h1>
+                <p class="notas-page-subtitle">Consulta las entradas y salidas de tanques registradas.</p>
+            </div>
+            <div class="notas-page-actions">
+                    <button type="button" class="btn btn-sm btn-amarillo" id="refresh-table" title="Actualizar listado">
                         <i class="fas fa-sync-alt"></i> 
-                        Tabla
+                        Actualizar
                     </button >
                         {{-- <button type="button" class="btn btn-amarillo btn-primary" data-toggle="modal" data-target="#modal-create">
                             <span class="fas fa-plus"></span>
                             Agregar
                         </button> --}}
-                        <a href="{{route("notas.reserva.create")}}" class="btn btn-amarillo btn-primary"> <span class="fas fa-plus"></span> Agregar</a>
-                </div>
+                        <a href="{{route("notas.reserva.create")}}" class="btn btn-sm btn-amarillo"> <span class="fas fa-plus"></span> Agregar</a>
             </div>
         </div>
         <div class="card-body">
-            <div class="table-responsive" style="font-size:13px">
-                <table id="tablecruddata" class="table table-sm " style="font-size:13px">
+            <div class="notas-filter-panel">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-info-circle text-muted mr-2"></i>
+                    <span class="notas-filter-help mb-0">Usa el buscador para localizar una nota por incidencia, chofer o vehículo. Las acciones permiten consultar, descargar o eliminar el registro.</span>
+                </div>
+            </div>
+            <div class="notas-filter-panel">
+                <div class="row align-items-end">
+                    <div class="col-sm-4 col-md-3">
+                        <label for="filtro-incidencia">Tipo de movimiento</label>
+                        <select id="filtro-incidencia" class="form-control form-control-sm">
+                            <option value="">Todas las incidencias</option>
+                            <option value="ENTRADA">Entrada</option>
+                            <option value="SALIDA">Salida</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-8 col-md-5 mt-3 mt-sm-0 d-flex align-items-end">
+                        <button type="button" class="btn btn-link btn-sm p-0" id="btn-limpiar-reserva">Limpiar filtros</button>
+                    </div>
+                </div>
+            </div>
+            <div class="notas-table-shell table-responsive">
+                <table id="tablecruddata" class="table table-sm">
                     <thead>
                         <tr >
-                        <th scope="col">#ID Nota</th>
+                        <th scope="col"># ID</th>
                         <th scope="col">Fecha</th>
                         <th scope="col">Incidencia</th>
                         <th scope="col">Chofer</th>
                         <th scope="col">Vehículo</th>
-                        <th scope="col"></th>
+                        <th scope="col" class="text-center">Acciones</th>
                         </tr>
                     </thead>
                 </table>
@@ -89,6 +109,7 @@
 @endsection
 
 @include('layouts.scripts')
+<link rel="stylesheet" href="{{ asset('css/notas-operacion.css') }}">
 <!--Scripts-->
 <script src="{{ asset('js/Notas/reserva/index.js') }}"></script>
 <script>

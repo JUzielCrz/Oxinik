@@ -33,7 +33,7 @@ class NotaReservaController extends Controller
         return view('home');
     }
     public function data(){
-        if($this->slug_permiso('nota_talon')){
+        if($this->slug_permiso('nota_reserva')){
             $notas=NotaReserva::
                 join('drivers', 'drivers.id','=', 'nota_reserva.driver_id')
                 ->join('cars', 'cars.id','=', 'nota_reserva.car_id')
@@ -45,10 +45,11 @@ class NotaReservaController extends Controller
             ->editColumn('created_at', function ($notas) {
                 return $notas->created_at->format('Y/m/d - H:i:s A');
             })
-            ->addColumn( 'buttons', '<button class="btn btn-sm btn-verde btn-show mx-1" data-id="{{$nota_id}}" data-toggle="tooltip" data-placement="right" title="Nota"><i class="fas fa-sticky-note"></i></button>'.
-                '<button class="btn btn-sm btn-verde btn-delete mx-1" data-toggle="tooltip" data-placement="right" title="Eliminar"><i class="fas fa-trash-alt"></i></button>'.
-                '<a class="btn btn-sm btn-verde mx-1" target="_blank" href="{{route(\'notas.reserva.pdf\', $nota_id)}}" title="PDF"><i class="fas fa-file-pdf"></i></a>'
-                )
+            ->addColumn('buttons', '<div class="btn-group btn-group-sm" role="group" aria-label="Acciones de la nota">'
+                .'<button type="button" class="btn btn-verde btn-show" data-id="{{$nota_id}}" data-toggle="tooltip" data-placement="top" title="Ver nota" aria-label="Ver nota"><i class="fas fa-sticky-note"></i></button>'
+                .'<a class="btn btn-verde" target="_blank" href="{{route(\'notas.reserva.pdf\', $nota_id)}}" data-toggle="tooltip" data-placement="top" title="Abrir PDF" aria-label="Abrir PDF"><i class="fas fa-file-pdf"></i></a>'
+                .'<button type="button" class="btn btn-verde btn-delete" data-id="{{$nota_id}}" data-incidencia="{{$incidencia}}" data-toggle="tooltip" data-placement="top" title="Eliminar nota" aria-label="Eliminar nota"><i class="fas fa-trash"></i></button>'
+                .'</div>')
             ->rawColumns(['buttons'])
             ->toJson();
         }
@@ -62,7 +63,7 @@ class NotaReservaController extends Controller
         return view('home');
     }
     public function tanques_data(){
-        if($this->slug_permiso('nota_talon')){
+        if($this->slug_permiso('nota_reserva')){
             $notas=NotaReserva::
             join('nota_reserva_tanque','nota_reserva_tanque.nota_id','nota_reserva.id')
             ->join('drivers','drivers.id','nota_reserva.driver_id')
@@ -75,9 +76,10 @@ class NotaReservaController extends Controller
             return DataTables::of(
                 $notas
             )
-            ->addColumn( 'buttons', '<button class="btn btn-sm btn-verde btn-show mx-1" data-id="{{$nota_id}}" data-toggle="tooltip" data-placement="right" title="Nota"><i class="fas fa-sticky-note"></i></button>'.
-                '<a class="btn btn-sm btn-verde mx-1" target="_blank" href="{{route(\'notas.reserva.pdf\', $nota_id)}}" title="PDF"><i class="fas fa-file-pdf"></i></a>'
-                )
+            ->addColumn('buttons', '<div class="btn-group btn-group-sm" role="group" aria-label="Acciones del tanque pendiente">'
+                .'<button type="button" class="btn btn-verde btn-show" data-id="{{$nota_id}}" data-toggle="tooltip" data-placement="top" title="Ver nota" aria-label="Ver nota"><i class="fas fa-sticky-note"></i></button>'
+                .'<a class="btn btn-verde" target="_blank" href="{{route(\'notas.reserva.pdf\', $nota_id)}}" data-toggle="tooltip" data-placement="top" title="Abrir PDF" aria-label="Abrir PDF"><i class="fas fa-file-pdf"></i></a>'
+                .'</div>')
             ->rawColumns(['buttons'])
             ->toJson();
         }
