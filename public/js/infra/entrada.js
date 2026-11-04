@@ -134,7 +134,6 @@ $(document).ready(function () {
 
                 agregarTanque(tanque, 'LLENO-ALMACEN');
                 mostrarError('Cilindro validado y agregado correctamente.');
-                $input.val('');
             })
             .fail(function () {
                 mostrarError('No fue posible consultar el número de serie. Intenta nuevamente.');
@@ -143,7 +142,9 @@ $(document).ready(function () {
             .always(function () {
                 delete seriesPendientes[serie];
                 $('#btn-InsertFila').prop('disabled', false).html('<span class="fas fa-plus"></span> Agregar');
-                $input.focus();
+                // La captura continúa en el mismo campo también cuando la
+                // serie queda registrada en incidencias.
+                $input.val('').focus();
             });
     }
 
