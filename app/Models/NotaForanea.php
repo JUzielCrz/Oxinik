@@ -24,6 +24,8 @@ class NotaForanea extends Model
                         'subtotal',
                         'iva_general',
                         'total',
+                        'pago_cubierto',
+                        'tanques_devueltos',
                         'metodo_pago',
                         'fecha',
                         'user_id',

@@ -30,55 +30,88 @@ class NotaForaneaController extends Controller
         }
         return view('home');
     }
-    public function data(){
+    public function data(Request $request){
         $idauth=auth()->user()->id;
         $user=User::find($idauth);
         
 
         if($this->slug_permiso('nota_foranea')){
 
-            if($user->soloParaUnRol('admin')){
-                $notas=NotaForanea::
-                select('nota_foranea.id as notaf_id', 'nota_foranea.*');
-            }else{
-                $notas=NotaForanea::
-                select('nota_foranea.id as notaf_id', 'nota_foranea.*')
-                ->where('user_id', auth()->user()->id);
+            $notas=NotaForanea::
+            leftJoin('users', 'users.id', '=', 'nota_foranea.user_id')
+            ->select('nota_foranea.id as notaf_id', 'nota_foranea.*', 'users.name as user_name');
+
+            if(!$user->soloParaUnRol('admin')){
+                $notas->where('nota_foranea.user_id', auth()->user()->id);
+            }
+
+            if($request->input('estado') == 'pendiente'){
+                $notas->where(function ($query) {
+                    $query->where('nota_foranea.pago_cubierto', false)
+                        ->orWhere('nota_foranea.tanques_devueltos', false);
+                });
+            }elseif($request->input('estado') == 'completa'){
+                $notas->where('nota_foranea.pago_cubierto', true)
+                    ->where('nota_foranea.tanques_devueltos', true);
+            }
+
+            if($request->input('pago') == 'pendiente'){
+                $notas->where('nota_foranea.pago_cubierto', false);
+            }elseif($request->input('pago') == 'cubierto'){
+                $notas->where('nota_foranea.pago_cubierto', true);
+            }
+
+            if($request->input('tanques') == 'pendientes'){
+                $notas->where('nota_foranea.tanques_devueltos', false);
+            }elseif($request->input('tanques') == 'devueltos'){
+                $notas->where('nota_foranea.tanques_devueltos', true);
+            }
+
+            if($request->filled('desde')){
+                $notas->whereDate('nota_foranea.fecha', '>=', $request->input('desde'));
+            }
+
+            if($request->filled('hasta')){
+                $notas->whereDate('nota_foranea.fecha', '<=', $request->input('hasta'));
             }
 
             return DataTables::of(
                 $notas
             )
-            ->editColumn('user_name', function ($user) {
-                if($user->user_id == null){
-                    return null;
-                }else{
-                    $nombre=User::select('name')->where('id', $user->user_id)->first();
-                    return $nombre->name;
-                }
-            })
             ->editColumn('pago_cubierto', function ($nota) {
                 if($nota->pago_cubierto == true){
-                    return 'Pagado';
+                    return '<span class="badge badge-success">Pagado</span>';
                 }else{
-                    return 'Adeuda';
+                    return '<span class="badge badge-warning">Adeuda</span>';
                 }
             })
             ->editColumn('tanques_devueltos', function ($nota) {
                 if($nota->tanques_devueltos == true){
-                    return 'OK';
+                    return '<span class="badge badge-success">Devueltos</span>';
                 }else{  
-                    return 'Pendientes';
+                    return '<span class="badge badge-warning">Pendientes</span>';
                 }
             })
-            ->editColumn('created_at', function ($infra) {
-                return $infra->created_at->format('Y/m/d - H:i:s A');
+            ->editColumn('fecha', function ($nota) {
+                return date('d/m/Y', strtotime($nota->fecha));
             })
-            ->addColumn( 'btnEdit', '<a class="btn btn-sm btn-verde" href="{{route(\'nota.foranea.edit\', $notaf_id)}}" data-toggle="tooltip" data-placement="top" title="Contrato"><span class="fas fa-edit"></span></a>')
-            ->addColumn( 'btnPDF', '<a class="btn btn-verde btn-sm" href="{{route(\'pdf.nota_foranea\', $notaf_id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Nota PDF"><i class="fas fa-file-pdf"></i></a>')
-            ->addColumn( 'btnDelete', '<button class="btn btn-sm btn-verde btn-eliminar-nota" data-id="{{$notaf_id}}" title="Eliminar"><span class="fas fa-trash"></span></button>')
+            ->editColumn('total', function ($nota) {
+                return '$'.number_format((float) $nota->total, 2);
+            })
+            ->addColumn('estado_nota', function ($nota) {
+                if($nota->pago_cubierto && $nota->tanques_devueltos){
+                    return '<span class="badge badge-success">Completa</span>';
+                }
 
-            ->rawColumns(['btnEdit', 'btnPDF', 'btnDelete'])
+                return '<span class="badge badge-warning">Pendiente</span>';
+            })
+            ->addColumn('acciones', '<div class="btn-group btn-group-sm" role="group" aria-label="Acciones de la nota">'
+                .'<a class="btn btn-verde" href="{{route(\'nota.foranea.edit\', $notaf_id)}}" data-toggle="tooltip" data-placement="top" title="Editar nota" aria-label="Editar nota"><span class="fas fa-edit"></span></a>'
+                .'<a class="btn btn-verde" href="{{route(\'pdf.nota_foranea\', $notaf_id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Abrir PDF" aria-label="Abrir PDF"><i class="fas fa-file-pdf"></i></a>'
+                .'<button type="button" class="btn btn-verde btn-eliminar-nota" data-id="{{$notaf_id}}" title="Eliminar nota" aria-label="Eliminar nota"><span class="fas fa-trash"></span></button>'
+                .'</div>')
+
+            ->rawColumns(['pago_cubierto', 'tanques_devueltos', 'estado_nota', 'acciones'])
             ->toJson();
         }
         return view('home');
