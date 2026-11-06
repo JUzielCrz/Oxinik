@@ -109,9 +109,9 @@
 @endsection
 
 @include('layouts.scripts')
-<link rel="stylesheet" href="{{ asset('css/notas-operacion.css') }}">
+<link rel="stylesheet" href="{{ asset('css/notas-operacion.css') }}?v={{ md5_file(public_path('css/notas-operacion.css')) }}">
 <!--Scripts-->
-<script src="{{ asset('js/Notas/reserva/index.js') }}"></script>
+<script src="{{ asset('js/Notas/reserva/index.js') }}?v={{ md5_file(public_path('js/Notas/reserva/index.js')) }}"></script>
 <script>
     $(document).ready(function () {
         $("#id-menu-reserva").addClass('active');

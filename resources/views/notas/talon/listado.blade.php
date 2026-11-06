@@ -49,9 +49,9 @@
 @endsection
 
 @include('layouts.scripts')
-<link rel="stylesheet" href="{{ asset('css/notas-operacion.css') }}">
+<link rel="stylesheet" href="{{ asset('css/notas-operacion.css') }}?v={{ md5_file(public_path('css/notas-operacion.css')) }}">
 <!--Scripts-->
-<script src="{{ asset('js/Notas/talon/listado.js') }}"></script>
+<script src="{{ asset('js/Notas/talon/listado.js') }}?v={{ md5_file(public_path('js/Notas/talon/listado.js')) }}"></script>
 <script>
     $(document).ready(function () {
         $("#id-menu-talon").addClass('active');

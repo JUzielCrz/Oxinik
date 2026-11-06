@@ -101,9 +101,9 @@
 @endsection
 
 @include('layouts.scripts')
-<link rel="stylesheet" href="{{ asset('css/notas-foranea.css') }}">
+<link rel="stylesheet" href="{{ asset('css/notas-foranea.css') }}?v={{ md5_file(public_path('css/notas-foranea.css')) }}">
 <!--Scripts-->
-<script src="{{ asset('js/Notas/foranea/listado.js') }}"></script>
+<script src="{{ asset('js/Notas/foranea/listado.js') }}?v={{ md5_file(public_path('js/Notas/foranea/listado.js')) }}"></script>
 <script>
     $(document).ready(function () {
         $("#id-menu-foranea").addClass('active');

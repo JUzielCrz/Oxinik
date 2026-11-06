@@ -81,9 +81,9 @@
 @endsection
 
 @include('layouts.scripts')
-<link rel="stylesheet" href="{{ asset('css/notas-operacion.css') }}">
+<link rel="stylesheet" href="{{ asset('css/notas-operacion.css') }}?v={{ md5_file(public_path('css/notas-operacion.css')) }}">
 <!--Scripts-->
-<script src="{{ asset('js/Notas/reserva/tanque_pendiente.js') }}"></script>
+<script src="{{ asset('js/Notas/reserva/tanque_pendiente.js') }}?v={{ md5_file(public_path('js/Notas/reserva/tanque_pendiente.js')) }}"></script>
 <script>
     $(document).ready(function () {
         $("#id-menu-reserva").addClass('active');
